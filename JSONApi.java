@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.Hashtable;
 import java.util.logging.Logger;
 
@@ -69,6 +70,10 @@ public class JSONApi extends Plugin  {
 		    	log.severe("No valid logins for JSONApi. Check JSONApiAuthentication.txt");
 		    	return;
 		    }
+		    
+		    System.setOut(new PrintStream(new HandleStdOut(System.out), true));
+		    log.addHandler(new HandleLogger(new LogFormat()));
+		    
 			server = new JSONServer(auth);
 		}
 		catch( IOException ioe ) {
