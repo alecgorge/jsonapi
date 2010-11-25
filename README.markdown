@@ -21,7 +21,7 @@ You can see the list of available methods below.
 
 Here is a sample request this time, _with args_:
 
-	http://localhost:20059/api/call?method=player.sendMessage&args=%5B%22alecgorge%22%5D&username=admin&password=test
+	http://localhost:20059/api/call?method=player.sendMessage&args=%5B%22alecgorge%22,%22hello there%22%5D&username=admin&password=test
 	
 **Notes:**
 
