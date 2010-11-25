@@ -19,6 +19,16 @@ For standard (non-streaming) requests the URL format looks like this:
 
 You can see the list of available methods below.
 
+Here is a sample request this time, _with args_:
+
+	http://localhost:20059/api/call?method=player.sendMessage&args=%5B%22alecgorge%22%5D&username=admin&password=test
+	
+**Notes:**
+
+%5B is a url encoded [
+%5D is a url encoded ]
+%22 is a url encoded "
+
 ## Standard Response Format	
 Standard API calls will return one of the following.
 
