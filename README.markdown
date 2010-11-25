@@ -25,9 +25,9 @@ Here is a sample request this time, _with args_:
 	
 **Notes:**
 
-%5B is a url encoded [
-%5D is a url encoded ]
-%22 is a url encoded "
+* %5B is a url encoded [
+* %5D is a url encoded ]
+* %22 is a url encoded "
 
 ## Standard Response Format	
 Standard API calls will return one of the following.
