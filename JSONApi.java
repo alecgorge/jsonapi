@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 import java.util.logging.Logger;
 
+
 /**
 *
 * @author alecgorge
@@ -17,7 +18,7 @@ public class JSONApi extends Plugin  {
 	private Listener l = new Listener(this);
 	protected static final Logger log = Logger.getLogger("Minecraft");
 	private String name = "JSONApi";
-	private JSONServer server = null;
+	public static JSONServer server = null;
 	private String version = "rev 1";
 	public static boolean logging = false;
 	public static int port = 0;
@@ -71,8 +72,8 @@ public class JSONApi extends Plugin  {
 		    	return;
 		    }
 		    
-		    System.setOut(new PrintStream(new HandleStdOut(System.out), true));
-		    log.addHandler(new HandleLogger(new LogFormat()));
+		    //System.setOut(new PrintStream(new HandleStdOut(System.out), true));
+		    //log.addHandler(new HandleLogger(new LogFormat()));
 		    
 			server = new JSONServer(auth);
 		}
