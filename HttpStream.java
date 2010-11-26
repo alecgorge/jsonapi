@@ -13,9 +13,11 @@ public class HttpStream extends InputStream {
 	public static ArrayList<String[]> commandStack = new ArrayList<String[]>();
 	public static ArrayList<String[]> connectionsStack = new ArrayList<String[]>();
 	public ArrayList<String[]> stack = null;
+	public String callback = "";
 	
-	public HttpStream (String s) {
+	public HttpStream (String s, String callback) {
 		type = s;
+		this.callback = callback;
 		
 		if(type.equals("chat"))
 			stack = chatStack;
@@ -61,7 +63,7 @@ public class HttpStream extends InputStream {
 		}
 		
 		next++;
-		return r.toJSONString().concat("\r\n");
+		return JSONServer.callback(callback, r.toJSONString()).concat("\r\n");
 	}
 
 	@Override

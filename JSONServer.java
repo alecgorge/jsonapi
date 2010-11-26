@@ -63,7 +63,13 @@ public class JSONServer extends NanoHTTPD {
 		}
 	}
 	
+	public static String callback (String callback, String json) {
+		return callback.concat("(").concat(json).concat(")");
+	}
+	
 	public Response serve( String uri, String method, Properties header, Properties parms )	{
+		String callback = parms.getProperty("callback");
+		
 		if(uri.equals("/api/subscribe")) {
 			String source = parms.getProperty("source");
 			String username = parms.getProperty("username");
@@ -73,11 +79,11 @@ public class JSONServer extends NanoHTTPD {
 				JSONObject r = new JSONObject();                                             
 				r.put("result", "error");                                                    
 				r.put("error", "Invalid username/password.");                                
-				return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, r.toJSONString());  
+				return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, callback(callback, r.toJSONString()));  
 			}                                                                                
 			                                                                                 
 			if(source.equals("chat") || source.equals("console") || source.equals("connections") || source.equals("commands")) {
-				HttpStream out = new HttpStream(source);                                     
+				HttpStream out = new HttpStream(source, callback);                                     
 			                                                                                 
 				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);                
 			}                                                                                
@@ -85,7 +91,7 @@ public class JSONServer extends NanoHTTPD {
 			JSONObject r = new JSONObject();                                                 
 			r.put("result", "error");                                                        
 			r.put("error", "That source doesn't exist!");                                    
-			return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, r.toJSONString());      
+			return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString()));      
 		}
 		
 		if(!uri.equals("/api/call")) {
@@ -105,7 +111,7 @@ public class JSONServer extends NanoHTTPD {
 			JSONObject r = new JSONObject();
 			r.put("result", "error");
 			r.put("error", "Invalid username/password.");
-			return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, r.toJSONString());
+			return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, callback(callback, r.toJSONString()));
 		}
 		
 		
@@ -117,7 +123,7 @@ public class JSONServer extends NanoHTTPD {
 			JSONObject r = new JSONObject();
 			r.put("result", "error");
 			r.put("error", "You need to pass a method and an array of arguments.");
-			return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, r.toJSONString());
+			return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString()));
 		}
 		else {
 			try {
@@ -133,19 +139,19 @@ public class JSONServer extends NanoHTTPD {
 						JSONObject r = new JSONObject();
 						r.put("result", "error");
 						r.put("error", "You need to pass a valid method and an array arguments.");
-						return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, r.toJSONString());
+						return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString()));
 					}
 					JSONObject r = new JSONObject();
 					r.put("result", "success");
 					r.put("success", result);
 
-					return new NanoHTTPD.Response( HTTP_OK, MIME_JSON, r.toJSONString());
+					return new NanoHTTPD.Response( HTTP_OK, MIME_JSON, callback(callback, r.toJSONString()));
 				//}
 			}
 			JSONObject r = new JSONObject();
 			r.put("result", "error");
 			r.put("error", "You need to pass a method and an array of arguments.");
-			return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, r.toJSONString());
+			return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString()));
 		}
 	}
 }
