@@ -30,6 +30,15 @@ public class JSONServer extends NanoHTTPD {
 		for(Method m : methods.get(cat).getClass().getMethods()) {
 			if(m.getName().equals(method)) {
 				try {
+					Class<?>[] argTypes = m.getParameterTypes();
+					int key = -1;
+					for(Class<?> arg : argTypes) {
+						key++;
+						
+						if(arg.getName().equals("int")) {
+							params[key] = new Integer(params[key].toString());
+						}
+					}		
 					return m.invoke(methods.get(cat), params);
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
@@ -66,6 +75,7 @@ public class JSONServer extends NanoHTTPD {
 	}
 	
 	public static String callback (String callback, String json) {
+		if(callback == null) return json;
 		return callback.concat("(").concat(json).concat(")");
 	}
 	
@@ -104,8 +114,13 @@ public class JSONServer extends NanoHTTPD {
 		JSONParser parse = new JSONParser();
 		
 		Object args = parms.getProperty("args");
-		String[] calledMethod = ((String)parms.getProperty("method"))
-								.split("\\.");
+		String calledMethodHold = (String)parms.getProperty("method");
+		
+		String[] calledMethod = null;
+		if(calledMethodHold != null) {
+			calledMethod = calledMethodHold.split("\\.");
+		}
+		
 		String username = parms.getProperty("username");
 		String password = parms.getProperty("password");
 		

@@ -19,9 +19,11 @@ public class JSONApi extends Plugin  {
 	protected static final Logger log = Logger.getLogger("Minecraft");
 	private String name = "JSONApi";
 	public static JSONServer server = null;
+	public static JSONWebSocket webSocketServer = null;
 	private String version = "rev 1";
 	public static boolean logging = false;
 	public static int port = 0;
+	public static int webSocketPort = 0;
 	
 
 	public void enable() {
@@ -31,6 +33,7 @@ public class JSONApi extends Plugin  {
 			PropertiesFile options = new PropertiesFile("JSONApi.properties");
 			logging = options.getBoolean("logToConsole", true);
 			port = options.getInt("port", 20059);
+			webSocketPort = options.getInt("webSocketPort", 20060);
 
 			
 			PropertiesFile pf = new PropertiesFile("JSONApiAuthentcation.txt");
@@ -75,6 +78,8 @@ public class JSONApi extends Plugin  {
 		    //System.setOut(new PrintStream(new HandleStdOut(System.out), true));
 		    //log.addHandler(new HandleLogger(new LogFormat()));
 		    
+		    webSocketServer = new JSONWebSocket(webSocketPort);
+		    webSocketServer.start();
 			server = new JSONServer(auth);
 		}
 		catch( IOException ioe ) {
@@ -87,6 +92,14 @@ public class JSONApi extends Plugin  {
 	public void disable() {
 		if(server != null) {
 			server.stop();
+		}
+		if(webSocketServer != null) {
+			try {
+				webSocketServer.stop();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
