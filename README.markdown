@@ -49,7 +49,7 @@ Method not found or there is no args GET variable present:
 Request successful:
 
 	200 OK
-	{"result":"success","success":0}
+	{"result":"success",source:"server.getPlayerCount","success":0}
 
 ## Streaming Request Format
 To request a stream you have the following options:
@@ -72,35 +72,36 @@ The following responses are based off of this request:
 
 Response:
 
-	{"chat":{"message":"hi","player":"alecgorge"}}
-	{"chat":{"message":"test","player":"alecgorge"}}
+	{"source":"chat","data":{"message":"hi","player":"alecgorge"}}
+	{"source":"chat","data":{"message":"test","player":"alecgorge"}}
 	
 ### Other Response Formats
 
 **console**
 
-	{"line":"THE REPLY IS YES"}
-	{"line":"2010-11-24 23:02:18 [INFO] alecgorge [\/127.0.0.1:56487] logged in with entity id 7"}
-	{"line":"Player count: 1"}
-	{"line":"2010-11-24 23:02:34 [INFO] CONSOLE: Stopping the server.."}
-	{"line":"2010-11-24 23:02:34 [INFO] Stopping server"}
-	{"line":"2010-11-24 23:02:34 [INFO] Saving chunks"}
+	{"source":"console","data":{"line":"THE REPLY IS YES"}}
+	{"source":"console","data":{"line":"2010-11-24 23:02:18 [INFO] alecgorge [\/127.0.0.1:56487] logged in with entity id 7"}}
+	{"source":"console","data":{"line":"Player count: 1"}}
+	{"source":"console","data":{"line":"2010-11-24 23:02:34 [INFO] CONSOLE: Stopping the server.."}}
+	{"source":"console","data":{"line":"2010-11-24 23:02:34 [INFO] Stopping server"}}
+	{"source":"console","data":{"line":"2010-11-24 23:02:34 [INFO] Saving chunks"}}
 	
 	
 **commands**
 
-	{"player":"alecgorge","command":"\/help"}
-	{"player":"alecgorge","command":"\/test"}
+	{"source":"commands","data":{"player":"alecgorge","command":"\/help"}}
+	{"source":"commands","data":{"player":"alecgorge","command":"\/test"}}
 
 **connections**
 
-	{"player":"alecgorge","action":"connect"}
-	{"player":"alecgorge","action":"disconnect"}
-	{"player":"alecgorge","action":"connect"}
-	{"player":"alecgorge","action":"disconnect"}
+	{"source":"connections","data":{"player":"alecgorge","action":"connect"}}
+	{"source":"connections","data":{"player":"alecgorge","action":"disconnect"}}
+	{"source":"connections","data":{"player":"alecgorge","action":"connect"}}
+	{"source":"connections","data":{"player":"alecgorge","action":"disconnect"}}
 	
 ## Testing	
 The easiest way to test your streaming API calls on Linux and Mac is using cURL from the command line. Just run ''curl url'' and you will see the output as it is given.
+On Windows, I use cURL through cygwin. However if you have msysgit, you can launch the git bash and use curl there.
 
 For testing standard API calls, just use your favorite browser. 
 
