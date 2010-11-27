@@ -75,8 +75,8 @@ public class JSONApi extends Plugin  {
 		    	return;
 		    }
 		    
-		    //System.setOut(new PrintStream(new HandleStdOut(System.out), true));
-		    //log.addHandler(new HandleLogger(new LogFormat()));
+		    System.setOut(new PrintStream(new HandleStdOut(System.out), true));
+		    log.addHandler(new HandleLogger(new LogFormat()));
 		    
 		    webSocketServer = new JSONWebSocket(webSocketPort);
 		    webSocketServer.start();
