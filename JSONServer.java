@@ -94,6 +94,10 @@ public class JSONServer extends NanoHTTPD {
 				return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, callback(callback, r.toJSONString()));  
 			}                                                                                
 			                                                                                 
+			if(JSONApi.logging) {
+				JSONApi.log.info("[JSONApi] source="+ source);
+			}
+			
 			if(source.equals("chat") || source.equals("console") || source.equals("connections") || source.equals("commands")) {
 				HttpStream out = new HttpStream(source, callback);                                     
 			                                                                                 
@@ -120,6 +124,12 @@ public class JSONServer extends NanoHTTPD {
 		if(calledMethodHold != null) {
 			calledMethod = calledMethodHold.split("\\.");
 		}
+		else {
+			JSONObject r = new JSONObject();
+			r.put("result", "error");
+			r.put("error", "Method doesn't exist!");
+			return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString()));
+		}
 		
 		String username = parms.getProperty("username");
 		String password = parms.getProperty("password");
@@ -133,7 +143,7 @@ public class JSONServer extends NanoHTTPD {
 		
 		
 		if(JSONApi.logging) {
-			JSONApi.log.info(parms.getProperty("method").concat("?args=").concat((String) args));
+			JSONApi.log.info("[JSONApi] method="+ parms.getProperty("method").concat("?args=").concat((String) args));
 		}
 		
 		if(args == null || calledMethod == null || calledMethod.length < 2) {
@@ -160,6 +170,7 @@ public class JSONServer extends NanoHTTPD {
 					}
 					JSONObject r = new JSONObject();
 					r.put("result", "success");
+					r.put("source", calledMethodHold);
 					r.put("success", result);
 
 					return new NanoHTTPD.Response( HTTP_OK, MIME_JSON, callback(callback, r.toJSONString()));

@@ -43,7 +43,7 @@ public class HttpStream extends InputStream {
 		}
 		
 		JSONObject r = new JSONObject();
-		//JSONObject q = new JSONObject();
+		JSONObject q = new JSONObject();
 		
 		if(type.equals("chat")) {
 			r.put("player", stack.get(next)[0]);
@@ -64,7 +64,9 @@ public class HttpStream extends InputStream {
 		}
 		
 		next++;
-		return JSONServer.callback(callback, r.toJSONString()).concat("\r\n");
+		q.put("source", type);
+		q.put("data", r);
+		return JSONServer.callback(callback, q.toJSONString()).concat("\r\n");
 	}
 
 	@Override

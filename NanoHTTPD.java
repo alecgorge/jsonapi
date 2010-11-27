@@ -60,6 +60,64 @@ import java.util.TimeZone;
  */
 public class NanoHTTPD
 {
+	/**
+	 * Decodes the percent encoding scheme. <br/>
+	 * For example: "an+example%20string" -> "an example string"
+	 */
+	public static String decodePercent( String str )
+	{
+		try
+		{
+			StringBuffer sb = new StringBuffer();
+			for( int i=0; i<str.length(); i++ )
+			{
+			    char c = str.charAt( i );
+			    switch ( c )
+				{
+			        case '+':
+			            sb.append( ' ' );
+			            break;
+			        case '%':
+		                sb.append((char)Integer.parseInt( str.substring(i+1,i+3), 16 ));
+			            i += 2;
+			            break;
+			        default:
+			            sb.append( c );
+			            break;
+			    }
+			}
+			return new String( sb.toString().getBytes());
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * Decodes parameters in percent-encoded URI-format
+	 * ( e.g. "name=Jack%20Daniels&pass=Single%20Malt" ) and
+	 * adds them to given Properties. NOTE: this doesn't support multiple
+	 * identical keys due to the simplicity of Properties -- if you need multiples,
+	 * you might want to replace the Properties with a Hastable of Vectors or such.
+	 */
+	public static void decodeParms( String parms, Properties p )
+	{
+		if ( parms == null )
+			return;
+
+		StringTokenizer st = new StringTokenizer( parms, "&" );
+		while ( st.hasMoreTokens())
+		{
+			String e = st.nextToken();
+			int sep = e.indexOf( '=' );
+			if ( sep >= 0 )
+				p.put( decodePercent( e.substring( 0, sep )).trim(),
+					   decodePercent( e.substring( sep+1 )));
+		}
+	}
+
 	// ==================================================
 	// API parts
 	// ==================================================
@@ -388,7 +446,7 @@ public class NanoHTTPD
 		 * Decodes the percent encoding scheme. <br/>
 		 * For example: "an+example%20string" -> "an example string"
 		 */
-		private String decodePercent( String str ) throws InterruptedException
+		public String decodePercent( String str ) throws InterruptedException
 		{
 			try
 			{
@@ -426,7 +484,7 @@ public class NanoHTTPD
 		 * identical keys due to the simplicity of Properties -- if you need multiples,
 		 * you might want to replace the Properties with a Hastable of Vectors or such.
 		 */
-		private void decodeParms( String parms, Properties p )
+		public void decodeParms( String parms, Properties p )
 			throws InterruptedException
 		{
 			if ( parms == null )

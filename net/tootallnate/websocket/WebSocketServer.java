@@ -11,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -400,8 +399,12 @@ public abstract class WebSocketServer implements Runnable, WebSocketListener {
     return false;
   }
 
-  public void onMessage(WebSocket conn, String message) {
-    onClientMessage(conn, message);
+  public void onMessage(final WebSocket conn, final String message) {
+	  (new Thread () {
+		  public void run () {
+			  onClientMessage(conn, message);
+		  }
+	  }).start();
   }
 
   public void onOpen(WebSocket conn) {
