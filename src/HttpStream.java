@@ -2,6 +2,9 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.json.simple.JSONObject;
 
@@ -14,63 +17,112 @@ public class HttpStream extends InputStream {
 	public static ArrayList<String[]> commandStack = new ArrayList<String[]>();
 	public static ArrayList<String[]> connectionsStack = new ArrayList<String[]>();
 	public ArrayList<String[]> stack = null;
+	public HashMap<String, Integer> stackCount = new HashMap<String, Integer>();
 	public String callback = "";
 	
-	public HttpStream (String s, String callback) {
+	public HttpStream (String s, String callback) throws Exception {
 		type = s;
 		this.callback = callback;
 		
-		if(type.equals("chat"))
-			stack = chatStack;
-		else if(type.equals("commands"))
-			stack = commandStack;
-		else if(type.equals("connections"))
-			stack = connectionsStack;
-		else if(type.equals("console"))
-			stack = consoleStack;
+		stack = getStack(type);
 		
-		next = stack.size();
+		if(stack != null)
+			next = stack.size();
+		else {
+			if(type.equals("all")) {
+				stackCount.put("chat", getStack("chat").size());
+				stackCount.put("consoleStack", getStack("consoleStack").size());
+				stackCount.put("commandStack", getStack("commandStack").size());
+				stackCount.put("connectionsStack", getStack("connectionsStack").size());
+			}
+			else {
+				throw new Exception();
+			}
+		}
 	}
 	
-	public String getNext () {		
-		while(next >= stack.size()) {
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	public ArrayList<String[]> getStack (String name) {
+		if(type.equals("chat"))
+			return chatStack;
+		else if(type.equals("commands"))
+			return commandStack;
+		else if(type.equals("connections"))
+			return connectionsStack;
+		else if(type.equals("console"))
+			return consoleStack;
+		return null;
+	}
+	
+	public String getNext () {
+		String thistype = null;
+		if(stack == null) {
+			while(true) {
+				try {
+					Thread.sleep(500);
+					
+					Set<String> c = stackCount.keySet();
+					
+					Iterator<String> itr = c.iterator();
+					
+					while(itr.hasNext()) {
+						String key = itr.next();
+						int x = stackCount.get(key).intValue();
+						
+						if(x < getStack(key).size()) {
+							thistype = key;
+							stackCount.put(key, x++);
+							next = x;
+							break;
+						}
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			
+		}
+		else {
+			while(next >= stack.size()) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			thistype = type;
 		}
 		
 		JSONObject r = new JSONObject();
 		JSONObject q = new JSONObject();
 		
-		if(type.equals("chat")) {
-			r.put("player", stack.get(next)[0]);
-			r.put("message", stack.get(next)[1]);
+		if(thistype.equals("chat")) {
+			r.put("player", chatStack.get(next)[0]);
+			r.put("message", chatStack.get(next)[1]);
 			//r.put("chat", q);
 		}
-		else if(type.equals("commands")) {
-			r.put("player", stack.get(next)[0]);
-			r.put("command", stack.get(next)[1]);
+		else if(thistype.equals("commands")) {
+			r.put("player", commandStack.get(next)[0]);
+			r.put("command", commandStack.get(next)[1]);
 		}
-		else if(type.equals("connections")) {
-			r.put("action", stack.get(next)[0]);
-			r.put("player", stack.get(next)[1]);
+		else if(thistype.equals("connections")) {
+			r.put("action", connectionsStack.get(next)[0]);
+			r.put("player", connectionsStack.get(next)[1]);
 			//r.put(", value)
 		}
-		else if(type.equals("console")) {
-			r.put("line", stack.get(next)[0]);
+		else if(thistype.equals("console")) {
+			r.put("line", consoleStack.get(next)[0]);
 		}
 		
 		next++;
-		q.put("source", type);
+		q.put("source", thistype);
 		q.put("data", r);
 		return JSONServer.callback(callback, q.toJSONString()).concat("\r\n");
 	}
 
 	@Override
 	public int read() throws IOException {
-		return -1;
+		throw new IOException("not implemented");
 	}
 }

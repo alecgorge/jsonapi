@@ -98,16 +98,16 @@ public class JSONServer extends NanoHTTPD {
 				JSONApi.log.info("[JSONApi] source="+ source);
 			}
 			
-			if(source.equals("chat") || source.equals("console") || source.equals("connections") || source.equals("commands")) {
+			try {
 				HttpStream out = new HttpStream(source, callback);                                     
 			                                                                                 
 				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);                
-			}                                                                                
-			                                                                                 
-			JSONObject r = new JSONObject();                                                 
-			r.put("result", "error");                                                        
-			r.put("error", "That source doesn't exist!");                                    
-			return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString()));      
+			} catch (Exception e) {                                                                     
+				JSONObject r = new JSONObject();                                                 
+				r.put("result", "error");                                                        
+				r.put("error", "That source doesn't exist!");                                    
+				return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString())); 
+			}
 		}
 		
 		if(!uri.equals("/api/call")) {
@@ -117,7 +117,7 @@ public class JSONServer extends NanoHTTPD {
 		
 		JSONParser parse = new JSONParser();
 		
-		Object args = parms.getProperty("args");
+		Object args = parms.getProperty("args","[]");
 		String calledMethodHold = (String)parms.getProperty("method");
 		
 		String[] calledMethod = null;

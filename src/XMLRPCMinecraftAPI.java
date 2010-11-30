@@ -68,7 +68,7 @@ public class XMLRPCMinecraftAPI {
 
 
     /**
-     * Gets the block at a location.
+     * Sets the block at a location.
      *
      * @param x
      * @param y
