@@ -99,10 +99,14 @@ public class JSONServer extends NanoHTTPD {
 			}
 			
 			try {
+				if(source == null)
+					throw new Exception();
+				
 				HttpStream out = new HttpStream(source, callback);                                     
 			                                                                                 
 				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);                
-			} catch (Exception e) {                                                                     
+			} catch (Exception e) {     
+				e.printStackTrace();
 				JSONObject r = new JSONObject();                                                 
 				r.put("result", "error");                                                        
 				r.put("error", "That source doesn't exist!");                                    

@@ -31,9 +31,9 @@ public class HttpStream extends InputStream {
 		else {
 			if(type.equals("all")) {
 				stackCount.put("chat", getStack("chat").size());
-				stackCount.put("consoleStack", getStack("consoleStack").size());
-				stackCount.put("commandStack", getStack("commandStack").size());
-				stackCount.put("connectionsStack", getStack("connectionsStack").size());
+				stackCount.put("console", getStack("console").size());
+				stackCount.put("commands", getStack("commands").size());
+				stackCount.put("connections", getStack("connections").size());
 			}
 			else {
 				throw new Exception();
@@ -41,7 +41,7 @@ public class HttpStream extends InputStream {
 		}
 	}
 	
-	public ArrayList<String[]> getStack (String name) {
+	public ArrayList<String[]> getStack (String type) {
 		if(type.equals("chat"))
 			return chatStack;
 		else if(type.equals("commands"))
@@ -50,6 +50,7 @@ public class HttpStream extends InputStream {
 			return connectionsStack;
 		else if(type.equals("console"))
 			return consoleStack;
+
 		return null;
 	}
 	
