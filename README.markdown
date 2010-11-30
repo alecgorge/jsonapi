@@ -177,6 +177,3 @@ These were all shamelessly ripped from CraftAPI (thanks sk89q!). I haven't teste
 	boolean    server.setSpawnProtectionSize(int)
 	boolean    server.setWhitelistEnabled(boolean)
 	boolean    server.setWhitelistMessage(string)
-	array      system.listMethods()
-	string     system.methodHelp(string)
-	array      system.methodSignature(string)
