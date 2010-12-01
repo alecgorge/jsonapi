@@ -12,6 +12,18 @@ The default port is 20059.
 
 **_Always remember to encode the values of the GET variables to make them URL safe!_**
 
+## JSONP
+
+For JSONP calls, simply add an GET variable "callback" to be the function that wraps around the response. This works well for jQuery/Javascript and cross-site scripting.
+
+Example
+
+    http://localhost:20059/api/call?method=server.getPlayerCount&username=admin&password=test&callback=myCallbackFunction
+    
+Will return
+
+    myCallbackFunction(1)
+
 ## Standard Request Format
 For standard (non-streaming) requests the URL format looks like this:
 	
@@ -34,7 +46,7 @@ Standard API calls will return one of the following.
 
 These responses are based off of this request:
 	
-	http://localhost:20059/api/call?method=server.getPlayerCount&args=%5B%5D&username=admin&password=test
+	http://localhost:20059/api/call?method=server.getPlayerCount&username=admin&password=test
 
 Invalid username/password:
 
