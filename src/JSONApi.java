@@ -143,21 +143,21 @@ public class JSONApi extends Plugin  {
 		}
 		
 		public boolean onChat(Player player, String message) {
-			HttpStream.chatStack.add(new String[] {player.getName(),message});
+			HttpStream.log("chat", new String[]{player.getName(),message});
 			
 			return false;
 		}
 		
 		public void onDisconnect (Player player) {
-			HttpStream.connectionsStack.add(new String[] {"disconnect", player.getName()});
+			HttpStream.log("connections", new String[] {"disconnect", player.getName()});
 		}
 		
 		public void onLogin (Player player) {
-			HttpStream.connectionsStack.add(new String[] {"connect", player.getName()});
+			HttpStream.log("connections", new String[] {"connect", player.getName()});
 		}
 		
 		public boolean onCommand (Player player, String[] split) {
-			HttpStream.commandStack.add(new String[] {player.getName(), join(split, " ")});
+			HttpStream.log("commands", new String[] {player.getName(), join(split, " ")});
 			
 			return false;
 		}

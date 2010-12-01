@@ -14,7 +14,7 @@ public class HandleLogger extends Handler {
      * @param record
      */
     public void publish(LogRecord record) {
-    	HttpStream.consoleStack.add(new String[] {getFormatter().format(record)});
+    	HttpStream.log("console", new String[] {getFormatter().format(record)});
     }
 
     /**

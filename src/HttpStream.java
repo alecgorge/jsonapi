@@ -1,10 +1,11 @@
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.TimeZone;
 
 import org.json.simple.JSONObject;
 
@@ -16,6 +17,7 @@ public class HttpStream extends InputStream {
 	public static ArrayList<String[]> consoleStack = new ArrayList<String[]>();
 	public static ArrayList<String[]> commandStack = new ArrayList<String[]>();
 	public static ArrayList<String[]> connectionsStack = new ArrayList<String[]>();
+	public static ArrayList<String[]> allStack = new ArrayList<String[]>();
 	public ArrayList<String[]> stack = null;
 	public HashMap<String, Integer> stackCount = new HashMap<String, Integer>();
 	public String callback = "";
@@ -25,23 +27,24 @@ public class HttpStream extends InputStream {
 		this.callback = callback;
 		
 		stack = getStack(type);
-		
-		if(stack != null)
-			next = stack.size();
-		else {
-			if(type.equals("all")) {
-				stackCount.put("chat", getStack("chat").size());
-				stackCount.put("console", getStack("console").size());
-				stackCount.put("commands", getStack("commands").size());
-				stackCount.put("connections", getStack("connections").size());
-			}
-			else {
-				throw new Exception();
-			}
-		}
+		next = stack.size();
 	}
 	
-	public ArrayList<String[]> getStack (String type) {
+	public static void log (String type, String[] event) {
+		String[] newArgs = new String[event.length+1];
+		newArgs[0] = String.valueOf(new java.sql.Timestamp(Calendar.getInstance().getTime().getTime()).getTime());
+		
+		String[] newArgs2 = new String[newArgs.length+1];
+		newArgs2[0]= type;
+		
+		System.arraycopy(event, 0, newArgs, 1, event.length);
+		System.arraycopy(newArgs, 0, newArgs2, 1, newArgs.length);
+
+		getStack(type).add(newArgs);
+		getStack("all").add(newArgs2);
+	}
+	
+	public static ArrayList<String[]> getStack (String type) {
 		if(type.equals("chat"))
 			return chatStack;
 		else if(type.equals("commands"))
@@ -50,76 +53,75 @@ public class HttpStream extends InputStream {
 			return connectionsStack;
 		else if(type.equals("console"))
 			return consoleStack;
+		else if(type.equals("all"))
+			return allStack;
 
 		return null;
 	}
 	
 	public String getNext () {
-		String thistype = null;
-		if(stack == null) {
-			while(true) {
-				try {
-					Thread.sleep(500);
-					
-					Set<String> c = stackCount.keySet();
-					
-					Iterator<String> itr = c.iterator();
-					
-					while(itr.hasNext()) {
-						String key = itr.next();
-						int x = stackCount.get(key).intValue();
-						
-						if(x < getStack(key).size()) {
-							thistype = key;
-							stackCount.put(key, x++);
-							next = x;
-							break;
-						}
-					}
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		while(next >= stack.size()) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-		}
-		else {
-			while(next >= stack.size()) {
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			thistype = type;
 		}
 		
+		JSONObject q = format(type);
+		
+		return JSONServer.callback(callback, q.toJSONString()).concat("\r\n");
+	}
+	
+	private JSONObject formatOne (String type, String[] theseArgs) {
 		JSONObject r = new JSONObject();
-		JSONObject q = new JSONObject();
-		
-		if(thistype.equals("chat")) {
-			r.put("player", chatStack.get(next)[0]);
-			r.put("message", chatStack.get(next)[1]);
+		if(type.equals("chat")) {
+			r.put("time", theseArgs[0]);
+			r.put("player", theseArgs[1]);
+			r.put("message", theseArgs[2]);
 			//r.put("chat", q);
 		}
-		else if(thistype.equals("commands")) {
-			r.put("player", commandStack.get(next)[0]);
-			r.put("command", commandStack.get(next)[1]);
+		else if(type.equals("commands")) {
+			r.put("time", theseArgs[0]);
+			r.put("player", theseArgs[1]);
+			r.put("command", theseArgs[2]);
 		}
-		else if(thistype.equals("connections")) {
-			r.put("action", connectionsStack.get(next)[0]);
-			r.put("player", connectionsStack.get(next)[1]);
+		else if(type.equals("connections")) {
+			r.put("time", theseArgs[0]);
+			r.put("action", theseArgs[1]);
+			r.put("player", theseArgs[2]);
 			//r.put(", value)
 		}
-		else if(thistype.equals("console")) {
-			r.put("line", consoleStack.get(next)[0]);
+		else if(type.equals("console")) {
+			r.put("time", theseArgs[0]);
+			r.put("line", theseArgs[1]);
 		}
+		else if(type.equals("all")) {
+			//JSONObject z = new JSONObject();
+			String[] nextStack = allStack.get(next);
+			
+			r.put("source", nextStack[0]);
+			
+			String[] nextArgs = new String[nextStack.length-1];
+			System.arraycopy(nextStack, 1, nextArgs, 0, nextStack.length-1);
+			
+			r.put("data", formatOne(nextStack[0], nextArgs));
+			// r.put("all", z);
+		}
+		return r;
+	}
+	
+	private JSONObject format (String type) {
+		JSONObject q = new JSONObject();
+		JSONObject r = formatOne(type, getStack(type).get(next));
 		
 		next++;
-		q.put("source", thistype);
+
+		q.put("source", type);
 		q.put("data", r);
-		return JSONServer.callback(callback, q.toJSONString()).concat("\r\n");
+		
+		return q;
 	}
 
 	@Override

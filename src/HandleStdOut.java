@@ -33,7 +33,7 @@ public class HandleStdOut extends ByteArrayOutputStream {
 				printStream.println(message);
 			}
 			
-			HttpStream.consoleStack.add(new String[] {message});
+			HttpStream.log("console", new String[] {message});
 			//printStream.println("\r\nOUTPUT:::"+message);
 
 			buffer.setLength(0);
