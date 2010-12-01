@@ -70,6 +70,7 @@ To request a stream you have the following options:
 * "console" A mirror of the console output
 * "commands" Similar to chat, but for commands
 * "connections" A new line for each connection/disconnection
+* "all" A new line for everything mentioned above
 
 Format:
 
