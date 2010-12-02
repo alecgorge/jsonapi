@@ -35,8 +35,6 @@ public class JSONApi extends Plugin  {
 			port = options.getInt("port", 20059);
 			webSocketPort = options.getInt("webSocketPort", 20060);
 
-			
-			PropertiesFile pf = new PropertiesFile("JSONApiAuthentcation.txt");
 		    try {
 		    	// Open the file that is the first 
 		    	// command line parameter
