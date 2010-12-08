@@ -47,7 +47,7 @@ public class XMLRPCPlayerAPI {
         kv.put("canModifyWorld", player.canModifyWorld());
         kv.put("isMuted", player.isMuted());
         kv.put("color", player.getColor());
-        // kv.put("health", player.getHealth());
+        kv.put("health", player.getHealth());
         kv.put("ip", player.getIP());
         kv.put("itemInHand", player.getItemInHand());
         kv.put("x", player.getLocation().x);

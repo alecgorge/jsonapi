@@ -54,15 +54,7 @@ public class XMLRPCServerAPI {
      * @param raw
      * @return
      */
-    public static List<Integer> integerStringsToList(String[] raw) {
-        Set<Integer> items = new HashSet<Integer>();
-        for (String n : raw) {
-            try {
-                int id = Integer.parseInt(n);
-                items.add(id);
-            } catch (NumberFormatException e) {
-            }
-        }
+    public static List<Integer> integerStringsToList(Set<Integer> items) {
         return new ArrayList<Integer>(items);
     }
 
@@ -72,12 +64,16 @@ public class XMLRPCServerAPI {
      * @param items
      * @return
      */
-    public static String[] integerListToStrings(List<Integer> items) {
-        Set<String> l = new HashSet<String>();
-        for (Integer item : items) {
-            l.add(String.valueOf(item));
+    public static int[] integerListToStrings(List<Integer> items) {
+        int[] arr = new int[items.size()];
+        
+        int count = 0;
+        for(Integer i : items) {
+        	arr[count] = i; 
+        	count++;
         }
-        return l.toArray(new String[0]);
+        
+        return arr;
     }
 
     /**
