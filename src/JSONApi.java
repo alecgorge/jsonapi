@@ -29,7 +29,7 @@ public class JSONApi extends Plugin  {
 	private String name = "JSONApi";
 	public static JSONServer server = null;
 	public static JSONWebSocket webSocketServer = null;
-	private String version = "rev 2";
+	private String version = "rev 3";
 	public static boolean logging = false;
 	public static String fileLogging = "";
 	public static Logger outLog = null;
