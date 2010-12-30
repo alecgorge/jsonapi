@@ -404,7 +404,7 @@ public class NanoHTTPD
 						line = in.readLine();
 					}
 				}
-				// header.put("X-REMOTE-ADDR", myServerSocket.getInetAddress().getHostAddress());
+				header.put("X-REMOTE-ADDR", mySocket.getInetAddress().getHostAddress());
 
 				// If the method is POST, there may be parameters
 				// in data section, too, read it:

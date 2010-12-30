@@ -81,6 +81,20 @@ public class JSONServer extends NanoHTTPD {
 	
 	public Response serve( String uri, String method, Properties header, Properties parms )	{
 		String callback = parms.getProperty("callback");
+		if(JSONApi.whitelist.size() > 0) {
+			boolean valid = false;
+			for(int i = 0; i < JSONApi.whitelist.size(); i++) {
+				if(header.get("X-REMOTE-ADDR") == JSONApi.whitelist.get(i)) {
+					valid = true;
+				}
+			}
+			if(!valid) {
+				JSONObject r = new JSONObject();                                         
+				r.put("result", "error");                                                    
+				r.put("error", "Not on IP whitelist.");                                
+				return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, callback(callback, r.toJSONString()));  
+			}
+		}
 		
 		if(uri.equals("/api/subscribe")) {
 			String source = parms.getProperty("source");
