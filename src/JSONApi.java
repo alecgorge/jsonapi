@@ -46,7 +46,7 @@ public class JSONApi extends Plugin  {
 			logging = options.getBoolean("logToConsole", true);
 			fileLogging = options.getString("logToFile", "false");
 			String ipWhitelist = options.getString("ipWhitelist", "false");
-			
+			 
 			if(ipWhitelist != "false") {
 				String[] ips = ipWhitelist.split(",");
 				for(String ip : ips) {

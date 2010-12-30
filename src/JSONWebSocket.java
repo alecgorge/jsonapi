@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -22,6 +23,22 @@ public class JSONWebSocket extends WebSocketServer {
 
 	@Override
 	public void onClientOpen(WebSocket conn) {
+		if(JSONApi.whitelist.size() > 0) {
+			boolean valid = false;
+			for(int i = 0; i < JSONApi.whitelist.size(); i++) {
+				if(conn.socketChannel().socket().getInetAddress().getHostAddress() == JSONApi.whitelist.get(i)) {
+					valid = true;
+				}
+			}
+			if(!valid) {
+				try {
+					conn.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override
