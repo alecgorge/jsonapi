@@ -1,0 +1,3 @@
+#Minecraft Properties File
+#Mon Nov 29 20:54:16 EST 2010
+admin:test
