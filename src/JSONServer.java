@@ -95,7 +95,7 @@ public class JSONServer extends NanoHTTPD {
 			}                                                                                
 			                                                                                 
 			if(JSONApi.logging) {
-				JSONApi.log.info("[JSONApi] source="+ source);
+				JSONApi.outLog.info("[JSONApi] source="+ source);
 			}
 			
 			try {
@@ -147,7 +147,7 @@ public class JSONServer extends NanoHTTPD {
 		
 		
 		if(JSONApi.logging) {
-			JSONApi.log.info("[JSONApi] method="+ parms.getProperty("method").concat("?args=").concat((String) args));
+			JSONApi.outLog.info("[JSONApi] method="+ parms.getProperty("method").concat("?args=").concat((String) args));
 		}
 		
 		if(args == null || calledMethod == null || calledMethod.length < 2) {

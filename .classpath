@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="H:/projects/minecraft/unamed/server/Minecraft_Mod.jar"/>
+	<classpathentry kind="lib" path="F:/java/workspace/JSONApi/deps/Minecraft_Mod.jar"/>
+	<classpathentry kind="lib" path="F:/java/workspace/JSONApi/deps/minecraft_server.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

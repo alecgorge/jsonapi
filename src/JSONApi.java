@@ -6,8 +6,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 
 /**
@@ -22,8 +31,11 @@ public class JSONApi extends Plugin  {
 	public static JSONWebSocket webSocketServer = null;
 	private String version = "rev 2";
 	public static boolean logging = false;
+	public static String fileLogging = "";
+	public static Logger outLog = null;
 	public static int port = 0;
 	public static int webSocketPort = 0;
+	public static ArrayList<String> whitelist = new ArrayList<String>();
 	
 
 	public void enable() {
@@ -32,6 +44,29 @@ public class JSONApi extends Plugin  {
 			
 			PropertiesFile options = new PropertiesFile("JSONApi.properties");
 			logging = options.getBoolean("logToConsole", true);
+			fileLogging = options.getString("logToFile", "false");
+			String ipWhitelist = options.getString("ipWhitelist", "false");
+			
+			if(ipWhitelist != "false") {
+				String[] ips = ipWhitelist.split(",");
+				for(String ip : ips) {
+					whitelist.add(ip);
+				}
+			}
+			
+			outLog = Logger.getLogger("JSONApi");
+			if(logging) {
+				Handler[] h = log.getHandlers();
+				for(int i = 0; i < h.length; i++) {
+					outLog.addHandler(h[i]);
+				}
+			}
+			if(fileLogging != "false") {
+				FileHandler fh = new FileHandler(fileLogging);
+				fh.setFormatter(new SimpleFormatter());
+				outLog.addHandler(fh);
+			}
+			
 			port = options.getInt("port", 20059);
 			webSocketPort = options.getInt("webSocketPort", 20060);
 
@@ -85,6 +120,28 @@ public class JSONApi extends Plugin  {
 			ioe.printStackTrace();
 			//System.exit( -1 );
 		}		
+	}
+	
+	/**
+	 * From a password, a number of iterations and a salt,
+	 * returns the corresponding digest
+	 * @param iterationNb int The number of iterations of the algorithm
+	 * @param password String The password to encrypt
+	 * @param salt byte[] The salt
+	 * @return byte[] The digested password
+	 * @throws NoSuchAlgorithmException If the algorithm doesn't exist
+	 */
+	public static String SHA256(String password) throws NoSuchAlgorithmException {
+		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		digest.reset();
+		byte[] input = null;
+		try {
+			input = digest.digest(password.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new String(input);
 	}
 	
 	public void disable() {

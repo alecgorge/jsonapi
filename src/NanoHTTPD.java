@@ -20,6 +20,9 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
+import javax.net.ServerSocketFactory;
+import javax.net.ssl.SSLServerSocketFactory;
+
 /**
  * A simple, tiny, nicely embeddable HTTP 1.0 server in Java
  *
@@ -249,10 +252,17 @@ public class NanoHTTPD
 	 * Starts a HTTP server to given port.<p>
 	 * Throws an IOException if the socket is already in use
 	 */
-	public NanoHTTPD( int port ) throws IOException
+	public NanoHTTPD( int port, boolean ssl ) throws IOException
 	{
 		myTcpPort = port;
-		myServerSocket = new ServerSocket( myTcpPort );
+		
+		if(ssl) {
+			ServerSocketFactory ssocketFactory = SSLServerSocketFactory.getDefault();
+			myServerSocket = ssocketFactory.createServerSocket(port);
+		}
+		else {
+			myServerSocket = new ServerSocket( myTcpPort );
+		}
 		myThread = new Thread( new Runnable()
 			{
 				public void run()
@@ -269,6 +279,8 @@ public class NanoHTTPD
 		myThread.setDaemon( true );
 		myThread.start();
 	}
+	
+	public NanoHTTPD( int port ) throws IOException{ this(port,false); }
 
 	/**
 	 * Stops the server.

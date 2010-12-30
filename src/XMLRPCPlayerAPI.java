@@ -236,7 +236,7 @@ public class XMLRPCPlayerAPI {
     public Map<Integer,Map<String,Integer>> getInventory(String name)
             throws APIException {
         Player player = getPlayerByName(name);
-        Inventory inventory = player.getInventory();
+        PlayerInventory  inventory = (PlayerInventory)player.getInventory();
         Map<Integer,Map<String,Integer>> out =
                 new HashMap<Integer,Map<String,Integer>>();
         for (int i = 0; i <= 35; i++) {
@@ -262,7 +262,7 @@ public class XMLRPCPlayerAPI {
         Player player = getPlayerByName(name);
         Inventory inventory = player.getInventory();
         inventory.removeItem(slot);
-        inventory.updateInventory();
+        inventory.update();
         return true;
     }
 
@@ -281,7 +281,7 @@ public class XMLRPCPlayerAPI {
         Inventory inventory = player.getInventory();
         Item item = new Item(itemID, amount);
         inventory.removeItem(item);
-        inventory.updateInventory();
+        inventory.update();
         return true;
     }
 
@@ -293,7 +293,7 @@ public class XMLRPCPlayerAPI {
      * @param slot
      */
     private void addItem(Map<Integer,Map<String,Integer>> out,
-            Inventory inventory, int slot) {
+    		PlayerInventory inventory, int slot) {
         Item item = inventory.getItemFromSlot(slot);
         if (item != null) {
             Map<String,Integer> kv = new HashMap<String,Integer>();
