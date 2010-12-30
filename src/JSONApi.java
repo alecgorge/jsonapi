@@ -34,6 +34,7 @@ public class JSONApi extends Plugin  {
 	public static String fileLogging = "";
 	public static Logger outLog = null;
 	public static int port = 0;
+	public static String salt = "";
 	public static int webSocketPort = 0;
 	public static ArrayList<String> whitelist = new ArrayList<String>();
 	
@@ -46,6 +47,7 @@ public class JSONApi extends Plugin  {
 			logging = options.getBoolean("logToConsole", true);
 			fileLogging = options.getString("logToFile", "false");
 			String ipWhitelist = options.getString("ipWhitelist", "false");
+			salt = options.getString("salt", "");
 			 
 			if(ipWhitelist != "false") {
 				String[] ips = ipWhitelist.split(",");

@@ -1,11 +1,18 @@
 
 
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 /**
  * Shamelessly stolen from sk89...
@@ -30,6 +37,47 @@ public class XMLRPCServerAPI {
         l.add((double)loc.rotX);
         l.add((double)loc.rotY);
         return l;
+    }
+    
+    public static String getFileContents (String file) {
+    	FileInputStream fstream = null;
+    	String out = "";
+    	String thisLine;
+    	try {
+			fstream = new FileInputStream(new File(System.getProperty("user.dir")+file));
+			BufferedReader myInput = new BufferedReader(new InputStreamReader(fstream));
+			try {
+				while ((thisLine = myInput.readLine()) != null) {  
+					out += thisLine;
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return out;
+    }
+    
+    public static boolean setFileContents (String file, String contents) {
+    	FileWriter fstream;
+		try {
+			File tfile = new File(System.getProperty("user.dir")+file);
+			tfile.delete();
+			
+			fstream = new FileWriter(tfile);
+	    	BufferedWriter out = new BufferedWriter(fstream);
+	    	out.write(contents);
+	    	// Close the output stream
+	    	out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
     }
 
     /**

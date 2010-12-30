@@ -3,7 +3,9 @@
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
 
@@ -65,9 +67,23 @@ public class JSONServer extends NanoHTTPD {
 		return false;
 	}
 	
-	public boolean testLogin (String u, String p) {
+	public boolean testLogin (String method, String hash) {
 		try {
-			return logins.get(u).equals(p);
+			boolean valid = false;
+			
+			Enumeration<String> e = logins.keys();
+			
+			while(e.hasMoreElements()) {
+				String user = e.nextElement();
+				String pass = logins.get(user);
+				
+				if(JSONApi.SHA256(user+method+pass+JSONApi.salt) == hash) {
+					valid = true;
+					break;
+				}
+			}
+			
+			return valid;
 		}
 		catch (Exception e) {
 			return false;
@@ -108,9 +124,7 @@ public class JSONServer extends NanoHTTPD {
 				return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, callback(callback, r.toJSONString()));  
 			}                                                                                
 			                                                                                 
-			if(JSONApi.logging) {
-				JSONApi.outLog.info("[JSONApi] source="+ source);
-			}
+			JSONApi.outLog.info("[JSONApi] source="+ source);
 			
 			try {
 				if(source == null)
@@ -149,20 +163,17 @@ public class JSONServer extends NanoHTTPD {
 			return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString()));
 		}
 		
-		String username = parms.getProperty("username");
-		String password = parms.getProperty("password");
+		String key = parms.getProperty("key");
 		
-		if(!testLogin(username, password)) {
+		if(!testLogin(calledMethodHold, key)) {
 			JSONObject r = new JSONObject();
 			r.put("result", "error");
-			r.put("error", "Invalid username/password.");
+			r.put("error", "Invalid API key.");
 			return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, callback(callback, r.toJSONString()));
 		}
 		
 		
-		if(JSONApi.logging) {
-			JSONApi.outLog.info("[JSONApi] method="+ parms.getProperty("method").concat("?args=").concat((String) args));
-		}
+		JSONApi.outLog.info("[JSONApi] method="+ parms.getProperty("method").concat("?args=").concat((String) args));
 		
 		if(args == null || calledMethod == null || calledMethod.length < 2) {
 			JSONObject r = new JSONObject();
