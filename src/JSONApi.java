@@ -17,6 +17,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 
 /**
@@ -29,7 +30,7 @@ public class JSONApi extends Plugin  {
 	private String name = "JSONApi";
 	public static JSONServer server = null;
 	public static JSONWebSocket webSocketServer = null;
-	private String version = "rev 3";
+	private String version = "rev 4";
 	public static boolean logging = false;
 	public static String fileLogging = "";
 	public static Logger outLog = null;
@@ -48,20 +49,20 @@ public class JSONApi extends Plugin  {
 			fileLogging = options.getString("logToFile", "false");
 			String ipWhitelist = options.getString("ipWhitelist", "false");
 			salt = options.getString("salt", "");
-			 
-			if(ipWhitelist != "false") {
+			
+			String reconstituted = "";
+			if(!ipWhitelist.trim().equals("false")) {
 				String[] ips = ipWhitelist.split(",");
 				for(String ip : ips) {
+					reconstituted += ip+",";
 					whitelist.add(ip);
 				}
 			}
 			
 			outLog = Logger.getLogger("JSONApi");
 			if(logging) {
-				Handler[] h = log.getHandlers();
-				for(int i = 0; i < h.length; i++) {
-					outLog.addHandler(h[i]);
-				}
+				StreamHandler hl = new StreamHandler(System.out, new LogFormat());
+				outLog.addHandler(hl);
 			}
 			if(fileLogging != "false") {
 				FileHandler fh = new FileHandler(fileLogging);
@@ -113,6 +114,11 @@ public class JSONApi extends Plugin  {
 		    System.setOut(new PrintStream(new HandleStdOut(System.out), true));
 		    log.addHandler(new HandleLogger(new LogFormat()));
 		    
+		    log.info("[JSONApi] Logging = "+(fileLogging != "false" ? fileLogging : "")+","+(logging ? "console" : ""));
+		    log.info("[JSONApi] IP Whitelist = "+reconstituted);
+		    log.info("[JSONApi] JSON Server listening on "+port);
+		    log.info("[JSONApi] WebSocket Server listening on "+webSocketPort);
+		    
 		    webSocketServer = new JSONWebSocket(webSocketPort);
 		    webSocketServer.start();
 			server = new JSONServer(auth);
@@ -143,7 +149,16 @@ public class JSONApi extends Plugin  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new String(input);
+		StringBuffer hexString = new StringBuffer();
+		for(int i = 0; i< input.length; i++) {
+			String hex = Integer.toHexString(0xFF & input[i]);
+			if (hex.length() == 1) {
+			    // could use a for loop, but we're only dealing with a single byte
+			    hexString.append('0');
+			}
+			hexString.append(hex);
+		}
+		return hexString.toString();
 	}
 	
 	public void disable() {
@@ -162,24 +177,10 @@ public class JSONApi extends Plugin  {
 
 	public void initialize() {
 		log.info("JSONApi is active and listening for requests.");
-		// Uncomment as needed.
-		//etc.getLoader().addListener( PluginLoader.Hook.ARM_SWING, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.BLOCK_CREATED, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.BLOCK_DESTROYED, l, this, PluginListener.Priority.MEDIUM);
 		etc.getLoader().addListener( PluginLoader.Hook.CHAT, l, this, PluginListener.Priority.MEDIUM);
 		etc.getLoader().addListener( PluginLoader.Hook.COMMAND, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.COMPLEX_BLOCK_CHANGE, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.COMPLEX_BLOCK_SEND, l, this, PluginListener.Priority.MEDIUM);
 		etc.getLoader().addListener( PluginLoader.Hook.DISCONNECT, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.INVENTORY_CHANGE, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.IPBAN, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.KICK, l, this, PluginListener.Priority.MEDIUM);
 		etc.getLoader().addListener( PluginLoader.Hook.LOGIN, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.LOGINCHECK, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.NUM_HOOKS, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.PLAYER_MOVE, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.SERVERCOMMAND, l, this, PluginListener.Priority.MEDIUM);
-		//etc.getLoader().addListener( PluginLoader.Hook.TELEPORT, l, this, PluginListener.Priority.MEDIUM);
 	}
 	
 	public class Listener extends PluginListener {

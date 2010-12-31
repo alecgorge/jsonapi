@@ -77,7 +77,8 @@ public class JSONServer extends NanoHTTPD {
 				String user = e.nextElement();
 				String pass = logins.get(user);
 				
-				if(JSONApi.SHA256(user+method+pass+JSONApi.salt) == hash) {
+				String thishash = JSONApi.SHA256(user+method+pass+JSONApi.salt);
+				if(thishash.equals(hash)) {
 					valid = true;
 					break;
 				}
@@ -107,24 +108,24 @@ public class JSONServer extends NanoHTTPD {
 			if(!valid) {
 				JSONObject r = new JSONObject();                                         
 				r.put("result", "error");                                                    
-				r.put("error", "Not on IP whitelist.");                                
+				r.put("error", "Not on IP whitelist.");
+				
 				return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, callback(callback, r.toJSONString()));  
 			}
 		}
 		
 		if(uri.equals("/api/subscribe")) {
 			String source = parms.getProperty("source");
-			String username = parms.getProperty("username");
-			String password = parms.getProperty("password");
+			String key = parms.getProperty("key");
 			
-			if(!testLogin(username, password)) {
+			if(!testLogin(source, key)) {
 				JSONObject r = new JSONObject();                                             
 				r.put("result", "error");                                                    
 				r.put("error", "Invalid username/password.");                                
 				return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, callback(callback, r.toJSONString()));  
 			}                                                                                
 			                                                                                 
-			JSONApi.outLog.info("[JSONApi] source="+ source);
+			JSONApi.outLog.info("[JSONApi] "+header.get("X-REMOTE-ADDR")+": source="+ source);
 			
 			try {
 				if(source == null)
@@ -160,6 +161,7 @@ public class JSONServer extends NanoHTTPD {
 			JSONObject r = new JSONObject();
 			r.put("result", "error");
 			r.put("error", "Method doesn't exist!");
+			JSONApi.outLog.info("[JSONApi] "+header.get("X-REMOTE-ADDR")+": Method doesn't exist.");
 			return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString()));
 		}
 		
@@ -169,11 +171,12 @@ public class JSONServer extends NanoHTTPD {
 			JSONObject r = new JSONObject();
 			r.put("result", "error");
 			r.put("error", "Invalid API key.");
+			JSONApi.outLog.info("[JSONApi] "+header.get("X-REMOTE-ADDR")+": Invalid API Key.");
 			return new NanoHTTPD.Response(HTTP_FORBIDDEN, MIME_JSON, callback(callback, r.toJSONString()));
 		}
 		
 		
-		JSONApi.outLog.info("[JSONApi] method="+ parms.getProperty("method").concat("?args=").concat((String) args));
+		JSONApi.outLog.info("[JSONApi] "+header.get("X-REMOTE-ADDR")+": method="+ parms.getProperty("method").concat("?args=").concat((String) args));
 		
 		if(args == null || calledMethod == null || calledMethod.length < 2) {
 			JSONObject r = new JSONObject();
