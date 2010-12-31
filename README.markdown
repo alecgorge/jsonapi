@@ -12,13 +12,20 @@ The default port is 20059.
 
 **_Always remember to encode the values of the GET variables to make them URL safe!_**
 
+## Authentication
+Instead of plaintext username and password you will pass a key that is formed like this (example is PHP):
+
+    hash('sha256', $username.$methodOrStreamingSource.$password.$salt);
+    
+
+
 ## JSONP
 
 For JSONP calls, simply add an GET variable "callback" to be the function that wraps around the response. This works well for jQuery/Javascript and cross-site scripting.
 
 Example
 
-    http://localhost:20059/api/call?method=server.getPlayerCount&username=admin&password=test&callback=myCallbackFunction
+    http://localhost:20059/api/call?method=server.getPlayerCount&key=TheKey238h238fh2038fh208hf0328fh&callback=myCallbackFunction
     
 Will return
 
@@ -27,13 +34,13 @@ Will return
 ## Standard Request Format
 For standard (non-streaming) requests the URL format looks like this:
 	
-	http://host:port/api/call?method=methodName&args=%5B%22urlEncodedjsonEncodedArrayOfArgs%22%5D&username=username&password=password
+	http://host:port/api/call?method=methodName&args=%5B%22urlEncodedjsonEncodedArrayOfArgs%22%5D&key=key
 
 You can see the list of available methods below.
 
 Here is a sample request this time, _with args_:
 
-	http://localhost:20059/api/call?method=player.sendMessage&args=%5B%22alecgorge%22,%22hello there%22%5D&username=admin&password=test
+	http://localhost:20059/api/call?method=player.sendMessage&args=%5B%22alecgorge%22,%22hello there%22%5D&key=key
 	
 **Notes:**
 
@@ -46,7 +53,7 @@ Standard API calls will return one of the following.
 
 These responses are based off of this request:
 	
-	http://localhost:20059/api/call?method=server.getPlayerCount&username=admin&password=test
+	http://localhost:20059/api/call?method=server.getPlayerCount&key=key
 
 Invalid username/password:
 
@@ -74,14 +81,14 @@ To request a stream you have the following options:
 
 Format:
 
-	http://host:post/api/subscribe?source=sourceOption&username=username&password=password
+	http://host:post/api/subscribe?source=sourceOption&key=key
 	
 ## Streaming Response Format
 The response never fully loads, but as more and more events "stream" in another line is added (lines separated by \r\n).
 
 The following responses are based off of this request:
 
-	http://localhost:20059/api/subscribe?source=chat&username=admin&password=test
+	http://localhost:20059/api/subscribe?source=chat&key=key
 
 Response:
 
@@ -190,3 +197,5 @@ These were all shamelessly ripped from CraftAPI (thanks sk89q!). I haven't teste
 	boolean    server.setSpawnProtectionSize(int)
 	boolean    server.setWhitelistEnabled(boolean)
 	boolean    server.setWhitelistMessage(string)
+	string     server.getFileContents(string)
+	boolean    server.setFileContents(string, string)
