@@ -35,7 +35,7 @@ $salt is the salt option set in JSONApi.properties
 
 `salt` the salt to add to the hashes to make them more secure (default: "")
 
-`ipwhitelist` comma separated values of ips that are allowed to access the server (default: "false") (example: "127.0.0.1,8.8.8.8")
+`ipwhitelist` comma separated values of ips that are allowed to access the server (IPv4, no ranges/wildcards) (default: "false") (example: "127.0.0.1,8.8.8.8")
 
 `webSocketPort` is the port that the WebSocket server listens on (default: 20060)
 
