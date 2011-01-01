@@ -17,8 +17,29 @@ Instead of plaintext username and password you will pass a key that is formed li
 
     hash('sha256', $username.$methodOrStreamingSource.$password.$salt);
     
+$username is the username set in JSONApiAuthentication.txt
 
+$methodOrStreamingSource is the value of "method=" in a standard api and "source=" in the streaming streaming api.
 
+$password is the password set in JSONApiAuthentication.txt
+
+$salt is the salt option set in JSONApi.properties
+
+## Config options
+
+`port` is the port that the JSON and JSON streaming server listen on (default: 20059)
+
+`logToConsole` wether or not to display loggin information in the console (default: true)
+
+`logToFile` is the file (relative to the folder containing minecraft_server.jar) (default: sample.log)
+
+`salt` the salt to add to the hashes to make them more secure (default: "")
+
+`ipwhitelist` comma separated values of ips that are allowed to access the server (default: "false") (example: "127.0.0.1,8.8.8.8")
+
+`webSocketPort` is the port that the WebSocket server listens on (default: 20060)
+
+	
 ## JSONP
 
 For JSONP calls, simply add an GET variable "callback" to be the function that wraps around the response. This works well for jQuery/Javascript and cross-site scripting.
