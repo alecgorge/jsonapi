@@ -1,3 +1,6 @@
+package com.bukkit.alecgorge.jsonapi;
+
+import org.bukkit.Block;
 
 
 
@@ -9,7 +12,13 @@
  * @author sk89q
  */
 public class XMLRPCMinecraftAPI {
-    /**
+    private JSONApi etc;
+    
+    public XMLRPCMinecraftAPI(JSONApi plugin){
+    	this.etc = plugin;
+    }
+	
+	/**
      * Thrown when a bad block index is supplied.
      */
     @SuppressWarnings("unused")
@@ -24,7 +33,8 @@ public class XMLRPCMinecraftAPI {
      * @return
      */
     public int getBlockID(int x, int y, int z) {
-        return etc.getServer().getBlockIdAt(x, y, z);
+        Block block = etc.getServer().getWorlds()[0].getBlockAt(x, y, z);
+    	return block.getTypeID();
     }
 
     /**
@@ -59,7 +69,7 @@ public class XMLRPCMinecraftAPI {
                 for (int z = 0; z < length; z++) {
                     int index = y * width * length + z * width + x;
                     data[index] =
-                            (byte)etc.getServer().getBlockIdAt(x + minX, y + minY, z + minZ);
+                            (byte)getBlockID(x + minX, y + minY, z + minZ);
                 }
             }
         }
@@ -77,7 +87,8 @@ public class XMLRPCMinecraftAPI {
      * @return
      */
     public boolean setBlockID(int x, int y, int z, int id) {
-        return etc.getServer().setBlockAt(id, x, y, z);
+    	Block block = etc.getServer().getWorlds()[0].getBlockAt(x, y, z);
+    	return block.setTypeID(id);
     }
 
     /**
@@ -89,7 +100,7 @@ public class XMLRPCMinecraftAPI {
      * @return
      */
     public int getHighestBlockY(int x, int z) {
-        return etc.getServer().getHighestBlockY(x, z);
+        return etc.getServer().getWorlds()[0].getHighestBlockYAt(x, z);
     }
 
     /**
@@ -118,7 +129,9 @@ public class XMLRPCMinecraftAPI {
      * @return
      */
     public int getRelativeTime() {
-        return (int)etc.getServer().getRelativeTime();
+        return getTime();
+        // TODO Implement properly
+    	//return (int)etc.getServer().getRelativeTime();
     }
 
     /**
@@ -128,7 +141,9 @@ public class XMLRPCMinecraftAPI {
      * @return
      */
     public boolean setRelativeTime(int time) {
-        etc.getServer().setRelativeTime(time);
-        return true;
+        return setTime(time);
+        // TODO Implement properly
+    	//etc.getServer().setRelativeTime(time);
+        //return false;
     }
 }

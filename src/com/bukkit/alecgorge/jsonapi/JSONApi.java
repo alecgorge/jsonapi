@@ -1,3 +1,5 @@
+package com.bukkit.alecgorge.jsonapi;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -19,13 +21,30 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
+import org.bukkit.Server;
+import org.bukkit.event.Event.Priority;
+import org.bukkit.event.Event.Type;
+import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerListener;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginLoader;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
 
 /**
 *
 * @author alecgorge
 */
-public class JSONApi extends Plugin  {
-	private Listener l = new Listener(this);
+public class JSONApi extends JavaPlugin  {
+	
+	public JSONApi(PluginLoader pluginLoader, Server instance,
+			PluginDescriptionFile desc, File plugin, ClassLoader cLoader) {
+		super(pluginLoader, instance, desc, plugin, cLoader);
+	}
+
+	private JSONApiPlayerListener l = new JSONApiPlayerListener(this);
 	protected static final Logger log = Logger.getLogger("Minecraft");
 	private String name = "JSONApi";
 	public static JSONServer server = null;
@@ -40,7 +59,7 @@ public class JSONApi extends Plugin  {
 	public static ArrayList<String> whitelist = new ArrayList<String>();
 	
 
-	public void enable() {
+	public void onEnable() {
 		try {
 			Hashtable<String, String> auth = new Hashtable<String, String>();
 			
@@ -121,13 +140,31 @@ public class JSONApi extends Plugin  {
 		    
 		    webSocketServer = new JSONWebSocket(webSocketPort);
 		    webSocketServer.start();
-			server = new JSONServer(auth);
+			server = new JSONServer(auth, this);
+			
+			initialiseListeners();
 		}
 		catch( IOException ioe ) {
 			log.severe( "Couldn't start server!\n");
 			ioe.printStackTrace();
 			//System.exit( -1 );
 		}		
+	}
+	
+	@Override
+	public void onDisable(){
+		
+	}
+	
+	private void initialiseListeners(){
+		PluginManager pm = getServer().getPluginManager();
+		
+		pm.registerEvent(Type.PLAYER_CHAT, l, Priority.Normal, this);
+		pm.registerEvent(Type.PLAYER_COMMAND, l, Priority.Normal, this);
+		pm.registerEvent(Type.PLAYER_QUIT, l, Priority.Normal, this);
+		pm.registerEvent(Type.PLAYER_LOGIN, l, Priority.Normal, this);
+	
+		log.info("JSONApi is active and listening for requests.");
 	}
 	
 	/**
@@ -174,16 +211,8 @@ public class JSONApi extends Plugin  {
 			}
 		}
 	}
-
-	public void initialize() {
-		log.info("JSONApi is active and listening for requests.");
-		etc.getLoader().addListener( PluginLoader.Hook.CHAT, l, this, PluginListener.Priority.MEDIUM);
-		etc.getLoader().addListener( PluginLoader.Hook.COMMAND, l, this, PluginListener.Priority.MEDIUM);
-		etc.getLoader().addListener( PluginLoader.Hook.DISCONNECT, l, this, PluginListener.Priority.MEDIUM);
-		etc.getLoader().addListener( PluginLoader.Hook.LOGIN, l, this, PluginListener.Priority.MEDIUM);
-	}
 	
-	public class Listener extends PluginListener {
+	public class JSONApiPlayerListener extends PlayerListener {
 		JSONApi p;
 
 	    public String join(String[] strings, String separator) {
@@ -196,28 +225,28 @@ public class JSONApi extends Plugin  {
 	    }
 	    
 	    // This controls the accessability of functions / variables from the main class.
-		public Listener(JSONApi plugin) {
+		public JSONApiPlayerListener(JSONApi plugin) {
 			p = plugin;
 		}
 		
-		public boolean onChat(Player player, String message) {
-			HttpStream.log("chat", new String[]{player.getName(),message});
-			
-			return false;
+		@Override
+		public void onPlayerChat(PlayerChatEvent event) {
+			HttpStream.log("chat", new String[]{event.getPlayer().getName(),event.getMessage()});			
 		}
 		
-		public void onDisconnect (Player player) {
-			HttpStream.log("connections", new String[] {"disconnect", player.getName()});
+		@Override
+		public void onPlayerJoin(PlayerEvent event) {
+			HttpStream.log("connections", new String[] {"connect", event.getPlayer().getName()});
+		}
+
+		@Override
+		public void onPlayerQuit(PlayerEvent event) {
+			HttpStream.log("connections", new String[] {"disconnect", event.getPlayer().getName()});
 		}
 		
-		public void onLogin (Player player) {
-			HttpStream.log("connections", new String[] {"connect", player.getName()});
-		}
-		
-		public boolean onCommand (Player player, String[] split) {
-			HttpStream.log("commands", new String[] {player.getName(), join(split, " ")});
-			
-			return false;
+		@Override
+		public void onPlayerCommand(PlayerChatEvent event) {
+			HttpStream.log("commands", new String[] {event.getPlayer().getName(), event.getMessage()});
 		}
 	}
 }

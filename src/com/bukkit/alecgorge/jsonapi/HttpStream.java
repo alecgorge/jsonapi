@@ -1,3 +1,4 @@
+package com.bukkit.alecgorge.jsonapi;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,3 +1,4 @@
+package com.bukkit.alecgorge.jsonapi;
 
 
 //import org.apache.xmlrpc.XmlRpcException;

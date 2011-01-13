@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="F:/java/workspace/JSONApi/deps/Minecraft_Mod.jar"/>
-	<classpathentry kind="lib" path="F:/java/workspace/JSONApi/deps/minecraft_server.jar"/>
+	<classpathentry kind="lib" path="deps/bukkit-0.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

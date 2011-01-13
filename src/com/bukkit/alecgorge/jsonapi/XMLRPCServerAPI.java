@@ -1,3 +1,4 @@
+package com.bukkit.alecgorge.jsonapi;
 
 
 import java.io.BufferedReader;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Location;
+
 /**
  * Shamelessly stolen from sk89...
  * @author sk89q
@@ -22,8 +25,13 @@ public class XMLRPCServerAPI {
     private static final int NO_SUCH_PLUGIN = 100;
     private static final int NO_SUCH_BAN = 102;
     private static final int NO_SUCH_KIT = 105;
+	private JSONApi etc;
     
-    /**
+    public XMLRPCServerAPI(JSONApi plugin) {
+		this.etc = plugin;
+	}
+
+	/**
      * Converts a location to a List.
      * 
      * @param loc
@@ -148,7 +156,7 @@ public class XMLRPCServerAPI {
      * @return
      */
     public Map<String,Object> getSpawnLocation() {
-        return locationToMap(etc.getServer().getSpawnLocation());
+    	return locationToMap(etc.getServer().getSpawnLocation());
     }
 
     /**

@@ -1,3 +1,4 @@
+package com.bukkit.alecgorge.jsonapi;
 
 
 import java.io.IOException;
@@ -18,14 +19,14 @@ public class JSONServer extends NanoHTTPD {
 	Hashtable<String, Object> methods = new Hashtable<String, Object>();
 	Hashtable<String, String> logins = new Hashtable<String, String>(); 
 
-	public JSONServer(Hashtable<String, String> logins) throws IOException {
+	public JSONServer(Hashtable<String, String> logins, JSONApi plugin) throws IOException {
 		super(JSONApi.port);
 		
 		this.logins = logins;
 
-		methods.put("server", new XMLRPCServerAPI());
-		methods.put("minecraft", new XMLRPCMinecraftAPI());
-		methods.put("player", new XMLRPCPlayerAPI());
+		methods.put("server", new XMLRPCServerAPI(plugin));
+		methods.put("minecraft", new XMLRPCMinecraftAPI(plugin));
+		methods.put("player", new XMLRPCPlayerAPI(plugin));
 	}
 	
 	public Object callMethod(String cat, String method, Object[] params) {
