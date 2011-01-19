@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Inventory;
-import org.bukkit.ItemStack;
 import org.bukkit.Location;
-import org.bukkit.Player;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Shamelessly stolen from sk89...
@@ -34,13 +34,11 @@ public class XMLRPCPlayerAPI {
      * @throws APIXMLRPCException
      */
     public Player getPlayerByName(String name) throws APIException {
-        for (Player player : etc.getServer().getOnlinePlayers()) {
-            if (player.getName().equals(name)) {
-                return player;
-            }
-        }
-
-        throw new APIException(PLAYER_NOT_FOUND, "Name does not exist");
+    	Player player = etc.getServer().getPlayer(name);
+    	if(player == null) {
+    		throw new APIException(PLAYER_NOT_FOUND, "Name does not exist");
+    	}
+    	return player;
     }
 
     /**
@@ -151,7 +149,7 @@ public class XMLRPCPlayerAPI {
         ItemStack stack = new ItemStack(itemID);
         stack.setAmount(amount);
         
-        // TODO Check that giving a player a drop does mean dropping it on their location.
+        // DONE Check that giving a player a drop does mean dropping it on their location.
         player.getWorld().dropItem(player.getLocation(), stack);
        
         return true;
@@ -229,11 +227,9 @@ public class XMLRPCPlayerAPI {
      */
     public boolean kick(String name, String reason)
             throws APIException {
-    	return false;
-    	// TODO Figure out replacement for kick
-    	//Player player = getPlayerByName(name);
-        //player.kick(reason);
-        //return true;
+    	Player player = getPlayerByName(name);
+        player.kickPlayer(reason);
+        return true;
     }
 
     /**
@@ -296,11 +292,9 @@ public class XMLRPCPlayerAPI {
      */
     public boolean removeInventorySlot(String name, int slot)
             throws APIException {
-        // TODO currently no way to remove something from a player's inventory.
-    	//Player player = getPlayerByName(name);
-        //Inventory inventory = player.getInventory();
-        //inventory.removeItemFromSlot(slot);
-        return false;
+    	Player player = getPlayerByName(name);
+        player.getInventory().setItem(slot, new ItemStack(0,0));
+        return true;
     }
 
     /**
@@ -314,14 +308,10 @@ public class XMLRPCPlayerAPI {
      */
     public boolean removeInventoryItem(String name, int itemID, int amount)
             throws APIException {
-        // TODO Can't do this either yet.
-    	
-    	//Player player = getPlayerByName(name);
-        //Inventory inventory = player.getInventory();
-        //Item item = new Item(itemID, amount);
-    	//inventory.removeItem(item);
-    	//inventory.update();
-        return false;
+    	Player player = getPlayerByName(name);
+        Inventory inventory = player.getInventory();
+    	inventory.removeItem(new ItemStack(itemID, amount));
+        return true;
     }
 
     /**
@@ -336,7 +326,7 @@ public class XMLRPCPlayerAPI {
         ItemStack item = inventory.getItem(slot);
         if (item != null) {
             Map<String,Integer> kv = new HashMap<String,Integer>();
-            kv.put("itemID", item.getTypeID());
+            kv.put("itemID", item.getTypeId());
             kv.put("amount", item.getAmount());
             out.put(slot, kv);
         }

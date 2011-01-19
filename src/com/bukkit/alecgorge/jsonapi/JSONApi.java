@@ -39,9 +39,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 */
 public class JSONApi extends JavaPlugin  {
 	
-	public JSONApi(PluginLoader pluginLoader, Server instance,
-			PluginDescriptionFile desc, File plugin, ClassLoader cLoader) {
-		super(pluginLoader, instance, desc, plugin, cLoader);
+	public JSONApi(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
+		super(pluginLoader, instance, desc, folder, plugin, cLoader);
 	}
 
 	private JSONApiPlayerListener l = new JSONApiPlayerListener(this);

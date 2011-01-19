@@ -1,6 +1,6 @@
 package com.bukkit.alecgorge.jsonapi;
 
-import org.bukkit.Block;
+import org.bukkit.block.Block;
 
 
 
@@ -34,7 +34,7 @@ public class XMLRPCMinecraftAPI {
      */
     public int getBlockID(int x, int y, int z) {
         Block block = etc.getServer().getWorlds()[0].getBlockAt(x, y, z);
-    	return block.getTypeID();
+    	return block.getTypeId();
     }
 
     /**
@@ -88,7 +88,7 @@ public class XMLRPCMinecraftAPI {
      */
     public boolean setBlockID(int x, int y, int z, int id) {
     	Block block = etc.getServer().getWorlds()[0].getBlockAt(x, y, z);
-    	return block.setTypeID(id);
+    	return block.setTypeId(id);
     }
 
     /**
@@ -129,9 +129,12 @@ public class XMLRPCMinecraftAPI {
      * @return
      */
     public int getRelativeTime() {
-        return getTime();
-        // TODO Implement properly
-    	//return (int)etc.getServer().getRelativeTime();
+        long time = (getTime() % 24000);
+        // Java modulus is stupid.
+        if (time < 0) {
+            time += 24000;
+        }
+        return (int)time;
     }
 
     /**
@@ -141,9 +144,12 @@ public class XMLRPCMinecraftAPI {
      * @return
      */
     public boolean setRelativeTime(int time) {
-        return setTime(time);
-        // TODO Implement properly
-    	//etc.getServer().setRelativeTime(time);
-        //return false;
+        long margin = (time-getTime()) % 24000;
+        // Java modulus is stupid.
+        if (margin < 0) {
+            margin += 24000;
+        }
+
+        return setTime((int)(getTime()+margin));
     }
 }
