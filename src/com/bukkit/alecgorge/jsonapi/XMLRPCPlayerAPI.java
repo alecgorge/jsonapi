@@ -58,8 +58,8 @@ public class XMLRPCPlayerAPI {
         //kv.put("isMuted", player.isMuted());
         //kv.put("color", player.getColor());
         kv.put("health", player.getHealth());
-        kv.put("ip", player.getAddress());//getIP());
-        kv.put("itemInHand", player.getItemInHand());
+        kv.put("ip", player.getAddress().toString().substring(1));//getIP());
+        kv.put("itemInHand", player.getItemInHand().getTypeId());
         kv.put("x", player.getLocation().getX());
         kv.put("y", player.getLocation().getY());
         kv.put("z", player.getLocation().getZ());

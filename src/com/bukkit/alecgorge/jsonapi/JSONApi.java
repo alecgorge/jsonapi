@@ -78,6 +78,9 @@ public class JSONApi extends JavaPlugin  {
 			}
 			
 			outLog = Logger.getLogger("JSONApi");
+			for(Handler h : outLog.getHandlers()) {
+				outLog.removeHandler(h);
+			}
 			if(logging) {
 				StreamHandler hl = new StreamHandler(System.out, new LogFormat());
 				outLog.addHandler(hl);
