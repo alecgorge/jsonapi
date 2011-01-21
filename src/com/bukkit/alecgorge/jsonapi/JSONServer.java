@@ -29,10 +29,10 @@ public class JSONServer extends NanoHTTPD {
 		methods.put("player", new XMLRPCPlayerAPI(plugin));
 	}
 	
-	public Object callMethod(String cat, String method, Object[] params) {
+	public Object callMethod(String cat, String method, Object[] params) throws Exception {
 		for(Method m : methods.get(cat).getClass().getMethods()) {
 			if(m.getName().equals(method)) {
-				try {
+				//try {
 					Class<?>[] argTypes = m.getParameterTypes();
 					int key = -1;
 					for(Class<?> arg : argTypes) {
@@ -43,7 +43,7 @@ public class JSONServer extends NanoHTTPD {
 						}
 					}		
 					return m.invoke(methods.get(cat), params);
-				} catch (IllegalArgumentException e) {
+				/*} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
@@ -52,7 +52,7 @@ public class JSONServer extends NanoHTTPD {
 				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 			}
 		}
 		return null;
@@ -152,6 +152,7 @@ public class JSONServer extends NanoHTTPD {
 		JSONParser parse = new JSONParser();
 		
 		Object args = parms.getProperty("args","[]");
+		
 		String calledMethodHold = (String)parms.getProperty("method");
 		
 		String[] calledMethod = null;
@@ -194,19 +195,27 @@ public class JSONServer extends NanoHTTPD {
 			}
 			if(args.getClass().getCanonicalName().endsWith("JSONArray")) {
 				//for(Object x : (ArrayList)args) {
-					Object result = callMethod(calledMethod[0], calledMethod[1], (Object[]) ((ArrayList) args).toArray(new Object[((ArrayList) args).size()]));
-					if(result == null) {
+					try {
+						Object result = callMethod(calledMethod[0], calledMethod[1], (Object[]) ((ArrayList) args).toArray(new Object[((ArrayList) args).size()]));
+						if(result == null) {
+							JSONObject r = new JSONObject();
+							r.put("result", "error");
+							r.put("error", "You need to pass a valid method and an array arguments.");
+							return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString()));
+						}
+						JSONObject r = new JSONObject();
+						r.put("result", "success");
+						r.put("source", calledMethodHold);
+						r.put("success", result);
+						
+						return new NanoHTTPD.Response( HTTP_OK, MIME_JSON, callback(callback, r.toJSONString()));
+					}
+					catch (Exception e) {
 						JSONObject r = new JSONObject();
 						r.put("result", "error");
-						r.put("error", "You need to pass a valid method and an array arguments.");
-						return new NanoHTTPD.Response( HTTP_NOTFOUND, MIME_JSON, callback(callback, r.toJSONString()));
+						r.put("error", "Caught exception: "+e.getMessage());
+						return new NanoHTTPD.Response( HTTP_INTERNALERROR, MIME_JSON, callback(callback, r.toJSONString()));
 					}
-					JSONObject r = new JSONObject();
-					r.put("result", "success");
-					r.put("source", calledMethodHold);
-					r.put("success", result);
-
-					return new NanoHTTPD.Response( HTTP_OK, MIME_JSON, callback(callback, r.toJSONString()));
 				//}
 			}
 			JSONObject r = new JSONObject();

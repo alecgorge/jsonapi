@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 /**
  * Shamelessly stolen from sk89...
@@ -266,17 +267,19 @@ public class XMLRPCPlayerAPI {
      * @param name
      * @throws APIXMLRPCException
      */
-    public Map<Integer,Map<String,Integer>> getInventory(String name)
+    public List<Map<String,Integer>> getInventory(String name)
             throws APIException {
         Player player = getPlayerByName(name);
-        Inventory  inventory = player.getInventory();
-        Map<Integer,Map<String,Integer>> out =
-                new HashMap<Integer,Map<String,Integer>>();
-        for (int i = 0; i <= 35; i++) {
-            addItem(out, inventory, i);
-        }
-        for (int i = 100; i <= 103; i++) {
-            addItem(out, inventory, i);
+        PlayerInventory  inventory = player.getInventory();
+
+        List<Map<String,Integer>> out =
+                new ArrayList<Map<String,Integer>>();
+
+        for(ItemStack item : inventory.getContents()) {
+            Map<String,Integer> kv = new HashMap<String,Integer>();
+            kv.put("itemID", item.getTypeId());
+            kv.put("amount", item.getAmount());
+            out.add(kv);        	
         }
 
         return out;
@@ -312,24 +315,6 @@ public class XMLRPCPlayerAPI {
         Inventory inventory = player.getInventory();
     	inventory.removeItem(new ItemStack(itemID, amount));
         return true;
-    }
-
-    /**
-     * Helper method for getInventory().
-     *
-     * @param out
-     * @param inventory
-     * @param slot
-     */
-    private void addItem(Map<Integer,Map<String,Integer>> out,
-    		Inventory inventory, int slot) {
-        ItemStack item = inventory.getItem(slot);
-        if (item != null) {
-            Map<String,Integer> kv = new HashMap<String,Integer>();
-            kv.put("itemID", item.getTypeId());
-            kv.put("amount", item.getAmount());
-            out.put(slot, kv);
-        }
     }
 
     /**

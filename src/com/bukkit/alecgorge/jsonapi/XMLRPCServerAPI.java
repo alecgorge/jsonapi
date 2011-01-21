@@ -644,9 +644,9 @@ public class XMLRPCServerAPI {
      * Get the number of players.
      *
      * @return
-     *\/
+     */
     public int getPlayerCount() {
-        return etc.getServer().getPlayerList().size();
+        return etc.getServer().getOnlinePlayers().length;
     }
 
     /**
