@@ -213,7 +213,7 @@ public class JSONServer extends NanoHTTPD {
 					catch (Exception e) {
 						JSONObject r = new JSONObject();
 						r.put("result", "error");
-						r.put("error", "Caught exception: "+e.getMessage());
+						r.put("error", "Caught exception: "+e.getStackTrace().toString());
 						return new NanoHTTPD.Response( HTTP_INTERNALERROR, MIME_JSON, callback(callback, r.toJSONString()));
 					}
 				//}

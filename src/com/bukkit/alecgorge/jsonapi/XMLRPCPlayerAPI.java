@@ -267,20 +267,43 @@ public class XMLRPCPlayerAPI {
      * @param name
      * @throws APIXMLRPCException
      */
-    public List<Map<String,Integer>> getInventory(String name)
+    public Map<Integer,Map<String,Integer>> getInventory(String name)
             throws APIException {
         Player player = getPlayerByName(name);
         PlayerInventory  inventory = player.getInventory();
 
-        List<Map<String,Integer>> out =
-                new ArrayList<Map<String,Integer>>();
+        HashMap<Integer, Map<String,Integer>> out =
+                new HashMap<Integer,Map<String,Integer>>();
 
+        int count = 0;
         for(ItemStack item : inventory.getContents()) {
             Map<String,Integer> kv = new HashMap<String,Integer>();
             kv.put("itemID", item.getTypeId());
             kv.put("amount", item.getAmount());
-            out.add(kv);        	
+            out.put(count, kv);
+            count++;
         }
+        
+        Map<String,Integer> kv = new HashMap<String,Integer>();
+        kv.put("itemID", inventory.getBoots().getTypeId());
+        kv.put("amount", 1);
+        out.put(100, kv);
+        
+        kv = new HashMap<String,Integer>();
+        kv.put("itemID", inventory.getLeggings().getTypeId());
+        kv.put("amount", 1);
+        out.put(101, kv);
+        
+        kv = new HashMap<String,Integer>();
+        kv.put("itemID", inventory.getChestplate().getTypeId());
+        kv.put("amount", 1);
+        out.put(102, kv);
+        
+        kv = new HashMap<String,Integer>();
+        kv.put("itemID", inventory.getHelmet().getTypeId());
+        kv.put("amount", 1);
+        out.put(103, kv);
+        
 
         return out;
     }
@@ -315,6 +338,24 @@ public class XMLRPCPlayerAPI {
         Inventory inventory = player.getInventory();
     	inventory.removeItem(new ItemStack(itemID, amount));
         return true;
+    }
+
+    /**
+     * Helper method for getInventory().
+     *
+     * @param out
+     * @param inventory
+     * @param slot
+     */
+    private void addItem(Map<Integer,Map<String,Integer>> out,
+    		Inventory inventory, int slot) {
+        ItemStack item = inventory.getItem(slot);
+        if (item != null) {
+            Map<String,Integer> kv = new HashMap<String,Integer>();
+            kv.put("itemID", item.getTypeId());
+            kv.put("amount", item.getAmount());
+            out.put(slot, kv);
+        }
     }
 
     /**
