@@ -2,20 +2,18 @@ package com.bukkit.alecgorge.jsonapi;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
 import java.net.URLDecoder;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Properties;
+
+import net.tootallnate.websocket.WebSocket;
+import net.tootallnate.websocket.WebSocketDraft;
+import net.tootallnate.websocket.WebSocketServer;
 
 import org.json.simple.JSONObject;
 
-import net.tootallnate.websocket.WebSocket;
-import net.tootallnate.websocket.WebSocketServer;
-
 public class JSONWebSocket extends WebSocketServer {
 	public JSONWebSocket (int port) {
-		super(port);
+		super(port, WebSocketDraft.DRAFT76);
 	}
 	
 	public JSONWebSocket() {

@@ -32,6 +32,8 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.bukkit.alecgorge.jsonapi.JSONSocketServer.WorkerRunnable;
+
 
 /**
 *
@@ -48,6 +50,7 @@ public class JSONApi extends JavaPlugin  {
 	private String name = "JSONApi";
 	public static JSONServer server = null;
 	public static JSONWebSocket webSocketServer = null;
+	public static JSONSocketServer socketServer = null;
 	private String version = "rev 4";
 	public static boolean logging = false;
 	public static String fileLogging = "";
@@ -55,6 +58,7 @@ public class JSONApi extends JavaPlugin  {
 	public static int port = 0;
 	public static String salt = "";
 	public static int webSocketPort = 0;
+	public static int socketPort = 0;
 	public static ArrayList<String> whitelist = new ArrayList<String>();
 	
 
@@ -92,7 +96,8 @@ public class JSONApi extends JavaPlugin  {
 			}
 			
 			port = options.getInt("port", 20059);
-			webSocketPort = options.getInt("webSocketPort", 20060);
+			webSocketPort = port + 1;
+			socketPort = port + 2;
 
 		    try {
 		    	// Open the file that is the first 
@@ -139,9 +144,12 @@ public class JSONApi extends JavaPlugin  {
 		    log.info("[JSONApi] IP Whitelist = "+reconstituted);
 		    log.info("[JSONApi] JSON Server listening on "+port);
 		    log.info("[JSONApi] WebSocket Server listening on "+webSocketPort);
+		    log.info("[JSONApi] Socket Server listening on "+socketPort);
 		    
 		    webSocketServer = new JSONWebSocket(webSocketPort);
 		    webSocketServer.start();
+		    socketServer = new JSONSocketServer(socketPort);
+		    new Thread(socketServer).start();		    
 			server = new JSONServer(auth, this);
 			
 			initialiseListeners();
