@@ -1,3 +1,3 @@
 name: JSONApi Plugin
-main: com.bukkit.alecgorge.jsonapi.JSONApi
-version: 0.1
+main: com.ramblingwood.minecraft.jsonapi.JSONAPI
+version: 0.8
