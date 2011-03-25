@@ -1,0 +1,163 @@
+[
+	{
+		name: "getPlayerLimit",
+		desc: "Gets the maximum amount of players allowed on the server.",
+		returns: ["int", "The player limit."],
+		call: "Server.getMaxPlayers()"
+	},
+	{
+		name: "getServerVersion",
+		desc: "Gets the version of the server implementation (so Craftbukkit or Bukkit, not the actuall Minecraft server",
+		returns: ["String", "A string representing the version."],
+		call: "Server.getVersion()"
+	},
+	{
+		name: "getPlayer",
+		desc: "Gets a |player| object representing the specified person.",
+		returns: ["Player", "A player object respresenting the specified person."],
+		call: "Server.getPlayer(0)",
+		args: [
+			["String","Player name"]
+		]
+	},
+	{
+		name: "givePlayerItem",
+		desc: "Gives the specified player the specified quanity of the item id by placing it in the first empty slot.",
+		call: "this.giveItem(0, 1, 2)",
+		args: [
+			["String","Player's name"],
+			["int","Id of item to give"],
+			["int","Quantity of item to give"]
+		]
+	},
+	{
+		name: "givePlayerItemDrop",
+		desc: "Gives the specified player the specified quanity of the item id by dropping it in front of them.",
+		call: "this.giveItemDrop(0, 1, 1)",
+		ars: [
+			["String", "Players' name"],
+			["int", "Id of item to drop"],
+			["int", "Quantity of item to drop"]
+		]
+	},
+	{
+		name: "getPlayers",
+		desc: "Gets an array of |player| objects that represent all of the players on the server.",
+		returns: ["Player[]", "An array of |Player| objects"],
+		call: "Server.getOnlinePlayers()",
+	},
+	{
+		name: "setPlayerInventorySlot",
+		desc: "Sets the specified slot in the specified player's inventory to the specified type with the specified quantity.",
+		call: "this.setPlayerInventorySlot(0, 1, 2, 3)",
+		args: [
+			["String", "Player's name"],
+			["int", "Slot number"],
+			["int", "Id of block type to set"],
+			["int", "Quantity to set"]
+		]
+	},
+	{
+		name: "removePlayerInventoryItem",
+		desc: "Removes all items of the given type from the given player's inventory.",
+		returns: ["Object", "An object of all the things that couldn't be removed. This shouldn't happen though..."],
+		call: "this.removePlayerInventoryItem(0, 1)",
+		args: [
+			["String", "Player's name"],
+			["int", "Id of block type to remove"],
+		]
+	},
+	{
+		name: "addToWhitelist",
+		desc: "Adds the specified player to the whitelist.",
+		call: 'this.runCommand("whitelist add", 0)',
+		args: [
+			["String", "Player to be added to the whitelist"]
+		]
+	},
+	{
+		name: "reloadServer",
+		desc: "Reloads the server, refreshing settings and plugin information.",
+		call: "Server.reload()"
+	},
+	{
+		name: "getWorld",
+		desc: "Gets the |world| object with the given name.",
+		returns: ["World", "The world with the given name."],
+		call: "Server.getWorld()",
+		args: [
+			["String", "Name of the world to get"]
+		]
+	},
+	{
+		name: "getWorlds",
+		desc: "Gets an array of all the |world| objects on the server.",
+		returns: ["World[]", "All of the worlds on the server."],
+		call: "Server.getWorlds()"
+	},
+	{
+		name: "kickPlayer",
+		desc: "Kick a player with the specified name and the optional message.",
+		call: "Server.getPlayer(0).kickPlayer(1)",
+		args: [
+			["String", "Name of player to kick"],
+			["String", "Custom message to display to the player after they are kicked"]
+		]
+	},
+	{
+		name: "sendMessage",
+		desc: "Send a private message to the specified player.",
+		call: "Server.getPlayer(0).chat(1)",
+		args: [
+			["String", "Player to whom the message is sent"],
+			["String", "The message to send"]
+		]
+	},
+	{
+		name: "broadcast",
+		desc: "Send a message to every player on the server.",
+		returns: ["int", "The number of players the message was broadcast to."],
+		call: "Server.broadcastMessage(0)",
+		args: [
+			["String", "The message to broadcast"]
+		]
+	},
+	{
+		name: "getPlugins",
+		desc: "Gets an array of all loaded plugins.",
+		returns: ["Plugin[]", "An array of |plugin| objects."],
+		call: "Server.getPluginManager().getPlugins()"
+	},
+	{
+		name: "getPlugin",
+		desc: "Gets the |plugin| object for the plugin with the given name.",
+		returns: ["Plugin", "The specified plugin."],
+		call: "Server.getPluginManager().getPlugin(0)",
+		args: [
+			["String", "The name of the plugin to fetch"]
+		]
+	},
+	{
+		name: "enablePlugin",
+		desc: "Enables the specified plugin. Attempting to enable a plugin that is already enabled will have no effect.",
+		// call: "Server.getPluginManager().enablePlugin(|Server.getPluginManager().getPlugin(String)|)"
+		call: "this.enablePlugin(0)",
+		args: [
+			["String", "The name of the plugin to enable"]
+		]
+	},
+	{
+		name: "disablePlugin",
+		desc: "Disables the specified plugin. Attempting to disable a plugin that is not enabled will have no effect.",
+		// call: "Server.getPluginManager().disablePlugin(|Server.getPluginManager().getPlugin(String)|)"
+		call: "this.disablePlugin(0)",
+		args: [
+			["String", "The name of the plugin to disable"]
+		]
+	},
+	{
+		name: "disablePlugins",
+		desc: "Disables all plugins on the server.",
+		call: "Server.getPluginManager().disablePlugins()"
+	}
+]

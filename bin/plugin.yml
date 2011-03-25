@@ -1,0 +1,3 @@
+name: JSONApi Plugin
+main: com.ramblingwood.minecraft.jsonapi.JSONAPI
+version: 0.8
