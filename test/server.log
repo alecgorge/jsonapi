@@ -1,0 +1,1050 @@
+2011-03-27 14:23:04 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:23:04 [INFO] Loading properties
+2011-03-27 14:23:04 [WARNING] server.properties does not exist
+2011-03-27 14:23:04 [INFO] Generating new properties file
+2011-03-27 14:23:04 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:23:04 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:23:04 [WARNING] Failed to load ban list: java.io.FileNotFoundException: banned-players.txt (The system cannot find the file specified)
+2011-03-27 14:23:04 [WARNING] Failed to load ip ban list: java.io.FileNotFoundException: banned-ips.txt (The system cannot find the file specified)
+2011-03-27 14:23:04 [WARNING] Failed to load ops: java.io.FileNotFoundException: ops.txt (The system cannot find the file specified)
+2011-03-27 14:23:04 [WARNING] Failed to load white-list: java.io.FileNotFoundException: white-list.txt (The system cannot find the file specified)
+2011-03-27 14:23:04 [INFO] Preparing level "world"
+2011-03-27 14:23:04 [INFO] Preparing start region
+2011-03-27 14:23:06 [INFO] Preparing spawn area: 3%
+2011-03-27 14:23:07 [INFO] Preparing spawn area: 4%
+2011-03-27 14:23:08 [INFO] Preparing spawn area: 8%
+2011-03-27 14:23:09 [INFO] Preparing spawn area: 12%
+2011-03-27 14:23:10 [INFO] Preparing spawn area: 16%
+2011-03-27 14:23:11 [INFO] Preparing spawn area: 20%
+2011-03-27 14:23:13 [INFO] Preparing spawn area: 28%
+2011-03-27 14:23:14 [INFO] Preparing spawn area: 32%
+2011-03-27 14:23:15 [INFO] Preparing spawn area: 32%
+2011-03-27 14:23:16 [INFO] Preparing spawn area: 36%
+2011-03-27 14:23:17 [INFO] Preparing spawn area: 40%
+2011-03-27 14:23:18 [INFO] Preparing spawn area: 40%
+2011-03-27 14:23:19 [INFO] Preparing spawn area: 44%
+2011-03-27 14:23:20 [INFO] Preparing spawn area: 48%
+2011-03-27 14:23:21 [INFO] Preparing spawn area: 48%
+2011-03-27 14:23:22 [INFO] Preparing spawn area: 52%
+2011-03-27 14:23:24 [INFO] Preparing spawn area: 52%
+2011-03-27 14:23:25 [INFO] Preparing spawn area: 56%
+2011-03-27 14:23:26 [INFO] Preparing spawn area: 56%
+2011-03-27 14:23:27 [INFO] Preparing spawn area: 57%
+2011-03-27 14:23:28 [INFO] Preparing spawn area: 60%
+2011-03-27 14:23:29 [INFO] Preparing spawn area: 61%
+2011-03-27 14:23:30 [INFO] Preparing spawn area: 61%
+2011-03-27 14:23:31 [INFO] Preparing spawn area: 65%
+2011-03-27 14:23:32 [INFO] Preparing spawn area: 65%
+2011-03-27 14:23:33 [INFO] Preparing spawn area: 69%
+2011-03-27 14:23:34 [INFO] Preparing spawn area: 69%
+2011-03-27 14:23:35 [INFO] Preparing spawn area: 69%
+2011-03-27 14:23:36 [INFO] Preparing spawn area: 73%
+2011-03-27 14:23:37 [INFO] Preparing spawn area: 73%
+2011-03-27 14:23:38 [INFO] Preparing spawn area: 73%
+2011-03-27 14:23:40 [INFO] Preparing spawn area: 77%
+2011-03-27 14:23:41 [INFO] Preparing spawn area: 77%
+2011-03-27 14:23:42 [INFO] Preparing spawn area: 77%
+2011-03-27 14:23:43 [INFO] Preparing spawn area: 81%
+2011-03-27 14:23:44 [INFO] Preparing spawn area: 81%
+2011-03-27 14:23:45 [INFO] Preparing spawn area: 81%
+2011-03-27 14:23:46 [INFO] Preparing spawn area: 85%
+2011-03-27 14:23:47 [INFO] Preparing spawn area: 85%
+2011-03-27 14:23:48 [INFO] Preparing spawn area: 89%
+2011-03-27 14:23:49 [INFO] Preparing spawn area: 89%
+2011-03-27 14:23:50 [INFO] Preparing spawn area: 93%
+2011-03-27 14:23:51 [INFO] Preparing spawn area: 93%
+2011-03-27 14:23:52 [INFO] Preparing spawn area: 97%
+2011-03-27 14:23:53 [INFO] Preparing spawn area: 97%
+2011-03-27 14:23:54 [SEVERE] [PropertiesFile] Unable to open E:\java\workspace\jsonapi\test\plugins\JSONAPI\JSONAPI.properties!
+2011-03-27 14:23:54 [SEVERE] Null output stream loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.NullPointerException: Null output stream
+	at java.io.PrintStream.<init>(Unknown Source)
+	at java.io.PrintStream.<init>(Unknown Source)
+	at com.ramblingwood.minecraft.jsonapi.PropertiesFile.save(PropertiesFile.java:232)
+	at com.ramblingwood.minecraft.jsonapi.PropertiesFile.<init>(PropertiesFile.java:52)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:59)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:23:54 [INFO] Done (5.061s)! For help, type "help" or "?"
+2011-03-27 14:25:59 [INFO] Unknown console command. Type "help" for help.
+2011-03-27 14:26:01 [INFO] To run the server without a gui, start it like this:
+2011-03-27 14:26:01 [INFO]    java -Xmx1024M -Xms1024M -jar minecraft_server.jar nogui
+2011-03-27 14:26:01 [INFO] Console commands:
+2011-03-27 14:26:01 [INFO]    help  or  ?               shows this message
+2011-03-27 14:26:01 [INFO]    kick <player>             removes a player from the server
+2011-03-27 14:26:01 [INFO]    ban <player>              bans a player from the server
+2011-03-27 14:26:01 [INFO]    pardon <player>           pardons a banned player so that they can connect again
+2011-03-27 14:26:01 [INFO]    ban-ip <ip>               bans an IP address from the server
+2011-03-27 14:26:01 [INFO]    pardon-ip <ip>            pardons a banned IP address so that they can connect again
+2011-03-27 14:26:01 [INFO]    op <player>               turns a player into an op
+2011-03-27 14:26:01 [INFO]    deop <player>             removes op status from a player
+2011-03-27 14:26:01 [INFO]    tp <player1> <player2>    moves one player to the same location as another player
+2011-03-27 14:26:01 [INFO]    give <player> <id> [num]  gives a player a resource
+2011-03-27 14:26:01 [INFO]    tell <player> <message>   sends a private message to a player
+2011-03-27 14:26:01 [INFO]    stop                      gracefully stops the server
+2011-03-27 14:26:01 [INFO]    save-all                  forces a server-wide level save
+2011-03-27 14:26:01 [INFO]    save-off                  disables terrain saving (useful for backup scripts)
+2011-03-27 14:26:01 [INFO]    save-on                   re-enables terrain saving
+2011-03-27 14:26:01 [INFO]    list                      lists all currently connected players
+2011-03-27 14:26:01 [INFO]    say <message>             broadcasts a message to all players
+2011-03-27 14:26:01 [INFO]    time <add|set> <amount>   adds to or sets the world time (0-24000)
+2011-03-27 14:26:14 [INFO] Stopping the server..
+2011-03-27 14:26:14 [INFO] CONSOLE: Stopping the server..
+2011-03-27 14:26:14 [INFO] Stopping server
+2011-03-27 14:26:14 [SEVERE] java.lang.NoClassDefFoundError: com/ramblingwood/minecraft/jsonapi/JSONServer
+2011-03-27 14:26:14 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onDisable(JSONAPI.java:139)
+2011-03-27 14:26:14 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:120)
+2011-03-27 14:26:14 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.disablePlugin(JavaPluginLoader.java:465)
+2011-03-27 14:26:14 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.disablePlugin(SimplePluginManager.java:229)
+2011-03-27 14:26:14 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.disablePlugins(SimplePluginManager.java:223)
+2011-03-27 14:26:14 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.disablePlugins(CraftServer.java:81)
+2011-03-27 14:26:14 [SEVERE] 	at net.minecraft.server.MinecraftServer.g(MinecraftServer.java:227)
+2011-03-27 14:26:14 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:302)
+2011-03-27 14:26:14 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:26:14 [SEVERE] Caused by: java.lang.ClassNotFoundException: com.ramblingwood.minecraft.jsonapi.JSONServer
+2011-03-27 14:26:14 [SEVERE] 	at java.net.URLClassLoader$1.run(Unknown Source)
+2011-03-27 14:26:14 [SEVERE] 	at java.security.AccessController.doPrivileged(Native Method)
+2011-03-27 14:26:14 [SEVERE] 	at java.net.URLClassLoader.findClass(Unknown Source)
+2011-03-27 14:26:14 [SEVERE] 	at org.bukkit.plugin.java.PluginClassLoader.findClass(PluginClassLoader.java:30)
+2011-03-27 14:26:14 [SEVERE] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+2011-03-27 14:26:14 [SEVERE] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+2011-03-27 14:26:14 [SEVERE] 	... 9 more
+2011-03-27 14:26:20 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:26:20 [INFO] Loading properties
+2011-03-27 14:26:20 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:26:20 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:26:20 [INFO] Preparing level "world"
+2011-03-27 14:26:20 [INFO] Preparing start region
+2011-03-27 14:26:21 [INFO] Preparing spawn area: 56%
+2011-03-27 14:26:22 [INFO] E:\java\workspace\jsonapi\test\plugins\JSONAPI\JSONAPI.properties
+2011-03-27 14:26:22 [SEVERE] [PropertiesFile] Unable to open E:\java\workspace\jsonapi\test\plugins\JSONAPI\JSONAPI.properties!
+2011-03-27 14:26:22 [SEVERE] Null output stream loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.NullPointerException: Null output stream
+	at java.io.PrintStream.<init>(Unknown Source)
+	at java.io.PrintStream.<init>(Unknown Source)
+	at com.ramblingwood.minecraft.jsonapi.PropertiesFile.save(PropertiesFile.java:232)
+	at com.ramblingwood.minecraft.jsonapi.PropertiesFile.<init>(PropertiesFile.java:52)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:60)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:26:22 [INFO] Done (0.210s)! For help, type "help" or "?"
+2011-03-27 14:28:49 [INFO] Stopping the server..
+2011-03-27 14:28:49 [INFO] CONSOLE: Stopping the server..
+2011-03-27 14:28:49 [INFO] Stopping server
+2011-03-27 14:28:49 [SEVERE] java.lang.NoClassDefFoundError: com/ramblingwood/minecraft/jsonapi/JSONServer
+2011-03-27 14:28:49 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onDisable(JSONAPI.java:140)
+2011-03-27 14:28:49 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:120)
+2011-03-27 14:28:49 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.disablePlugin(JavaPluginLoader.java:465)
+2011-03-27 14:28:49 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.disablePlugin(SimplePluginManager.java:229)
+2011-03-27 14:28:49 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.disablePlugins(SimplePluginManager.java:223)
+2011-03-27 14:28:49 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.disablePlugins(CraftServer.java:81)
+2011-03-27 14:28:49 [SEVERE] 	at net.minecraft.server.MinecraftServer.g(MinecraftServer.java:227)
+2011-03-27 14:28:49 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:302)
+2011-03-27 14:28:49 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:28:49 [SEVERE] Caused by: java.lang.ClassNotFoundException: com.ramblingwood.minecraft.jsonapi.JSONServer
+2011-03-27 14:28:49 [SEVERE] 	at java.net.URLClassLoader$1.run(Unknown Source)
+2011-03-27 14:28:49 [SEVERE] 	at java.security.AccessController.doPrivileged(Native Method)
+2011-03-27 14:28:49 [SEVERE] 	at java.net.URLClassLoader.findClass(Unknown Source)
+2011-03-27 14:28:49 [SEVERE] 	at org.bukkit.plugin.java.PluginClassLoader.findClass(PluginClassLoader.java:30)
+2011-03-27 14:28:49 [SEVERE] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+2011-03-27 14:28:49 [SEVERE] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+2011-03-27 14:28:49 [SEVERE] 	... 9 more
+2011-03-27 14:29:00 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:29:00 [INFO] Loading properties
+2011-03-27 14:29:00 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:29:00 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:29:00 [INFO] Preparing level "world"
+2011-03-27 14:29:00 [INFO] Preparing start region
+2011-03-27 14:29:01 [INFO] Preparing spawn area: 60%
+2011-03-27 14:29:02 [SEVERE] [PropertiesFile] Unable to open E:\java\workspace\jsonapi\test\plugins\JSONAPI\JSONAPI.properties!
+2011-03-27 14:29:02 [SEVERE] Null output stream loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.NullPointerException: Null output stream
+	at java.io.PrintStream.<init>(Unknown Source)
+	at java.io.PrintStream.<init>(Unknown Source)
+	at com.ramblingwood.minecraft.jsonapi.PropertiesFile.save(PropertiesFile.java:232)
+	at com.ramblingwood.minecraft.jsonapi.PropertiesFile.<init>(PropertiesFile.java:52)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:63)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:29:02 [INFO] Done (0.186s)! For help, type "help" or "?"
+2011-03-27 14:43:53 [INFO] Stopping the server..
+2011-03-27 14:43:53 [INFO] CONSOLE: Stopping the server..
+2011-03-27 14:43:53 [INFO] Stopping server
+2011-03-27 14:43:53 [SEVERE] java.lang.NullPointerException
+2011-03-27 14:43:53 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onDisable(JSONAPI.java:143)
+2011-03-27 14:43:53 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:120)
+2011-03-27 14:43:53 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.disablePlugin(JavaPluginLoader.java:465)
+2011-03-27 14:43:53 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.disablePlugin(SimplePluginManager.java:229)
+2011-03-27 14:43:53 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.disablePlugins(SimplePluginManager.java:223)
+2011-03-27 14:43:53 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.disablePlugins(CraftServer.java:81)
+2011-03-27 14:43:53 [SEVERE] 	at net.minecraft.server.MinecraftServer.g(MinecraftServer.java:227)
+2011-03-27 14:43:53 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:302)
+2011-03-27 14:43:53 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:44:01 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:44:01 [INFO] Loading properties
+2011-03-27 14:44:01 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:44:01 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:44:01 [INFO] Preparing level "world"
+2011-03-27 14:44:01 [INFO] Preparing start region
+2011-03-27 14:44:02 [INFO] Preparing spawn area: 60%
+2011-03-27 14:44:03 [SEVERE] No valid logins for JSONApi. Check JSONApiAuthentication.txt
+2011-03-27 14:44:03 [INFO] Done (0.186s)! For help, type "help" or "?"
+2011-03-27 14:45:40 [INFO] Stopping the server..
+2011-03-27 14:45:40 [INFO] CONSOLE: Stopping the server..
+2011-03-27 14:45:40 [INFO] Stopping server
+2011-03-27 14:45:40 [SEVERE] java.lang.NullPointerException
+2011-03-27 14:45:40 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onDisable(JSONAPI.java:143)
+2011-03-27 14:45:40 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:120)
+2011-03-27 14:45:40 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.disablePlugin(JavaPluginLoader.java:465)
+2011-03-27 14:45:40 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.disablePlugin(SimplePluginManager.java:229)
+2011-03-27 14:45:40 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.disablePlugins(SimplePluginManager.java:223)
+2011-03-27 14:45:40 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.disablePlugins(CraftServer.java:81)
+2011-03-27 14:45:40 [SEVERE] 	at net.minecraft.server.MinecraftServer.g(MinecraftServer.java:227)
+2011-03-27 14:45:40 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:302)
+2011-03-27 14:45:40 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:46:27 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:46:27 [INFO] Loading properties
+2011-03-27 14:46:27 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:46:27 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:46:27 [INFO] Preparing level "world"
+2011-03-27 14:46:27 [INFO] Preparing start region
+2011-03-27 14:46:28 [INFO] Preparing spawn area: 32%
+2011-03-27 14:46:29 [INFO] [JSONApi] Logging = false,console
+2011-03-27 14:46:29 [INFO] [JSONApi] IP Whitelist = 
+2011-03-27 14:46:29 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-27 14:46:29 [SEVERE] java.io.FileNotFoundException: plugins\JSONAPI\methods.json (The system cannot find the file specified)
+2011-03-27 14:46:29 [SEVERE] 	at java.io.FileInputStream.open(Native Method)
+2011-03-27 14:46:29 [SEVERE] 	at java.io.FileInputStream.<init>(Unknown Source)
+2011-03-27 14:46:29 [SEVERE] 	at java.io.FileReader.<init>(Unknown Source)
+2011-03-27 14:46:29 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:37)
+2011-03-27 14:46:29 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-27 14:46:29 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-27 14:46:29 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-27 14:46:29 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-27 14:46:29 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-27 14:46:29 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-27 14:46:29 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-27 14:46:29 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-27 14:46:29 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-27 14:46:29 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-27 14:46:29 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-27 14:46:29 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-27 14:46:29 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:46:29 [INFO] JSONApi is active and listening for requests.
+2011-03-27 14:46:29 [INFO] Done (0.228s)! For help, type "help" or "?"
+2011-03-27 14:47:50 [INFO] Stopping the server..
+2011-03-27 14:47:50 [INFO] CONSOLE: Stopping the server..
+2011-03-27 14:47:50 [INFO] Stopping server
+2011-03-27 14:47:50 [INFO] Saving chunks
+2011-03-27 14:47:59 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:47:59 [INFO] Loading properties
+2011-03-27 14:47:59 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:47:59 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:47:59 [INFO] Preparing level "world"
+2011-03-27 14:47:59 [INFO] Preparing start region
+2011-03-27 14:48:00 [INFO] Preparing spawn area: 60%
+2011-03-27 14:48:01 [INFO] [JSONApi] Logging = false,console
+2011-03-27 14:48:01 [INFO] [JSONApi] IP Whitelist = 
+2011-03-27 14:48:01 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-27 14:48:01 [SEVERE] Unexpected character (n) at position 9.
+2011-03-27 14:48:01 [SEVERE] 	at org.json.simple.parser.Yylex.yylex(Unknown Source)
+2011-03-27 14:48:01 [SEVERE] 	at org.json.simple.parser.JSONParser.nextToken(Unknown Source)
+2011-03-27 14:48:01 [SEVERE] 	at org.json.simple.parser.JSONParser.parse(Unknown Source)
+2011-03-27 14:48:01 [SEVERE] 	at org.json.simple.parser.JSONParser.parse(Unknown Source)
+2011-03-27 14:48:01 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:37)
+2011-03-27 14:48:01 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-27 14:48:01 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-27 14:48:01 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-27 14:48:01 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-27 14:48:01 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-27 14:48:01 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-27 14:48:01 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-27 14:48:01 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-27 14:48:01 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-27 14:48:01 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-27 14:48:01 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-27 14:48:01 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-27 14:48:01 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:48:01 [INFO] JSONApi is active and listening for requests.
+2011-03-27 14:48:01 [INFO] Done (0.199s)! For help, type "help" or "?"
+2011-03-27 14:54:35 [INFO] Stopping the server..
+2011-03-27 14:54:35 [INFO] CONSOLE: Stopping the server..
+2011-03-27 14:54:35 [INFO] Stopping server
+2011-03-27 14:54:35 [INFO] Saving chunks
+2011-03-27 14:54:40 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:54:40 [INFO] Loading properties
+2011-03-27 14:54:40 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:54:40 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:54:40 [INFO] Preparing level "world"
+2011-03-27 14:54:40 [INFO] Preparing start region
+2011-03-27 14:54:41 [INFO] Preparing spawn area: 73%
+2011-03-27 14:54:42 [INFO] [JSONApi] Logging = false,console
+2011-03-27 14:54:42 [INFO] [JSONApi] IP Whitelist = 
+2011-03-27 14:54:42 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-27 14:54:42 [SEVERE] Unexpected character (d) at position 38.
+2011-03-27 14:54:42 [SEVERE] 	at org.json.simple.parser.Yylex.yylex(Unknown Source)
+2011-03-27 14:54:42 [SEVERE] 	at org.json.simple.parser.JSONParser.nextToken(Unknown Source)
+2011-03-27 14:54:42 [SEVERE] 	at org.json.simple.parser.JSONParser.parse(Unknown Source)
+2011-03-27 14:54:42 [SEVERE] 	at org.json.simple.parser.JSONParser.parse(Unknown Source)
+2011-03-27 14:54:42 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:37)
+2011-03-27 14:54:42 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-27 14:54:42 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-27 14:54:42 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-27 14:54:42 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-27 14:54:42 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-27 14:54:42 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-27 14:54:42 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-27 14:54:42 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-27 14:54:42 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-27 14:54:42 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-27 14:54:42 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-27 14:54:42 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-27 14:54:42 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:54:42 [INFO] JSONApi is active and listening for requests.
+2011-03-27 14:54:42 [INFO] Done (0.171s)! For help, type "help" or "?"
+2011-03-27 14:55:20 [INFO] Stopping the server..
+2011-03-27 14:55:20 [INFO] CONSOLE: Stopping the server..
+2011-03-27 14:55:20 [INFO] Stopping server
+2011-03-27 14:55:20 [INFO] Saving chunks
+2011-03-27 14:55:25 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:55:25 [INFO] Loading properties
+2011-03-27 14:55:25 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:55:25 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:55:25 [INFO] Preparing level "world"
+2011-03-27 14:55:25 [INFO] Preparing start region
+2011-03-27 14:55:26 [INFO] Preparing spawn area: 65%
+2011-03-27 14:55:27 [INFO] [JSONApi] Logging = false,console
+2011-03-27 14:55:27 [INFO] [JSONApi] IP Whitelist = 
+2011-03-27 14:55:27 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-27 14:55:27 [SEVERE] Unexpected character (') at position 2452.
+2011-03-27 14:55:27 [SEVERE] 	at org.json.simple.parser.Yylex.yylex(Unknown Source)
+2011-03-27 14:55:27 [SEVERE] 	at org.json.simple.parser.JSONParser.nextToken(Unknown Source)
+2011-03-27 14:55:27 [SEVERE] 	at org.json.simple.parser.JSONParser.parse(Unknown Source)
+2011-03-27 14:55:27 [SEVERE] 	at org.json.simple.parser.JSONParser.parse(Unknown Source)
+2011-03-27 14:55:27 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:37)
+2011-03-27 14:55:27 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-27 14:55:27 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-27 14:55:27 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-27 14:55:27 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-27 14:55:27 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-27 14:55:27 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-27 14:55:27 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-27 14:55:27 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-27 14:55:27 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-27 14:55:27 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-27 14:55:27 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-27 14:55:27 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-27 14:55:27 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:55:27 [INFO] JSONApi is active and listening for requests.
+2011-03-27 14:55:27 [INFO] Done (0.176s)! For help, type "help" or "?"
+2011-03-27 14:55:49 [INFO] Stopping the server..
+2011-03-27 14:55:49 [INFO] CONSOLE: Stopping the server..
+2011-03-27 14:55:49 [INFO] Stopping server
+2011-03-27 14:55:49 [INFO] Saving chunks
+2011-03-27 14:55:51 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:55:51 [INFO] Loading properties
+2011-03-27 14:55:51 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:55:52 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:55:52 [INFO] Preparing level "world"
+2011-03-27 14:55:52 [INFO] Preparing start region
+2011-03-27 14:55:53 [INFO] Preparing spawn area: 69%
+2011-03-27 14:55:53 [INFO] [JSONApi] Logging = false,console
+2011-03-27 14:55:53 [INFO] [JSONApi] IP Whitelist = 
+2011-03-27 14:55:53 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-27 14:55:53 [SEVERE] Unexpected character (') at position 2453.
+2011-03-27 14:55:53 [SEVERE] 	at org.json.simple.parser.Yylex.yylex(Unknown Source)
+2011-03-27 14:55:53 [SEVERE] 	at org.json.simple.parser.JSONParser.nextToken(Unknown Source)
+2011-03-27 14:55:53 [SEVERE] 	at org.json.simple.parser.JSONParser.parse(Unknown Source)
+2011-03-27 14:55:53 [SEVERE] 	at org.json.simple.parser.JSONParser.parse(Unknown Source)
+2011-03-27 14:55:53 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:37)
+2011-03-27 14:55:53 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-27 14:55:53 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-27 14:55:53 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-27 14:55:53 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-27 14:55:53 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-27 14:55:53 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-27 14:55:53 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-27 14:55:53 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-27 14:55:53 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-27 14:55:53 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-27 14:55:53 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-27 14:55:53 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-27 14:55:53 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:55:53 [INFO] JSONApi is active and listening for requests.
+2011-03-27 14:55:53 [INFO] Done (0.173s)! For help, type "help" or "?"
+2011-03-27 14:57:47 [INFO] Stopping the server..
+2011-03-27 14:57:47 [INFO] CONSOLE: Stopping the server..
+2011-03-27 14:57:47 [INFO] Stopping server
+2011-03-27 14:57:47 [INFO] Saving chunks
+2011-03-27 14:57:50 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:57:50 [INFO] Loading properties
+2011-03-27 14:57:50 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:57:50 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:57:50 [INFO] Preparing level "world"
+2011-03-27 14:57:50 [INFO] Preparing start region
+2011-03-27 14:57:51 [INFO] Preparing spawn area: 69%
+2011-03-27 14:57:52 [INFO] [JSONApi] Logging = false,console
+2011-03-27 14:57:52 [INFO] [JSONApi] IP Whitelist = 
+2011-03-27 14:57:52 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-27 14:57:52 [SEVERE] Unexpected character (') at position 2460.
+2011-03-27 14:57:52 [SEVERE] 	at org.json.simple.parser.Yylex.yylex(Unknown Source)
+2011-03-27 14:57:52 [SEVERE] 	at org.json.simple.parser.JSONParser.nextToken(Unknown Source)
+2011-03-27 14:57:52 [SEVERE] 	at org.json.simple.parser.JSONParser.parse(Unknown Source)
+2011-03-27 14:57:52 [SEVERE] 	at org.json.simple.parser.JSONParser.parse(Unknown Source)
+2011-03-27 14:57:52 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:37)
+2011-03-27 14:57:52 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-27 14:57:52 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-27 14:57:52 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-27 14:57:52 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-27 14:57:52 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-27 14:57:52 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-27 14:57:52 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-27 14:57:52 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-27 14:57:52 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-27 14:57:52 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-27 14:57:52 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-27 14:57:52 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-27 14:57:52 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:57:52 [INFO] JSONApi is active and listening for requests.
+2011-03-27 14:57:52 [INFO] Done (0.178s)! For help, type "help" or "?"
+2011-03-27 14:59:06 [INFO] Stopping the server..
+2011-03-27 14:59:06 [INFO] CONSOLE: Stopping the server..
+2011-03-27 14:59:06 [INFO] Stopping server
+2011-03-27 14:59:06 [INFO] Saving chunks
+2011-03-27 14:59:23 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 14:59:23 [INFO] Loading properties
+2011-03-27 14:59:23 [INFO] Starting Minecraft server on *:25565
+2011-03-27 14:59:23 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 14:59:23 [INFO] Preparing level "world"
+2011-03-27 14:59:23 [INFO] Preparing start region
+2011-03-27 14:59:25 [INFO] Preparing spawn area: 69%
+2011-03-27 14:59:25 [INFO] [JSONApi] Logging = false,console
+2011-03-27 14:59:25 [INFO] [JSONApi] IP Whitelist = 
+2011-03-27 14:59:25 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-27 14:59:25 [SEVERE] java.lang.ClassNotFoundException: java.lang.int
+2011-03-27 14:59:25 [SEVERE] 	at java.net.URLClassLoader$1.run(Unknown Source)
+2011-03-27 14:59:25 [SEVERE] 	at java.security.AccessController.doPrivileged(Native Method)
+2011-03-27 14:59:25 [SEVERE] 	at java.net.URLClassLoader.findClass(Unknown Source)
+2011-03-27 14:59:25 [SEVERE] 	at org.bukkit.plugin.java.PluginClassLoader.findClass(PluginClassLoader.java:30)
+2011-03-27 14:59:25 [SEVERE] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+2011-03-27 14:59:25 [SEVERE] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+2011-03-27 14:59:25 [SEVERE] 	at java.lang.Class.forName0(Native Method)
+2011-03-27 14:59:25 [SEVERE] 	at java.lang.Class.forName(Unknown Source)
+2011-03-27 14:59:25 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Argument.getClassFromName(Argument.java:40)
+2011-03-27 14:59:25 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:19)
+2011-03-27 14:59:25 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:41)
+2011-03-27 14:59:25 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-27 14:59:25 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-27 14:59:25 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-27 14:59:25 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-27 14:59:25 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-27 14:59:25 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-27 14:59:25 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-27 14:59:25 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-27 14:59:25 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-27 14:59:25 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-27 14:59:25 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-27 14:59:25 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-27 14:59:25 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 14:59:25 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:36)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:13)
+	... 15 more
+2011-03-27 14:59:25 [INFO] Done (0.174s)! For help, type "help" or "?"
+2011-03-27 15:00:22 [INFO] Stopping the server..
+2011-03-27 15:00:22 [INFO] CONSOLE: Stopping the server..
+2011-03-27 15:00:22 [INFO] Stopping server
+2011-03-27 15:00:22 [SEVERE] java.lang.NullPointerException
+2011-03-27 15:00:22 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onDisable(JSONAPI.java:143)
+2011-03-27 15:00:22 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:120)
+2011-03-27 15:00:22 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.disablePlugin(JavaPluginLoader.java:465)
+2011-03-27 15:00:22 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.disablePlugin(SimplePluginManager.java:229)
+2011-03-27 15:00:22 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.disablePlugins(SimplePluginManager.java:223)
+2011-03-27 15:00:22 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.disablePlugins(CraftServer.java:81)
+2011-03-27 15:00:22 [SEVERE] 	at net.minecraft.server.MinecraftServer.g(MinecraftServer.java:227)
+2011-03-27 15:00:22 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:302)
+2011-03-27 15:00:22 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 15:00:30 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 15:00:30 [INFO] Loading properties
+2011-03-27 15:00:30 [INFO] Starting Minecraft server on *:25565
+2011-03-27 15:00:30 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 15:00:30 [INFO] Preparing level "world"
+2011-03-27 15:00:30 [INFO] Preparing start region
+2011-03-27 15:00:31 [INFO] Preparing spawn area: 65%
+2011-03-27 15:00:32 [INFO] [JSONApi] Logging = false,console
+2011-03-27 15:00:32 [INFO] [JSONApi] IP Whitelist = 
+2011-03-27 15:00:32 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-27 15:00:32 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:36)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:13)
+	... 15 more
+2011-03-27 15:00:32 [INFO] Done (0.175s)! For help, type "help" or "?"
+2011-03-27 15:03:57 [INFO] Stopping the server..
+2011-03-27 15:03:57 [INFO] CONSOLE: Stopping the server..
+2011-03-27 15:03:57 [INFO] Stopping server
+2011-03-27 15:03:57 [INFO] Saving chunks
+2011-03-27 12:04:01 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 12:04:01 [INFO] Loading properties
+2011-03-27 12:04:02 [INFO] Starting Minecraft server on *:25565
+2011-03-27 12:04:02 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 12:04:02 [INFO] Preparing level "world"
+2011-03-27 12:04:02 [INFO] Preparing start region
+2011-03-27 12:04:03 [INFO] Preparing spawn area: 56%
+2011-03-27 12:04:04 [INFO] [JSONApi] Logging = false,console
+2011-03-27 12:04:04 [INFO] [JSONApi] IP Whitelist = 
+2011-03-27 12:04:04 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-27 12:04:04 [INFO] Server.getMaxPlayers()
+2011-03-27 12:04:04 [SEVERE] java.lang.NullPointerException
+2011-03-27 12:04:04 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:37)
+2011-03-27 12:04:04 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:41)
+2011-03-27 12:04:04 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-27 12:04:04 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-27 12:04:04 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-27 12:04:04 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-27 12:04:04 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-27 12:04:04 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-27 12:04:04 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-27 12:04:04 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-27 12:04:04 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-27 12:04:04 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-27 12:04:04 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-27 12:04:04 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-27 12:04:04 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-27 12:04:04 [INFO] JSONApi is active and listening for requests.
+2011-03-27 12:04:04 [INFO] Done (0.198s)! For help, type "help" or "?"
+2011-03-27 12:08:37 [INFO] Stopping the server..
+2011-03-27 12:08:37 [INFO] CONSOLE: Stopping the server..
+2011-03-27 12:08:37 [INFO] Stopping server
+2011-03-27 12:08:37 [INFO] Saving chunks
+2011-03-27 12:08:40 [INFO] Starting minecraft server version Beta 1.3
+2011-03-27 12:08:40 [INFO] Loading properties
+2011-03-27 12:08:40 [INFO] Starting Minecraft server on *:25565
+2011-03-27 12:08:40 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-27 12:08:40 [INFO] Preparing level "world"
+2011-03-27 12:08:40 [INFO] Preparing start region
+2011-03-27 12:08:41 [INFO] Preparing spawn area: 53%
+2011-03-27 12:08:42 [INFO] [JSONApi] Logging = false,console
+2011-03-27 12:08:42 [INFO] [JSONApi] IP Whitelist = 
+2011-03-27 12:08:42 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-27 12:08:42 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:36)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:13)
+	... 15 more
+2011-03-27 12:08:42 [INFO] Done (0.191s)! For help, type "help" or "?"
+2011-03-28 17:17:26 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:17:26 [INFO] Loading properties
+2011-03-28 17:17:26 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:17:26 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:17:26 [INFO] Preparing level "world"
+2011-03-28 17:17:26 [INFO] Preparing start region
+2011-03-28 17:17:28 [INFO] Preparing spawn area: 16%
+2011-03-28 17:17:29 [INFO] Preparing spawn area: 32%
+2011-03-28 17:17:30 [INFO] Preparing spawn area: 48%
+2011-03-28 17:17:31 [INFO] Preparing spawn area: 56%
+2011-03-28 17:17:32 [INFO] Preparing spawn area: 65%
+2011-03-28 17:17:33 [INFO] Preparing spawn area: 77%
+2011-03-28 17:17:34 [INFO] Preparing spawn area: 85%
+2011-03-28 17:17:35 [INFO] Preparing spawn area: 85%
+2011-03-28 17:17:36 [INFO] Preparing spawn area: 89%
+2011-03-28 17:17:37 [INFO] Preparing spawn area: 93%
+2011-03-28 17:17:38 [INFO] Preparing spawn area: 93%
+2011-03-28 17:17:39 [INFO] Preparing spawn area: 97%
+2011-03-28 17:17:41 [INFO] Preparing spawn area: 97%
+2011-03-28 17:17:41 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:17:41 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:17:41 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:17:41 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:36)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.init(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:13)
+	... 15 more
+2011-03-28 17:17:41 [INFO] Done (1.466s)! For help, type "help" or "?"
+2011-03-28 17:20:26 [INFO] Stopping the server..
+2011-03-28 17:20:26 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:20:26 [INFO] Stopping server
+2011-03-28 17:20:26 [INFO] Saving chunks
+2011-03-28 17:20:29 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:20:29 [INFO] Loading properties
+2011-03-28 17:20:30 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:20:30 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:20:30 [INFO] Preparing level "world"
+2011-03-28 17:20:30 [INFO] Preparing start region
+2011-03-28 17:20:31 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:20:31 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:20:31 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:20:31 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:36)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:13)
+	... 15 more
+2011-03-28 17:20:31 [INFO] Done (0.108s)! For help, type "help" or "?"
+2011-03-28 17:21:26 [INFO] Stopping the server..
+2011-03-28 17:21:26 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:21:26 [INFO] Stopping server
+2011-03-28 17:21:26 [INFO] Saving chunks
+2011-03-28 17:21:29 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:21:29 [INFO] Loading properties
+2011-03-28 17:21:29 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:21:29 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:21:29 [INFO] Preparing level "world"
+2011-03-28 17:21:29 [INFO] Preparing start region
+2011-03-28 17:21:30 [INFO] Preparing spawn area: 65%
+2011-03-28 17:21:31 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:21:31 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:21:31 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:21:31 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:36)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:13)
+	... 15 more
+2011-03-28 17:21:31 [INFO] Done (0.157s)! For help, type "help" or "?"
+2011-03-28 17:24:17 [INFO] Stopping the server..
+2011-03-28 17:24:17 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:24:17 [INFO] Stopping server
+2011-03-28 17:24:17 [INFO] Saving chunks
+2011-03-28 17:24:24 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:24:24 [INFO] Loading properties
+2011-03-28 17:24:24 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:24:24 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:24:24 [INFO] Preparing level "world"
+2011-03-28 17:24:24 [INFO] Preparing start region
+2011-03-28 17:24:25 [INFO] Preparing spawn area: 89%
+2011-03-28 17:24:25 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:24:25 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:24:25 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:24:26 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:36)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:13)
+	... 15 more
+2011-03-28 17:24:26 [INFO] Done (0.140s)! For help, type "help" or "?"
+2011-03-28 17:25:29 [INFO] Stopping the server..
+2011-03-28 17:25:29 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:25:29 [INFO] Stopping server
+2011-03-28 17:25:29 [INFO] Saving chunks
+2011-03-28 17:25:32 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:25:32 [INFO] Loading properties
+2011-03-28 17:25:32 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:25:32 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:25:32 [INFO] Preparing level "world"
+2011-03-28 17:25:32 [INFO] Preparing start region
+2011-03-28 17:25:33 [INFO] Preparing spawn area: 73%
+2011-03-28 17:25:33 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:25:33 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:25:33 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:25:33 [INFO] call:Server.getMaxPlayers()
+2011-03-28 17:25:33 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:37)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:13)
+	... 15 more
+2011-03-28 17:25:33 [INFO] Done (0.149s)! For help, type "help" or "?"
+2011-03-28 17:26:29 [INFO] Stopping the server..
+2011-03-28 17:26:29 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:26:29 [INFO] Stopping server
+2011-03-28 17:26:29 [INFO] Saving chunks
+2011-03-28 17:26:32 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:26:32 [INFO] Loading properties
+2011-03-28 17:26:32 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:26:32 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:26:32 [INFO] Preparing level "world"
+2011-03-28 17:26:32 [INFO] Preparing start region
+2011-03-28 17:26:33 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:26:33 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:26:33 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:26:33 [INFO] call:Server.getMaxPlayers()
+2011-03-28 17:26:33 [INFO] []
+2011-03-28 17:26:33 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:38)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:13)
+	... 15 more
+2011-03-28 17:26:33 [INFO] Done (0.104s)! For help, type "help" or "?"
+2011-03-28 17:28:14 [INFO] Stopping the server..
+2011-03-28 17:28:14 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:28:14 [INFO] Stopping server
+2011-03-28 17:28:14 [INFO] Saving chunks
+2011-03-28 17:28:16 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:28:16 [INFO] Loading properties
+2011-03-28 17:28:16 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:28:17 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:28:17 [INFO] Preparing level "world"
+2011-03-28 17:28:17 [INFO] Preparing start region
+2011-03-28 17:28:18 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:28:18 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:28:18 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:28:18 [INFO] call:Server.getMaxPlayers()
+2011-03-28 17:28:18 [INFO] []
+2011-03-28 17:28:18 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:38)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:12)
+	... 15 more
+2011-03-28 17:28:18 [INFO] Done (0.103s)! For help, type "help" or "?"
+2011-03-28 17:29:40 [INFO] Stopping the server..
+2011-03-28 17:29:40 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:29:40 [INFO] Stopping server
+2011-03-28 17:29:40 [INFO] Saving chunks
+2011-03-28 17:29:43 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:29:43 [INFO] Loading properties
+2011-03-28 17:29:43 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:29:43 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:29:43 [INFO] Preparing level "world"
+2011-03-28 17:29:43 [INFO] Preparing start region
+2011-03-28 17:29:44 [INFO] Preparing spawn area: 69%
+2011-03-28 17:29:44 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:29:44 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:29:44 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:29:44 [INFO] call:Server.getMaxPlayers()
+2011-03-28 17:29:44 [INFO] []
+2011-03-28 17:29:44 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:40)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:12)
+	... 15 more
+2011-03-28 17:29:45 [INFO] Done (0.174s)! For help, type "help" or "?"
+2011-03-28 17:30:23 [INFO] Stopping the server..
+2011-03-28 17:30:23 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:30:23 [INFO] Stopping server
+2011-03-28 17:30:23 [INFO] Saving chunks
+2011-03-28 17:30:26 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:30:26 [INFO] Loading properties
+2011-03-28 17:30:26 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:30:26 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:30:26 [INFO] Preparing level "world"
+2011-03-28 17:30:26 [INFO] Preparing start region
+2011-03-28 17:30:27 [INFO] Preparing spawn area: 97%
+2011-03-28 17:30:27 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:30:27 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:30:27 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:30:27 [INFO] call:Server.getMaxPlayers()
+2011-03-28 17:30:27 [INFO] []
+2011-03-28 17:30:27 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:40)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:12)
+	... 15 more
+2011-03-28 17:30:27 [INFO] Done (0.130s)! For help, type "help" or "?"
+2011-03-28 17:31:58 [INFO] Stopping the server..
+2011-03-28 17:31:58 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:31:58 [INFO] Stopping server
+2011-03-28 17:31:58 [INFO] Saving chunks
+2011-03-28 17:32:00 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:32:00 [INFO] Loading properties
+2011-03-28 17:32:00 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:32:00 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:32:00 [INFO] Preparing level "world"
+2011-03-28 17:32:00 [INFO] Preparing start region
+2011-03-28 17:32:01 [INFO] Preparing spawn area: 65%
+2011-03-28 17:32:02 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:32:02 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:32:02 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:32:02 [INFO] call:Server.getMaxPlayers()
+2011-03-28 17:32:02 [INFO] []
+2011-03-28 17:32:02 [SEVERE] null loading JSONApi Plugin v0.8 (Is it up to date?)
+java.lang.ExceptionInInitializerError
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:40)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+Caused by: java.lang.NullPointerException
+	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.<clinit>(Call.java:12)
+	... 15 more
+2011-03-28 17:32:02 [INFO] Done (0.156s)! For help, type "help" or "?"
+2011-03-28 17:32:32 [INFO] Stopping the server..
+2011-03-28 17:32:32 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:32:32 [INFO] Stopping server
+2011-03-28 17:32:32 [INFO] Saving chunks
+2011-03-28 17:32:35 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:32:35 [INFO] Loading properties
+2011-03-28 17:32:35 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:32:35 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:32:35 [INFO] Preparing level "world"
+2011-03-28 17:32:35 [INFO] Preparing start region
+2011-03-28 17:32:36 [INFO] Preparing spawn area: 97%
+2011-03-28 17:32:36 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:32:36 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:32:36 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:32:37 [INFO] call:Server.getMaxPlayers()
+2011-03-28 17:32:37 [INFO] []
+2011-03-28 17:32:37 [SEVERE] java.lang.ClassCastException: java.lang.Object cannot be cast to com.ramblingwood.minecraft.jsonapi.dynamic.Call
+2011-03-28 17:32:37 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Method.<init>(Method.java:40)
+2011-03-28 17:32:37 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+2011-03-28 17:32:37 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-28 17:32:37 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-28 17:32:37 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-28 17:32:37 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-28 17:32:37 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-28 17:32:37 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-28 17:32:37 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-28 17:32:37 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-28 17:32:37 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-28 17:32:37 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-28 17:32:37 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-28 17:32:37 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-28 17:32:37 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-28 17:32:37 [SEVERE] java.lang.NullPointerException
+2011-03-28 17:32:37 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+2011-03-28 17:32:37 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-28 17:32:37 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-28 17:32:37 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-28 17:32:37 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-28 17:32:37 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-28 17:32:37 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-28 17:32:37 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-28 17:32:37 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-28 17:32:37 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-28 17:32:37 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-28 17:32:37 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-28 17:32:37 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-28 17:32:37 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-28 17:32:37 [INFO] JSONApi is active and listening for requests.
+2011-03-28 17:32:37 [INFO] Done (0.143s)! For help, type "help" or "?"
+2011-03-28 17:34:57 [INFO] Stopping the server..
+2011-03-28 17:34:57 [INFO] CONSOLE: Stopping the server..
+2011-03-28 17:34:57 [INFO] Stopping server
+2011-03-28 17:34:57 [INFO] Saving chunks
+2011-03-28 17:35:00 [INFO] Starting minecraft server version Beta 1.3
+2011-03-28 17:35:00 [INFO] Loading properties
+2011-03-28 17:35:00 [INFO] Starting Minecraft server on *:25565
+2011-03-28 17:35:00 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-03-28 17:35:00 [INFO] Preparing level "world"
+2011-03-28 17:35:00 [INFO] Preparing start region
+2011-03-28 17:35:01 [INFO] [JSONApi] Logging = false,console
+2011-03-28 17:35:01 [INFO] [JSONApi] IP Whitelist = 
+2011-03-28 17:35:01 [INFO] [JSONApi] JSON Server listening on 20059
+2011-03-28 17:35:01 [SEVERE] java.lang.NullPointerException
+2011-03-28 17:35:01 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.initMethods(Caller.java:41)
+2011-03-28 17:35:01 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.<init>(Caller.java:16)
+2011-03-28 17:35:01 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.<init>(JSONServer.java:33)
+2011-03-28 17:35:01 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONAPI.onEnable(JSONAPI.java:130)
+2011-03-28 17:35:01 [SEVERE] 	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:118)
+2011-03-28 17:35:01 [SEVERE] 	at org.bukkit.plugin.java.JavaPluginLoader.enablePlugin(JavaPluginLoader.java:451)
+2011-03-28 17:35:01 [SEVERE] 	at org.bukkit.plugin.SimplePluginManager.enablePlugin(SimplePluginManager.java:217)
+2011-03-28 17:35:01 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugin(CraftServer.java:92)
+2011-03-28 17:35:01 [SEVERE] 	at org.bukkit.craftbukkit.CraftServer.loadPlugins(CraftServer.java:70)
+2011-03-28 17:35:01 [SEVERE] 	at net.minecraft.server.MinecraftServer.e(MinecraftServer.java:204)
+2011-03-28 17:35:01 [SEVERE] 	at net.minecraft.server.MinecraftServer.a(MinecraftServer.java:191)
+2011-03-28 17:35:01 [SEVERE] 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:131)
+2011-03-28 17:35:01 [SEVERE] 	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:246)
+2011-03-28 17:35:01 [SEVERE] 	at net.minecraft.server.ThreadServerApplication.run(SourceFile:366)
+2011-03-28 17:35:01 [INFO] JSONApi is active and listening for requests.
+2011-03-28 17:35:01 [INFO] Done (0.106s)! For help, type "help" or "?"

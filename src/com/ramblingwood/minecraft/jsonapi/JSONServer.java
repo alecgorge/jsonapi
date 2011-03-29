@@ -1,6 +1,7 @@
-package com.bukkit.alecgorge.jsonapi;
+package com.ramblingwood.minecraft.jsonapi;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -16,16 +17,20 @@ import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.ramblingwood.minecraft.jsonapi.dynamic.Caller;
+
 
 public class JSONServer extends NanoHTTPD {
 	Hashtable<String, Object> methods = new Hashtable<String, Object>();
 	Hashtable<String, String> logins = new Hashtable<String, String>();
 	private JSONAPI inst;
 	private Logger outLog = Logger.getLogger("JSONAPI");
+	private Caller caller;
 
 	public JSONServer(Hashtable<String, String> logins, JSONAPI plugin) throws IOException {
 		super(plugin.port);
 		inst = plugin;
+		caller = new Caller(new File(inst.getDataFolder()+"\\methods.json"));
 		
 		this.logins = logins;
 	}
@@ -70,7 +75,7 @@ public class JSONServer extends NanoHTTPD {
 				String user = e.nextElement();
 				String pass = logins.get(user);
 				
-				String thishash = inst.SHA256(user+method+pass+inst.salt);
+				String thishash = JSONAPI.SHA256(user+method+pass+inst.salt);
 				if(thishash.equals(hash)) {
 					valid = true;
 					break;
@@ -178,7 +183,6 @@ public class JSONServer extends NanoHTTPD {
 		//System.out.println()
 
 		Object args = parms.getProperty("args","[]");
-		Object sig = parms.getProperty("signature","[]");
 		String calledMethod = (String)parms.getProperty("method");
 
 		if(calledMethod == null) {
@@ -202,41 +206,38 @@ public class JSONServer extends NanoHTTPD {
 			try {
 				JSONParser parse = new JSONParser();
 				args = parse.parse((String) args);
-				sig = parse.parse((String)sig);
 
 				if(uri.equals("/api/call-multiple")) {
 					List<String> methods = new ArrayList<String>();
 					List<Object> arguments = new ArrayList<Object>();
-					List<Object> signatures = new ArrayList<Object>();
 					Object o = parse.parse(calledMethod);
-					if (o instanceof List && args instanceof List && sig instanceof List) {
+					if (o instanceof List && args instanceof List) {
 						methods = (List<String>)o;
 						arguments = (List<Object>)args;
-						signatures = (List<Object>)sig;
 					}
 					else {
-						return jsonRespone(returnAPIException(new Exception("method, args and signature all need to be arrays for /api/call-multiple"), callback), callback);
+						return jsonRespone(returnAPIException(new Exception("method and args all need to be arrays for /api/call-multiple")), callback);
 					}
 
 					int size = methods.size();
 					JSONArray arr = new JSONArray();
 					for(int i = 0; i < size; i++) {
-						arr.add(serveAPICall(methods.get(i), (signatures.size()-1 >= i ? signatures.get(i) : new ArrayList<String>()), (arguments.size()-1 >= i ? arguments.get(i) : new ArrayList<Object>()), callback));
+						arr.add(serveAPICall(methods.get(i), (arguments.size()-1 >= i ? arguments.get(i) : new ArrayList<Object>())));
 					}
 
 					return jsonRespone(returnAPISuccess(o, arr), callback);
 				}
 				else {
-					return jsonRespone(serveAPICall(calledMethod, sig, args, callback), callback);
+					return jsonRespone(serveAPICall(calledMethod, args), callback);
 				}
 			}
 			catch (Exception e) {
-				return jsonRespone(returnAPIException(e, callback), callback);
+				return jsonRespone(returnAPIException(e), callback);
 			}
 		}
 	}
 
-	public JSONObject returnAPIException (Exception e, String callback) {
+	public JSONObject returnAPIException (Exception e) {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
 		StringWriter pw = new StringWriter();
@@ -269,19 +270,16 @@ public class JSONServer extends NanoHTTPD {
 		return jsonRespone(o, callback, HTTP_OK);
 	}
 
-	public JSONObject serveAPICall(String calledMethod, Object sig, Object args, String callback) {
+	public JSONObject serveAPICall(String calledMethod, Object args) {
 		try {
 			if(args.getClass().getCanonicalName().endsWith("JSONArray")) {
-				Object result = callMethod(calledMethod,
-						// TODO Make this suck less.
-						// ick, this is why I hate Java. maybe I am just doing it wrong...
-						(String[]) ((ArrayList) sig).toArray(new String[((ArrayList) sig).size()]),
+				Object result = caller.call(calledMethod,
 						(Object[]) ((ArrayList) args).toArray(new Object[((ArrayList) args).size()]));
 				return returnAPISuccess(calledMethod, result);
 			}
 		}
 		catch (Exception e) {
-			return returnAPIException(e, callback);
+			return returnAPIException(e);
 		}
 
 		return returnAPIError("You need to pass a method and an array of arguments.");

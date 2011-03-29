@@ -2,13 +2,14 @@ package com.ramblingwood.minecraft.jsonapi.dynamic;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import com.ramblingwood.minecraft.jsonapi.dynamic.Call;
 
 public class Method {
 	private String name = "Method name";
 	private String desc = "Method description";
 	private Class<?> returnValue = void.class;
 	private String returnDesc = "Method return desc";
-	private ArgumentList args;
+	private ArgumentList args = new ArgumentList();
 	private Call call;
 	
 	public Method (JSONObject o) {
@@ -33,7 +34,7 @@ public class Method {
 			}
 		}
 		
-		setCall(new Call((String)o.get("call"), args));
+		setCall(new Call(o.get("call").toString(), args));
 	}
 
 	public void setName(String name) {
@@ -76,3 +77,4 @@ public class Method {
 		return call;
 	}
 }
+

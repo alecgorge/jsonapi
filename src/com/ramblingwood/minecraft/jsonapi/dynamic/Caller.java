@@ -2,7 +2,7 @@ package com.ramblingwood.minecraft.jsonapi.dynamic;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -10,13 +10,25 @@ import org.json.simple.parser.JSONParser;
 
 public class Caller {
 	public static boolean initted = false;
-	public static ArrayList<Method> methods;
+	public static HashMap<String, Method> methods;
 	
 	public Caller (File i) {
-		init(i);
+		initMethods(i);
 	}
 	
-	public static void init (File methodsFile) {
+	public Object call(String method, Object[] params) {
+		Object r = null;
+		try {
+			methods.get(method).getCall().call(params);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return r;
+	}
+	
+	public static void initMethods (File methodsFile) {
 		try {
 			if(!initted) {			
 				initted = true;
@@ -26,7 +38,7 @@ public class Caller {
 				
 				for(Object o : methods) {
 					if(o instanceof JSONObject) {
-						Caller.methods.add(new Method((JSONObject)o));
+						Caller.methods.put(((JSONObject)o).get("name").toString(), new Method((JSONObject)o));
 					}
 				}
 			}
