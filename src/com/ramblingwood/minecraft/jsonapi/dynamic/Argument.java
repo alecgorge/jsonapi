@@ -29,7 +29,7 @@ public class Argument {
 	}
 	
 	public static Class<?> getClassFromName(String name) {
-		if(name == "int") {
+		if(name.equals("int")) {
 			name = "java.lang.Integer";
 		}
 		Class<?> ret = void.class;
