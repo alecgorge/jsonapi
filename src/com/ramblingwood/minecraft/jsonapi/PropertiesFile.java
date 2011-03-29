@@ -1,4 +1,4 @@
-package com.bukkit.alecgorge.jsonapi;
+package com.ramblingwood.minecraft.jsonapi;
 
 
 import java.io.File;

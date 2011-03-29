@@ -1,6 +1,5 @@
 package com.ramblingwood.minecraft.jsonapi.dynamic;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,10 +12,7 @@ public class Call {
 	private static Server Server = JSONAPI.instance.getServer();
 	private static APIWrapperMethods APIInstance = APIWrapperMethods.getInstance();
 	
-	private Method method;
 	private Class<?>[] signature;
-	private Object[] params;
-	
 	private ArrayList<Object> stack = new ArrayList<Object>();
 	private HashMap<Integer, String> defaults = new HashMap<Integer, String>();
 
@@ -75,7 +71,7 @@ public class Call {
 		return ret;
 	}
 	
-	private void parseString (String input) {
+	public void parseString (String input) {
 		String[] parts = input.split("\\.");
 
 		for(int i = 0; i < parts.length; i++) {

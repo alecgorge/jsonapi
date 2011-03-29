@@ -1,4 +1,4 @@
-package com.bukkit.alecgorge.jsonapi;
+package com.ramblingwood.minecraft.jsonapi;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -562,13 +562,13 @@ public class NanoHTTPD
 				pw.flush();
 
 				if(data.getClass().getName().toString().endsWith("HttpStream")) {
-					String next = ((HttpStream)data).getNext();
+					/*String next = ((HttpStream)data).getNext();
 					while(next != null) {
 						pw.print(next);
 						pw.flush();
 						
 						next = ((HttpStream)data).getNext();
-					}
+					}*/
 				}
 				else if ( data != null)
 				{
