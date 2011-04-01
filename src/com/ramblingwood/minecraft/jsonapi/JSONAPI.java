@@ -47,7 +47,11 @@ public class JSONAPI extends JavaPlugin  {
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		this.pluginLoader = pluginLoader;
 		server = instance;
-		this.instance = this;
+	}
+	
+	public JSONAPI () {
+		super();
+		JSONAPI.instance = this;		
 	}
 	
 	// private JSONApiPlayerListener l = new JSONApiPlayerListener(this);	
@@ -70,7 +74,7 @@ public class JSONAPI extends JavaPlugin  {
 			if(!ipWhitelist.trim().equals("false")) {
 				String[] ips = ipWhitelist.split(",");
 				for(String ip : ips) {
-					reconstituted += ip+",";
+					reconstituted += ip.trim()+",";
 					whitelist.add(ip);
 				}
 			}
@@ -119,20 +123,21 @@ public class JSONAPI extends JavaPlugin  {
 		    	e.printStackTrace();
 		    }
 		    if(auth.size() == 0) {
-		    	log.severe("No valid logins for JSONApi. Check JSONApiAuthentication.txt");
+		    	log.severe("[JSONAPI] No valid logins for JSONAPI. Check JSONAPIAuthentication.txt");
 		    	return;
 		    }
 		    
-		    log.info("[JSONApi] Logging = "+(logFile != "false" ? logFile : "")+","+(logging ? "console" : ""));
-		    log.info("[JSONApi] IP Whitelist = "+reconstituted);
-		    log.info("[JSONApi] JSON Server listening on "+port);
+		    log.info("[JSONAPI] Logging to file: "+logFile);
+		    log.info("[JSONAPI] Logging to console: "+String.valueOf(logging));
+		    log.info("[JSONAPI] IP Whitelist = "+(reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
+		    log.info("[JSONAPI] JSON Server listening on "+port);
 
 		    jsonServer = new JSONServer(auth, this);
 			
 			initialiseListeners();
 		}
 		catch( IOException ioe ) {
-			log.severe( "Couldn't start server!\n");
+			log.severe( "[JSONAPI] Couldn't start server!\n");
 			ioe.printStackTrace();
 			//System.exit( -1 );
 		}		
@@ -153,7 +158,7 @@ public class JSONAPI extends JavaPlugin  {
 		pm.registerEvent(Type.PLAYER_QUIT, l, Priority.Normal, this);
 		pm.registerEvent(Type.PLAYER_LOGIN, l, Priority.Normal, this);*/
 	
-		log.info("JSONApi is active and listening for requests.");
+		log.info("[JSONAPI] Active and listening for requests.");
 	}
 	
 	/**

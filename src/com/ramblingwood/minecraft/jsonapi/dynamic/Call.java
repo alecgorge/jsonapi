@@ -15,10 +15,17 @@ public class Call {
 	private Class<?>[] signature;
 	private ArrayList<Object> stack = new ArrayList<Object>();
 	private HashMap<Integer, String> defaults = new HashMap<Integer, String>();
+	private boolean debug = true;
 
 	public Call (String input, ArgumentList args) {
 		parseString(input);
 		signature = args.getTypes();
+	}
+	
+	private void debug(String in) {
+		if(debug) {
+			System.out.println(in);
+		}
 	}
 	
 	public Object call(Object[] params) throws Exception {
@@ -30,23 +37,31 @@ public class Call {
 			oParams.add(i, defaults.get(i));
 		}
 		
-		Object lastResult = new Object();
+		debug("oParams:"+oParams.toString());
+		debug("Stack:"+stack);
+		
+		Object lastResult = null;
 		for(int i = 0; i < size; i++) {
 			Object v = stack.get(i);
+			debug("v:"+v.getClass().getCanonicalName());
 			if(v instanceof Server || v instanceof APIWrapperMethods) {
+				lastResult = v;
 				continue;
 			}
 			if(v instanceof SubCall) {
 				SubCall obj = (SubCall)v;
+				
+				debug("Calling method: '"+obj.getName()+"' with signature: '"+obj.requiresArgs()+"' '"+Arrays.asList(sigForIndices(obj.requiresArgs()))+"'.");
+				debug("Last result:"+lastResult.toString());
+				debug("Invoking method: '"+obj.getName()+"' with args: '"+Arrays.asList(indicies(oParams, obj.requiresArgs()))+"'.");
+				
 				lastResult = lastResult.getClass().getMethod(obj.getName(), sigForIndices(obj.requiresArgs())).invoke(lastResult, indicies(oParams, obj.requiresArgs()));
 				
-				if(i == (size - 1)) {
-					return lastResult;
-				}
+				debug("New value:"+lastResult);
 			}
 		}
 		
-		return null;
+		return lastResult;
 	}
 	
 	public Object[] indicies (ArrayList<Object> o, ArrayList<Integer>i) {
@@ -76,18 +91,18 @@ public class Call {
 
 		for(int i = 0; i < parts.length; i++) {
 			String v = parts[i];
-			if(i == 0) {
-				if(v == "Server") {
+			//if(i == 0) {
+				if(v.equals("Server")) {
 					stack.add(Server);
 				}
-				else if(v == "this") {
+				else if(v.equals("this")) {
 					stack.add(APIInstance);
 				}
-			}
+			//}
 			else {
 				// no args
-				if(v.endsWith("()")) {
-					stack.add(v.substring(0, v.length()-2));
+				if(v.endsWith("()") || !v.endsWith(")")) {
+					stack.add(new SubCall(v.substring(0, v.length()-2), new ArrayList<Integer>()));
 				}
 				
 				// args
@@ -97,12 +112,14 @@ public class Call {
 					
 					// take the stuff in the ('s and )'s 
 					String[] argParts = v.substring(startPos+1, v.length() - 1).split(",");
+
 					ArrayList<Integer> argPos = new ArrayList<Integer>();
 					
 					// put all string 0, 1, 2, 3 etc into a int[]
 					int multiplier = 0;
-					for(int x = 0; x < parts.length; x++) {
-						if(v.startsWith("\"") && v.endsWith("\"")) {
+					
+					for(int x = 0; x < argParts.length; x++) {
+						if(argParts[x].startsWith("\"") && argParts[x].endsWith("\"")) {
 							defaults.put(x, v.substring(1, v.length() - 1));
 							
 							multiplier++;
