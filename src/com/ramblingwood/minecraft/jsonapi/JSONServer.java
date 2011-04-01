@@ -2,6 +2,7 @@ package com.ramblingwood.minecraft.jsonapi;
 
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -12,10 +13,11 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONAware;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.json.simpleForBukkit.JSONArray;
+import org.json.simpleForBukkit.JSONAware;
+import org.json.simpleForBukkit.JSONObject;
+import org.json.simpleForBukkit.JSONValue;
+import org.json.simpleForBukkit.parser.JSONParser;
 
 import com.ramblingwood.minecraft.jsonapi.dynamic.Caller;
 
@@ -30,39 +32,23 @@ public class JSONServer extends NanoHTTPD {
 	public JSONServer(Hashtable<String, String> logins, JSONAPI plugin) throws IOException {
 		super(plugin.port);
 		inst = plugin;
-		caller = new Caller(new File(inst.getDataFolder()+"\\methods.json"));
+		caller = new Caller();
+		caller.loadFile(new File(inst.getDataFolder()+"\\methods.json"));
+		
+		File[] files = (new File(inst.getDataFolder()+"\\methods\\")).listFiles(new FilenameFilter() {
+		    @Override
+		    public boolean accept(File dir, String name) {
+		        return name.endsWith(".json");
+		    }
+		});
+		
+		if(files != null && files.length > 0) {
+			for(File f : files) {
+				caller.loadFile(f);
+			}
+		}
 		
 		this.logins = logins;
-	}
-	
-	public Object callMethod(String method, String[] signature, Object[] params) throws Exception {
-		String[] parts = method.split("\\.");
-
-		Class<?>[] ps = new Class<?>[signature.length];
-		for(int i = 0; i< signature.length; i++) {
-			try {
-				ps[i] = Class.forName(signature[i]);
-			}
-			catch(ClassNotFoundException e) {
-				ps[i] = Class.forName("java.lang."+signature[i]);
-			}
-		}
-
-		Class c = Class.forName(parts[0]);
-		Object lastResult = new Object();
-		for(int i = 0; i < parts.length; i++) {
-			if(i == 0) {
-				lastResult = c.getMethod(parts[i+1], null).invoke(null, null);
-			}
-			else if(i == (parts.length - 1)) {
-				return lastResult;
-			}
-			else {
-				lastResult = lastResult.getClass().getMethod(parts[i+1], ps).invoke(lastResult, params);
-			}
-		}
-
-		return lastResult;
 	}
 	
 	public boolean testLogin (String method, String hash) {
@@ -74,8 +60,9 @@ public class JSONServer extends NanoHTTPD {
 			while(e.hasMoreElements()) {
 				String user = e.nextElement();
 				String pass = logins.get(user);
-				
+
 				String thishash = JSONAPI.SHA256(user+method+pass+inst.salt);
+				
 				if(thishash.equals(hash)) {
 					valid = true;
 					break;
@@ -95,14 +82,19 @@ public class JSONServer extends NanoHTTPD {
 	}
 	
 	public void info (final String log) {
-		if(inst.logging || inst.logFile != "false") {
-			outLog.info(log);
+		if(inst.logging || !inst.logFile.equals("false")) {
+			outLog.info("[JSONAPI] " +log);
 		}
 	}	
 	
 	@Override
 	public Response serve( String uri, String method, Properties header, Properties parms )	{
 		String callback = parms.getProperty("callback");
+		
+		if(inst.whitelist.size() > 0 && !inst.whitelist.contains(header.get("X-REMOTE-ADDR"))) {
+			outLog.warning("[JSONAPI] An API call from "+ header.get("X-REMOTE-ADDR") +" was blocked because "+header.get("X-REMOTE-ADDR")+" is not on the whitelist.");
+			return jsonRespone(returnAPIError("You are not allowed to make API calls."), callback, HTTP_FORBIDDEN);			
+		}
 
 		/*if(uri.equals("/api/subscribe")) {
 			String source = parms.getProperty("source");
@@ -186,8 +178,8 @@ public class JSONServer extends NanoHTTPD {
 		String calledMethod = (String)parms.getProperty("method");
 
 		if(calledMethod == null) {
-			info("[API Call] "+header.get("X-REMOTE-ADDR")+": Method doesn't exist.");
-			return jsonRespone(returnAPIError("Method doesn't exist!"), callback, HTTP_NOTFOUND);
+			info("[API Call] "+header.get("X-REMOTE-ADDR")+": Parameter 'method' was not defined.");
+			return jsonRespone(returnAPIError("Parameter 'method' was not defined."), callback, HTTP_NOTFOUND);
 		}
 
 		String key = parms.getProperty("key");
@@ -216,7 +208,7 @@ public class JSONServer extends NanoHTTPD {
 						arguments = (List<Object>)args;
 					}
 					else {
-						return jsonRespone(returnAPIException(new Exception("method and args all need to be arrays for /api/call-multiple")), callback);
+						return jsonRespone(returnAPIException(new Exception("method and args both need to be arrays for /api/call-multiple")), callback);
 					}
 
 					int size = methods.size();

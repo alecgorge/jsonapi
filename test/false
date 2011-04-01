@@ -1,0 +1,10 @@
+Apr 1, 2011 12:55:24 PM com.ramblingwood.minecraft.jsonapi.JSONServer info
+INFO: [JSONAPI] [API Call] 127.0.0.1: method=getPlayer?args=["alecgorge"]
+Apr 1, 2011 12:55:35 PM com.ramblingwood.minecraft.jsonapi.JSONServer info
+INFO: [JSONAPI] [API Call] 127.0.0.1: method=getPlayer?args=["alecgorge"]
+Apr 1, 2011 12:55:35 PM com.ramblingwood.minecraft.jsonapi.JSONServer info
+INFO: [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+Apr 1, 2011 12:55:39 PM com.ramblingwood.minecraft.jsonapi.JSONServer info
+INFO: [JSONAPI] [API Call] 127.0.0.1: method=getPlayer?args=["alecgorge"]
+Apr 1, 2011 12:55:39 PM com.ramblingwood.minecraft.jsonapi.JSONServer info
+INFO: [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
