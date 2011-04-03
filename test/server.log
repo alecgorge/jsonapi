@@ -2734,3 +2734,16 @@ java.lang.Error: Unresolved compilation problem:
 2011-04-03 00:35:45 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.NanoHTTPD$HTTPSession.run(NanoHTTPD.java:437)
 2011-04-03 00:35:45 [SEVERE] 	at java.lang.Thread.run(Thread.java:662)
 2011-04-03 00:35:46 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 00:44:17 [SEVERE] java.net.SocketException: Connection reset
+2011-04-03 00:44:17 [SEVERE] 	at java.net.SocketInputStream.read(SocketInputStream.java:168)
+2011-04-03 00:44:17 [SEVERE] 	at java.net.SocketInputStream.read(SocketInputStream.java:182)
+2011-04-03 00:44:17 [SEVERE] 	at java.io.FilterInputStream.read(FilterInputStream.java:66)
+2011-04-03 00:44:17 [SEVERE] 	at net.minecraft.server.Packet.b(SourceFile:113)
+2011-04-03 00:44:17 [SEVERE] 	at net.minecraft.server.NetworkManager.f(SourceFile:155)
+2011-04-03 00:44:17 [SEVERE] 	at net.minecraft.server.NetworkManager.c(SourceFile:9)
+2011-04-03 00:44:17 [SEVERE] 	at net.minecraft.server.NetworkReaderThread.run(SourceFile:62)
+2011-04-03 00:44:17 [INFO] alecgorge lost connection: disconnect.genericReason
+2011-04-03 00:44:20 [INFO] Stopping the server..
+2011-04-03 00:44:20 [INFO] CONSOLE: Stopping the server..
+2011-04-03 00:44:20 [INFO] Stopping server
+2011-04-03 00:44:20 [INFO] Saving chunks
