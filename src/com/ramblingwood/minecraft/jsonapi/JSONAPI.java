@@ -64,7 +64,7 @@ public class JSONAPI extends JavaPlugin  {
 				getDataFolder().createNewFile();
 			}
 			// System.out.println(getDataFolder().getAbsolutePath()+"\\JSONAPI.properties");
-			PropertiesFile options = new PropertiesFile(new File(getDataFolder().getAbsolutePath()+"\\JSONAPI.properties").getAbsolutePath());
+			PropertiesFile options = new PropertiesFile(new File(getDataFolder().getAbsolutePath()+File.separator+"JSONAPI.properties").getAbsolutePath());
 			logging = options.getBoolean("log-to-console", true);
 			logFile = options.getString("log-to-file", "false");
 			String ipWhitelist = options.getString("ip-whitelist", "false");
@@ -97,7 +97,7 @@ public class JSONAPI extends JavaPlugin  {
 		    	// Open the file that is the first 
 		    	// command line parameter
 		    	FileInputStream fstream;
-		    	File authfile = new File(getDataFolder().getAbsolutePath()+"\\JSONAPIAuthentication.txt");
+		    	File authfile = new File(getDataFolder().getAbsolutePath()+File.separator+"JSONAPIAuthentication.txt");
 		    	try {
 		    		fstream = new FileInputStream(authfile);
 		    	}

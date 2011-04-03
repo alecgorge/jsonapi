@@ -33,9 +33,9 @@ public class JSONServer extends NanoHTTPD {
 		super(plugin.port);
 		inst = plugin;
 		caller = new Caller();
-		caller.loadFile(new File(inst.getDataFolder()+"\\methods.json"));
+		caller.loadFile(new File(inst.getDataFolder()+File.separator+"methods.json"));
 		
-		File[] files = (new File(inst.getDataFolder()+"\\methods\\")).listFiles(new FilenameFilter() {
+		File[] files = (new File(inst.getDataFolder()+File.separator+"methods"+File.separator)).listFiles(new FilenameFilter() {
 		    @Override
 		    public boolean accept(File dir, String name) {
 		        return name.endsWith(".json");
