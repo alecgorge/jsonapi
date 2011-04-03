@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.json.simple.JSONAware;
-import org.json.simple.JSONStreamAware;
-import org.json.simple.JSONValue;
+import org.json.simpleForBukkit.JSONAware;
+import org.json.simpleForBukkit.JSONStreamAware;
+import org.json.simpleForBukkit.JSONValue;
 
 
 /**

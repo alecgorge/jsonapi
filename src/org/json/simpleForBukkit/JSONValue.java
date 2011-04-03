@@ -11,10 +11,10 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONAware;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONStreamAware;
+import org.json.simpleForBukkit.JSONArray;
+import org.json.simpleForBukkit.JSONAware;
+import org.json.simpleForBukkit.JSONObject;
+import org.json.simpleForBukkit.JSONStreamAware;
 import org.json.simpleForBukkit.parser.JSONParser;
 import org.json.simpleForBukkit.parser.ParseException;
 
@@ -34,8 +34,8 @@ public class JSONValue {
 	 * 
 	 * @param in
 	 * @return Instance of the following:
-	 *	org.json.simple.JSONObject,
-	 * 	org.json.simple.JSONArray,
+	 *	org.json.simpleForBukkit.JSONObject,
+	 * 	org.json.simpleForBukkit.JSONArray,
 	 * 	java.lang.String,
 	 * 	java.lang.Number,
 	 * 	java.lang.Boolean,
@@ -64,8 +64,8 @@ public class JSONValue {
 	 * 
 	 * @param in
 	 * @return Instance of the following:
-	 * 	org.json.simple.JSONObject,
-	 * 	org.json.simple.JSONArray,
+	 * 	org.json.simpleForBukkit.JSONObject,
+	 * 	org.json.simpleForBukkit.JSONArray,
 	 * 	java.lang.String,
 	 * 	java.lang.Number,
 	 * 	java.lang.Boolean,
