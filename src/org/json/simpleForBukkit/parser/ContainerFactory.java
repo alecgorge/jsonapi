@@ -14,12 +14,12 @@ import org.json.simpleForBukkit.parser.ContainerFactory;
  */
 public interface ContainerFactory {
 	/**
-	 * @return A Map instance to store JSON object, or null if you want to use org.json.simple.JSONObject.
+	 * @return A Map instance to store JSON object, or null if you want to use org.json.simpleForBukkit.JSONObject.
 	 */
 	Map createObjectContainer();
 	
 	/**
-	 * @return A List instance to store JSON array, or null if you want to use org.json.simple.JSONArray. 
+	 * @return A List instance to store JSON array, or null if you want to use org.json.simpleForBukkit.JSONArray. 
 	 */
 	List creatArrayContainer();
 }

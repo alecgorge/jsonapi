@@ -2613,3 +2613,124 @@ java.lang.Error: Unresolved compilation problem:
 2011-04-01 13:30:56 [INFO] CONSOLE: Stopping the server..
 2011-04-01 13:30:56 [INFO] Stopping server
 2011-04-01 13:30:56 [INFO] Saving chunks
+2011-04-03 00:30:46 [INFO] Starting minecraft server version Beta 1.3
+2011-04-03 00:30:46 [WARNING] **** NOT ENOUGH RAM!
+2011-04-03 00:30:46 [WARNING] To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+2011-04-03 00:30:46 [INFO] Loading properties
+2011-04-03 00:30:46 [INFO] Starting Minecraft server on *:25565
+2011-04-03 00:30:46 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-04-03 00:30:46 [INFO] Preparing level "world"
+2011-04-03 00:30:46 [INFO] Preparing start region
+2011-04-03 00:30:47 [INFO] [JSONAPI] Logging to file: false
+2011-04-03 00:30:47 [INFO] [JSONAPI] Logging to console: true
+2011-04-03 00:30:47 [INFO] [JSONAPI] IP Whitelist = None, all requests are allowed.
+2011-04-03 00:30:47 [INFO] [JSONAPI] JSON Server listening on 20059
+2011-04-03 00:30:47 [INFO] [JSONAPI] Active and listening for requests.
+2011-04-03 00:30:47 [INFO] Done (0.106s)! For help, type "help" or "?"
+2011-04-03 00:31:15 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getPlayer?args=["alecgorge"]
+2011-04-03 00:31:15 [INFO] Called:getPlayer
+2011-04-03 00:31:15 [INFO] with args:[alecgorge]
+2011-04-03 00:31:15 [INFO] oParams:[alecgorge]
+2011-04-03 00:31:15 [INFO] Stack:[CraftServer{serverName=Craftbukkit,serverVersion=git-Bukkit-0.0.0-552-gf9a4b36-b559jnks,protocolVersion=1.3}, com.ramblingwood.minecraft.jsonapi.dynamic.Call$SubCall@d02b51]
+2011-04-03 00:31:15 [INFO] v:org.bukkit.craftbukkit.CraftServer
+2011-04-03 00:31:15 [INFO] v:com.ramblingwood.minecraft.jsonapi.dynamic.Call.SubCall
+2011-04-03 00:31:15 [INFO] Calling method: 'getPlayer' with signature: '[0]' '[class java.lang.String]'.
+2011-04-03 00:31:15 [INFO] Last result:CraftServer{serverName=Craftbukkit,serverVersion=git-Bukkit-0.0.0-552-gf9a4b36-b559jnks,protocolVersion=1.3}
+2011-04-03 00:31:15 [INFO] Invoking method: 'getPlayer' with args: '[alecgorge]'.
+2011-04-03 00:31:15 [INFO] New value:null
+2011-04-03 00:31:24 [INFO] 143 recipes
+2011-04-03 00:31:24 [INFO] alecgorge [/127.0.0.1:56250] logged in with entity id 140
+2011-04-03 00:31:30 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getPlayer?args=["alecgorge"]
+2011-04-03 00:31:30 [INFO] Called:getPlayer
+2011-04-03 00:31:30 [INFO] with args:[alecgorge]
+2011-04-03 00:31:30 [INFO] oParams:[alecgorge]
+2011-04-03 00:31:30 [INFO] Stack:[CraftServer{serverName=Craftbukkit,serverVersion=git-Bukkit-0.0.0-552-gf9a4b36-b559jnks,protocolVersion=1.3}, com.ramblingwood.minecraft.jsonapi.dynamic.Call$SubCall@d02b51]
+2011-04-03 00:31:30 [INFO] v:org.bukkit.craftbukkit.CraftServer
+2011-04-03 00:31:30 [INFO] v:com.ramblingwood.minecraft.jsonapi.dynamic.Call.SubCall
+2011-04-03 00:31:30 [INFO] Calling method: 'getPlayer' with signature: '[0]' '[class java.lang.String]'.
+2011-04-03 00:31:30 [INFO] Last result:CraftServer{serverName=Craftbukkit,serverVersion=git-Bukkit-0.0.0-552-gf9a4b36-b559jnks,protocolVersion=1.3}
+2011-04-03 00:31:30 [INFO] Invoking method: 'getPlayer' with args: '[alecgorge]'.
+2011-04-03 00:31:30 [INFO] New value:CraftPlayer{name=alecgorge}
+2011-04-03 00:31:30 [SEVERE] java.lang.NullPointerException
+2011-04-03 00:31:30 [SEVERE] 	at org.bukkit.craftbukkit.inventory.CraftItemStack.getMaxStackSize(CraftItemStack.java:124)
+2011-04-03 00:31:30 [SEVERE] 	at com.ramblingwood.minecraft.stringifier.BukkitStringifier.handle(BukkitStringifier.java:117)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONValue.toJSONString(JSONValue.java:219)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONArray.toJSONString(JSONArray.java:95)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONValue.toJSONString(JSONValue.java:216)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONObject.toJSONString(JSONObject.java:106)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONObject.toJSONString(JSONObject.java:88)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONObject.toJSONString(JSONObject.java:95)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONValue.toJSONString(JSONValue.java:210)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONValue.toJSONString(JSONValue.java:219)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONObject.toJSONString(JSONObject.java:106)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONObject.toJSONString(JSONObject.java:88)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONObject.toJSONString(JSONObject.java:95)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONValue.toJSONString(JSONValue.java:210)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONValue.toJSONString(JSONValue.java:219)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONObject.toJSONString(JSONObject.java:106)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONObject.toJSONString(JSONObject.java:88)
+2011-04-03 00:31:30 [SEVERE] 	at org.json.simpleForBukkit.JSONObject.toJSONString(JSONObject.java:95)
+2011-04-03 00:31:30 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.jsonRespone(JSONServer.java:258)
+2011-04-03 00:31:30 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.jsonRespone(JSONServer.java:262)
+2011-04-03 00:31:30 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serve(JSONServer.java:223)
+2011-04-03 00:31:30 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.NanoHTTPD$HTTPSession.run(NanoHTTPD.java:437)
+2011-04-03 00:31:30 [SEVERE] 	at java.lang.Thread.run(Thread.java:662)
+2011-04-03 00:32:36 [INFO] Stopping the server..
+2011-04-03 00:32:36 [INFO] CONSOLE: Stopping the server..
+2011-04-03 00:32:36 [INFO] Stopping server
+2011-04-03 00:32:36 [INFO] Saving chunks
+2011-04-03 00:32:52 [INFO] Starting minecraft server version Beta 1.3
+2011-04-03 00:32:52 [WARNING] **** NOT ENOUGH RAM!
+2011-04-03 00:32:52 [WARNING] To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+2011-04-03 00:32:52 [INFO] Loading properties
+2011-04-03 00:32:52 [INFO] Starting Minecraft server on *:25565
+2011-04-03 00:32:52 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-04-03 00:32:52 [INFO] Preparing level "world"
+2011-04-03 00:32:52 [INFO] Preparing start region
+2011-04-03 00:32:53 [INFO] [JSONAPI] Logging to file: false
+2011-04-03 00:32:53 [INFO] [JSONAPI] Logging to console: true
+2011-04-03 00:32:53 [INFO] [JSONAPI] IP Whitelist = None, all requests are allowed.
+2011-04-03 00:32:53 [INFO] [JSONAPI] JSON Server listening on 20059
+2011-04-03 00:32:53 [INFO] [JSONAPI] Active and listening for requests.
+2011-04-03 00:32:53 [INFO] Done (0.072s)! For help, type "help" or "?"
+2011-04-03 00:32:55 [INFO] 143 recipes
+2011-04-03 00:32:55 [INFO] alecgorge [/127.0.0.1:56282] logged in with entity id 141
+2011-04-03 00:32:57 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getPlayer?args=["alecgorge"]
+2011-04-03 00:32:57 [INFO] Called:getPlayer
+2011-04-03 00:32:57 [INFO] with args:[alecgorge]
+2011-04-03 00:32:57 [INFO] oParams:[alecgorge]
+2011-04-03 00:32:57 [INFO] Stack:[CraftServer{serverName=Craftbukkit,serverVersion=git-Bukkit-0.0.0-552-gf9a4b36-b559jnks,protocolVersion=1.3}, com.ramblingwood.minecraft.jsonapi.dynamic.Call$SubCall@104faf8]
+2011-04-03 00:32:57 [INFO] v:org.bukkit.craftbukkit.CraftServer
+2011-04-03 00:32:57 [INFO] v:com.ramblingwood.minecraft.jsonapi.dynamic.Call.SubCall
+2011-04-03 00:32:57 [INFO] Calling method: 'getPlayer' with signature: '[0]' '[class java.lang.String]'.
+2011-04-03 00:32:57 [INFO] Last result:CraftServer{serverName=Craftbukkit,serverVersion=git-Bukkit-0.0.0-552-gf9a4b36-b559jnks,protocolVersion=1.3}
+2011-04-03 00:32:57 [INFO] Invoking method: 'getPlayer' with args: '[alecgorge]'.
+2011-04-03 00:32:57 [INFO] New value:CraftPlayer{name=alecgorge}
+2011-04-03 00:33:05 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getPlayer?args=["alecgorge"]
+2011-04-03 00:33:05 [INFO] Called:getPlayer
+2011-04-03 00:33:05 [INFO] with args:[alecgorge]
+2011-04-03 00:33:05 [INFO] oParams:[alecgorge]
+2011-04-03 00:33:05 [INFO] Stack:[CraftServer{serverName=Craftbukkit,serverVersion=git-Bukkit-0.0.0-552-gf9a4b36-b559jnks,protocolVersion=1.3}, com.ramblingwood.minecraft.jsonapi.dynamic.Call$SubCall@104faf8]
+2011-04-03 00:33:05 [INFO] v:org.bukkit.craftbukkit.CraftServer
+2011-04-03 00:33:05 [INFO] v:com.ramblingwood.minecraft.jsonapi.dynamic.Call.SubCall
+2011-04-03 00:33:05 [INFO] Calling method: 'getPlayer' with signature: '[0]' '[class java.lang.String]'.
+2011-04-03 00:33:05 [INFO] Last result:CraftServer{serverName=Craftbukkit,serverVersion=git-Bukkit-0.0.0-552-gf9a4b36-b559jnks,protocolVersion=1.3}
+2011-04-03 00:33:05 [INFO] Invoking method: 'getPlayer' with args: '[alecgorge]'.
+2011-04-03 00:33:05 [INFO] New value:CraftPlayer{name=alecgorge}
+2011-04-03 00:33:05 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 00:35:45 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=givePlayerItemDrop?args=["alecgorge",1,10]
+2011-04-03 00:35:45 [INFO] Called:givePlayerItemDrop
+2011-04-03 00:35:45 [INFO] with args:[alecgorge, 1, 10]
+2011-04-03 00:35:45 [INFO] oParams:[alecgorge, 1, 10]
+2011-04-03 00:35:45 [INFO] Stack:[com.ramblingwood.minecraft.jsonapi.dynamic.APIWrapperMethods@f8f7db, com.ramblingwood.minecraft.jsonapi.dynamic.Call$SubCall@15856a5]
+2011-04-03 00:35:45 [INFO] v:com.ramblingwood.minecraft.jsonapi.dynamic.APIWrapperMethods
+2011-04-03 00:35:45 [INFO] v:com.ramblingwood.minecraft.jsonapi.dynamic.Call.SubCall
+2011-04-03 00:35:45 [SEVERE] java.lang.ArrayIndexOutOfBoundsException: 0
+2011-04-03 00:35:45 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.sigForIndices(Call.java:83)
+2011-04-03 00:35:45 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.call(Call.java:54)
+2011-04-03 00:35:45 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.call(Caller.java:27)
+2011-04-03 00:35:45 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serveAPICall(JSONServer.java:268)
+2011-04-03 00:35:45 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serve(JSONServer.java:223)
+2011-04-03 00:35:45 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.NanoHTTPD$HTTPSession.run(NanoHTTPD.java:437)
+2011-04-03 00:35:45 [SEVERE] 	at java.lang.Thread.run(Thread.java:662)
+2011-04-03 00:35:46 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.

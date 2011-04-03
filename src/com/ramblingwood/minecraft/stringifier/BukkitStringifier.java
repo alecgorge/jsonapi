@@ -12,6 +12,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.json.simpleForBukkit.JSONObject;
+import org.json.simpleForBukkit.JSONValue;
 
 public class BukkitStringifier {
 	public static HashMap<String, Class<?>> handle = new HashMap<String, Class<?>>();
@@ -113,7 +114,6 @@ public class BukkitStringifier {
 			JSONObject o = new JSONObject();
 			
 			o.put("type", i.getTypeId());
-			o.put("maxSize", i.getMaxStackSize());
 			o.put("durability", i.getDurability());
 			o.put("amount", i.getAmount());
 			
