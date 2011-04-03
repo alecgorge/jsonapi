@@ -15,7 +15,7 @@ public class Call {
 	private Class<?>[] signature;
 	private ArrayList<Object> stack = new ArrayList<Object>();
 	private HashMap<Integer, String> defaults = new HashMap<Integer, String>();
-	private boolean debug = true;
+	private boolean debug = false;
 
 	public Call (String input, ArgumentList args) {
 		parseString(input);
