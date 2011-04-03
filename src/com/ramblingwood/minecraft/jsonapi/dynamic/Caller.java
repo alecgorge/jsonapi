@@ -22,8 +22,8 @@ public class Caller {
 	public Object call(String method, Object[] params) {
 		Object r = null;
 		try {
-			System.out.println("Called:"+method);
-			System.out.println("with args:"+Arrays.asList(params).toString());
+			// System.out.println("Called:"+method);
+			// System.out.println("with args:"+Arrays.asList(params).toString());
 			r = methods.get(method).getCall().call(params);
 		}
 		catch (Exception e) {
