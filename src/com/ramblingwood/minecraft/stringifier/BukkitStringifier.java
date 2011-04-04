@@ -2,6 +2,7 @@ package com.ramblingwood.minecraft.stringifier;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.JSONValue;
 
@@ -149,6 +151,19 @@ public class BukkitStringifier {
 			
 			return o;
 		}
+		else if(obj instanceof Object[]) {
+			int l = ((Object[])obj).length;
+			JSONArray a = new JSONArray();
+			for(int i = 0; i < l; i++) {
+				a.add(((Object[])obj)[i]);
+			}
+			
+			return a; 
+		}
+		Logger.getLogger("JSONAPI").warning("Uncaugh object! Value:");
+		Logger.getLogger("JSONAPI").warning(obj.toString());
+		Logger.getLogger("JSONAPI").warning("Type:");
+		Logger.getLogger("JSONAPI").warning(obj.getClass().getName());
 		
 		return new Object();
 	}

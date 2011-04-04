@@ -3,6 +3,7 @@ package com.ramblingwood.minecraft.jsonapi.dynamic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Server;
 
@@ -12,14 +13,15 @@ public class Call {
 	private static Server Server = JSONAPI.instance.getServer();
 	private static APIWrapperMethods APIInstance = APIWrapperMethods.getInstance();
 	
-	private Class<?>[] signature;
+	private Class<?>[] signature = new Class<?>[] {};
 	private ArrayList<Object> stack = new ArrayList<Object>();
 	private HashMap<Integer, String> defaults = new HashMap<Integer, String>();
 	private boolean debug = false;
+	private int expectedArgs = 0;
 
 	public Call (String input, ArgumentList args) {
-		parseString(input);
 		signature = args.getTypes();
+		parseString(input);
 	}
 	
 	private void debug(String in) {
@@ -28,14 +30,20 @@ public class Call {
 		}
 	}
 	
+	public int getNumberOfExpectedArgs () {
+		return expectedArgs;
+	}
+	
 	public Object call(Object[] params) throws Exception {
 		int size = stack.size();
 		
 		ArrayList<Object> oParams = new ArrayList<Object>(Arrays.asList(params));
 		
+		oParams.ensureCapacity(oParams.size()+defaults.size());
 		for(Integer i : defaults.keySet()) {
 			oParams.add(i, defaults.get(i));
 		}
+		
 		
 		debug("oParams:"+oParams.toString());
 		debug("Stack:"+stack);
@@ -66,6 +74,8 @@ public class Call {
 	
 	public Object[] indicies (ArrayList<Object> o, ArrayList<Integer>i) {
 		if(i == null) { return new Object[] {}; }
+		
+		System.out.println(i);
 		
 		Object[] ret = new Object[i.size()];
 		for(int y = 0; y < ret.length; y++) {
@@ -120,7 +130,18 @@ public class Call {
 					
 					for(int x = 0; x < argParts.length; x++) {
 						if(argParts[x].startsWith("\"") && argParts[x].endsWith("\"")) {
-							defaults.put(x, v.substring(1, v.length() - 1));
+							defaults.put(x, argParts[x].substring(1, argParts[x].length() - 1));
+							
+							ArrayList<Class<?>> cc = new ArrayList<Class<?>>(Arrays.asList(signature));
+							cc.add(x, String.class);
+							signature = cc.toArray(signature);
+							
+							if(argPos.size() > 0) {
+								argPos.add(argPos.get(argPos.size()-1)+1);
+							}
+							else {
+								argPos.add(0);
+							}
 							
 							multiplier++;
 						}
@@ -128,6 +149,8 @@ public class Call {
 							argPos.add(Integer.parseInt(argParts[x].trim()) + (multiplier));
 						}
 					}
+					
+					expectedArgs = argPos.size() - multiplier;
 					
 					// add this "method" onto the stack
 					stack.add(new SubCall(v.substring(0, startPos), argPos));

@@ -36,7 +36,16 @@ public class APIWrapperMethods implements CommandSender {
 		Server.getPluginManager().disablePlugin(Server.getPluginManager().getPlugin(name));
 	}
 	
+	public void giveItem (String name, int id, int quant) {
+		Server.getPlayer(name).getInventory().addItem(new ItemStack(id, quant));
+	}
+	
+	public void giveItemDrop (String name, int id, int quant) {
+		Server.getPlayer(name).getWorld().dropItem(Server.getPlayer(name).getLocation(), new ItemStack(id, quant));
+	}
+	
 	public void runCommand (String command) {
+		System.out.println("running command: "+command);
 		Server.dispatchCommand(this, command);
 	}
 	
