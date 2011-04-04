@@ -65,7 +65,7 @@ public class Call {
 	}
 	
 	public Object[] indicies (ArrayList<Object> o, ArrayList<Integer>i) {
-		if(i == null) { return null; }
+		if(i == null) { return new Object[] {}; }
 		
 		Object[] ret = new Object[i.size()];
 		for(int y = 0; y < ret.length; y++) {
@@ -76,7 +76,7 @@ public class Call {
 	}
 	
 	public Class<?>[] sigForIndices (ArrayList<Integer> i) {
-		if(i == null) { return null; }
+		if(i == null) { return new Class<?>[]{}; }
 		
 		Class<?>[] ret = new Class<?>[i.size()];
 		for(int y = 0; y < ret.length; y++) {

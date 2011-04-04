@@ -2747,3 +2747,218 @@ java.lang.Error: Unresolved compilation problem:
 2011-04-03 00:44:20 [INFO] CONSOLE: Stopping the server..
 2011-04-03 00:44:20 [INFO] Stopping server
 2011-04-03 00:44:20 [INFO] Saving chunks
+2011-04-03 20:21:38 [INFO] Starting minecraft server version Beta 1.3
+2011-04-03 20:21:38 [WARNING] **** NOT ENOUGH RAM!
+2011-04-03 20:21:38 [WARNING] To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+2011-04-03 20:21:38 [INFO] Loading properties
+2011-04-03 20:21:38 [INFO] Starting Minecraft server on *:25565
+2011-04-03 20:21:38 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-04-03 20:21:38 [INFO] Preparing level "world"
+2011-04-03 20:21:38 [INFO] Preparing start region
+2011-04-03 20:21:39 [INFO] [JSONAPI] Logging to file: false
+2011-04-03 20:21:39 [INFO] [JSONAPI] Logging to console: true
+2011-04-03 20:21:39 [INFO] [JSONAPI] IP Whitelist = None, all requests are allowed.
+2011-04-03 20:21:39 [INFO] [JSONAPI] JSON Server listening on 20059
+2011-04-03 20:21:39 [INFO] [JSONAPI] Active and listening for requests.
+2011-04-03 20:21:39 [INFO] Done (0.102s)! For help, type "help" or "?"
+2011-04-03 20:22:02 [INFO] 143 recipes
+2011-04-03 20:22:02 [INFO] alecgorge [/127.0.0.1:55011] logged in with entity id 117
+2011-04-03 20:22:06 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=givePlayerItemDrop?args=["alecgorge",1,10]
+2011-04-03 20:22:06 [SEVERE] java.lang.ArrayIndexOutOfBoundsException: 0
+2011-04-03 20:22:06 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.sigForIndices(Call.java:83)
+2011-04-03 20:22:06 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.call(Call.java:54)
+2011-04-03 20:22:06 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.call(Caller.java:27)
+2011-04-03 20:22:06 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serveAPICall(JSONServer.java:268)
+2011-04-03 20:22:06 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serve(JSONServer.java:223)
+2011-04-03 20:22:06 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.NanoHTTPD$HTTPSession.run(NanoHTTPD.java:437)
+2011-04-03 20:22:06 [SEVERE] 	at java.lang.Thread.run(Thread.java:662)
+2011-04-03 20:22:06 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:22:18 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=givePlayerItemDrop?args=["alecgorge",4,10]
+2011-04-03 20:22:18 [SEVERE] java.lang.ArrayIndexOutOfBoundsException: 0
+2011-04-03 20:22:18 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.sigForIndices(Call.java:83)
+2011-04-03 20:22:18 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.call(Call.java:54)
+2011-04-03 20:22:18 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.call(Caller.java:27)
+2011-04-03 20:22:18 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serveAPICall(JSONServer.java:268)
+2011-04-03 20:22:18 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serve(JSONServer.java:223)
+2011-04-03 20:22:18 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.NanoHTTPD$HTTPSession.run(NanoHTTPD.java:437)
+2011-04-03 20:22:18 [SEVERE] 	at java.lang.Thread.run(Thread.java:662)
+2011-04-03 20:22:18 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:23:22 [INFO] Stopping the server..
+2011-04-03 20:23:22 [INFO] CONSOLE: Stopping the server..
+2011-04-03 20:23:22 [INFO] Stopping server
+2011-04-03 20:23:22 [INFO] Saving chunks
+2011-04-03 20:23:26 [INFO] Starting minecraft server version Beta 1.3
+2011-04-03 20:23:26 [WARNING] **** NOT ENOUGH RAM!
+2011-04-03 20:23:26 [WARNING] To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+2011-04-03 20:23:26 [INFO] Loading properties
+2011-04-03 20:23:26 [INFO] Starting Minecraft server on *:25565
+2011-04-03 20:23:26 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-04-03 20:23:26 [INFO] Preparing level "world"
+2011-04-03 20:23:26 [INFO] Preparing start region
+2011-04-03 20:23:27 [INFO] [JSONAPI] Logging to file: false
+2011-04-03 20:23:27 [INFO] [JSONAPI] Logging to console: true
+2011-04-03 20:23:27 [INFO] [JSONAPI] IP Whitelist = None, all requests are allowed.
+2011-04-03 20:23:27 [INFO] [JSONAPI] JSON Server listening on 20059
+2011-04-03 20:23:27 [INFO] {disablePlugin=com.ramblingwood.minecraft.jsonapi.dynamic.Method@1b1aa65, getPlayers=com.ramblingwood.minecraft.jsonapi.dynamic.Method@129f3b5, reloadServer=com.ramblingwood.minecraft.jsonapi.dynamic.Method@13f3045, broadcast=com.ramblingwood.minecraft.jsonapi.dynamic.Method@17a29a1, kickPlayer=com.ramblingwood.minecraft.jsonapi.dynamic.Method@1434234, getPlayerLimit=com.ramblingwood.minecraft.jsonapi.dynamic.Method@af8358, setPlayerInventorySlot=com.ramblingwood.minecraft.jsonapi.dynamic.Method@d80be3, addToWhitelist=com.ramblingwood.minecraft.jsonapi.dynamic.Method@1f4689e, getPlugins=com.ramblingwood.minecraft.jsonapi.dynamic.Method@1006d75, givePlayerItem=com.ramblingwood.minecraft.jsonapi.dynamic.Method@1125127, removePlayerInventoryItem=com.ramblingwood.minecraft.jsonapi.dynamic.Method@18dfef8, sendMessage=com.ramblingwood.minecraft.jsonapi.dynamic.Method@15e83f9, getWorlds=com.ramblingwood.minecraft.jsonapi.dynamic.Method@2a5330, getWorld=com.ramblingwood.minecraft.jsonapi.dynamic.Method@bb7465, getPlugin=com.ramblingwood.minecraft.jsonapi.dynamic.Method@d6c16c, getServerVersion=com.ramblingwood.minecraft.jsonapi.dynamic.Method@134bed0, enablePlugin=com.ramblingwood.minecraft.jsonapi.dynamic.Method@1db4f6f, disablePlugins=com.ramblingwood.minecraft.jsonapi.dynamic.Method@13c1b02, givePlayerItemDrop=com.ramblingwood.minecraft.jsonapi.dynamic.Method@11121f6, getPlayer=com.ramblingwood.minecraft.jsonapi.dynamic.Method@1ccce3c}
+2011-04-03 20:23:27 [INFO] [JSONAPI] Active and listening for requests.
+2011-04-03 20:23:27 [INFO] Done (0.073s)! For help, type "help" or "?"
+2011-04-03 20:23:55 [INFO] 143 recipes
+2011-04-03 20:23:55 [INFO] alecgorge [/127.0.0.1:55030] logged in with entity id 124
+2011-04-03 20:24:02 [INFO] Opping alecgorge
+2011-04-03 20:24:02 [INFO] CONSOLE: Opping alecgorge
+2011-04-03 20:24:09 [INFO] <alecgorge> ime
+2011-04-03 20:24:11 [INFO] alecgorge issued server command: time
+2011-04-03 20:24:14 [INFO] alecgorge issued server command: time
+2011-04-03 20:24:52 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getPlayer?args=["alecgorge"]
+2011-04-03 20:24:52 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:25:15 [INFO] [JSONAPI] [API Call] 127.0.0.1: Invalid API Key.
+2011-04-03 20:25:15 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:25:26 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getPlayer?args=["alecgorge"]
+2011-04-03 20:25:26 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:26:19 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getPlayerLimit?args=[]
+2011-04-03 20:26:19 [SEVERE] java.lang.NullPointerException
+2011-04-03 20:26:19 [SEVERE] 	at java.util.Arrays$ArrayList.<init>(Arrays.java:3357)
+2011-04-03 20:26:19 [SEVERE] 	at java.util.Arrays.asList(Arrays.java:3343)
+2011-04-03 20:26:19 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Call.call(Call.java:54)
+2011-04-03 20:26:19 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.call(Caller.java:27)
+2011-04-03 20:26:19 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serveAPICall(JSONServer.java:268)
+2011-04-03 20:26:19 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serve(JSONServer.java:223)
+2011-04-03 20:26:19 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.NanoHTTPD$HTTPSession.run(NanoHTTPD.java:437)
+2011-04-03 20:26:19 [SEVERE] 	at java.lang.Thread.run(Thread.java:662)
+2011-04-03 20:26:19 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:27:11 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=Server.getVersion?args=[]
+2011-04-03 20:27:11 [SEVERE] java.lang.NullPointerException
+2011-04-03 20:27:11 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.call(Caller.java:27)
+2011-04-03 20:27:11 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serveAPICall(JSONServer.java:268)
+2011-04-03 20:27:11 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serve(JSONServer.java:223)
+2011-04-03 20:27:11 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.NanoHTTPD$HTTPSession.run(NanoHTTPD.java:437)
+2011-04-03 20:27:11 [SEVERE] 	at java.lang.Thread.run(Thread.java:662)
+2011-04-03 20:27:11 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:30:16 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=Server.getVersion?args=["fd"]
+2011-04-03 20:30:16 [SEVERE] java.lang.NullPointerException
+2011-04-03 20:30:16 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.dynamic.Caller.call(Caller.java:27)
+2011-04-03 20:30:16 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serveAPICall(JSONServer.java:268)
+2011-04-03 20:30:16 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serve(JSONServer.java:223)
+2011-04-03 20:30:16 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.NanoHTTPD$HTTPSession.run(NanoHTTPD.java:437)
+2011-04-03 20:30:16 [SEVERE] 	at java.lang.Thread.run(Thread.java:662)
+2011-04-03 20:30:16 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:33:56 [INFO] Stopping the server..
+2011-04-03 20:33:56 [INFO] CONSOLE: Stopping the server..
+2011-04-03 20:33:56 [INFO] Stopping server
+2011-04-03 20:33:56 [INFO] Saving chunks
+2011-04-03 20:34:04 [INFO] Starting minecraft server version Beta 1.3
+2011-04-03 20:34:04 [WARNING] **** NOT ENOUGH RAM!
+2011-04-03 20:34:04 [WARNING] To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+2011-04-03 20:34:04 [INFO] Loading properties
+2011-04-03 20:34:04 [INFO] Starting Minecraft server on *:25565
+2011-04-03 20:34:04 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-04-03 20:34:04 [INFO] Preparing level "world"
+2011-04-03 20:34:04 [INFO] Preparing start region
+2011-04-03 20:34:04 [INFO] [JSONAPI] Logging to file: false
+2011-04-03 20:34:04 [INFO] [JSONAPI] Logging to console: true
+2011-04-03 20:34:04 [INFO] [JSONAPI] IP Whitelist = None, all requests are allowed.
+2011-04-03 20:34:04 [INFO] [JSONAPI] JSON Server listening on 20059
+2011-04-03 20:34:04 [INFO] [JSONAPI] Active and listening for requests.
+2011-04-03 20:34:04 [INFO] Done (0.071s)! For help, type "help" or "?"
+2011-04-03 20:34:10 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=Server.getVersion?args=[]
+2011-04-03 20:34:10 [WARNING] [JSONAPI] The method 'Server.getVersion' does not exist!
+2011-04-03 20:34:10 [SEVERE] java.lang.Exception: The method 'Server.getVersion' does not exist!
+2011-04-03 20:34:10 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serveAPICall(JSONServer.java:282)
+2011-04-03 20:34:10 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.JSONServer.serve(JSONServer.java:229)
+2011-04-03 20:34:10 [SEVERE] 	at com.ramblingwood.minecraft.jsonapi.NanoHTTPD$HTTPSession.run(NanoHTTPD.java:437)
+2011-04-03 20:34:10 [SEVERE] 	at java.lang.Thread.run(Thread.java:662)
+2011-04-03 20:34:10 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:35:22 [INFO] [JSONAPI] [API Call] 127.0.0.1: Invalid API Key.
+2011-04-03 20:35:22 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:36:00 [INFO] [JSONAPI] [API Call] 127.0.0.1: Invalid API Key.
+2011-04-03 20:36:00 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:36:03 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getPlayer?args=["alecgorge"]
+2011-04-03 20:36:03 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:36:55 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getServerVersion?args=[]
+2011-04-03 20:36:55 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:37:11 [INFO] Stopping the server..
+2011-04-03 20:37:11 [INFO] CONSOLE: Stopping the server..
+2011-04-03 20:37:11 [INFO] Stopping server
+2011-04-03 20:37:11 [INFO] Saving chunks
+2011-04-03 20:37:13 [INFO] Starting minecraft server version Beta 1.3
+2011-04-03 20:37:13 [WARNING] **** NOT ENOUGH RAM!
+2011-04-03 20:37:13 [WARNING] To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+2011-04-03 20:37:13 [INFO] Loading properties
+2011-04-03 20:37:13 [INFO] Starting Minecraft server on *:25565
+2011-04-03 20:37:13 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-04-03 20:37:13 [INFO] Preparing level "world"
+2011-04-03 20:37:13 [INFO] Preparing start region
+2011-04-03 20:37:14 [INFO] [JSONAPI] Logging to file: false
+2011-04-03 20:37:14 [INFO] [JSONAPI] Logging to console: true
+2011-04-03 20:37:14 [INFO] [JSONAPI] IP Whitelist = None, all requests are allowed.
+2011-04-03 20:37:14 [INFO] [JSONAPI] JSON Server listening on 20059
+2011-04-03 20:37:14 [INFO] [JSONAPI] Active and listening for requests.
+2011-04-03 20:37:14 [INFO] Done (0.070s)! For help, type "help" or "?"
+2011-04-03 20:37:17 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getServerVersion?args=[]
+2011-04-03 20:37:17 [INFO] [JSONAPI] [API Call] 127.0.0.1: Invalid API Key.
+2011-04-03 20:37:19 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getServerVersion?args=[]
+2011-04-03 20:37:19 [INFO] [JSONAPI] [API Call] 127.0.0.1: Invalid API Key.
+2011-04-03 20:38:09 [INFO] Stopping the server..
+2011-04-03 20:38:09 [INFO] CONSOLE: Stopping the server..
+2011-04-03 20:38:09 [INFO] Stopping server
+2011-04-03 20:38:09 [INFO] Saving chunks
+2011-04-03 20:38:12 [INFO] Starting minecraft server version Beta 1.3
+2011-04-03 20:38:12 [WARNING] **** NOT ENOUGH RAM!
+2011-04-03 20:38:12 [WARNING] To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+2011-04-03 20:38:12 [INFO] Loading properties
+2011-04-03 20:38:12 [INFO] Starting Minecraft server on *:25565
+2011-04-03 20:38:12 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-04-03 20:38:12 [INFO] Preparing level "world"
+2011-04-03 20:38:12 [INFO] Preparing start region
+2011-04-03 20:38:12 [INFO] [JSONAPI] Logging to file: false
+2011-04-03 20:38:12 [INFO] [JSONAPI] Logging to console: true
+2011-04-03 20:38:12 [INFO] [JSONAPI] IP Whitelist = None, all requests are allowed.
+2011-04-03 20:38:12 [INFO] [JSONAPI] JSON Server listening on 20059
+2011-04-03 20:38:12 [INFO] [JSONAPI] Active and listening for requests.
+2011-04-03 20:38:12 [INFO] Done (0.071s)! For help, type "help" or "?"
+2011-04-03 20:38:13 [INFO] [JSONAPI] 'getServerVersion'
+2011-04-03 20:38:13 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getServerVersion?args=[]
+2011-04-03 20:38:13 [INFO] [JSONAPI] 'null'
+2011-04-03 20:38:13 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:38:37 [INFO] Stopping the server..
+2011-04-03 20:38:37 [INFO] CONSOLE: Stopping the server..
+2011-04-03 20:38:37 [INFO] Stopping server
+2011-04-03 20:38:37 [INFO] Saving chunks
+2011-04-03 20:38:39 [INFO] Starting minecraft server version Beta 1.3
+2011-04-03 20:38:39 [WARNING] **** NOT ENOUGH RAM!
+2011-04-03 20:38:39 [WARNING] To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+2011-04-03 20:38:39 [INFO] Loading properties
+2011-04-03 20:38:39 [INFO] Starting Minecraft server on *:25565
+2011-04-03 20:38:39 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-04-03 20:38:39 [INFO] Preparing level "world"
+2011-04-03 20:38:39 [INFO] Preparing start region
+2011-04-03 20:38:39 [INFO] [JSONAPI] Logging to file: false
+2011-04-03 20:38:39 [INFO] [JSONAPI] Logging to console: true
+2011-04-03 20:38:39 [INFO] [JSONAPI] IP Whitelist = None, all requests are allowed.
+2011-04-03 20:38:39 [INFO] [JSONAPI] JSON Server listening on 20059
+2011-04-03 20:38:39 [INFO] [JSONAPI] Active and listening for requests.
+2011-04-03 20:38:39 [INFO] Done (0.070s)! For help, type "help" or "?"
+2011-04-03 20:38:41 [INFO] [JSONAPI] '{args=[], key=1c67921194621cf3b6d7b8efc503d70f3bc74787aa65cff6cbcc185a07e40732, method=getServerVersion}'
+2011-04-03 20:38:41 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getServerVersion?args=[]
+2011-04-03 20:38:42 [INFO] [JSONAPI] '{}'
+2011-04-03 20:38:42 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
+2011-04-03 20:41:02 [INFO] Stopping the server..
+2011-04-03 20:41:02 [INFO] CONSOLE: Stopping the server..
+2011-04-03 20:41:02 [INFO] Stopping server
+2011-04-03 20:41:02 [INFO] Saving chunks
+2011-04-03 20:41:04 [INFO] Starting minecraft server version Beta 1.3
+2011-04-03 20:41:04 [WARNING] **** NOT ENOUGH RAM!
+2011-04-03 20:41:04 [WARNING] To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+2011-04-03 20:41:04 [INFO] Loading properties
+2011-04-03 20:41:04 [INFO] Starting Minecraft server on *:25565
+2011-04-03 20:41:04 [INFO] This server is running Craftbukkit version git-Bukkit-0.0.0-552-gf9a4b36-b559jnks (MC: 1.3)
+2011-04-03 20:41:04 [INFO] Preparing level "world"
+2011-04-03 20:41:04 [INFO] Preparing start region
+2011-04-03 20:41:04 [INFO] [JSONAPI] Logging to file: false
+2011-04-03 20:41:04 [INFO] [JSONAPI] Logging to console: true
+2011-04-03 20:41:04 [INFO] [JSONAPI] IP Whitelist = None, all requests are allowed.
+2011-04-03 20:41:04 [INFO] [JSONAPI] JSON Server listening on 20059
+2011-04-03 20:41:04 [INFO] [JSONAPI] Active and listening for requests.
+2011-04-03 20:41:04 [INFO] Done (0.071s)! For help, type "help" or "?"
+2011-04-03 20:41:07 [INFO] [JSONAPI] [API Call] 127.0.0.1: method=getServerVersion?args=[]
+2011-04-03 20:41:19 [INFO] [JSONAPI] [API Call] 127.0.0.1: Parameter 'method' was not defined.
