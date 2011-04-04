@@ -19,12 +19,17 @@ public class Caller {
 	public Caller () {
 	}
 	
-	public Object call(String method, Object[] params) {
+	public Object call(String method, Object[] params) throws Exception {
 		Object r = null;
 		try {
 			// System.out.println("Called:"+method);
 			// System.out.println("with args:"+Arrays.asList(params).toString());
-			r = methods.get(method).getCall().call(params);
+			Call c = methods.get(method).getCall();
+			
+			if(params.length != c.getNumberOfExpectedArgs()) {
+				throw new Exception("Incorrect number of args: gave "+params.length+", expected "+c.getNumberOfExpectedArgs());
+			}
+			r = c.call(params);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
