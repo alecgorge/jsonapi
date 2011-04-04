@@ -87,6 +87,12 @@ public class JSONServer extends NanoHTTPD {
 		}
 	}	
 	
+	public void warning (final String log) {
+		if(inst.logging || !inst.logFile.equals("false")) {
+			outLog.warning("[JSONAPI] " +log);
+		}
+	}	
+	
 	@Override
 	public Response serve( String uri, String method, Properties header, Properties parms )	{
 		String callback = parms.getProperty("callback");
@@ -173,6 +179,10 @@ public class JSONServer extends NanoHTTPD {
 			return serveFile(uri, header, new File("www/"), true);
 		}*/
 		//System.out.println()
+		
+		if(!uri.equals("/api/call")) {
+			return new NanoHTTPD.Response(HTTP_NOTFOUND, MIME_PLAINTEXT, "File not found.");
+		}
 
 		Object args = parms.getProperty("args","[]");
 		String calledMethod = (String)parms.getProperty("method");
@@ -264,10 +274,16 @@ public class JSONServer extends NanoHTTPD {
 
 	public JSONObject serveAPICall(String calledMethod, Object args) {
 		try {
-			if(args.getClass().getCanonicalName().endsWith("JSONArray")) {
-				Object result = caller.call(calledMethod,
-						(Object[]) ((ArrayList) args).toArray(new Object[((ArrayList) args).size()]));
-				return returnAPISuccess(calledMethod, result);
+			if(caller.methodExists(calledMethod)) {
+				if(args instanceof JSONArray) {
+					Object result = caller.call(calledMethod,
+							(Object[]) ((ArrayList) args).toArray(new Object[((ArrayList) args).size()]));
+					return returnAPISuccess(calledMethod, result);
+				}
+			}
+			else {
+				warning("The method '"+calledMethod+"' does not exist!");
+				return returnAPIError("The method '"+calledMethod+"' does not exist!");
 			}
 		}
 		catch (Exception e) {

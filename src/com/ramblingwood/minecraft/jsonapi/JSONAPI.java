@@ -85,7 +85,7 @@ public class JSONAPI extends JavaPlugin  {
 					outLog.removeHandler(h);
 				}
 			}
-			if(logFile != "false") {
+			if(!logFile.equals("false")) {
 				FileHandler fh = new FileHandler(logFile);
 				fh.setFormatter(new SimpleFormatter());
 				outLog.addHandler(fh);
