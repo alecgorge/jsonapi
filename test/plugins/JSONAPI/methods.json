@@ -76,6 +76,14 @@
 		]
 	},
 	{
+		"name": "runConsoleCommand",
+		"desc": "Runs a command in the console.",
+		"call": "this.runCommand(0)",
+		"args": [
+			["String", "Command to send"]
+		]
+	},
+	{
 		"name": "reloadServer",
 		"desc": "Reloads the server, refreshing settings and plugin information.",
 		"call": "Server.reload()"
@@ -107,7 +115,7 @@
 	{
 		"name": "sendMessage",
 		"desc": "Send a private message to the specified player.",
-		"call": "Server.getPlayer(0).chat(1)",
+		"call": "Server.getPlayer(0).sendRawMessage(1)",
 		"args": [
 			["String", "Player to whom the message is sent"],
 			["String", "The message to send"]
