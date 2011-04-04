@@ -33,6 +33,10 @@ public class Caller {
 		return r;
 	}
 	
+	public boolean methodExists (String name) {
+		return methods.containsKey(name);
+	}
+	
 	public void loadFile (File methodsFile) {
 		JSONParser p = new JSONParser();
 		JSONArray methods;
