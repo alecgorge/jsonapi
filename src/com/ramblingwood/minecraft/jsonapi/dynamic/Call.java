@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Server;
+import org.bukkit.plugin.Plugin;
 
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 
@@ -52,7 +53,7 @@ public class Call {
 		for(int i = 0; i < size; i++) {
 			Object v = stack.get(i);
 			debug("v:"+v.getClass().getCanonicalName());
-			if(v instanceof Server || v instanceof APIWrapperMethods) {
+			if(v instanceof Server || v instanceof APIWrapperMethods || (i == 0 && v instanceof Plugin)) {
 				lastResult = v;
 				continue;
 			}
@@ -107,6 +108,11 @@ public class Call {
 				}
 				else if(v.equals("this")) {
 					stack.add(APIInstance);
+				}
+				else if(v.equals("Plugins")) { // handles Plugins.PLUGINNAME.pluginMethod(0,1,2)
+					String v2 = parts[i+1];
+					stack.add(Server.getPluginManager().getPlugin(v2));
+					continue;
 				}
 			//}
 			else {

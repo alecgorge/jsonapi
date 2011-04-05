@@ -165,5 +165,45 @@
 		"name": "disablePlugins",
 		"desc": "Disables all plugins on the server.",
 		"call": "Server.getPluginManager().disablePlugins()"
-	}
+	},
+	{
+		"name": "getFileContents",
+		"desc": "Gets the contents of the specified file.",
+		"returns": ["String", "The file's contents."],
+		"call": "this.getFileContents(0)",
+		"args": [
+			["String", "The name of the file to read."]
+		]
+	},
+	{
+		"name": "setFileContents",
+		"desc": "Sets (not appends to) the contents of the specified file.",
+		"call": "this.setFileContents(0, 1)",
+		"returns": ["boolean", "True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist."],
+		"args": [
+			["String", "The name of the file to read."],
+			["String", "The content to put in the file."]
+		]
+	},
+	{
+		"name": "editPropertiesFile",
+		"desc": "Sets the specified key of the specified file to the specified value with the specified type.",
+		"call": "this.editPropertiesFile(0,1,2,3)",
+		"returns": ["boolean", "True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist."],
+		"args": [
+			["String", "The name of the .properties file to edit WITHOUT the extentions. (server, not server.properties)"],
+			["String", "The type of value. Options are boolean, long, int, string and double."],
+			["String", "The key that will have value set to it."],
+			["String", "The value to set key to as A STRING. This means that true will be come \"true\" and 1.5 will become \"1.5\"."]
+		]
+	},
+	{
+		"name": "getPropertiesFile",
+		"desc": "Gets a key value set for the specified properties file.",
+		"call": "this.getPropertiesFile(0)",
+		"returns": ["Object", "A key value set for the specified properties file."],
+		"args": [
+			["String", "The name of the properties file to read."]
+		]
+	},
 ]
