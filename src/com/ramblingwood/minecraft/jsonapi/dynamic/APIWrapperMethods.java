@@ -31,27 +31,62 @@ public class APIWrapperMethods implements CommandSender {
 	}
 	
 	public HashMap<Integer,ItemStack> removePlayerInventoryItem (String playerName, int itemID) {
-		return Server.getPlayer(playerName).getInventory().removeItem(new ItemStack(itemID));
+		try {
+			return Server.getPlayer(playerName).getInventory().removeItem(new ItemStack(itemID));
+		}
+		catch (NullPointerException e) {
+			return null;
+		}
 	}
 	
-	public void setPlayerInventorySlot (String playerName, int slot, int blockID, int quantity) {
-		Server.getPlayer(playerName).getInventory().setItem(slot, new ItemStack(blockID, quantity));
+	public boolean setPlayerInventorySlot (String playerName, Integer slot, Integer blockID, Integer quantity) {
+		try {
+			Server.getPlayer(playerName).getInventory().setItem(slot, new ItemStack(blockID, quantity));
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
 	}
 	
-	public void enablePlugin(String name) {
-		Server.getPluginManager().enablePlugin(Server.getPluginManager().getPlugin(name));
+	public boolean enablePlugin(String name) {
+		try {
+			Server.getPluginManager().enablePlugin(Server.getPluginManager().getPlugin(name));
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
 	}
 	
-	public void disablePlugin(String name) {
-		Server.getPluginManager().disablePlugin(Server.getPluginManager().getPlugin(name));
+	public boolean disablePlugin(String name) {
+		try {
+			Server.getPluginManager().disablePlugin(Server.getPluginManager().getPlugin(name));
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}			
 	}
 	
-	public void giveItem (String name, int id, int quant) {
-		Server.getPlayer(name).getInventory().addItem(new ItemStack(id, quant));
+	public boolean giveItem (String name, int id, int quant) {
+		try {
+			Server.getPlayer(name).getInventory().addItem(new ItemStack(id, quant));
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}			
 	}
 	
-	public void giveItemDrop (String name, int id, int quant) {
-		Server.getPlayer(name).getWorld().dropItem(Server.getPlayer(name).getLocation(), new ItemStack(id, quant));
+	public boolean giveItemDrop (String name, int id, int quant) {
+		try {
+			Server.getPlayer(name).getWorld().dropItem(Server.getPlayer(name).getLocation(), new ItemStack(id, quant));
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}			
 	}
 	
 	public void runCommand (String command) {
