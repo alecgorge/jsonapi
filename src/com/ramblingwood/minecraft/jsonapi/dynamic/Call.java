@@ -17,7 +17,7 @@ public class Call {
 	private Class<?>[] signature = new Class<?>[] {};
 	private ArrayList<Object> stack = new ArrayList<Object>();
 	private HashMap<Integer, String> defaults = new HashMap<Integer, String>();
-	private boolean debug = false;
+	public static boolean debug = false;
 	private int expectedArgs = 0;
 
 	public Call (String input, ArgumentList args) {

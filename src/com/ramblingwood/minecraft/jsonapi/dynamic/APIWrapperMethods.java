@@ -89,13 +89,16 @@ public class APIWrapperMethods implements CommandSender {
 		}			
 	}
 	
-	public void runCommand (String command) {
-		System.out.println("running command: "+command);
+	public void runCommand (String...obj) {
+		String command = "";
+		for(String s : obj) {
+			command += s;
+		}
+		
+		if(Call.debug) {
+			System.out.println("running command: "+command);
+		}
 		Server.dispatchCommand(this, command);
-	}
-	
-	public void runCommand (String start, String append) {
-		runCommand(start+" "+append);
 	}
 	
 	public Map<String, String> getPropertiesFile (String fileName) throws Exception {
