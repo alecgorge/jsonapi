@@ -245,7 +245,7 @@ public class JSONServer extends NanoHTTPD {
 		StringWriter pw = new StringWriter();
 		e.printStackTrace(new PrintWriter( pw ));
 		e.printStackTrace();
-		r.put("error", "Caught exception: "+pw.toString());
+		r.put("error", "Caught exception: "+pw.toString().replaceAll("\\n", "\n").replaceAll("\\r", "\r"));
 		return r;
 	}
 

@@ -92,7 +92,7 @@
 		"name": "getWorld",
 		"desc": "Gets the |world| object with the given name.",
 		"returns": ["World", "The world with the given name."],
-		"call": "Server.getWorld()",
+		"call": "Server.getWorld(0)",
 		"args": [
 			["String", "Name of the world to get"]
 		]
