@@ -24,6 +24,7 @@
 		"name": "givePlayerItem",
 		"desc": "Gives the specified player the specified quanity of the item id by placing it in the first empty slot.",
 		"call": "this.giveItem(0, 1, 2)",
+		"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
 		"args": [
 			["String","Player's name"],
 			["int","Id of item to give"],
@@ -33,6 +34,7 @@
 	{
 		"name": "givePlayerItemDrop",
 		"desc": "Gives the specified player the specified quanity of the item id by dropping it in front of them.",
+		"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
 		"call": "this.giveItemDrop(0, 1, 1)",
 		"ars": [
 			["String", "Players' name"],
@@ -50,6 +52,7 @@
 		"name": "setPlayerInventorySlot",
 		"desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified quantity.",
 		"call": "this.setPlayerInventorySlot(0, 1, 2, 3)",
+		"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
 		"args": [
 			["String", "Player's name"],
 			["int", "Slot number"],
@@ -60,7 +63,7 @@
 	{
 		"name": "removePlayerInventoryItem",
 		"desc": "Removes all items of the given type from the given player's inventory.",
-		"returns": ["Object", "An object of all the things that couldn't be removed. This shouldn't happen though..."],
+		"returns": ["Object", "An object of all the things that couldn't be removed. This shouldn't happen though. Null will be returned if the player is not on the server."],
 		"call": "this.removePlayerInventoryItem(0, 1)",
 		"args": [
 			["String", "Player's name"],
@@ -148,6 +151,7 @@
 	{
 		"name": "enablePlugin",
 		"desc": "Enables the specified plugin. Attempting to enable a plugin that is already enabled will have no effect.",
+		"returns": ["boolean", "True if the plugin was enabled. False will be returned if the plugin is not on the server."],
 		"call": "this.enablePlugin(0)",
 		"args": [
 			["String", "The name of the plugin to enable"]
@@ -156,6 +160,7 @@
 	{
 		"name": "disablePlugin",
 		"desc": "Disables the specified plugin. Attempting to disable a plugin that is not enabled will have no effect.",
+		"returns": ["boolean", "True if the plugin was disabled. False will be returned if the plugin is not on the server."],
 		"call": "this.disablePlugin(0)",
 		"args": [
 			["String", "The name of the plugin to disable"]

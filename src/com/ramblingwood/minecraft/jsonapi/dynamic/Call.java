@@ -64,7 +64,27 @@ public class Call {
 				debug("Last result:"+lastResult.toString());
 				debug("Invoking method: '"+obj.getName()+"' with args: '"+Arrays.asList(indicies(oParams, obj.requiresArgs()))+"'.");
 				
-				lastResult = lastResult.getClass().getMethod(obj.getName(), sigForIndices(obj.requiresArgs())).invoke(lastResult, indicies(oParams, obj.requiresArgs()));
+				Object[] args = indicies(oParams, obj.requiresArgs());
+				Class<?>[] sig = sigForIndices(obj.requiresArgs());
+				for(int x = 0; x < args.length; x++) {
+					Object val = args[x];
+					if((val.getClass().equals(Long.class) || val.getClass().equals(Double.class) || val.getClass().equals(String.class)) && sig[x].equals(Integer.class)) {
+						args[x] = Integer.valueOf(val.toString());
+						val = args[x];
+					}
+					if((val.getClass().equals(Integer.class) || val.getClass().equals(Long.class) || val.getClass().equals(String.class)) && sig[x].equals(Double.class)) {
+						args[x] = Double.valueOf(val.toString());
+						val = args[x];
+					}
+					if((val.getClass().equals(Integer.class) || val.getClass().equals(Double.class) || val.getClass().equals(String.class)) && sig[x].equals(Long.class)) {
+						args[x] = Long.valueOf(val.toString());
+						val = args[x];
+					}
+					debug("Arg "+x+": '"+val+"', type: "+val.getClass().getName());
+					debug("Sig type: "+sig[x].getName());
+				}
+				
+				lastResult = lastResult.getClass().getMethod(obj.getName(), sig).invoke(lastResult, args);
 				
 				debug("New value:"+lastResult);
 			}
