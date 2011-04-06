@@ -13,6 +13,7 @@ public class Argument {
 	static {
 		mapping.put("int", Integer.class);
 		mapping.put("double", Double.class);
+		mapping.put("boolean", Boolean.class);
 		mapping.put("float", Float.class);
 		mapping.put("String", String.class);
 		mapping.put("Integer", Integer.class);
