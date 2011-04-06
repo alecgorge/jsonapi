@@ -96,8 +96,6 @@ public class Call {
 	public Object[] indicies (ArrayList<Object> o, ArrayList<Integer>i) {
 		if(i == null) { return new Object[] {}; }
 		
-		System.out.println(i);
-		
 		Object[] ret = new Object[i.size()];
 		for(int y = 0; y < ret.length; y++) {
 			ret[y] = o.get(i.get(y));
