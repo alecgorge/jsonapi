@@ -73,7 +73,7 @@
 	{
 		"name": "addToWhitelist",
 		"desc": "Adds the specified player to the whitelist.",
-		"call": "this.runCommand(\"whitelist add\", 0)",
+		"call": "this.runCommand(\"whitelist add \", 0)",
 		"args": [
 			["String", "The name of the player to be added to the whitelist"]
 		]
@@ -81,7 +81,7 @@
 	{
 		"name": "removeFromWhitelist",
 		"desc": "Removes the specified player from the whitelist.",
-		"call": "this.runCommand(\"whitelist remove\", 0)",
+		"call": "this.runCommand(\"whitelist remove \", 0)",
 		"args": [
 			["String", "The name of the player to be removed from the whitelist"]
 		]
