@@ -27,7 +27,7 @@ public class Caller {
 			Call c = methods.get(method).getCall();
 			
 			if(params.length != c.getNumberOfExpectedArgs()) {
-				throw new Exception("Incorrect number of args: gave "+params.length+", expected "+c.getNumberOfExpectedArgs());
+				throw new Exception("Incorrect number of args: gave "+params.length+" ("+Arrays.asList(params).toString()+"), expected "+c.getNumberOfExpectedArgs());
 			}
 			r = c.call(params);
 		}
