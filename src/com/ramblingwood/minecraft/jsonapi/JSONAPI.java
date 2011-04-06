@@ -30,7 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class JSONAPI extends JavaPlugin  {
 	private PluginLoader pluginLoader;
 	private Server server;
-	private JSONServer jsonServer;
+	public JSONServer jsonServer;
 	
 	public boolean logging = false;
 	public String logFile = "false";

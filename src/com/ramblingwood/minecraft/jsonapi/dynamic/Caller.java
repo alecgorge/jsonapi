@@ -13,6 +13,8 @@ import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
 import org.json.simpleForBukkit.parser.ParseException;
 
+import com.ramblingwood.minecraft.jsonapi.JSONAPI;
+
 public class Caller {
 	public HashMap<String, Method> methods = new HashMap<String, Method>();
 	
@@ -20,22 +22,13 @@ public class Caller {
 	}
 	
 	public Object call(String method, Object[] params) throws Exception {
-		Object r = null;
-		try {
-			// System.out.println("Called:"+method);
-			// System.out.println("with args:"+Arrays.asList(params).toString());
-			Call c = methods.get(method).getCall();
-			
-			if(params.length != c.getNumberOfExpectedArgs()) {
-				throw new Exception("Incorrect number of args: gave "+params.length+" ("+Arrays.asList(params).toString()+"), expected "+c.getNumberOfExpectedArgs());
-			}
-			r = c.call(params);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
+		Call c = methods.get(method).getCall();
+		
+		if(params.length < c.getNumberOfExpectedArgs()) {
+			throw new Exception("Incorrect number of args: gave "+params.length+" ("+Arrays.asList(params).toString()+"), expected "+c.getNumberOfExpectedArgs());
 		}
 		
-		return r;
+		return c.call(params);
 	}
 	
 	public boolean methodExists (String name) {
