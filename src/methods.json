@@ -75,8 +75,88 @@
 		"desc": "Adds the specified player to the whitelist.",
 		"call": "this.runCommand(\"whitelist add\", 0)",
 		"args": [
-			["String", "Player to be added to the whitelist"]
+			["String", "The name of the player to be added to the whitelist"]
 		]
+	},
+	{
+		"name": "removeFromWhitelist",
+		"desc": "Removes the specified player from the whitelist.",
+		"call": "this.runCommand(\"whitelist remove\", 0)",
+		"args": [
+			["String", "The name of the player to be removed from the whitelist"]
+		]
+	},
+	{
+		"name": "opPlayer",
+		"desc": "Ops the specified player.",
+		"call": "this.runCommand(\"op \", 0)",
+		"args": [
+			["String", "The name of the player to be opped."]
+		]
+	},
+	{
+		"name": "deopPlayer",
+		"desc": "Deops the specified player.",
+		"call": "this.runCommand(\"deop \", 0)",
+		"args": [
+			["String", "The name of the player to be deopped."]
+		]
+	},
+	{
+		"name": "ban",
+		"desc": "Bans the specified player.",
+		"call": "this.runCommand(\"ban \", 0)",
+		"args": [
+			["String", "The name of the player to be banned."]
+		]
+	},
+	{
+		"name": "unban",
+		"desc": "Unbans the specified player.",
+		"call": "this.runCommand(\"pardon \", 0)",
+		"args": [
+			["String", "The name of the player to be unbanned."]
+		]
+	},
+	{
+		"name": "banIP",
+		"desc": "Bans the specified IP.",
+		"call": "this.runCommand(\"ban-ip \", 0)",
+		"args": [
+			["String", "The IP to be banned."]
+		]
+	},
+	{
+		"name": "unbanIP",
+		"desc": "Bans the specified IP.",
+		"call": "this.runCommand(\"pardon-ip \", 0)",
+		"args": [
+			["String", "The IP to be unbanned."]
+		]
+	},
+	{
+		"name": "teleport",
+		"desc": "Teleports the first specified player to the second specified player.",
+		"call": "this.runCommand(\"tp \", 0, \" \", 1)",
+		"args": [
+			["String", "The name of the player to be teleported."],
+			["String", "The name of the player to teleport to."]
+		]
+	},
+	{
+		"name": "saveMap",
+		"desc": "Saves the map to the filesystem.",
+		"call": "this.runCommand(\"save-all\")",
+	},
+	{
+		"name": "saveOff",
+		"desc": "Disables automatic terrian saving.",
+		"call": "this.runCommand(\"save-off\")",
+	},
+	{
+		"name": "saveOn",
+		"desc": "Enables automatic terrian saving.",
+		"call": "this.runCommand(\"save-on\")",
 	},
 	{
 		"name": "runConsoleCommand",
