@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>JSONAPI API Docs</title>
+		<link type="text/css" rel="stylesheet" name="stylesheet" href="styles.css" />
+	</head>
+	<body>
+<div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlayerLimit</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the maximum amount of players allowed on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> The player limit.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getServerVersion</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the version of the server implementation (so Craftbukkit or Bukkit, not the actuall Minecraft server</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> A string representing the version.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlayer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets a |player| object representing the specified person.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player name</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Player</strong> A player object respresenting the specified person.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>givePlayerItem</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gives the specified player the specified quanity of the item id by placing it in the first empty slot.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Id of item to give</li><li><strong>int</strong> Quantity of item to give</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>givePlayerItemDrop</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gives the specified player the specified quanity of the item id by dropping it in front of them.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlayers</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets an array of |player| objects that represent all of the players on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Player[]</strong> An array of |Player| objects</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>setPlayerInventorySlot</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets the specified slot in the specified player's inventory to the specified type with the specified quantity.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> Id of block type to set</li><li><strong>int</strong> Quantity to set</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>removePlayerInventoryItem</li>
+			<li class="method-info-desc"><strong>Description: </strong>Removes all items of the given type from the given player's inventory.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Id of block type to remove</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> An object of all the things that couldn't be removed. This shouldn't happen though. Null will be returned if the player is not on the server.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>addToWhitelist</li>
+			<li class="method-info-desc"><strong>Description: </strong>Adds the specified player to the whitelist.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be added to the whitelist</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>removeFromWhitelist</li>
+			<li class="method-info-desc"><strong>Description: </strong>Removes the specified player from the whitelist.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be removed from the whitelist</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>opPlayer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Ops the specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be opped.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>deopPlayer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Deops the specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be deopped.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>ban</li>
+			<li class="method-info-desc"><strong>Description: </strong>Bans the specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be banned.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>unban</li>
+			<li class="method-info-desc"><strong>Description: </strong>Unbans the specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be unbanned.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>banIP</li>
+			<li class="method-info-desc"><strong>Description: </strong>Bans the specified IP.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The IP to be banned.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>unbanIP</li>
+			<li class="method-info-desc"><strong>Description: </strong>Bans the specified IP.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The IP to be unbanned.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>teleport</li>
+			<li class="method-info-desc"><strong>Description: </strong>Teleports the first specified player to the second specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be teleported.</li><li><strong>String</strong> The name of the player to teleport to.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>saveMap</li>
+			<li class="method-info-desc"><strong>Description: </strong>Saves the map to the filesystem.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>saveOff</li>
+			<li class="method-info-desc"><strong>Description: </strong>Disables automatic terrian saving.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>saveOn</li>
+			<li class="method-info-desc"><strong>Description: </strong>Enables automatic terrian saving.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>runConsoleCommand</li>
+			<li class="method-info-desc"><strong>Description: </strong>Runs a command in the console.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Command to send</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>reloadServer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Reloads the server, refreshing settings and plugin information.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getWorld</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the |world| object with the given name.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Name of the world to get</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>World</strong> The world with the given name.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getWorlds</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets an array of all the |world| objects on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>World[]</strong> All of the worlds on the server.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>kickPlayer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Kick a player with the specified name and the optional message.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Name of player to kick</li><li><strong>String</strong> Custom message to display to the player after they are kicked</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>sendMessage</li>
+			<li class="method-info-desc"><strong>Description: </strong>Send a private message to the specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player to whom the message is sent</li><li><strong>String</strong> The message to send</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>broadcast</li>
+			<li class="method-info-desc"><strong>Description: </strong>Send a message to every player on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The message to broadcast</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> The number of players the message was broadcast to.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlugins</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets an array of all loaded plugins.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Plugin[]</strong> An array of |plugin| objects.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlugin</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the |plugin| object for the plugin with the given name.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the plugin to fetch</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Plugin</strong> The specified plugin.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>enablePlugin</li>
+			<li class="method-info-desc"><strong>Description: </strong>Enables the specified plugin. Attempting to enable a plugin that is already enabled will have no effect.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the plugin to enable</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the plugin was enabled. False will be returned if the plugin is not on the server.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>disablePlugin</li>
+			<li class="method-info-desc"><strong>Description: </strong>Disables the specified plugin. Attempting to disable a plugin that is not enabled will have no effect.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the plugin to disable</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the plugin was disabled. False will be returned if the plugin is not on the server.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>disablePlugins</li>
+			<li class="method-info-desc"><strong>Description: </strong>Disables all plugins on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>null</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getFileContents</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the contents of the specified file.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The file's contents.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>setFileContents</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets (not appends to) the contents of the specified file.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li><li><strong>String</strong> The content to put in the file.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>editPropertiesFile</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets the specified key of the specified file to the specified value with the specified type.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the .properties file to edit WITHOUT the extentions. (server, not server.properties)</li><li><strong>String</strong> The type of value. Options are boolean, long, int, string and double.</li><li><strong>String</strong> The key that will have value set to it.</li><li><strong>String</strong> The value to set key to as A STRING. This means that true will be come "true" and 1.5 will become "1.5".</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPropertiesFile</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets a key value set for the specified properties file.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the properties file to read.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> A key value set for the specified properties file.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+</div>	</body>
+</html>
