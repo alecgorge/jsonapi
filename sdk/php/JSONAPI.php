@@ -23,7 +23,7 @@ class JSONAPI {
 	private $password;
 	
 	private $urlFormats = array(
-		"call" => "http://%s:%s/api/call?method=%s&args=%s&key=%s"
+		"call" => "http://%s:%s/api/call?method=%s&args=%s&key=%s",
 		"callMultiple" => "http://%s:%s/api/call-multiple?method=%s&args=%s&key=%s"
 	);
 	
@@ -82,9 +82,9 @@ class JSONAPI {
 			$this->callMultiple($method, $args);
 		}
 	
-		foreach((array)$args as &$v) {
+		foreach((array)$args as $k => $v) {
 			if(is_numeric($v)) {
-				$v = (float)$v;
+				$args[$k] = (float)$v;
 			}
 		}
 		
@@ -116,14 +116,16 @@ class JSONAPI {
 			throw new Exception("The length of the arrays \$methods and \$args are different! You need an array of arguments for each method!");
 		}
 	
-		foreach((array)$args as &$v) {
-			foreach((array)$v as &$x) {
+		foreach((array)$args as $key => $v) {
+			foreach((array)$v as $k => $x) {
 				if(is_numeric($x)) {
-					$x = (float)$x;
+					$args[$key][$k] = (float)$x;
 				}
 			}
 		}
 		
-		
+		$url = $this->makeURLMultiple($methods, $args);
+
+		return json_decode($this->curl($url), true);
 	}
 }
