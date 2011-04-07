@@ -46,7 +46,7 @@
 		"name": "getPlayers",
 		"desc": "Gets an array of |player| objects that represent all of the players on the server.",
 		"returns": ["Player[]", "An array of |Player| objects"],
-		"call": "Server.getOnlinePlayers()",
+		"call": "Server.getOnlinePlayers()"
 	},
 	{
 		"name": "setPlayerInventorySlot",
@@ -67,7 +67,7 @@
 		"call": "this.removePlayerInventoryItem(0, 1)",
 		"args": [
 			["String", "Player's name"],
-			["int", "Id of block type to remove"],
+			["int", "Id of block type to remove"]
 		]
 	},
 	{
@@ -146,17 +146,17 @@
 	{
 		"name": "saveMap",
 		"desc": "Saves the map to the filesystem.",
-		"call": "this.runCommand(\"save-all\")",
+		"call": "this.runCommand(\"save-all\")"
 	},
 	{
 		"name": "saveOff",
 		"desc": "Disables automatic terrian saving.",
-		"call": "this.runCommand(\"save-off\")",
+		"call": "this.runCommand(\"save-off\")"
 	},
 	{
 		"name": "saveOn",
 		"desc": "Enables automatic terrian saving.",
-		"call": "this.runCommand(\"save-on\")",
+		"call": "this.runCommand(\"save-on\")"
 	},
 	{
 		"name": "runConsoleCommand",
@@ -290,5 +290,5 @@
 		"args": [
 			["String", "The name of the properties file to read."]
 		]
-	},
+	}
 ]
