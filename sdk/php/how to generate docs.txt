@@ -1,0 +1,3 @@
+Use PHPDoctor ( http://peej.github.com/phpdoctor/ ) with the ini file in this directory.
+
+Make sure the PHPDoctor is run from this directory.
