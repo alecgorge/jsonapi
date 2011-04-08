@@ -45,6 +45,9 @@ class JSONAPI {
 	 * @return string The SHA256 key suitable for use as the key GET parameter in a JSONAPI API call.
 	 */
 	public function createKey($method) {
+		if(is_array($method)) {
+			$method = json_encode($method);
+		}
 		return hash('sha256', $this->username . $method . $this->password . $this->salt);
 	}
 	
@@ -67,7 +70,7 @@ class JSONAPI {
 	 * @return string A proper multiple JSONAPI API call URL. Example: "http://localhost:20059/api/call-multiple?method=[methodName,methodName2]&args=jsonEncodedArrayOfArgsArrays&key=validKey".
 	 */
 	public function makeURLMultiple(array $methods, array $args) {
-		return sprintf($this->urlFormats["callMultiple"], $this->host, $this->port, rawurlencode($method), rawurlencode(json_encode($args)), $this->createKey($method));
+		return sprintf($this->urlFormats["callMultiple"], $this->host, $this->port, rawurlencode(json_encode($methods)), rawurlencode(json_encode($args)), $this->createKey($methods));
 	}
 	
 	/**
