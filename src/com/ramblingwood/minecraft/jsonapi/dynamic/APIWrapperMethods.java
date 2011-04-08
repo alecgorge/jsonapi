@@ -101,6 +101,10 @@ public class APIWrapperMethods implements CommandSender {
 		Server.dispatchCommand(this, command);
 	}
 	
+	public void runCommand (String obj) {
+		runCommand(new String[] {obj});
+	}
+	
 	public Map<String, String> getPropertiesFile (String fileName) throws Exception {
 		if((new File(fileName+".properties")).exists()) {
 			PropertiesFile p = new PropertiesFile(fileName+".properties");
