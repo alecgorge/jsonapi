@@ -11,12 +11,15 @@ public class Argument {
 	private static HashMap<String, Class<?>> mapping = new HashMap<String, Class<?>>();
 	
 	static {
-		mapping.put("int", Integer.class);
-		mapping.put("double", Double.class);
-		mapping.put("boolean", Boolean.class);
-		mapping.put("float", Float.class);
+		mapping.put("int", int.class);
+		mapping.put("double", double.class);
+		mapping.put("boolean", boolean.class);
+		mapping.put("float", float.class);
 		mapping.put("String", String.class);
 		mapping.put("Integer", Integer.class);
+		mapping.put("Float", Float.class);
+		mapping.put("Double", Double.class);
+		mapping.put("Boolean", Boolean.class);
 		mapping.put("Player", org.bukkit.entity.Player.class);
 		mapping.put("Server", org.bukkit.Server.class);
 		mapping.put("World", org.bukkit.World.class);
