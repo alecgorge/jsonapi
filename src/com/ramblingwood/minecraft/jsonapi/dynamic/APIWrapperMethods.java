@@ -105,6 +105,38 @@ public class APIWrapperMethods implements CommandSender {
 		runCommand(new String[] {obj});
 	}
 	
+	public void runCommand (String obj, String obj2) {
+		runCommand(new String[] {obj, obj2});
+	}
+	
+	public void runCommand (String obj, String obj2, String obj3) {
+		runCommand(new String[] {obj, obj2, obj3});
+	}
+	
+	public void runCommand (String obj, String obj2, String obj3, String obj4) {
+		runCommand(new String[] {obj, obj2, obj3, obj4});
+	}
+	
+	public void runCommand (String obj, String obj2, String obj3, String obj4, String obj5) {
+		runCommand(new String[] {obj, obj2, obj3, obj4, obj5});
+	}
+	
+	public void runCommand (String obj, String obj2, String obj3, String obj4, String obj5, String obj6) {
+		runCommand(new String[] {obj, obj2, obj3, obj4, obj5, obj6});
+	}
+	
+	public void runCommand (String obj, String obj2, String obj3, String obj4, String obj5, String obj6, String obj7) {
+		runCommand(new String[] {obj, obj2, obj3, obj4, obj5, obj6, obj7});
+	}
+	
+	public void runCommand (String obj, String obj2, String obj3, String obj4, String obj5, String obj6, String obj7, String obj8) {
+		runCommand(new String[] {obj, obj2, obj3, obj4, obj5, obj6, obj7, obj8});
+	}
+	
+	public void runCommand (String obj, String obj2, String obj3, String obj4, String obj5, String obj6, String obj7, String obj8, String obj9) {
+		runCommand(new String[] {obj, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9});
+	}
+	
 	public Map<String, String> getPropertiesFile (String fileName) throws Exception {
 		if((new File(fileName+".properties")).exists()) {
 			PropertiesFile p = new PropertiesFile(fileName+".properties");
