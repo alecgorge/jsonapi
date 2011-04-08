@@ -198,7 +198,7 @@
 	{
 		"name": "sendMessage",
 		"desc": "Send a private message to the specified player.",
-		"call": "Server.getPlayer(0).sendRawMessage(1)",
+		"call": "Server.getPlayer(0).sendMessage(1)",
 		"args": [
 			["String", "Player to whom the message is sent"],
 			["String", "The message to send"]
@@ -253,7 +253,7 @@
 	},
 	{
 		"name": "getFileContents",
-		"desc": "Gets the contents of the specified file.",
+		"desc": "Gets the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.",
 		"returns": ["String", "The file's contents."],
 		"call": "this.getFileContents(0)",
 		"args": [
@@ -262,7 +262,7 @@
 	},
 	{
 		"name": "setFileContents",
-		"desc": "Sets (not appends to) the contents of the specified file.",
+		"desc": "Sets (not appends to) the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.",
 		"call": "this.setFileContents(0, 1)",
 		"returns": ["boolean", "True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist."],
 		"args": [
@@ -272,7 +272,7 @@
 	},
 	{
 		"name": "editPropertiesFile",
-		"desc": "Sets the specified key of the specified file to the specified value with the specified type.",
+		"desc": "Sets the specified key of the specified file to the specified value with the specified type. The file path is relative to the folder that the craftbukkit jar is in.",
 		"call": "this.editPropertiesFile(0,1,2,3)",
 		"returns": ["boolean", "True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist."],
 		"args": [
@@ -284,7 +284,7 @@
 	},
 	{
 		"name": "getPropertiesFile",
-		"desc": "Gets a key value set for the specified properties file.",
+		"desc": "Gets a key value set for the specified properties file. The file path is relative to the folder that the craftbukkit jar is in.",
 		"call": "this.getPropertiesFile(0)",
 		"returns": ["Object", "A key value set for the specified properties file."],
 		"args": [
