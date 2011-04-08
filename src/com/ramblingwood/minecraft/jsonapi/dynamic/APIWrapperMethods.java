@@ -39,7 +39,7 @@ public class APIWrapperMethods implements CommandSender {
 		}
 	}
 	
-	public boolean setPlayerInventorySlot (String playerName, Integer slot, Integer blockID, Integer quantity) {
+	public boolean setPlayerInventorySlot (String playerName, int slot, int blockID, int quantity) {
 		try {
 			Server.getPlayer(playerName).getInventory().setItem(slot, new ItemStack(blockID, quantity));
 			return true;

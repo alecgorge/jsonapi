@@ -68,15 +68,15 @@ public class Call {
 				Class<?>[] sig = sigForIndices(obj.requiresArgs());
 				for(int x = 0; x < args.length; x++) {
 					Object val = args[x];
-					if((val.getClass().equals(Long.class) || val.getClass().equals(Double.class) || val.getClass().equals(String.class)) && sig[x].equals(Integer.class)) {
+					if((val.getClass().equals(Long.class) || val.getClass().equals(Double.class) || val.getClass().equals(String.class) || val.getClass().equals(long.class) || val.getClass().equals(double.class)) && (sig[x].equals(Integer.class) || sig[x].equals(int.class))) {
 						args[x] = Integer.valueOf(val.toString());
 						val = args[x];
 					}
-					if((val.getClass().equals(Integer.class) || val.getClass().equals(Long.class) || val.getClass().equals(String.class)) && sig[x].equals(Double.class)) {
+					if((val.getClass().equals(Integer.class) || val.getClass().equals(Long.class) || val.getClass().equals(String.class) || val.getClass().equals(long.class) || val.getClass().equals(int.class)) && (sig[x].equals(Double.class) || sig[x].equals(double.class))) {
 						args[x] = Double.valueOf(val.toString());
 						val = args[x];
 					}
-					if((val.getClass().equals(Integer.class) || val.getClass().equals(Double.class) || val.getClass().equals(String.class)) && sig[x].equals(Long.class)) {
+					if((val.getClass().equals(Integer.class) || val.getClass().equals(Double.class) || val.getClass().equals(String.class) || val.getClass().equals(int.class) || val.getClass().equals(double.class)) && (sig[x].equals(Long.class) || sig[x].equals(long.class))) {
 						args[x] = Long.valueOf(val.toString());
 						val = args[x];
 					}
