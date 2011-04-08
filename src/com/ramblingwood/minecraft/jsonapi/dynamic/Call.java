@@ -153,8 +153,8 @@ public class Call {
 					int multiplier = 0;
 					
 					for(int x = 0; x < argParts.length; x++) {
-						if(argParts[x].startsWith("\"") && argParts[x].endsWith("\"")) {
-							defaults.put(x, argParts[x].substring(1, argParts[x].length() - 1));
+						if(argParts[x].trim().startsWith("\"") && argParts[x].trim().endsWith("\"")) {
+							defaults.put(x, argParts[x].trim().substring(1, argParts[x].trim().length() - 1));
 							
 							ArrayList<Class<?>> cc = new ArrayList<Class<?>>(Arrays.asList(signature));
 							cc.add(x, String.class);
@@ -170,7 +170,12 @@ public class Call {
 							multiplier++;
 						}
 						else {
-							argPos.add(Integer.parseInt(argParts[x].trim()) + (multiplier));
+							try {
+								argPos.add(Integer.parseInt(argParts[x].trim()) + (multiplier));
+							}
+							catch (NumberFormatException e) {
+								e.printStackTrace();
+							}
 						}
 					}
 					
