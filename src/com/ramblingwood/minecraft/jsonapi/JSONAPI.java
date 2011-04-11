@@ -18,8 +18,14 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import org.bukkit.Server;
+import org.bukkit.event.Event;
+import org.bukkit.event.Event.Priority;
+import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerListener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -31,6 +37,7 @@ public class JSONAPI extends JavaPlugin  {
 	private PluginLoader pluginLoader;
 	private Server server;
 	public JSONServer jsonServer;
+	public JSONSocketServer jsonSocketServer;
 	
 	public boolean logging = false;
 	public String logFile = "false";
@@ -54,7 +61,7 @@ public class JSONAPI extends JavaPlugin  {
 		JSONAPI.instance = this;		
 	}
 	
-	// private JSONApiPlayerListener l = new JSONApiPlayerListener(this);	
+	private JSONAPIPlayerListener l = new JSONAPIPlayerListener(this);	
 
 	public void onEnable() {
 		try {
@@ -131,9 +138,11 @@ public class JSONAPI extends JavaPlugin  {
 		    log.info("[JSONAPI] Logging to console: "+String.valueOf(logging));
 		    log.info("[JSONAPI] IP Whitelist = "+(reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
 		    log.info("[JSONAPI] JSON Server listening on "+port);
+		    log.info("[JSONAPI] JSON Stream Server listening on "+(port+1));
 
 		    jsonServer = new JSONServer(auth, this);
-			
+		    jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
+		    
 			initialiseListeners();
 		}
 		catch( IOException ioe ) {
@@ -151,12 +160,12 @@ public class JSONAPI extends JavaPlugin  {
 	}
 	
 	private void initialiseListeners(){
-		/*PluginManager pm = getServer().getPluginManager();
+		PluginManager pm = getServer().getPluginManager();
 		
-		pm.registerEvent(Type.PLAYER_CHAT, l, Priority.Normal, this);
-		pm.registerEvent(Type.PLAYER_COMMAND_PREPROCESS, l, Priority.Normal, this);
-		pm.registerEvent(Type.PLAYER_QUIT, l, Priority.Normal, this);
-		pm.registerEvent(Type.PLAYER_LOGIN, l, Priority.Normal, this);*/
+		pm.registerEvent(Event.Type.PLAYER_CHAT, l, Priority.Normal, this);
+		// pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, l, Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_QUIT, l, Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_LOGIN, l, Priority.Normal, this);
 	
 		log.info("[JSONAPI] Active and listening for requests.");
 	}
@@ -194,7 +203,7 @@ public class JSONAPI extends JavaPlugin  {
 		jsonServer.stop();
 	}
 	
-	/*public class JSONApiPlayerListener extends PlayerListener {
+	public class JSONAPIPlayerListener extends PlayerListener {
 		JSONAPI p;
 
 		public String join(String[] strings, String separator) {
@@ -206,29 +215,25 @@ public class JSONAPI extends JavaPlugin  {
 		  	return sb.toString();
 		}
 		
-		// This controls the accessability of functions / variables from the main class.
-		public JSONApiPlayerListener(JSONAPI plugin) {
+		// This controls the accessibility of functions / variables from the main class.
+		public JSONAPIPlayerListener(JSONAPI plugin) {
 			p = plugin;
 		}
 		
-		@Override
 		public void onPlayerChat(PlayerChatEvent event) {
-			HttpStream.log("chat", new String[]{event.getPlayer().getName(),event.getMessage()});			
+			p.jsonServer.logChat(event.getPlayer().getName(),event.getMessage());			
 		}
 		
-		@Override
 		public void onPlayerJoin(PlayerEvent event) {
-			HttpStream.log("connections", new String[] {"connect", event.getPlayer().getName()});
+			p.jsonServer.logConnected(event.getPlayer().getName());
 		}
 
-		@Override
 		public void onPlayerQuit(PlayerEvent event) {
-			HttpStream.log("connections", new String[] {"disconnect", event.getPlayer().getName()});
+			p.jsonServer.logDisconnected(event.getPlayer().getName());
 		}
 		
-		@Override
-		public void onPlayerCommandPreprocess(PlayerChatEvent event) {
+		/*public void onPlayerCommandPreprocess(PlayerChatEvent event) {
 			HttpStream.log("commands", new String[] {event.getPlayer().getName(), event.getMessage()});
-		}
-	}*/
+		}*/
+	}
 }

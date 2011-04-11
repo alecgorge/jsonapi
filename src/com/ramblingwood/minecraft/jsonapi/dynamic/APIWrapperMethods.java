@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -47,6 +49,33 @@ public class APIWrapperMethods implements CommandSender {
 		catch (NullPointerException e) {
 			return false;
 		}
+	}
+	
+	public List<String> getWhitelist () throws IOException {
+		String w = getFileContents("white-list.txt");
+		List<String> a = new ArrayList<String>();
+		for(String s : w.split("\n")) {
+			a.add(s.trim());
+		}
+		return a;
+	}
+	
+	public List<String> getBannedPlayers () throws IOException {
+		String w = getFileContents("banned-players.txt");
+		List<String> a = new ArrayList<String>();
+		for(String s : w.split("\n")) {
+			a.add(s.trim());
+		}
+		return a;
+	}
+	
+	public List<String> getBannedIPs () throws IOException {
+		String w = getFileContents("banned-ips.txt");
+		List<String> a = new ArrayList<String>();
+		for(String s : w.split("\n")) {
+			a.add(s.trim());
+		}
+		return a;
 	}
 	
 	public boolean enablePlugin(String name) {
