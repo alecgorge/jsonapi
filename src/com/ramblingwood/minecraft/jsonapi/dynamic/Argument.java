@@ -1,6 +1,7 @@
 package com.ramblingwood.minecraft.jsonapi.dynamic;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.simpleForBukkit.JSONArray;
 
@@ -12,6 +13,7 @@ public class Argument {
 	
 	static {
 		mapping.put("int", int.class);
+		mapping.put("String[]", String[].class);
 		mapping.put("double", double.class);
 		mapping.put("boolean", boolean.class);
 		mapping.put("float", float.class);
