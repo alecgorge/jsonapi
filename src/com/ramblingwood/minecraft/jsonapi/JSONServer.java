@@ -20,6 +20,9 @@ import org.json.simpleForBukkit.JSONValue;
 import org.json.simpleForBukkit.parser.JSONParser;
 
 import com.ramblingwood.minecraft.jsonapi.dynamic.Caller;
+import com.ramblingwood.minecraft.jsonapi.streams.ChatMessage;
+import com.ramblingwood.minecraft.jsonapi.streams.ConnectionMessage;
+import com.ramblingwood.minecraft.jsonapi.streams.StreamingResponse;
 
 
 public class JSONServer extends NanoHTTPD {
@@ -29,6 +32,10 @@ public class JSONServer extends NanoHTTPD {
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	private Caller caller;
 
+	private ArrayList<ChatMessage> chat = new ArrayList<ChatMessage>(); 
+	private ArrayList<ConnectionMessage> connections = new ArrayList<ConnectionMessage>(); 
+
+	
 	public JSONServer(Hashtable<String, String> logins, JSONAPI plugin) throws IOException {
 		super(plugin.port);
 		inst = plugin;
@@ -50,6 +57,30 @@ public class JSONServer extends NanoHTTPD {
 		
 		this.logins = logins;
 	}
+	
+	public void logChat(String player, String message) {
+		chat.add(new ChatMessage(player, message));
+		if(chat.size() > 50) {
+			chat.remove(0);
+			chat.trimToSize();
+		}
+	}
+	
+	public void logConnected(String player) {
+		connections.add(new ConnectionMessage(player, true));
+		if(connections.size() > 50) {
+			connections.remove(0);
+			connections.trimToSize();
+		}
+	}
+	
+	public void logDisconnected(String player) {
+		connections.add(new ConnectionMessage(player, false));
+		if(connections.size() > 50) {
+			connections.remove(0);
+			connections.trimToSize();
+		}
+	}	
 	
 	public boolean testLogin (String method, String hash) {
 		try {
@@ -102,7 +133,7 @@ public class JSONServer extends NanoHTTPD {
 			return jsonRespone(returnAPIError("You are not allowed to make API calls."), callback, HTTP_FORBIDDEN);			
 		}
 
-		/*if(uri.equals("/api/subscribe")) {
+		if(uri.equals("/api/subscribe")) {
 			String source = parms.getProperty("source");
 			String key = parms.getProperty("key");
 
@@ -114,20 +145,19 @@ public class JSONServer extends NanoHTTPD {
 			info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": source="+ source);
 
 			try {
-				if(source == null)
+				if(source == null && source.equals("chat") && source.equals("connections"))
 					throw new Exception();
 
-				// HttpStream.handler will now be non-null
-				HttpStream out = new HttpStream(source, callback);
+				StreamingResponse out = new StreamingResponse(source.equals("chat") ? chat : connections, callback);
 
 				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return jsonRespone(returnAPIError("That source doesn't exist!"), callback, HTTP_NOTFOUND);
+				return jsonRespone(returnAPIError("'"+source+"' is not a valid stream source!"), callback, HTTP_NOTFOUND);
 			}
 		}
 
-		if(!uri.equals("/api/call") && !uri.equals("/api/call-multiple")) {
+		/*if(!uri.equals("/api/call") && !uri.equals("/api/call-multiple")) {
 			boolean valid = false;
 
 			// use basic authentication for other file access

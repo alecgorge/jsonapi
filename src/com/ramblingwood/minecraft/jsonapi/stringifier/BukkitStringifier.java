@@ -1,4 +1,4 @@
-package com.ramblingwood.minecraft.stringifier;
+package com.ramblingwood.minecraft.jsonapi.stringifier;
 
 import java.util.Arrays;
 import java.util.HashMap;

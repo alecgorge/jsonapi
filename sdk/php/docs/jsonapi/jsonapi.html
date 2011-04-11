@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Thu, 07 Apr 2011 00:03:44 +0000">
+<meta name="when" content="Mon, 11 Apr 2011 23:08:46 +0000">
 
 <link rel="stylesheet" type="text/css" href="../stylesheet.css">
 <link rel="start" href="../overview-summary.html">
@@ -85,7 +85,11 @@ Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> 
 </tr>
 <tr>
 <td class="type"> string</td>
-<td class="description"><p class="name"><a href="#makeURL()">makeURL</a>(array methods, array args)</p><p class="description">Generates the proper URL for a multiple API call the given method and arguments.</p></td>
+<td class="description"><p class="name"><a href="#makeURL()">makeURL</a>(string method, array args)</p><p class="description">Generates the proper URL for a standard API call the given method and arguments.</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#makeURLMultiple()">makeURLMultiple</a>(array methods, array args)</p><p class="description">Generates the proper URL for a multiple API call the given method and arguments.</p></td>
 </tr>
 </table>
 
@@ -99,7 +103,7 @@ Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> 
 
 <hr>
 
-<a href="../source/jsonapi.php.html#line77" class="location">JSONAPI.php at line 77</a>
+<a href="../source/jsonapi.php.html#line80" class="location">JSONAPI.php at line 80</a>
 
 <h3 id="call()">call</h3>
 <code class="signature">public  array <strong>call</strong>(string method, array args)</code>
@@ -115,7 +119,7 @@ Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> 
 
 <hr>
 
-<a href="../source/jsonapi.php.html#line111" class="location">JSONAPI.php at line 111</a>
+<a href="../source/jsonapi.php.html#line114" class="location">JSONAPI.php at line 114</a>
 
 <h3 id="callMultiple()">callMultiple</h3>
 <code class="signature">public  array <strong>callMultiple</strong>(array methods, array args)</code>
@@ -148,17 +152,33 @@ Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> 
 
 <hr>
 
-<a href="../source/jsonapi.php.html#line66" class="location">JSONAPI.php at line 66</a>
+<a href="../source/jsonapi.php.html#line58" class="location">JSONAPI.php at line 58</a>
 
 <h3 id="makeURL()">makeURL</h3>
-<code class="signature">public  string <strong>makeURL</strong>(array methods, array args)</code>
+<code class="signature">public  string <strong>makeURL</strong>(string method, array args)</code>
+<div class="details">
+<p>Generates the proper URL for a standard API call the given method and arguments.</p><dl>
+<dt>Parameters:</dt>
+<dd>method - The name of the JSONAPI API method to generate the URL for.</dd>
+<dd>args - An array of arguments that are to be passed in the URL.</dd>
+<dt>Returns:</dt>
+<dd>A proper standard JSONAPI API call URL. Example: "http://localhost:20059/api/call?method=methodName&args=jsonEncodedArgsArray&key=validKey".</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../source/jsonapi.php.html#line69" class="location">JSONAPI.php at line 69</a>
+
+<h3 id="makeURLMultiple()">makeURLMultiple</h3>
+<code class="signature">public  string <strong>makeURLMultiple</strong>(array methods, array args)</code>
 <div class="details">
 <p>Generates the proper URL for a multiple API call the given method and arguments.</p><dl>
 <dt>Parameters:</dt>
 <dd>methods - An array of strings, where each string is the name of the JSONAPI API method to generate the URL for.</dd>
 <dd>args - An array of arrays, where each array contains the arguments that are to be passed in the URL.</dd>
 <dt>Returns:</dt>
-<dd>A proper multiple JSONAPI API call URL. Example: "http://localhost:20059/api/call?method=methodName&args=jsonEncodedArgs&key=validKey".</dd>
+<dd>A proper multiple JSONAPI API call URL. Example: "http://localhost:20059/api/call-multiple?method=[methodName,methodName2]&args=jsonEncodedArrayOfArgsArrays&key=validKey".</dd>
 </dl>
 </div>
 
