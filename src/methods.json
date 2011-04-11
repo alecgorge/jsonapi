@@ -294,19 +294,19 @@
     {
         "name": "getWhitelist",
         "desc": "Gets the players on the whitelist.",
-        "returns": ["Array", "Returns an array of strings; where each item in the array is a string that contains a player's name."],
+        "returns": ["String[]", "Returns an array of strings; where each item in the array is a string that contains a player's name."],
         "call": "this.getWhitelist()"
     },
     {
         "name": "getBannedPlayers",
         "desc": "Gets the players on the ban list.",
-        "returns": ["Array", "Returns an array of strings; where each item in the array is a string that contains a player's name."],
+        "returns": ["String[]", "Returns an array of strings; where each item in the array is a string that contains a player's name."],
         "call": "this.getBannedPlayers()"
     },
     {
         "name": "getBannedIPs",
         "desc": "Gets the IPs on the ban list.",
-        "returns": ["Array", "Returns an array of strings; where each item in the array is a string that contains an IP address."],
+        "returns": ["String[]", "Returns an array of strings; where each item in the array is a string that contains an IP address."],
         "call": "this.getBannedIPs()"
     }
 ]
