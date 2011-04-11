@@ -296,7 +296,7 @@
 	<div class="method-wrapper">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>getFileContents</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the contents of the specified file.</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.</li>
 			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li></ul></li>
 			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The file's contents.</li>
 		</ul>
@@ -305,7 +305,7 @@
 	<div class="method-wrapper">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>setFileContents</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets (not appends to) the contents of the specified file.</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets (not appends to) the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.</li>
 			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li><li><strong>String</strong> The content to put in the file.</li></ul></li>
 			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</li>
 		</ul>
@@ -314,7 +314,7 @@
 	<div class="method-wrapper">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>editPropertiesFile</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets the specified key of the specified file to the specified value with the specified type.</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets the specified key of the specified file to the specified value with the specified type. The file path is relative to the folder that the craftbukkit jar is in.</li>
 			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the .properties file to edit WITHOUT the extentions. (server, not server.properties)</li><li><strong>String</strong> The type of value. Options are boolean, long, int, string and double.</li><li><strong>String</strong> The key that will have value set to it.</li><li><strong>String</strong> The value to set key to as A STRING. This means that true will be come "true" and 1.5 will become "1.5".</li></ul></li>
 			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</li>
 		</ul>
@@ -323,9 +323,36 @@
 	<div class="method-wrapper">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>getPropertiesFile</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets a key value set for the specified properties file.</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets a key value set for the specified properties file. The file path is relative to the folder that the craftbukkit jar is in.</li>
 			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the properties file to read.</li></ul></li>
 			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> A key value set for the specified properties file.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getWhitelist</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the players on the whitelist.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Array</strong> Returns an array of strings; where each item in the array is a string that contains a player's name.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getBannedPlayers</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the players on the ban list.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Array</strong> Returns an array of strings; where each item in the array is a string that contains a player's name.</li>
+		</ul>
+		<br class="clear" />
+	</div>
+	<div class="method-wrapper">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getBannedIPs</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the IPs on the ban list.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Array</strong> Returns an array of strings; where each item in the array is a string that contains an IP address.</li>
 		</ul>
 		<br class="clear" />
 	</div>

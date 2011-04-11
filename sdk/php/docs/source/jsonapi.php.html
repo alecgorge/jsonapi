@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
-<meta name="when" content="Thu, 07 Apr 2011 00:03:44 +0000">
+<meta name="when" content="Mon, 11 Apr 2011 23:08:46 +0000">
 
 <link rel="stylesheet" type="text/css" href="../stylesheet.css">
 <link rel="start" href="../overview-summary.html">
@@ -61,109 +61,115 @@
 <a name="line23"></a>	private $password;
 <a name="line24"></a>	
 <a name="line25"></a>	private $urlFormats = array(
-<a name="line26"></a>		"call" => "http://%s:%s/api/call?method=%s&args=%s&key=%s"
-<a name="line27"></a>	);
-<a name="line28"></a>	
-<a name="line29"></a>	/**
-<a name="line30"></a>	 * Creates a new JSONAPI instance.
-<a name="line31"></a>	 */
-<a name="line32"></a>	public function __construct ($host, $port, $uname, $pword, $salt) {
-<a name="line33"></a>		$this->host = $host;
-<a name="line34"></a>		$this->port = $host;
-<a name="line35"></a>		$this->username = $uname;
-<a name="line36"></a>		$this->password = $pword;
-<a name="line37"></a>		$this->salt = $salt;
-<a name="line38"></a>	}
-<a name="line39"></a>	
-<a name="line40"></a>	/**
-<a name="line41"></a>	 * Generates the proper SHA256 based key from the given method suitable for use as the key GET parameter in a JSONAPI API call.
-<a name="line42"></a>	 * 
-<a name="line43"></a>	 * @param string $method The name of the JSONAPI API method to generate the key for.
-<a name="line44"></a>	 * @return string The SHA256 key suitable for use as the key GET parameter in a JSONAPI API call.
-<a name="line45"></a>	 */
-<a name="line46"></a>	public function createKey($method) {
-<a name="line47"></a>		return hash('sha256', $this->username . $method . $this->password . $this->salt);
-<a name="line48"></a>	}
-<a name="line49"></a>	
-<a name="line50"></a>	/**
-<a name="line51"></a>	 * Generates the proper URL for a standard API call the given method and arguments.
-<a name="line52"></a>	 * 
-<a name="line53"></a>	 * @param string $method The name of the JSONAPI API method to generate the URL for.
-<a name="line54"></a>	 * @param array $args An array of arguments that are to be passed in the URL.
-<a name="line55"></a>	 * @return string A proper standard JSONAPI API call URL. Example: "http://localhost:20059/api/call?method=methodName&args=jsonEncodedArgs&key=validKey".
-<a name="line56"></a>	 */
-<a name="line57"></a>	public function makeURL($method, array $args) {
-<a name="line58"></a>		return sprintf($this->urlFormats["call"], $this->host, $this->port, rawurlencode($method), rawurlencode(json_encode($args)), $this->createKey($method));
-<a name="line59"></a>	}
-<a name="line60"></a>	
-<a name="line61"></a>	/**
-<a name="line62"></a>	 * Generates the proper URL for a multiple API call the given method and arguments.
-<a name="line63"></a>	 * 
-<a name="line64"></a>	 * @param array $methods An array of strings, where each string is the name of the JSONAPI API method to generate the URL for.
-<a name="line65"></a>	 * @param array $args An array of arrays, where each array contains the arguments that are to be passed in the URL.
-<a name="line66"></a>	 * @return string A proper multiple JSONAPI API call URL. Example: "http://localhost:20059/api/call?method=methodName&args=jsonEncodedArgs&key=validKey".
-<a name="line67"></a>	 */
-<a name="line68"></a>	public function makeURL($methods, array $args) {
-<a name="line69"></a>		return sprintf($this->urlFormats["call"], $this->host, $this->port, rawurlencode($method), rawurlencode(json_encode($args)), $this->createKey($method));
-<a name="line70"></a>	}
-<a name="line71"></a>	
-<a name="line72"></a>	/**
-<a name="line73"></a>	 * Calls the single given JSONAPI API method with the given args.
-<a name="line74"></a>	 * 
-<a name="line75"></a>	 * @param string $method The name of the JSONAPI API method to call.
-<a name="line76"></a>	 * @param array $args An array of arguments that are to be passed.
-<a name="line77"></a>	 * @return array An associative array representing the JSON that was returned.
-<a name="line78"></a>	 */
-<a name="line79"></a>	public function call($method, array $args) {
-<a name="line80"></a>		if(is_array($method)) {
-<a name="line81"></a>			$this->callMultiple($method, $args);
-<a name="line82"></a>		}
-<a name="line83"></a>	
-<a name="line84"></a>		foreach((array)$args as &$v) {
-<a name="line85"></a>			if(is_numeric($v)) {
-<a name="line86"></a>				$v = (float)$v;
-<a name="line87"></a>			}
-<a name="line88"></a>		}
-<a name="line89"></a>		
-<a name="line90"></a>		$url = $this->makeURL($method, $args);
-<a name="line91"></a>
-<a name="line92"></a>		return json_decode($this->curl($url), true);
-<a name="line93"></a>	}
-<a name="line94"></a>	
-<a name="line95"></a>	private function curl($url) {
-<a name="line96"></a>		$c = curl_init($url);
-<a name="line97"></a>		curl_setopt($c, CURLOPT_PORT, $this->port);
-<a name="line98"></a>		curl_setopt($c, CURLOPT_HEADER, false);
-<a name="line99"></a>		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-<a name="line100"></a>		$result = curl_exec($c);
-<a name="line101"></a>		curl_close($c);
-<a name="line102"></a>		return $result;
-<a name="line103"></a>	}
-<a name="line104"></a>	
-<a name="line105"></a>	/**
-<a name="line106"></a>	 * Calls the given JSONAPI API methods with the given args.
-<a name="line107"></a>	 * 
-<a name="line108"></a>	 * @param array $methods An array strings, where each string is the name of a JSONAPI API method to call.
-<a name="line109"></a>	 * @param array $args An array of arrays of arguments that are to be passed.
-<a name="line110"></a>	 * @throws Exception When the length of the $methods array and the $args array are different, an exception is thrown.
-<a name="line111"></a>	 * @return array An array of associative arrays representing the JSON that was returned.
-<a name="line112"></a>	 */
-<a name="line113"></a>	public function callMultiple(array $methods, array $args) {
-<a name="line114"></a>		if(count($methods) !== count($args)) {
-<a name="line115"></a>			throw new Exception("The length of the arrays \$methods and \$args are different! You need an array of arguments for each method!");
-<a name="line116"></a>		}
-<a name="line117"></a>	
-<a name="line118"></a>		foreach((array)$args as &$v) {
-<a name="line119"></a>			foreach((array)$v as &$x) {
-<a name="line120"></a>				if(is_numeric($x)) {
-<a name="line121"></a>					$x = (float)$x;
-<a name="line122"></a>				}
-<a name="line123"></a>			}
-<a name="line124"></a>		}
-<a name="line125"></a>		
-<a name="line126"></a>		
-<a name="line127"></a>	}
-<a name="line128"></a>}</pre>
+<a name="line26"></a>		"call" => "http://%s:%s/api/call?method=%s&args=%s&key=%s",
+<a name="line27"></a>		"callMultiple" => "http://%s:%s/api/call-multiple?method=%s&args=%s&key=%s"
+<a name="line28"></a>	);
+<a name="line29"></a>	
+<a name="line30"></a>	/**
+<a name="line31"></a>	 * Creates a new JSONAPI instance.
+<a name="line32"></a>	 */
+<a name="line33"></a>	public function __construct ($host, $port, $uname, $pword, $salt) {
+<a name="line34"></a>		$this->host = $host;
+<a name="line35"></a>		$this->port = $host;
+<a name="line36"></a>		$this->username = $uname;
+<a name="line37"></a>		$this->password = $pword;
+<a name="line38"></a>		$this->salt = $salt;
+<a name="line39"></a>	}
+<a name="line40"></a>	
+<a name="line41"></a>	/**
+<a name="line42"></a>	 * Generates the proper SHA256 based key from the given method suitable for use as the key GET parameter in a JSONAPI API call.
+<a name="line43"></a>	 * 
+<a name="line44"></a>	 * @param string $method The name of the JSONAPI API method to generate the key for.
+<a name="line45"></a>	 * @return string The SHA256 key suitable for use as the key GET parameter in a JSONAPI API call.
+<a name="line46"></a>	 */
+<a name="line47"></a>	public function createKey($method) {
+<a name="line48"></a>		if(is_array($method)) {
+<a name="line49"></a>			$method = json_encode($method);
+<a name="line50"></a>		}
+<a name="line51"></a>		return hash('sha256', $this->username . $method . $this->password . $this->salt);
+<a name="line52"></a>	}
+<a name="line53"></a>	
+<a name="line54"></a>	/**
+<a name="line55"></a>	 * Generates the proper URL for a standard API call the given method and arguments.
+<a name="line56"></a>	 * 
+<a name="line57"></a>	 * @param string $method The name of the JSONAPI API method to generate the URL for.
+<a name="line58"></a>	 * @param array $args An array of arguments that are to be passed in the URL.
+<a name="line59"></a>	 * @return string A proper standard JSONAPI API call URL. Example: "http://localhost:20059/api/call?method=methodName&args=jsonEncodedArgsArray&key=validKey".
+<a name="line60"></a>	 */
+<a name="line61"></a>	public function makeURL($method, array $args) {
+<a name="line62"></a>		return sprintf($this->urlFormats["call"], $this->host, $this->port, rawurlencode($method), rawurlencode(json_encode($args)), $this->createKey($method));
+<a name="line63"></a>	}
+<a name="line64"></a>	
+<a name="line65"></a>	/**
+<a name="line66"></a>	 * Generates the proper URL for a multiple API call the given method and arguments.
+<a name="line67"></a>	 * 
+<a name="line68"></a>	 * @param array $methods An array of strings, where each string is the name of the JSONAPI API method to generate the URL for.
+<a name="line69"></a>	 * @param array $args An array of arrays, where each array contains the arguments that are to be passed in the URL.
+<a name="line70"></a>	 * @return string A proper multiple JSONAPI API call URL. Example: "http://localhost:20059/api/call-multiple?method=[methodName,methodName2]&args=jsonEncodedArrayOfArgsArrays&key=validKey".
+<a name="line71"></a>	 */
+<a name="line72"></a>	public function makeURLMultiple(array $methods, array $args) {
+<a name="line73"></a>		return sprintf($this->urlFormats["callMultiple"], $this->host, $this->port, rawurlencode(json_encode($methods)), rawurlencode(json_encode($args)), $this->createKey($methods));
+<a name="line74"></a>	}
+<a name="line75"></a>	
+<a name="line76"></a>	/**
+<a name="line77"></a>	 * Calls the single given JSONAPI API method with the given args.
+<a name="line78"></a>	 * 
+<a name="line79"></a>	 * @param string $method The name of the JSONAPI API method to call.
+<a name="line80"></a>	 * @param array $args An array of arguments that are to be passed.
+<a name="line81"></a>	 * @return array An associative array representing the JSON that was returned.
+<a name="line82"></a>	 */
+<a name="line83"></a>	public function call($method, array $args) {
+<a name="line84"></a>		if(is_array($method)) {
+<a name="line85"></a>			$this->callMultiple($method, $args);
+<a name="line86"></a>		}
+<a name="line87"></a>	
+<a name="line88"></a>		foreach((array)$args as $k => $v) {
+<a name="line89"></a>			if(is_numeric($v)) {
+<a name="line90"></a>				$args[$k] = (float)$v;
+<a name="line91"></a>			}
+<a name="line92"></a>		}
+<a name="line93"></a>		
+<a name="line94"></a>		$url = $this->makeURL($method, $args);
+<a name="line95"></a>
+<a name="line96"></a>		return json_decode($this->curl($url), true);
+<a name="line97"></a>	}
+<a name="line98"></a>	
+<a name="line99"></a>	private function curl($url) {
+<a name="line100"></a>		$c = curl_init($url);
+<a name="line101"></a>		curl_setopt($c, CURLOPT_PORT, $this->port);
+<a name="line102"></a>		curl_setopt($c, CURLOPT_HEADER, false);
+<a name="line103"></a>		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+<a name="line104"></a>		$result = curl_exec($c);
+<a name="line105"></a>		curl_close($c);
+<a name="line106"></a>		return $result;
+<a name="line107"></a>	}
+<a name="line108"></a>	
+<a name="line109"></a>	/**
+<a name="line110"></a>	 * Calls the given JSONAPI API methods with the given args.
+<a name="line111"></a>	 * 
+<a name="line112"></a>	 * @param array $methods An array strings, where each string is the name of a JSONAPI API method to call.
+<a name="line113"></a>	 * @param array $args An array of arrays of arguments that are to be passed.
+<a name="line114"></a>	 * @throws Exception When the length of the $methods array and the $args array are different, an exception is thrown.
+<a name="line115"></a>	 * @return array An array of associative arrays representing the JSON that was returned.
+<a name="line116"></a>	 */
+<a name="line117"></a>	public function callMultiple(array $methods, array $args) {
+<a name="line118"></a>		if(count($methods) !== count($args)) {
+<a name="line119"></a>			throw new Exception("The length of the arrays \$methods and \$args are different! You need an array of arguments for each method!");
+<a name="line120"></a>		}
+<a name="line121"></a>	
+<a name="line122"></a>		foreach((array)$args as $key => $v) {
+<a name="line123"></a>			foreach((array)$v as $k => $x) {
+<a name="line124"></a>				if(is_numeric($x)) {
+<a name="line125"></a>					$args[$key][$k] = (float)$x;
+<a name="line126"></a>				}
+<a name="line127"></a>			}
+<a name="line128"></a>		}
+<a name="line129"></a>		
+<a name="line130"></a>		$url = $this->makeURLMultiple($methods, $args);
+<a name="line131"></a>
+<a name="line132"></a>		return json_decode($this->curl($url), true);
+<a name="line133"></a>	}
+<a name="line134"></a>}</pre>
 <div class="header">
 <h1>JSONAPI: PHP SDK</h1>
 <ul>
