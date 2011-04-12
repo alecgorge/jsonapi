@@ -32,7 +32,6 @@ public class JSONSocketServer implements Runnable{
 		
 		try {
 			this.serverSocket = new ServerSocket(this.serverPort);
-			Logger.getLogger("Minecraft").info("[JSONAPI] JSON Stream Server listening on "+(serverPort));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -21,7 +21,6 @@ import org.bukkit.Server;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -29,6 +28,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.simpleForBukkit.parser.ParseException;
 
 
 /**
@@ -61,6 +61,18 @@ public class JSONAPI extends JavaPlugin  {
 	public JSONAPI () {
 		super();
 		JSONAPI.instance = this;		
+	}
+	
+	public JSONServer getJSONServer () {
+		return jsonServer;
+	}
+	
+	public void registerMethod(String method) {
+		getJSONServer().getCaller().loadString("["+method+"]");
+	}
+	
+	public void registerMethods(String method) {
+		getJSONServer().getCaller().loadString(method);
 	}
 	
 	private JSONAPIPlayerListener l = new JSONAPIPlayerListener(this);	
@@ -139,10 +151,12 @@ public class JSONAPI extends JavaPlugin  {
 			log.info("[JSONAPI] Logging to file: "+logFile);
 			log.info("[JSONAPI] Logging to console: "+String.valueOf(logging));
 			log.info("[JSONAPI] IP Whitelist = "+(reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
+
+			jsonServer = new JSONServer(auth, this);		
 			log.info("[JSONAPI] JSON Server listening on "+port);
 
-			jsonServer = new JSONServer(auth, this);
 			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
+			log.info("[JSONAPI] JSON Stream Server listening on "+(port+1));
 			
 			initialiseListeners();
 		}
