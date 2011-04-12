@@ -36,7 +36,7 @@
 		"desc": "Gives the specified player the specified quanity of the item id by dropping it in front of them.",
 		"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
 		"call": "this.giveItemDrop(0, 1, 2)",
-		"ars": [
+		"args": [
 			["String", "Players' name"],
 			["int", "Id of item to drop"],
 			["int", "Quantity of item to drop"]
