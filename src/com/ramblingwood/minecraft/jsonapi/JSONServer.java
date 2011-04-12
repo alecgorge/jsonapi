@@ -108,7 +108,7 @@ public class JSONServer extends NanoHTTPD {
 	}
 	
 	public static String callback (String callback, String json) {
-		if(callback == null) return json;
+		if(callback == null || callback.equals("")) return json;
 		return callback.concat("(").concat(json).concat(")");
 	}
 	
@@ -145,10 +145,10 @@ public class JSONServer extends NanoHTTPD {
 			info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": source="+ source);
 
 			try {
-				if(source == null && source.equals("chat") && source.equals("connections"))
+				if(source == null || (!source.equals("chat") && !source.equals("connections")))
 					throw new Exception();
 
-				StreamingResponse out = new StreamingResponse(source.equals("chat") ? chat : connections, callback);
+				StreamingResponse out = new StreamingResponse(source, source.equals("chat") ? chat : connections, callback);
 
 				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);
 			} catch (Exception e) {
