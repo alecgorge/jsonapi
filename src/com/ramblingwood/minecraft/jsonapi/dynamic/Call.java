@@ -139,7 +139,6 @@ public class Call {
 				}
 			//}
 			else {
-				System.out.println(v);
 				// no args
 				if(v.endsWith("()")) {
 					stack.add(new SubCall(v.substring(0, v.length()-2), new ArrayList<Integer>()));
@@ -164,7 +163,6 @@ public class Call {
 					int multiplier = 0;
 					
 					for(int x = 0; x < argParts.length; x++) {
-						System.out.println(argParts[x]);
 						if(argParts[x].trim().startsWith("\"") && argParts[x].trim().endsWith("\"")) {
 							defaults.put(x, argParts[x].trim().substring(1, argParts[x].trim().length() - 1));
 							
