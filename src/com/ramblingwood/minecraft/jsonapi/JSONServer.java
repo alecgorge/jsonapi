@@ -39,7 +39,7 @@ public class JSONServer extends NanoHTTPD {
 	public JSONServer(Hashtable<String, String> logins, JSONAPI plugin) throws IOException {
 		super(plugin.port);
 		inst = plugin;
-		caller = new Caller();
+		caller = new Caller(inst);
 		caller.loadFile(new File(inst.getDataFolder()+File.separator+"methods.json"));
 		
 		File[] files = (new File(inst.getDataFolder()+File.separator+"methods"+File.separator)).listFiles(new FilenameFilter() {
@@ -56,6 +56,10 @@ public class JSONServer extends NanoHTTPD {
 		}
 		
 		this.logins = logins;
+	}
+	
+	public Caller getCaller() {
+		return caller;
 	}
 	
 	public void logChat(String player, String message) {

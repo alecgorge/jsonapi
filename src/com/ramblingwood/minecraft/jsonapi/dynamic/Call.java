@@ -55,9 +55,13 @@ public class Call {
 			debug("v:"+v.getClass().getCanonicalName());
 			if(v instanceof Server || v instanceof APIWrapperMethods || (i == 0 && v instanceof Plugin)) {
 				lastResult = v;
-				continue;
 			}
-			if(v instanceof SubCall) {
+			else if(v instanceof SubField) {
+				SubField obj = (SubField)v;
+				
+				lastResult = lastResult.getClass().getField(obj.getName()).get(lastResult);
+			}
+			else if(v instanceof SubCall) {
 				SubCall obj = (SubCall)v;
 				
 				debug("Calling method: '"+obj.getName()+"' with signature: '"+obj.requiresArgs()+"' '"+Arrays.asList(sigForIndices(obj.requiresArgs()))+"'.");
@@ -116,7 +120,7 @@ public class Call {
 	}
 	
 	public void parseString (String input) {
-		String[] parts = input.split("\\.");
+		String[] parts = input.split("\\.(?=[a-zA-Z])");
 
 		for(int i = 0; i < parts.length; i++) {
 			String v = parts[i];
@@ -130,13 +134,20 @@ public class Call {
 				else if(v.equals("Plugins")) { // handles Plugins.PLUGINNAME.pluginMethod(0,1,2)
 					String v2 = parts[i+1];
 					stack.add(Server.getPluginManager().getPlugin(v2));
+					i++;
 					continue;
 				}
 			//}
 			else {
+				System.out.println(v);
 				// no args
-				if(v.endsWith("()") || !v.endsWith(")")) {
+				if(v.endsWith("()")) {
 					stack.add(new SubCall(v.substring(0, v.length()-2), new ArrayList<Integer>()));
+				}
+				
+				// field
+				else if (!v.endsWith(")")) {
+					stack.add(new SubField(v));
 				}
 				
 				// args
@@ -153,6 +164,7 @@ public class Call {
 					int multiplier = 0;
 					
 					for(int x = 0; x < argParts.length; x++) {
+						System.out.println(argParts[x]);
 						if(argParts[x].trim().startsWith("\"") && argParts[x].trim().endsWith("\"")) {
 							defaults.put(x, argParts[x].trim().substring(1, argParts[x].trim().length() - 1));
 							
@@ -185,6 +197,18 @@ public class Call {
 					stack.add(new SubCall(v.substring(0, startPos), argPos));
 				}
 			}
+		}
+	}
+	
+	class SubField {
+		private String name;
+		
+		public SubField(String name) {
+			this.name = name;
+		}
+		
+		public String getName() {
+			return name;
 		}
 	}
 	
