@@ -2,6 +2,7 @@ package com.ramblingwood.minecraft.jsonapi;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,6 +24,8 @@ import java.util.TimeZone;
 
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
+
+import com.ramblingwood.minecraft.jsonapi.streams.StreamingResponse;
 
 /**
  * A simple, tiny, nicely embeddable HTTP 1.0 server in Java
@@ -561,14 +564,18 @@ public class NanoHTTPD
 				pw.print("\r\n");
 				pw.flush();
 
-				if(data.getClass().getName().toString().endsWith("HttpStream")) {
-					/*String next = ((HttpStream)data).getNext();
-					while(next != null) {
-						pw.print(next);
-						pw.flush();
-						
-						next = ((HttpStream)data).getNext();
-					}*/
+				if(data instanceof StreamingResponse) {
+					final DataOutputStream output = new DataOutputStream(out);
+					final StreamingResponse s = (StreamingResponse)data;
+					String line = "";
+					
+					while((line = s.nextLine()) != null) {
+						try {
+							output.writeBytes(line.trim()+"\r\n");
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
 				}
 				else if ( data != null)
 				{

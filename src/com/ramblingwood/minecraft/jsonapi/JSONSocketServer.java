@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import com.ramblingwood.minecraft.jsonapi.streams.StreamingResponse;
 
@@ -31,6 +32,7 @@ public class JSONSocketServer implements Runnable{
 		
 		try {
 			this.serverSocket = new ServerSocket(this.serverPort);
+			Logger.getLogger("Minecraft").info("[JSONAPI] JSON Stream Server listening on "+(serverPort));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -83,42 +85,59 @@ public class JSONSocketServer implements Runnable{
 
 		public void run() {
 			try {
-				BufferedReader input	= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-				DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
-				
-				// format method=xyz&args=[]&username=user&password=pass
-				String[] split = input.readLine().split("\\?", 2);
-				
-				NanoHTTPD.Response r = null;
-				if(split.length < 2) {
-					r = jsonServer.new Response( NanoHTTPD.HTTP_NOTFOUND, NanoHTTPD.MIME_JSON, jsonServer.returnAPIError("Incorrect. Socket requests are in the format PAGE?ARGUMENTS. For example, /api/subscribe?source=....").toJSONString());
-				}
-				else {
-					Properties header = new Properties();
-					NanoHTTPD.decodeParms(split[1], header);
-					header.put("X-REMOTE-ADDR", clientSocket.getInetAddress().getHostAddress());
-					r = jsonServer.serve(split[0], "GET", new Properties(), header);
-				}
-				
-				if(r.data instanceof StreamingResponse) {
-					StreamingResponse s = (StreamingResponse)r.data;
-					String line = "";
+				String line2 = "";
+				final BufferedReader input	= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				final DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
+
+				while((line2 = input.readLine()) != null) {
+					// format method=xyz&args=[]&username=user&password=pass
+					String[] split = line2.split("\\?", 2);
 					
-					while((line = s.nextLine()) != null) {
-						output.writeUTF(line);
+					NanoHTTPD.Response r = null;
+					if(split.length < 2) {
+						r = jsonServer.new Response( NanoHTTPD.HTTP_NOTFOUND, NanoHTTPD.MIME_JSON, jsonServer.returnAPIError("Incorrect. Socket requests are in the format PAGE?ARGUMENTS. For example, /api/subscribe?source=....").toJSONString());
 					}
-				}
-				else {
-					BufferedReader data = new BufferedReader(new InputStreamReader(r.data));
+					else {
+						Properties header = new Properties();
+						NanoHTTPD.decodeParms(split[1], header);
+						Properties p = new Properties();
+						p.put("X-REMOTE-ADDR", clientSocket.getInetAddress().getHostAddress());
+						r = jsonServer.serve(split[0], "GET", p, header);
+					}
 					
-					try {
-						output.writeUTF(data.readLine());
+					if(r.data instanceof StreamingResponse) {
+						final StreamingResponse s = (StreamingResponse)r.data;
+						(new Thread(new Runnable() {
+							@Override
+							public void run() {
+								String line = "";
+								
+								while((line = s.nextLine()) != null) {
+									try {
+										output.writeBytes(line.trim()+"\r\n");
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
+								}
+							}
+						})).start();
 					}
-					catch (IOException e) {
-						e.printStackTrace();
+					else {
+						BufferedReader data = new BufferedReader(new InputStreamReader(r.data));
+						
+						try {
+							String line = "";
+	
+							while((line = data.readLine()) != null) {
+								output.writeUTF(line+"\r\n");
+							}
+						}
+						catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
+					
 				}
-				
 				output.close();
 				input.close();
 			} catch (IOException e) {

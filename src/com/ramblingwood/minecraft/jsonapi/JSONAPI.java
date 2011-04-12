@@ -22,7 +22,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
@@ -100,49 +102,48 @@ public class JSONAPI extends JavaPlugin  {
 			
 			port = options.getInt("port", 20059);
 
-		    try {
-		    	// Open the file that is the first 
-		    	// command line parameter
-		    	FileInputStream fstream;
-		    	File authfile = new File(getDataFolder().getAbsolutePath()+File.separator+"JSONAPIAuthentication.txt");
-		    	try {
-		    		fstream = new FileInputStream(authfile);
-		    	}
-		    	catch (FileNotFoundException e) {
-		    		authfile.createNewFile();
-		    		fstream = new FileInputStream(authfile);
-		    	}
-		    	// Get the object of DataInputStream
-		    	DataInputStream in = new DataInputStream(fstream);
-		    	BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		    	String line;
-		    	
-		    	while ((line = br.readLine()) != null)   {
-		    		if(!line.startsWith("#")) {
-		    			String[] parts = line.trim().split(":");
-		    			if(parts.length == 2) {
-		    				auth.put(parts[0], parts[1]);
-		    			}
-		    		}
-		    	}
-		    	in.close();
-		    } catch (Exception e) {
-		    	e.printStackTrace();
-		    }
-		    if(auth.size() == 0) {
-		    	log.severe("[JSONAPI] No valid logins for JSONAPI. Check JSONAPIAuthentication.txt");
-		    	return;
-		    }
-		    
-		    log.info("[JSONAPI] Logging to file: "+logFile);
-		    log.info("[JSONAPI] Logging to console: "+String.valueOf(logging));
-		    log.info("[JSONAPI] IP Whitelist = "+(reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
-		    log.info("[JSONAPI] JSON Server listening on "+port);
-		    log.info("[JSONAPI] JSON Stream Server listening on "+(port+1));
+			try {
+				// Open the file that is the first 
+				// command line parameter
+				FileInputStream fstream;
+				File authfile = new File(getDataFolder().getAbsolutePath()+File.separator+"JSONAPIAuthentication.txt");
+				try {
+					fstream = new FileInputStream(authfile);
+				}
+				catch (FileNotFoundException e) {
+					authfile.createNewFile();
+					fstream = new FileInputStream(authfile);
+				}
+				// Get the object of DataInputStream
+				DataInputStream in = new DataInputStream(fstream);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
+				String line;
+				
+				while ((line = br.readLine()) != null)   {
+					if(!line.startsWith("#")) {
+						String[] parts = line.trim().split(":");
+						if(parts.length == 2) {
+							auth.put(parts[0], parts[1]);
+						}
+					}
+				}
+				in.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(auth.size() == 0) {
+				log.severe("[JSONAPI] No valid logins for JSONAPI. Check JSONAPIAuthentication.txt");
+				return;
+			}
+			
+			log.info("[JSONAPI] Logging to file: "+logFile);
+			log.info("[JSONAPI] Logging to console: "+String.valueOf(logging));
+			log.info("[JSONAPI] IP Whitelist = "+(reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
+			log.info("[JSONAPI] JSON Server listening on "+port);
 
-		    jsonServer = new JSONServer(auth, this);
-		    jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
-		    
+			jsonServer = new JSONServer(auth, this);
+			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
+			
 			initialiseListeners();
 		}
 		catch( IOException ioe ) {
@@ -156,6 +157,7 @@ public class JSONAPI extends JavaPlugin  {
 	public void onDisable(){
 		if(jsonServer != null) {
 			jsonServer.stop();
+			jsonSocketServer.stop();
 		}
 	}
 	
@@ -165,7 +167,7 @@ public class JSONAPI extends JavaPlugin  {
 		pm.registerEvent(Event.Type.PLAYER_CHAT, l, Priority.Normal, this);
 		// pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, l, Priority.Normal, this);
 		pm.registerEvent(Event.Type.PLAYER_QUIT, l, Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_LOGIN, l, Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_JOIN, l, Priority.Normal, this);
 	
 		log.info("[JSONAPI] Active and listening for requests.");
 	}
@@ -205,15 +207,6 @@ public class JSONAPI extends JavaPlugin  {
 	
 	public class JSONAPIPlayerListener extends PlayerListener {
 		JSONAPI p;
-
-		public String join(String[] strings, String separator) {
-			StringBuffer sb = new StringBuffer();
-			for (int i=0; i < strings.length; i++) {
-				if (i != 0) sb.append(separator);
-		  		sb.append(strings[i]);
-		  	}
-		  	return sb.toString();
-		}
 		
 		// This controls the accessibility of functions / variables from the main class.
 		public JSONAPIPlayerListener(JSONAPI plugin) {
@@ -224,16 +217,12 @@ public class JSONAPI extends JavaPlugin  {
 			p.jsonServer.logChat(event.getPlayer().getName(),event.getMessage());			
 		}
 		
-		public void onPlayerJoin(PlayerEvent event) {
+		public void onPlayerJoin(PlayerJoinEvent event) {
 			p.jsonServer.logConnected(event.getPlayer().getName());
 		}
 
-		public void onPlayerQuit(PlayerEvent event) {
+		public void onPlayerQuit(PlayerQuitEvent event) {
 			p.jsonServer.logDisconnected(event.getPlayer().getName());
 		}
-		
-		/*public void onPlayerCommandPreprocess(PlayerChatEvent event) {
-			HttpStream.log("commands", new String[] {event.getPlayer().getName(), event.getMessage()});
-		}*/
 	}
 }
