@@ -1,5 +1,6 @@
 {
 	"name" : "JSONAPI default methods",
+	"namespace" : "",
 	"depends" : [
 		"JSONAPI"
 	],
