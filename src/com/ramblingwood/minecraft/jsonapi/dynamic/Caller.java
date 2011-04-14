@@ -16,7 +16,7 @@ import org.json.simpleForBukkit.parser.JSONParser;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 
 public class Caller {
-	public HashMap<String, Method> methods = new HashMap<String, Method>();
+	public HashMap<String, HashMap<String, Method>> methods = new HashMap<String, HashMap<String, Method>>();
 	private JSONParser p = new JSONParser();
 	private JSONAPI inst;
 	private Logger outLog = Logger.getLogger("JSONAPI");
@@ -25,8 +25,16 @@ public class Caller {
 		inst = plugin;
 	}
 	
-	public Object call(String method, Object[] params) throws Exception {
-		Call c = methods.get(method).getCall();
+	public Object call(String methodAndNamespace, Object[] params) throws Exception {
+		String[] methodParts = methodAndNamespace.split("\\.", 2);
+		
+		Call c;
+		if(methodParts.length == 1) {
+			c = methods.get("").get(methodParts[0]).getCall();
+		}
+		else {
+			c = methods.get(methodParts[0]).get(methodParts[1]).getCall();
+		}
 		
 		if(params.length < c.getNumberOfExpectedArgs()) {
 			throw new Exception("Incorrect number of args: gave "+params.length+" ("+Arrays.asList(params).toString()+"), expected "+c.getNumberOfExpectedArgs());
@@ -81,7 +89,7 @@ public class Caller {
 					}
 					else if(plugin.equals("JSONAPI") || p.isEnabled()) {
 						if(methods.containsKey("methods")) {
-							magicWithMethods(methods.get("methods"));
+							proccessMethodsWithNamespace((JSONArray)methods.get("methods"), methods.get("namespace").toString());
 						}
 						else {
 							throw new Exception("A JSON file is not well formed: missing the key 'methods' for the root object.");
@@ -94,23 +102,28 @@ public class Caller {
 			}
 		}
 		else if(raw instanceof JSONArray) {
-			JSONArray methods = (JSONArray)raw;
-			
-			for(Object o : methods) {
-				if(o instanceof JSONObject) {
-					String name = ((JSONObject)o).get("name").toString();
-					
-					if(this.methods.containsKey(name)) {
-						Logger.getLogger("Minecraft").warning("[JSONAPI] The method " + name + " already exists! It is being overridden.");
-					}
-					
-					this.methods.put(name, new Method((JSONObject)o));
-				}
-			}			
+			proccessMethodsWithNamespace((JSONArray)raw, "");
 		}
 		else {
 			throw new Exception("JSON file is not a valid methods file.");
 		}
+	}
+	
+	public void proccessMethodsWithNamespace(JSONArray methods, String namespace) {		
+		for(Object o : methods) {
+			if(o instanceof JSONObject) {
+				String name = ((JSONObject)o).get("name").toString();
+				
+				if(this.methods.containsKey(name)) {
+					Logger.getLogger("Minecraft").warning("[JSONAPI] The method " + name + " already exists! It is being overridden.");
+				}
+				
+				if(!this.methods.containsKey(namespace)) {
+					this.methods.put(namespace, new HashMap<String, Method>());
+				}
+				this.methods.get(namespace).put(name, new Method((JSONObject)o));
+			}
+		}			
 	}
 	
 	public void loadString (String methodsString) {
