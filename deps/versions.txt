@@ -1,2 +1,2 @@
-Bukkit build #495
-CraftBukkit build #617
+Bukkit build #653
+CraftBukkit build #677
