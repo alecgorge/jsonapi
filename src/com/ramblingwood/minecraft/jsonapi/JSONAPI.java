@@ -30,6 +30,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simpleForBukkit.parser.ParseException;
 
+import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
+
 
 /**
 *
@@ -152,8 +154,11 @@ public class JSONAPI extends JavaPlugin  {
 			log.info("[JSONAPI] Logging to console: "+String.valueOf(logging));
 			log.info("[JSONAPI] IP Whitelist = "+(reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
 
-			jsonServer = new JSONServer(auth, this);		
+			jsonServer = new JSONServer(auth, this);
 			log.info("[JSONAPI] JSON Server listening on "+port);
+			
+			// add console stream support
+			Logger.getLogger("Minecraft").addHandler(new ConsoleHandler(jsonServer));
 
 			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
 			log.info("[JSONAPI] JSON Stream Server listening on "+(port+1));
