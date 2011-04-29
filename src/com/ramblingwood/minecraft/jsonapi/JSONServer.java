@@ -22,6 +22,7 @@ import org.json.simpleForBukkit.parser.JSONParser;
 import com.ramblingwood.minecraft.jsonapi.dynamic.Caller;
 import com.ramblingwood.minecraft.jsonapi.streams.ChatMessage;
 import com.ramblingwood.minecraft.jsonapi.streams.ConnectionMessage;
+import com.ramblingwood.minecraft.jsonapi.streams.ConsoleMessage;
 import com.ramblingwood.minecraft.jsonapi.streams.StreamingResponse;
 
 
@@ -33,6 +34,7 @@ public class JSONServer extends NanoHTTPD {
 	private Caller caller;
 
 	private ArrayList<ChatMessage> chat = new ArrayList<ChatMessage>(); 
+	private ArrayList<ConsoleMessage> console = new ArrayList<ConsoleMessage>(); 
 	private ArrayList<ConnectionMessage> connections = new ArrayList<ConnectionMessage>(); 
 
 	
@@ -67,6 +69,14 @@ public class JSONServer extends NanoHTTPD {
 		if(chat.size() > 50) {
 			chat.remove(0);
 			chat.trimToSize();
+		}
+	}
+	
+	public void logConsole(String line) {
+		console.add(new ConsoleMessage(line));
+		if(console.size() > 50) {
+			console.remove(0);
+			console.trimToSize();
 		}
 	}
 	

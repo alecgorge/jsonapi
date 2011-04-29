@@ -35,7 +35,7 @@ public class StreamingResponse extends InputStream {
 		
 		pos++;
 
-		return JSONServer.callback(callback, makeResponseObj(stack.get(pos-1))).concat("\r\n");		
+		return JSONServer.callback(callback, makeResponseObj(stack.get(pos-1))).concat("\r\n");
 	}
 	
 	private String makeResponseObj (JSONAware ja) {

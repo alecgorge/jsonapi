@@ -123,7 +123,7 @@ public class Caller {
 				}
 				this.methods.get(namespace).put(name, new Method((JSONObject)o));
 			}
-		}			
+		}	
 	}
 	
 	public void loadString (String methodsString) {
