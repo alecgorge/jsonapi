@@ -32,7 +32,7 @@ class JSONAPI {
 	 */
 	public function __construct ($host, $port, $uname, $pword, $salt) {
 		$this->host = $host;
-		$this->port = $host;
+		$this->port = $port;
 		$this->username = $uname;
 		$this->password = $pword;
 		$this->salt = $salt;
