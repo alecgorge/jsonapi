@@ -44,6 +44,18 @@
 			]
 		},
 		{
+			"name": "givePlayerItemWithData",
+			"desc": "Gives the specified player the specified quanity of the item id with the specified data by placing it in the first empty slot.",
+			"call": "this.giveItem(0, 1, 2, 3)",
+			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server. An exception could be throw for invalid data (data < 0 or data > 15)."],
+			"args": [
+				["String","Player's name"],
+				["int","Id of item to give"],
+				["int","Quantity of item to give"]
+				["int","Decimal representation of the data value."]
+			]
+		},
+		{
 			"name": "givePlayerItemDrop",
 			"desc": "Gives the specified player the specified quanity of the item id by dropping it in front of them.",
 			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
@@ -52,6 +64,18 @@
 				["String", "Players' name"],
 				["int", "Id of item to drop"],
 				["int", "Quantity of item to drop"]
+			]
+		},
+		{
+			"name": "givePlayerItemDropWithData",
+			"desc": "Gives the specified player the specified quanity of the item id with the specified data by dropping it in front of them.",
+			"call": "this.giveItemDrop(0, 1, 2, 3)",
+			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server. An exception could be throw for invalid data (data < 0 or data > 15)."],
+			"args": [
+				["String","Player's name"],
+				["int","Id of item to give"],
+				["int","Quantity of item to give"]
+				["int","Decimal representation of the data value."]
 			]
 		},
 		{
