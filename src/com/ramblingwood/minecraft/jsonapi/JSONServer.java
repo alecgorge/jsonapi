@@ -19,10 +19,12 @@ import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.JSONValue;
 import org.json.simpleForBukkit.parser.JSONParser;
 
+import com.avaje.ebeaninternal.server.lib.util.InvalidDataException;
 import com.ramblingwood.minecraft.jsonapi.dynamic.Caller;
 import com.ramblingwood.minecraft.jsonapi.streams.ChatMessage;
 import com.ramblingwood.minecraft.jsonapi.streams.ConnectionMessage;
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleMessage;
+import com.ramblingwood.minecraft.jsonapi.streams.JSONAPIStream;
 import com.ramblingwood.minecraft.jsonapi.streams.StreamingResponse;
 
 
@@ -159,10 +161,26 @@ public class JSONServer extends NanoHTTPD {
 			info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": source="+ source);
 
 			try {
-				if(source == null || (!source.equals("chat") && !source.equals("connections")))
+				if(source == null) {
 					throw new Exception();
+				}
+				
+				ArrayList<? extends JSONAPIStream> arr;
+				
+				if(source.equals("chat")) {
+					arr = chat;
+				}
+				else if(source.equals("connections")) {
+					arr = connections;
+				}
+				else if(source.equals("console")) {
+					arr = console;
+				}
+				else {
+					throw new Exception();
+				}
 
-				StreamingResponse out = new StreamingResponse(source, source.equals("chat") ? chat : connections, callback);
+				StreamingResponse out = new StreamingResponse(source, arr, callback);
 
 				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);
 			} catch (Exception e) {
