@@ -109,12 +109,20 @@ public class JSONSocketServer implements Runnable{
 							@Override
 							public void run() {
 								String line = "";
+								boolean continueSending = true;
 								
-								while((line = s.nextLine()) != null) {
+								while((line = s.nextLine()) != null && continueSending) {
 									try {
 										output.writeBytes(line.trim()+"\r\n");
 									} catch (IOException e) {
 										e.printStackTrace();
+										continueSending = false;
+										try {
+											output.close();
+											input.close();
+										} catch (IOException e1) {
+											e1.printStackTrace();
+										}
 									}
 								}
 							}
