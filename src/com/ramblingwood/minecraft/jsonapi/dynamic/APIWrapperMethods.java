@@ -43,7 +43,33 @@ public class APIWrapperMethods implements CommandSender {
 	
 	public boolean setPlayerInventorySlot (String playerName, int slot, int blockID, int quantity) {
 		try {
+			if(blockID == 0) {
+				return clearPlayerInventorySlot(playerName, slot);
+			}
 			Server.getPlayer(playerName).getInventory().setItem(slot, new ItemStack(blockID, quantity));
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
+	}
+	
+	public boolean setPlayerInventorySlot (String playerName, int slot, int blockID, int damage, int quantity) {
+		try {
+			if(blockID == 0) {
+				return clearPlayerInventorySlot(playerName, slot);
+			}
+			Server.getPlayer(playerName).getInventory().setItem(slot, new ItemStack(blockID, quantity, Short.valueOf(String.valueOf(damage)).shortValue()));
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
+	}
+	
+	public boolean clearPlayerInventorySlot (String playerName, int slot) {
+		try {
+			Server.getPlayer(playerName).getInventory().clear(slot);
 			return true;
 		}
 		catch (NullPointerException e) {
