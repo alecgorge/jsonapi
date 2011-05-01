@@ -3,7 +3,6 @@ package com.ramblingwood.minecraft.jsonapi.dynamic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
@@ -227,34 +226,4 @@ public class Call {
 			return name;
 		}
 	}
-	
-	public Object callMethod(String method, String[] signature, Object[] params) throws Exception {
-		String[] parts = method.split("\\.");
-
-		Class<?>[] ps = new Class<?>[signature.length];
-		for(int i = 0; i< signature.length; i++) {
-			try {
-				ps[i] = Class.forName(signature[i]);
-			}
-			catch(ClassNotFoundException e) {
-				ps[i] = Class.forName("java.lang."+signature[i]);
-			}
-		}
-
-		Class c = Class.forName(parts[0]);
-		Object lastResult = new Object();
-		for(int i = 0; i < parts.length; i++) {
-			if(i == 0) {
-				lastResult = c.getMethod(parts[i+1], null).invoke(null, null);
-			}
-			else if(i == (parts.length - 1)) {
-				return lastResult;
-			}
-			else {
-				lastResult = lastResult.getClass().getMethod(parts[i+1], ps).invoke(lastResult, params);
-			}
-		}
-
-		return lastResult;
-	}	
 }

@@ -1,7 +1,6 @@
 package com.ramblingwood.minecraft.jsonapi.dynamic;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.json.simpleForBukkit.JSONArray;
 
