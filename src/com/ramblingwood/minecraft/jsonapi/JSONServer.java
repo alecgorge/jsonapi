@@ -188,59 +188,6 @@ public class JSONServer extends NanoHTTPD {
 				return jsonRespone(returnAPIError("'"+source+"' is not a valid stream source!"), callback, HTTP_NOTFOUND);
 			}
 		}
-
-		/*if(!uri.equals("/api/call") && !uri.equals("/api/call-multiple")) {
-			boolean valid = false;
-
-			// use basic authentication for other file access
-			// not the most secure but whatever...
-			// IMPORTANT all headers are lowercase
-			String authHeader = header.getProperty("authorization");
-
-			if (authHeader != null && !authHeader.equals("")) {
-				try {
-					StringTokenizer st = new StringTokenizer(authHeader);
-					if (st.hasMoreTokens()) {
-						String basic = st.nextToken();
-
-						// We only handle HTTP Basic authentication
-						if (basic.equalsIgnoreCase("Basic")) {
-							String credentials = st.nextToken();
-							String userPass = new String(Base64Coder.decode(credentials));
-
-							// The decoded string is in the form
-							// "userID:password".
-							int p = userPass.indexOf(":");
-							if (p != -1) {
-								String authU = userPass.substring(0, p).trim();
-								String authP = userPass.substring(p + 1).trim();
-
-								try {
-									if(logins.get(authU).equals(authP)) {
-										valid = true;
-									}
-								} catch (Exception e) {
-									valid = false;
-								}
-							}
-						}
-					}
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			if(!valid) {
-				NanoHTTPD.Response r = new NanoHTTPD.Response(HTTP_UNAUTHORIZED, MIME_PLAINTEXT, "Use a WebUI username & password combination.");
-				r.addHeader("WWW-Authenticate", "Basic realm=\"hMod Server Login\"");
-				return r;
-			}
-
-			info("[WebUI] Serving file: "+uri);
-
-			return serveFile(uri, header, new File("www/"), true);
-		}*/
-		//System.out.println()
 		
 		if(!uri.equals("/api/call")) {
 			return new NanoHTTPD.Response(HTTP_NOTFOUND, MIME_PLAINTEXT, "File not found.");
