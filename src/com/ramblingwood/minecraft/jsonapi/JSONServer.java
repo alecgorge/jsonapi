@@ -16,10 +16,8 @@ import java.util.logging.Logger;
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONAware;
 import org.json.simpleForBukkit.JSONObject;
-import org.json.simpleForBukkit.JSONValue;
 import org.json.simpleForBukkit.parser.JSONParser;
 
-import com.avaje.ebeaninternal.server.lib.util.InvalidDataException;
 import com.ramblingwood.minecraft.jsonapi.dynamic.Caller;
 import com.ramblingwood.minecraft.jsonapi.streams.ChatMessage;
 import com.ramblingwood.minecraft.jsonapi.streams.ConnectionMessage;
@@ -140,6 +138,7 @@ public class JSONServer extends NanoHTTPD {
 		}
 	}	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Response serve( String uri, String method, Properties header, Properties parms )	{
 		String callback = parms.getProperty("callback");
@@ -222,7 +221,7 @@ public class JSONServer extends NanoHTTPD {
 					List<String> methods = new ArrayList<String>();
 					List<Object> arguments = new ArrayList<Object>();
 					Object o = parse.parse(calledMethod);
-					if (o instanceof List && args instanceof List) {
+					if (o instanceof List<?> && args instanceof List<?>) {
 						methods = (List<String>)o;
 						arguments = (List<Object>)args;
 					}
@@ -281,6 +280,7 @@ public class JSONServer extends NanoHTTPD {
 		return jsonRespone(o, callback, HTTP_OK);
 	}
 
+	@SuppressWarnings("unchecked")
 	public JSONObject serveAPICall(String calledMethod, Object args) {
 		try {
 			if(caller.methodExists(calledMethod)) {

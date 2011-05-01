@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 import com.ramblingwood.minecraft.jsonapi.streams.StreamingResponse;
 

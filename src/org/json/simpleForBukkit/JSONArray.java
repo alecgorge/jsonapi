@@ -20,7 +20,7 @@ import org.json.simpleForBukkit.JSONValue;
  * 
  * @author FangYidong<fangyidong@yahoo.com.cn>
  */
-public class JSONArray extends ArrayList implements List, JSONAware, JSONStreamAware {
+public class JSONArray extends ArrayList<Object> implements List<Object>, JSONAware, JSONStreamAware {
 	private static final long serialVersionUID = 3957988303675231981L;
 
     /**
@@ -32,14 +32,14 @@ public class JSONArray extends ArrayList implements List, JSONAware, JSONStreamA
      * @param list
      * @param out
      */
-	public static void writeJSONString(List list, Writer out) throws IOException{
+	public static void writeJSONString(List<Object> list, Writer out) throws IOException{
 		if(list == null){
 			out.write("null");
 			return;
 		}
 		
 		boolean first = true;
-		Iterator iter=list.iterator();
+		Iterator<Object> iter=list.iterator();
 		
         out.write('[');
 		while(iter.hasNext()){
@@ -72,13 +72,13 @@ public class JSONArray extends ArrayList implements List, JSONAware, JSONStreamA
 	 * @param list
 	 * @return JSON text, or "null" if list is null.
 	 */
-	public static String toJSONString(List list){
+	public static String toJSONString(List<Object> list){
 		if(list == null)
 			return "null";
 		
         boolean first = true;
         StringBuffer sb = new StringBuffer();
-		Iterator iter=list.iterator();
+		Iterator<Object> iter=list.iterator();
         
         sb.append('[');
 		while(iter.hasNext()){
@@ -105,7 +105,5 @@ public class JSONArray extends ArrayList implements List, JSONAware, JSONStreamA
 	public String toString() {
 		return toJSONString();
 	}
-
 	
-		
 }

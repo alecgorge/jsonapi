@@ -98,6 +98,7 @@ public class JSONValue {
      * @param value
      * @param writer
      */
+	@SuppressWarnings("unchecked")
 	public static void writeJSONString(Object value, Writer out) throws IOException {
 		if(value == null){
 			out.write("null");
@@ -147,13 +148,13 @@ public class JSONValue {
 			return;
 		}
 		
-		if(value instanceof Map){
-			JSONObject.writeJSONString((Map)value, out);
+		if(value instanceof Map<?, ?>){
+			JSONObject.writeJSONString((Map<Object, Object>)value, out);
 			return;
 		}
 		
-		if(value instanceof List){
-			JSONArray.writeJSONString((List)value, out);
+		if(value instanceof List<?>){
+			JSONArray.writeJSONString((List<Object>)value, out);
             return;
 		}
 		
@@ -179,6 +180,7 @@ public class JSONValue {
 	 * @param value
 	 * @return JSON text, or "null" if value is null or it's an NaN or an INF number.
 	 */
+	@SuppressWarnings("unchecked")
 	public static String toJSONString(Object value){
 		if(value == null)
 			return "null";
@@ -209,11 +211,11 @@ public class JSONValue {
 		if((value instanceof JSONAware))
 			return ((JSONAware)value).toJSONString();
 		
-		if(value instanceof Map)
-			return JSONObject.toJSONString((Map)value);
+		if(value instanceof Map<?, ?>)
+			return JSONObject.toJSONString((Map<Object, Object>)value);
 		
-		if(value instanceof List)
-			return JSONArray.toJSONString((List)value);
+		if(value instanceof List<?>)
+			return JSONArray.toJSONString((List<Object>)value);
 		
 		if(BukkitStringifier.canHandle(value.getClass())) {
 			return toJSONString(BukkitStringifier.handle(value));
