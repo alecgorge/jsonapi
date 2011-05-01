@@ -129,7 +129,7 @@ public class APIWrapperMethods implements CommandSender {
 		}
 		catch (NullPointerException e) {
 			return false;
-		}			
+		}
 	}
 	
 	public boolean giveItemDrop (String name, int id, int quant, int data) {
