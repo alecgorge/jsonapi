@@ -188,7 +188,7 @@ public class JSONServer extends NanoHTTPD {
 			}
 		}
 		
-		if(!uri.equals("/api/call")) {
+		if(!uri.equals("/api/call") && !uri.equals("/api/call-multiple")) {
 			return new NanoHTTPD.Response(HTTP_NOTFOUND, MIME_PLAINTEXT, "File not found.");
 		}
 
