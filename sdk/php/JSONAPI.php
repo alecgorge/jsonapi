@@ -80,7 +80,7 @@ class JSONAPI {
 	 * @param array $args An array of arguments that are to be passed.
 	 * @return array An associative array representing the JSON that was returned.
 	 */
-	public function call($method, array $args) {
+	public function call($method, array $args = array()) {
 		if(is_array($method)) {
 			$this->callMultiple($method, $args);
 		}
@@ -114,7 +114,7 @@ class JSONAPI {
 	 * @throws Exception When the length of the $methods array and the $args array are different, an exception is thrown.
 	 * @return array An array of associative arrays representing the JSON that was returned.
 	 */
-	public function callMultiple(array $methods, array $args) {
+	public function callMultiple(array $methods, array $args = array()) {
 		if(count($methods) !== count($args)) {
 			throw new Exception("The length of the arrays \$methods and \$args are different! You need an array of arguments for each method!");
 		}
