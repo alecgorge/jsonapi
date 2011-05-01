@@ -18,7 +18,6 @@ import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
-import com.avaje.ebeaninternal.server.lib.util.InvalidDataException;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.PropertiesFile;
 
@@ -109,10 +108,10 @@ public class APIWrapperMethods implements CommandSender {
 		}			
 	}
 	
-	public boolean giveItem (String name, int id, int quant, int data) {
+	public boolean giveItem (String name, int id, int quant, int data) throws Exception {
 		try {
 			if(data < 0 || data > 15) {
-				throw new InvalidDataException("The given data needs to be in decimal form and between 0 and 15");
+				throw new Exception("The given data needs to be in decimal form and between 0 and 15");
 			}
 			Server.getPlayer(name).getInventory().addItem(new ItemStack(id, quant, (short)0, Byte.valueOf(String.valueOf(data)).byteValue()));
 			return true;
@@ -132,10 +131,10 @@ public class APIWrapperMethods implements CommandSender {
 		}
 	}
 	
-	public boolean giveItemDrop (String name, int id, int quant, int data) {
+	public boolean giveItemDrop (String name, int id, int quant, int data) throws Exception {
 		try {
 			if(data < 0 || data > 15) {
-				throw new InvalidDataException("The given data needs to be in decimal form and between 0 and 15");
+				throw new Exception("The given data needs to be in decimal form and between 0 and 15");
 			}
 			Server.getPlayer(name).getWorld().dropItem(Server.getPlayer(name).getLocation(), new ItemStack(id, quant, (short)0, Byte.valueOf(String.valueOf(data)).byteValue()));
 			return true;
