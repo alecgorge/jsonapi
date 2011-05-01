@@ -14,7 +14,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
-import org.json.simpleForBukkit.JSONValue;
 
 public class BukkitStringifier {
 	public static HashMap<String, Class<?>> handle = new HashMap<String, Class<?>>();

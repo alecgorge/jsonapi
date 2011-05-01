@@ -31,9 +31,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.json.simpleForBukkit.parser.ParseException;
 
-import com.bekvon.bukkit.mctelnet.TelnetListener;
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
 
 
@@ -42,8 +40,8 @@ import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
 * @author alecgorge
 */
 public class JSONAPI extends JavaPlugin  {
-	private PluginLoader pluginLoader;
-	private Server server;
+	// private PluginLoader pluginLoader;
+	// private Server server;
 	public JSONServer jsonServer;
 	public JSONSocketServer jsonSocketServer;
 	
@@ -63,8 +61,8 @@ public class JSONAPI extends JavaPlugin  {
 
 	
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
-		this.pluginLoader = pluginLoader;
-		server = instance;
+		// this.pluginLoader = pluginLoader;
+		// server = instance;
 	}
 	
 	public JSONAPI () {
