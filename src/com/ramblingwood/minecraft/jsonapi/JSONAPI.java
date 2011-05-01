@@ -18,6 +18,9 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import org.bukkit.Server;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -30,6 +33,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simpleForBukkit.parser.ParseException;
 
+import com.bekvon.bukkit.mctelnet.TelnetListener;
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
 
 
@@ -51,9 +55,12 @@ public class JSONAPI extends JavaPlugin  {
 	
 	private Logger log = Logger.getLogger("Minecraft");
 	private Logger outLog = Logger.getLogger("JSONAPI");
+	private PluginManager pm;
+	private Handler handler;
 	
 	// for dynamic access
 	public static JSONAPI instance;
+
 	
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		this.pluginLoader = pluginLoader;
@@ -158,7 +165,8 @@ public class JSONAPI extends JavaPlugin  {
 			log.info("[JSONAPI] JSON Server listening on "+port);
 			
 			// add console stream support
-			Logger.getLogger("Minecraft").addHandler(new ConsoleHandler(jsonServer));
+			handler = new ConsoleHandler(jsonServer);
+			log.addHandler(handler);
 
 			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
 			log.info("[JSONAPI] JSON Stream Server listening on "+(port+1));
@@ -177,17 +185,20 @@ public class JSONAPI extends JavaPlugin  {
 		if(jsonServer != null) {
 			jsonServer.stop();
 			jsonSocketServer.stop();
+			log.removeHandler(handler);
 		}
 	}
 	
-	private void initialiseListeners(){
-		PluginManager pm = getServer().getPluginManager();
-		
-		pm.registerEvent(Event.Type.PLAYER_CHAT, l, Priority.Normal, this);
-		// pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, l, Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_QUIT, l, Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_JOIN, l, Priority.Normal, this);
-	
+	private void initialiseListeners() {
+		if(pm != null) {
+			pm = getServer().getPluginManager();
+			
+			pm.registerEvent(Event.Type.PLAYER_CHAT, l, Priority.Normal, this);
+		// 	pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, l, Priority.Normal, this);
+			pm.registerEvent(Event.Type.PLAYER_QUIT, l, Priority.Normal, this);
+			pm.registerEvent(Event.Type.PLAYER_JOIN, l, Priority.Normal, this);
+			
+		}
 		log.info("[JSONAPI] Active and listening for requests.");
 	}
 	
@@ -243,5 +254,20 @@ public class JSONAPI extends JavaPlugin  {
 		public void onPlayerQuit(PlayerQuitEvent event) {
 			p.jsonServer.logDisconnected(event.getPlayer().getName());
 		}
+		
+		public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+			if (p.isEnabled()) {
+				if (cmd.getName().equals("reloadjsonapi")) {
+					if (sender instanceof ConsoleCommandSender) {
+						p.onDisable();
+						p.onEnable();
+						Logger.getLogger("Minecraft").info("JSONAPI reloaded.");
+					}
+					return true;
+				}
+			}
+			return JSONAPI.super.onCommand(sender, cmd, commandLabel, args);
+		}
+		
 	}
 }
