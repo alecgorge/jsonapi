@@ -1,5 +1,6 @@
 package com.ramblingwood.minecraft.jsonapi.dynamic;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -58,7 +59,12 @@ public class Call {
 			else if(v instanceof SubField) {
 				SubField obj = (SubField)v;
 				
-				lastResult = lastResult.getClass().getField(obj.getName()).get(lastResult);
+				if(obj.getName().equals("length") && lastResult.getClass().isArray()) {
+					lastResult = Array.getLength(lastResult);
+				}
+				else {
+					lastResult = lastResult.getClass().getField(obj.getName()).get(lastResult);
+				}
 			}
 			else if(v instanceof SubCall) {
 				SubCall obj = (SubCall)v;

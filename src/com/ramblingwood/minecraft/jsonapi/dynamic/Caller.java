@@ -44,7 +44,14 @@ public class Caller {
 	}
 	
 	public boolean methodExists (String name) {
-		return methods.containsKey(name);
+		String[] methodParts = name.split("\\.", 2);
+		
+		if(methodParts.length == 1) {
+			return methods.get("").containsKey(methodParts[0]);
+		}
+		else {
+			return methods.containsKey(methodParts[0]) && methods.get(methodParts[0]).containsKey(methodParts[1]);
+		}
 	}
 	
 	public void loadFile (File methodsFile) {
