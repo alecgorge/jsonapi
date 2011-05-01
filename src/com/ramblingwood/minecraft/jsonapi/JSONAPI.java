@@ -263,6 +263,12 @@ public class JSONAPI extends JavaPlugin  {
 					}
 					return true;
 				}
+				else if (cmd.getName().equals("jsonapi-list")) {
+					if (sender instanceof ConsoleCommandSender) {
+						log.info(jsonServer.getCaller().methods.toString());
+					}
+					return true;
+				}
 			}
 			return JSONAPI.super.onCommand(sender, cmd, commandLabel, args);
 		}
