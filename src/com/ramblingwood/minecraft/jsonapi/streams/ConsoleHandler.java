@@ -25,18 +25,7 @@ public class ConsoleHandler extends Handler {
 
 	public void publish(LogRecord record) {
 		if(formatter == null) {
-			try {
-				formatter = (Formatter)Class.forName("net.minecraft.server.ConsoleLogFormatter").newInstance();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			formatter = new ConsoleLogFormatter();
 		}
 
 		server.logConsole(formatter.format(record));
