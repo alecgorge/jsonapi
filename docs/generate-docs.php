@@ -23,7 +23,7 @@ foreach($input_files as $input_file) {
 
 foreach($input_files as $input_file) {
 	$json = json_decode(file_get_contents($input_file), true);
-	printf('<li><a href="#package-%s">%s</a> (%s namespace)</li>', rawurlencode($json['name']), $json['name'], (empty($json['namespace']) ? "default" : $json['namespace']));
+	printf('<li><a href="#package-%s">%s</a> (%s namespace)</li>'."\n", rawurlencode($json['name']), $json['name'], (empty($json['namespace']) ? "default" : $json['namespace']));
 }
 echo "</ul>".$docs; ?>
 	</body>
