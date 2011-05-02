@@ -195,7 +195,6 @@ public class JSONAPI extends JavaPlugin  {
 			pm.registerEvent(Event.Type.PLAYER_JOIN, l, Priority.Normal, this);
 			
 		}
-		log.info("[JSONAPI] Active and listening for requests.");
 	}
 	
 	/**

@@ -20,6 +20,7 @@ public class Caller {
 	private JSONParser p = new JSONParser();
 	private JSONAPI inst;
 	private Logger outLog = Logger.getLogger("JSONAPI");
+	public int methodCount = 0;
 	
 	public Caller (JSONAPI plugin) {
 		inst = plugin;
@@ -116,7 +117,7 @@ public class Caller {
 		}
 	}
 	
-	public void proccessMethodsWithNamespace(JSONArray methods, String namespace) {		
+	public void proccessMethodsWithNamespace(JSONArray methods, String namespace) {	
 		for(Object o : methods) {
 			if(o instanceof JSONObject) {
 				String name = ((JSONObject)o).get("name").toString();
@@ -128,6 +129,8 @@ public class Caller {
 				if(!this.methods.containsKey(namespace)) {
 					this.methods.put(namespace, new HashMap<String, Method>());
 				}
+				
+				methodCount++;
 				this.methods.get(namespace).put(name, new Method((JSONObject)o));
 			}
 		}	

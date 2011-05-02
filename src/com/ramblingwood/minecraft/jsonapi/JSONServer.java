@@ -46,6 +46,14 @@ public class JSONServer extends NanoHTTPD {
 			@Override
 			public void run() {
 				outLog.info("[JSONAPI] Waiting 20 seconds to load methods so that all the other plugins load...");
+				
+				try {
+					Thread.sleep(20000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				caller = new Caller(inst);
 				caller.loadFile(new File(inst.getDataFolder()+File.separator+"methods.json"));
 				
@@ -61,8 +69,10 @@ public class JSONServer extends NanoHTTPD {
 						caller.loadFile(f);
 					}
 				}
+				outLog.info("[JSONAPI] "+caller.methodCount+" methods loaded in "+caller.methods.size()+" namespaces.");
 				outLog.info("[JSONAPI] JSON Server listening on "+plugin.port);
 				outLog.info("[JSONAPI] JSON Stream Server listening on "+(plugin.port+1));
+				outLog.info("[JSONAPI] Active and listening for requests.");
 			}
 		})).start();
 		
