@@ -35,7 +35,9 @@ public class JSONServer extends NanoHTTPD {
 
 	private ArrayList<ChatMessage> chat = new ArrayList<ChatMessage>(); 
 	private ArrayList<ConsoleMessage> console = new ArrayList<ConsoleMessage>(); 
-	private ArrayList<ConnectionMessage> connections = new ArrayList<ConnectionMessage>(); 
+	private ArrayList<ConnectionMessage> connections = new ArrayList<ConnectionMessage>();
+	
+	private static boolean initted = false;
 
 	
 	public JSONServer(Hashtable<String, String> logins, final JSONAPI plugin) throws IOException {
@@ -46,9 +48,13 @@ public class JSONServer extends NanoHTTPD {
 			@Override
 			public void run() {
 				outLog.info("[JSONAPI] Waiting 20 seconds to load methods so that all the other plugins load...");
+				outLog.info("[JSONAPI] Any requests in this time will not work...");
 				
 				try {
-					Thread.sleep(20000);
+					if(!initted) {
+						Thread.sleep(20000);
+						initted = true;
+					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -81,6 +87,10 @@ public class JSONServer extends NanoHTTPD {
 	
 	public Caller getCaller() {
 		return caller;
+	}
+	
+	public JSONAPI getInstance () {
+		return inst;
 	}
 	
 	public void logChat(String player, String message) {
@@ -220,11 +230,10 @@ public class JSONServer extends NanoHTTPD {
 		}
 
 		String key = parms.getProperty("key");
-		if(!testLogin(calledMethod, key)) {
+		if(!inst.method_noauth_whitelist.contains(calledMethod) && !testLogin(calledMethod, key)) {
 			info("[API Call] "+header.get("X-REMOTE-ADDR")+": Invalid API Key.");
 			return jsonRespone(returnAPIError("Invalid API key."), callback, HTTP_FORBIDDEN);
 		}
-
 
 		info("[API Call] "+header.get("X-REMOTE-ADDR")+": method="+ parms.getProperty("method").concat("?args=").concat((String) args));
 

@@ -17,6 +17,7 @@ import java.util.logging.Handler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -50,6 +51,7 @@ public class JSONAPI extends JavaPlugin  {
 	public String salt = "";
 	public int port = 20059;
 	public ArrayList<String> whitelist = new ArrayList<String>();
+	public ArrayList<String> method_noauth_whitelist = new ArrayList<String>();
 	
 	private Logger log = Logger.getLogger("Minecraft");
 	private Logger outLog = Logger.getLogger("JSONAPI");
@@ -58,11 +60,13 @@ public class JSONAPI extends JavaPlugin  {
 	
 	// for dynamic access
 	public static JSONAPI instance;
+	public File plugin; // used by APIWrapperMethods for disk stats
 
 	
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		this.pluginLoader = pluginLoader;
 		// server = instance;
+		this.plugin = plugin;
 	}
 	
 	public JSONAPI () {
@@ -122,8 +126,6 @@ public class JSONAPI extends JavaPlugin  {
 			port = options.getInt("port", 20059);
 
 			try {
-				// Open the file that is the first 
-				// command line parameter
 				FileInputStream fstream;
 				File authfile = new File(getDataFolder().getAbsolutePath()+File.separator+"JSONAPIAuthentication.txt");
 				try {
@@ -133,7 +135,7 @@ public class JSONAPI extends JavaPlugin  {
 					authfile.createNewFile();
 					fstream = new FileInputStream(authfile);
 				}
-				// Get the object of DataInputStream
+
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				String line;
@@ -146,10 +148,37 @@ public class JSONAPI extends JavaPlugin  {
 						}
 					}
 				}
+				
 				in.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			try {
+				FileInputStream fstream;
+				File authfile = new File(getDataFolder().getAbsolutePath()+File.separator+"JSONAPIMethodNoAuthWhitelist.txt");
+				try {
+					fstream = new FileInputStream(authfile);
+				}
+				catch (FileNotFoundException e) {
+					authfile.createNewFile();
+					fstream = new FileInputStream(authfile);
+				}
+
+				DataInputStream in = new DataInputStream(fstream);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
+				String line;
+				
+				while ((line = br.readLine()) != null)   {
+					method_noauth_whitelist.add(line.trim());
+				}
+				
+				in.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 			if(auth.size() == 0) {
 				log.severe("[JSONAPI] No valid logins for JSONAPI. Check JSONAPIAuthentication.txt");
 				return;
@@ -175,6 +204,33 @@ public class JSONAPI extends JavaPlugin  {
 			//System.exit( -1 );
 		}		
 	}
+	
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		if (cmd.getName().equals("reloadjsonapi")) {
+			if (sender instanceof ConsoleCommandSender) {
+				onDisable();
+				onEnable();
+				Logger.getLogger("Minecraft").info("JSONAPI reloaded.");
+			}
+			return true;
+		}
+		else if (cmd.getName().equals("jsonapi-list")) {
+			if (sender instanceof ConsoleCommandSender) {
+				for(String key : jsonServer.getCaller().methods.keySet()) {
+					sender.sendMessage(ChatColor.DARK_RED+key+":");
+					StringBuilder sb = new StringBuilder("\t");
+					for(String m : jsonServer.getCaller().methods.get(key).keySet()) {
+						sb.append(jsonServer.getCaller().methods.get(key).get(m).getName()).append(", ");
+					}
+					sender.sendMessage(sb.substring(0, sb.length()-3).toString());
+				}
+				
+			}
+			return true;
+		}
+		return super.onCommand(sender, cmd, commandLabel, args);
+	}
+	
 	
 	@Override
 	public void onDisable(){
@@ -248,27 +304,6 @@ public class JSONAPI extends JavaPlugin  {
 
 		public void onPlayerQuit(PlayerQuitEvent event) {
 			p.jsonServer.logDisconnected(event.getPlayer().getName());
-		}
-		
-		public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-			if (p.isEnabled()) {
-				if (cmd.getName().equals("reloadjsonapi")) {
-					if (sender instanceof ConsoleCommandSender) {
-						p.onDisable();
-						p.onEnable();
-						Logger.getLogger("Minecraft").info("JSONAPI reloaded.");
-					}
-					return true;
-				}
-				else if (cmd.getName().equals("jsonapi-list")) {
-					if (sender instanceof ConsoleCommandSender) {
-						log.info(jsonServer.getCaller().methods.toString());
-					}
-					return true;
-				}
-			}
-			return JSONAPI.super.onCommand(sender, cmd, commandLabel, args);
-		}
-		
+		}		
 	}
 }
