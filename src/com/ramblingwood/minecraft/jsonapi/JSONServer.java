@@ -38,24 +38,33 @@ public class JSONServer extends NanoHTTPD {
 	private ArrayList<ConnectionMessage> connections = new ArrayList<ConnectionMessage>(); 
 
 	
-	public JSONServer(Hashtable<String, String> logins, JSONAPI plugin) throws IOException {
+	public JSONServer(Hashtable<String, String> logins, final JSONAPI plugin) throws IOException {
 		super(plugin.port);
 		inst = plugin;
-		caller = new Caller(inst);
-		caller.loadFile(new File(inst.getDataFolder()+File.separator+"methods.json"));
 		
-		File[] files = (new File(inst.getDataFolder()+File.separator+"methods"+File.separator)).listFiles(new FilenameFilter() {
-		    @Override
-		    public boolean accept(File dir, String name) {
-		        return name.endsWith(".json");
-		    }
-		});
-		
-		if(files != null && files.length > 0) {
-			for(File f : files) {
-				caller.loadFile(f);
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				outLog.info("[JSONAPI] Waiting 20 seconds to load methods so that all the other plugins load...");
+				caller = new Caller(inst);
+				caller.loadFile(new File(inst.getDataFolder()+File.separator+"methods.json"));
+				
+				File[] files = (new File(inst.getDataFolder()+File.separator+"methods"+File.separator)).listFiles(new FilenameFilter() {
+				    @Override
+				    public boolean accept(File dir, String name) {
+				        return name.endsWith(".json");
+				    }
+				});
+				
+				if(files != null && files.length > 0) {
+					for(File f : files) {
+						caller.loadFile(f);
+					}
+				}
+				outLog.info("[JSONAPI] JSON Server listening on "+plugin.port);
+				outLog.info("[JSONAPI] JSON Stream Server listening on "+(plugin.port+1));
 			}
-		}
+		})).start();
 		
 		this.logins = logins;
 	}
