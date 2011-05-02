@@ -40,7 +40,7 @@ import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
 * @author alecgorge
 */
 public class JSONAPI extends JavaPlugin  {
-	// private PluginLoader pluginLoader;
+	public PluginLoader pluginLoader;
 	// private Server server;
 	public JSONServer jsonServer;
 	public JSONSocketServer jsonSocketServer;
@@ -61,7 +61,7 @@ public class JSONAPI extends JavaPlugin  {
 
 	
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
-		// this.pluginLoader = pluginLoader;
+		this.pluginLoader = pluginLoader;
 		// server = instance;
 	}
 	
@@ -160,14 +160,12 @@ public class JSONAPI extends JavaPlugin  {
 			log.info("[JSONAPI] IP Whitelist = "+(reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
 
 			jsonServer = new JSONServer(auth, this);
-			log.info("[JSONAPI] JSON Server listening on "+port);
 			
 			// add console stream support
 			handler = new ConsoleHandler(jsonServer);
 			log.addHandler(handler);
 
 			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
-			log.info("[JSONAPI] JSON Stream Server listening on "+(port+1));
 			
 			initialiseListeners();
 		}
