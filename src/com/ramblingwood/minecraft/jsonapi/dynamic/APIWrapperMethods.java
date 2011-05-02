@@ -18,12 +18,14 @@ import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
+import com.jezhumble.javasysmon.JavaSysMon;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.PropertiesFile;
 
 public class APIWrapperMethods implements CommandSender {
 	private Server Server = JSONAPI.instance.getServer();
 	private static APIWrapperMethods instance;
+	private JavaSysMon system = new JavaSysMon();
 	
 	public static APIWrapperMethods getInstance () {
 		if(instance == null) {
@@ -286,6 +288,32 @@ public class APIWrapperMethods implements CommandSender {
 		else {
 			throw new FileNotFoundException(fileName+".properties was not found");
 		}
+	}
+	
+	public float getCPUUsage() {
+		JavaSysMon two = system;
+		system = new JavaSysMon();
+		return two.cpuTimes().getCpuUsage(system.cpuTimes());
+	}
+	
+	public long getJavaMaxMemory () {
+		return Runtime.getRuntime().maxMemory();
+	}
+	
+	public long getJavaMemoryUsage () {
+		return Runtime.getRuntime().totalMemory();
+	}
+	
+	public long getDiskUsage () {
+		return JSONAPI.instance.plugin.getTotalSpace() - JSONAPI.instance.plugin.getFreeSpace();
+	}
+	
+	public long getDiskSize () {
+		return JSONAPI.instance.plugin.getTotalSpace();
+	}
+	
+	public long getDiskFreeSpace () {
+		return JSONAPI.instance.plugin.getFreeSpace();
 	}
 
 	@Override
