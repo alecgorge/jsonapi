@@ -103,10 +103,12 @@ public class JSONAPI extends JavaPlugin  {
 			String reconstituted = "";
 			if(!ipWhitelist.trim().equals("false")) {
 				String[] ips = ipWhitelist.split(",");
+				StringBuffer t = new StringBuffer();
 				for(String ip : ips) {
-					reconstituted += ip.trim()+",";
+					t.append(ip.trim()+",");
 					whitelist.add(ip);
 				}
+				reconstituted = t.toString();
 			}
 			
 			outLog = Logger.getLogger("JSONAPI");
@@ -147,6 +149,7 @@ public class JSONAPI extends JavaPlugin  {
 					}
 				}
 				
+				br.close();
 				in.close();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -171,6 +174,7 @@ public class JSONAPI extends JavaPlugin  {
 					method_noauth_whitelist.add(line.trim());
 				}
 				
+				br.close();
 				in.close();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -266,25 +270,26 @@ public class JSONAPI extends JavaPlugin  {
 		byte[] input = null;
 		try {
 			input = digest.digest(password.getBytes("UTF-8"));
+			StringBuffer hexString = new StringBuffer();
+			for(int i = 0; i< input.length; i++) {
+				String hex = Integer.toHexString(0xFF & input[i]);
+				if (hex.length() == 1) {
+					hexString.append('0');
+				}
+				hexString.append(hex);
+			}
+			return hexString.toString();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		StringBuffer hexString = new StringBuffer();
-		for(int i = 0; i< input.length; i++) {
-			String hex = Integer.toHexString(0xFF & input[i]);
-			if (hex.length() == 1) {
-				hexString.append('0');
-			}
-			hexString.append(hex);
-		}
-		return hexString.toString();
+		return "UnsupportedEncodingException";
 	}
 	
 	public void disable() {
 		jsonServer.stop();
 	}
 	
-	public class JSONAPIPlayerListener extends PlayerListener {
+	public static class JSONAPIPlayerListener extends PlayerListener {
 		JSONAPI p;
 		
 		// This controls the accessibility of functions / variables from the main class.

@@ -192,15 +192,15 @@ public class APIWrapperMethods implements CommandSender {
 	}
 	
 	public void runCommand (String...obj) {
-		String command = "";
+		StringBuffer command = new StringBuffer();
 		for(String s : obj) {
-			command += s;
+			command.append(s);
 		}
 		
 		if(Call.debug) {
-			System.out.println("running command: "+command);
+			System.out.println("running command: "+command.toString());
 		}
-		Server.dispatchCommand(this, command);
+		Server.dispatchCommand(this, command.toString());
 	}
 	
 	public void runCommand (String obj) {

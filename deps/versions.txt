@@ -1,7 +1,3 @@
-<<<<<<< HEAD
+
 Bukkit build #668
 CraftBukkit build #733
-=======
-Bukkit build #653
-CraftBukkit build #677
->>>>>>> 6d8bd08aa3cd4fb71abd326a8f4aa65a7fde5c1b
