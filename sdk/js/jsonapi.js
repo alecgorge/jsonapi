@@ -6,8 +6,8 @@ function JSONAPI (obj) {
 	this.username = obj.username;
 	this.password = obj.password;
 	this.urlFormats = {
-		"call" : "http://%s:%s/api/call?method=%s&args=%s&key=%s",
-		"callMultiple" : "http://%s:%s/api/call-multiple?method=%s&args=%s&key=%s"
+		"call" : "http://%s:%s/api/call?method=%s&args=%s&key=%s&callback=?",
+		"callMultiple" : "http://%s:%s/api/call-multiple?method=%s&args=%s&key=%s&callback=?"
 	};
 	
 	var that = this;
@@ -72,8 +72,8 @@ function JSONAPI (obj) {
 		
 		for(var i = 0; i < args.length; i++) {
 			var v = args[i];
-			if(typeof (v = parseInt(v)) == "number") {
-				args[i] = v;
+			if(!isNaN(parseInt(v))) {
+				args[i] = parseInt(v);
 			}
 		}
 		
@@ -85,7 +85,6 @@ function JSONAPI (obj) {
 	};
 	
 	this.curl = function (url, cb) {
-		console.log(url);
 		jQuery.getJSON(url, cb);
 	};
 
@@ -111,9 +110,9 @@ function JSONAPI (obj) {
 		
 		for(var i = 0; i < args.length; i++) {
 			for(var x = 0; x < args[i].length; x++) {
-				var v = args[i];
-				if(typeof (v = parseInt(v)) == "number") {
-					args[i][x] = v;
+				var v = args[i][x];
+				if(!isNaN(parseInt(v))) {
+					args[i][x] = parseInt(v);
 				}
 			}
 		}
