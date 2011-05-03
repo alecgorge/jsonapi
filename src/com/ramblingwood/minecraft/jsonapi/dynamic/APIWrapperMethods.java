@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.jezhumble.javasysmon.JavaSysMon;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
@@ -25,7 +26,7 @@ import com.ramblingwood.minecraft.jsonapi.PropertiesFile;
 public class APIWrapperMethods implements CommandSender {
 	private Server Server = JSONAPI.instance.getServer();
 	private static APIWrapperMethods instance;
-	private JavaSysMon system = new JavaSysMon();
+	public JavaSysMon system = new JavaSysMon();
 	
 	public static APIWrapperMethods getInstance () {
 		if(instance == null) {
@@ -48,7 +49,16 @@ public class APIWrapperMethods implements CommandSender {
 			if(blockID == 0) {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
-			Server.getPlayer(playerName).getInventory().setItem(slot, new ItemStack(blockID, quantity));
+			
+			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			ItemStack it = new ItemStack(blockID, quantity);
+			
+			if(slot == 103) inv.setHelmet(it);
+			else if(slot == 102) inv.setChestplate(it);
+			else if(slot == 101) inv.setLeggings(it);
+			else if(slot == 100) inv.setBoots(it);
+			else inv.setItem(slot, it);
+			
 			return true;
 		}
 		catch (NullPointerException e) {
@@ -61,7 +71,16 @@ public class APIWrapperMethods implements CommandSender {
 			if(blockID == 0) {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
-			Server.getPlayer(playerName).getInventory().setItem(slot, new ItemStack(blockID, quantity, Short.valueOf(String.valueOf(damage)).shortValue()));
+
+			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			ItemStack it = new ItemStack(blockID, quantity, Short.valueOf(String.valueOf(damage)).shortValue());
+			
+			if(slot == 103) inv.setHelmet(it);
+			else if(slot == 102) inv.setChestplate(it);
+			else if(slot == 101) inv.setLeggings(it);
+			else if(slot == 100) inv.setBoots(it);
+			else inv.setItem(slot, it);
+			
 			return true;
 		}
 		catch (NullPointerException e) {
@@ -291,9 +310,7 @@ public class APIWrapperMethods implements CommandSender {
 	}
 	
 	public float getCPUUsage() {
-		JavaSysMon two = system;
-		system = new JavaSysMon();
-		return two.cpuTimes().getCpuUsage(system.cpuTimes());
+		return (new JavaSysMon()).cpuTimes().getCpuUsage((new JavaSysMon()).cpuTimes());
 	}
 	
 	public long getJavaMaxMemory () {
@@ -305,15 +322,15 @@ public class APIWrapperMethods implements CommandSender {
 	}
 	
 	public long getDiskUsage () {
-		return JSONAPI.instance.plugin.getTotalSpace() - JSONAPI.instance.plugin.getFreeSpace();
+		return (new File(".")).getTotalSpace() - (new File(".")).getFreeSpace();
 	}
 	
 	public long getDiskSize () {
-		return JSONAPI.instance.plugin.getTotalSpace();
+		return (new File(".")).getTotalSpace();
 	}
 	
 	public long getDiskFreeSpace () {
-		return JSONAPI.instance.plugin.getFreeSpace();
+		return (new File(".")).getFreeSpace();
 	}
 
 	@Override

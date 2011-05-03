@@ -1,7 +1,7 @@
 
 function JSONAPI (obj) {
 	this.host = obj.host;
-	this.post = obj.port || 20059;
+	this.port = obj.port || 20059;
 	this.salt = obj.salt;
 	this.username = obj.username;
 	this.password = obj.password;
@@ -37,7 +37,7 @@ function JSONAPI (obj) {
 	 * @return string A proper standard JSONAPI API call URL. Example: "http://localhost:20059/api/call?method=methodName&args=jsonEncodedArgsArray&key=validKey".
 	 */
 	this.makeURL = function (method, args) {
-		return sprintf(that.urlFormats["call"], that.host, that.port, rawurlencode(method), rawurlencode(JSON.stringify(args)), that.createKey(method));
+		return sprintf(that.urlFormats["call"], that.host, that.port, rawurlencode(method), rawurlencode(JSON.stringify(args || [])), that.createKey(method));
 	};
 	
 	/**
@@ -48,7 +48,7 @@ function JSONAPI (obj) {
 	 * @return string A proper multiple JSONAPI API call URL. Example: "http://localhost:20059/api/call-multiple?method=[methodName,methodName2]&args=jsonEncodedArrayOfArgsArrays&key=validKey".
 	 */
 	this.makeURLMultiple = function (methods, args) {
-		return sprintf(that.urlFormats["callMultiple"], that.host, that.port, rawurlencode(JSON.stringify(methods)), rawurlencode(JSON.stringify(args)), that.createKey(methods));
+		return sprintf(that.urlFormats["callMultiple"], that.host, that.port, rawurlencode(JSON.stringify(methods)), rawurlencode(JSON.stringify(args || [])), that.createKey(methods));
 	};
 	
 	/**
@@ -60,13 +60,18 @@ function JSONAPI (obj) {
 	 * @return array An associative array representing the JSON that was returned.
 	 */
 	this.call = function (method, args, onComplete) {
+		if(typeof args == "function") {
+			onComplete = args;
+			args = [];
+		}
+	
 		args = args || [];
 		if(typeof method == "object") {
 			that.callMultiple(method, args);
 		}
 		
 		for(var i = 0; i < args.length; i++) {
-			var v = args[k];
+			var v = args[i];
 			if(typeof (v = parseInt(v)) == "number") {
 				args[i] = v;
 			}
@@ -74,10 +79,13 @@ function JSONAPI (obj) {
 		
 		var url = that.makeURL(method, args);
 
-		return that.curl(url, onComplete);
+		that.curl(url, onComplete);
+		
+		return that;
 	};
 	
 	this.curl = function (url, cb) {
+		console.log(url);
 		jQuery.getJSON(url, cb);
 	};
 
@@ -90,7 +98,12 @@ function JSONAPI (obj) {
 	 * @throws Exception When the length of the methods array and the args array are different, an exception is thrown.
 	 * @return array An array of associative arrays representing the JSON that was returned.
 	 */
-	public function callMultiple(methods, args, onComplete) {
+	this.callMultiple = function (methods, args, onComplete) {
+		if(typeof args == "function") {
+			onComplete = args;
+			args = [];
+		}
+	
 		args = args || [];
 		if(methods.length !== args.length) {
 			throw "The length of the arrays \$methods and \$args are different! You need an array of arguments for each method!";
@@ -108,5 +121,7 @@ function JSONAPI (obj) {
 		var url = that.makeURLMultiple(methods, args);
 
 		that.curl(url, onComplete);
+		
+		return that;
 	};
 }

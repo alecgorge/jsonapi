@@ -1,7 +1,5 @@
 <?php
 
-require '../sdk/php/JSONAPI.php';
-
 $input_files = array_merge(array(realpath("../src/methods.json")), glob("../test/plugins/JSONAPI/methods/*.json"));
 foreach($input_files as $input_file) {
 	$docs .= jsonapi_docs(json_decode(file_get_contents($input_file), true));

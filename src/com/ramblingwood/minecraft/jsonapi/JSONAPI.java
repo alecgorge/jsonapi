@@ -60,13 +60,11 @@ public class JSONAPI extends JavaPlugin  {
 	
 	// for dynamic access
 	public static JSONAPI instance;
-	public File plugin; // used by APIWrapperMethods for disk stats
 
 	
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		this.pluginLoader = pluginLoader;
 		// server = instance;
-		this.plugin = plugin;
 	}
 	
 	public JSONAPI () {
