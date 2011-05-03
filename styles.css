@@ -4,6 +4,10 @@ body {
 	font:13px/20px "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+#tagline {
+	margin-top 10px;
+}
+
 #topper {
 	padding:15px;
 }
