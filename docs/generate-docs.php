@@ -1,6 +1,6 @@
 <?php
 
-$input_files = array_merge(array(realpath("../src/methods.json")), glob("../test/plugins/JSONAPI/methods/*.json"));
+$input_files = array_merge(array(realpath("../test/plugins/JSONAPI/methods.json")), glob("../test/plugins/JSONAPI/methods/*.json"));
 foreach($input_files as $input_file) {
 	$docs .= jsonapi_docs(json_decode(file_get_contents($input_file), true));
 }
@@ -30,6 +30,10 @@ echo "</ul>".$docs; ?>
 
 function jsonapi_docs($input_json) {
 	$format = '<h2 id="package-%s">%s</h2><h3>Depends on the following plugins:</h3><ul>%s</ul><h3>Methods</h3><ul>%s</ul><div id="jsonapi-docs" class="doc-wrapper">%s</div>';
+	
+	usort($input_json['methods'], function($one, $two) {
+		return strcmp($one['name'], $two['name']);
+	});
 	
 	foreach($input_json['methods'] as $method) {
 		$r .= jsonapi_docs_method($method, $input_json['namespace']);

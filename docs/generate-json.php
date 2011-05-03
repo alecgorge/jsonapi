@@ -1,10 +1,14 @@
 <?php
 
-$input_files = array_merge(array(realpath("../src/methods.json")), glob("../test/plugins/JSONAPI/methods/*.json"));
+$input_files = array_merge(array(realpath("../test/plugins/JSONAPI/methods.json")), glob("../test/plugins/JSONAPI/methods/*.json"));
 $data = array();
 foreach($input_files as $input_file) {
 	$json = json_decode(file_get_contents($input_file), true);
 	$namespace = $json['namespace'];
+	
+	usort($json['methods'], function ($one, $two) {
+		return strcmp($one['name'], $two['name']);
+	});
 	
 	$methods = array();
 	foreach($json["methods"] as $k => $v) {
