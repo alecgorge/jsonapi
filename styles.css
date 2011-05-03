@@ -1,0 +1,104 @@
+body {
+	margin:0;
+	padding:0;
+	font:13px/20px "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#topper {
+	padding:15px;
+}
+
+#topper h1 {
+	margin:0;
+	font-weight:normal;
+	letter-spacing:-1px;
+}
+
+#login {
+}
+
+form .group {
+	float:left;
+	padding-right:15px;
+}
+
+form input {
+	width:100px;
+	padding:2px;
+}
+
+form .group-submit input {
+	width:auto;
+}
+
+.clear {
+	clear:both;
+}
+
+.bar1 {
+	border-bottom:1px #aaa solid;
+	padding:5px 15px;
+	background:#eee;
+}
+
+.bar2 {
+	padding:15px;
+	border-bottom:1px #aaa solid;
+	background:#ddd;
+}
+
+.bar1 p, .bar2 p {
+	padding:0;
+	margin:0;
+}
+
+#left .gutter {
+	padding:15px;
+}
+
+#left {
+	float:left;
+	width:20%;
+}
+
+#right {
+	float:right;
+	width:80%;
+}
+
+#right .gutter {
+	padding:15px;
+}
+
+h2 {
+	font-weight:normal;
+	margin:0;
+	margin-bottom:15px;
+	clear:both;
+}
+
+#argbb p {
+	clear:left;
+}
+
+#argbb label {
+	width:200px;
+	text-align:right;
+	float:left;
+	padding:3px 10px 3px 0;
+}
+
+#argbb input {
+	float:left;
+	width:150px;
+}
+
+#argbb p.clear input {
+	width:auto;
+	padding:7px;
+	margin:10px 0 10px 210px;
+}
+
+#wrapper {
+	display:none;
+}

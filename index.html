@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>JSONAPI online testbed and console.</title>
+		<link rel="stylesheet" type="text/css" href="styles.css"  />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://jsbeautifier.org/beautify.js"></script>
+		<script type="text/javascript" src="jsonapi.js"></script>
+		<script type="text/javascript" src="jsonapi-console.js"></script>
+	</head>
+	<body>
+		<div id="topper" class="bar1">
+			<h1>JSONAPI Console</h1>
+		</div>
+		<div id="login" class="bar2">
+			<form id="jsonapi-login">
+				<div class="group">
+					<label>Host/IP:</label>
+					<input type="text" name="jsonapi-host" id="jsonapi-host" value="localhost" />
+				</div>
+				<div class="group">
+					<label>Port:</label>
+					<input type="text" name="jsonapi-port" id="jsonapi-port" value="20059" />
+				</div>
+				<div class="group">
+					<label>Username:</label>
+					<input type="text" name="jsonapi-user" id="jsonapi-user" value="admin" />
+				</div>
+				<div class="group">
+					<label>Password:</label>
+					<input type="password" name="jsonapi-pass" id="jsonapi-pass" value="demo" />
+				</div>
+				<div class="group">
+					<label>Salt:</label>
+					<input type="password" name="jsonapi-salt" id="jsonapi-salt" />
+				</div>
+				<div class="group group-submit">
+					<input type="submit" name="jsonapi-submit" id="jsonapi-submit" value="Login" />
+				</div>
+				<br class="clear" />
+			</form>
+			<div id="status">
+				
+			</div>
+		</div>
+		<div id="info" class="bar1 alert">
+			<p>This application does not store ANY information that you input on any server. Everything is done relative to your computer. You can use localhost as the host if the Minecraft server is on the same computer as your browser.</p>
+		</div>
+		<div id="wrapper">
+			<div id="left">
+				<div class="gutter">
+					<h2>API Methods</h2>	
+					<ul id="methods">
+						
+					</ul>
+				</div>
+			</div>
+			<div id="right">
+				<div class="gutter">
+					<h2 id="arg-title">Arguments</h2>	
+					<div id="arg-builder">
+					
+					</div>
+					<h2>Results</h2>	
+					<pre id="res"></pre>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
