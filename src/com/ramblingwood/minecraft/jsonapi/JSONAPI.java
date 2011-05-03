@@ -171,7 +171,9 @@ public class JSONAPI extends JavaPlugin  {
 				String line;
 				
 				while ((line = br.readLine()) != null)   {
-					method_noauth_whitelist.add(line.trim());
+					if(!line.trim().startsWith("#")) {
+						method_noauth_whitelist.add(line.trim());
+					}
 				}
 				
 				br.close();

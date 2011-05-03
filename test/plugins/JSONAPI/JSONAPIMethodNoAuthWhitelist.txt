@@ -1,0 +1,2 @@
+getPlayerLimit
+dynmap.getPort
