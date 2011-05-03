@@ -248,15 +248,12 @@ public class JSONAPI extends JavaPlugin  {
 	}
 	
 	private void initialiseListeners() {
-		if(pm != null) {
-			pm = getServer().getPluginManager();
+		pm = getServer().getPluginManager();
 			
-			pm.registerEvent(Event.Type.PLAYER_CHAT, l, Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_CHAT, l, Priority.Normal, this);
 		// 	pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, l, Priority.Normal, this);
-			pm.registerEvent(Event.Type.PLAYER_QUIT, l, Priority.Normal, this);
-			pm.registerEvent(Event.Type.PLAYER_JOIN, l, Priority.Normal, this);
-			
-		}
+		pm.registerEvent(Event.Type.PLAYER_QUIT, l, Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_JOIN, l, Priority.Normal, this);
 	}
 	
 	/**
