@@ -12,15 +12,15 @@
  * @since Alpha 5
  */
 class JSONAPI {
-	private $host;
+	public $host;
 	
-	private $port;
+	public $port;
 	
-	private $salt;
+	public $salt;
 	
-	private $username;
+	public $username;
 	
-	private $password;
+	public $password;
 	
 	private $urlFormats = array(
 		"call" => "http://%s:%s/api/call?method=%s&args=%s&key=%s",
