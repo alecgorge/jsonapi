@@ -568,11 +568,22 @@ public class NanoHTTPD
 					final StreamingResponse s = (StreamingResponse)data;
 					String line = "";
 					
-					while((line = s.nextLine()) != null) {
+					boolean doContinue = true;
+					while(doContinue && (line = s.nextLine()) != null) {
 						try {
-							output.writeBytes(line.trim()+"\r\n");
+							if(mySocket.isConnected() && !mySocket.isClosed()) {
+								output.writeBytes(line.trim()+"\r\n");
+							}
+							else {
+								doContinue = false;
+							}
 						} catch (IOException e) {
-							e.printStackTrace();
+							doContinue = false;
+							mySocket.close();
+							out.close();
+							if(data != null) {
+								data.close();
+							}
 						}
 					}
 				}
