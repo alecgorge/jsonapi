@@ -357,6 +357,18 @@
 			"call": "this.getWhitelist()"
 		},
 		{
+			"name": "getServerPort",
+			"desc": "Get the game port that the server runs on.",
+			"returns": ["int", "The port"],
+			"call": "Server.getPort()"
+		},
+		{
+			"name": "getServerIp",
+			"desc": "Get the IP that this server is bound to or empty string if not specified.",
+			"returns": ["String", "The IP"],
+			"call": "Server.getIp()"
+		},
+		{
 			"name": "getBannedPlayers",
 			"desc": "Gets the players on the ban list.",
 			"returns": ["String[]", "Returns an array of strings; where each item in the array is a string that contains a player's name."],

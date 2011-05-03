@@ -203,7 +203,7 @@ public class Call {
 		}
 	}
 	
-	class SubField {
+	static class SubField {
 		private String name;
 		
 		public SubField(String name) {
@@ -215,7 +215,7 @@ public class Call {
 		}
 	}
 	
-	class SubCall {
+	static class SubCall {
 		private String name;
 		private ArrayList<Integer> argPos;
 		

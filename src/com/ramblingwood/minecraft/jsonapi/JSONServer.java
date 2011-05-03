@@ -27,7 +27,6 @@ import com.ramblingwood.minecraft.jsonapi.streams.StreamingResponse;
 
 
 public class JSONServer extends NanoHTTPD {
-	Hashtable<String, Object> methods = new Hashtable<String, Object>();
 	Hashtable<String, String> logins = new Hashtable<String, String>();
 	private JSONAPI inst;
 	private Logger outLog = Logger.getLogger("JSONAPI");

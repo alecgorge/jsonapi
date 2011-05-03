@@ -402,7 +402,7 @@ public class NanoHTTPD
 				if ( st.hasMoreTokens())
 				{
 					String line = in.readLine();
-					while ( line.trim().length() > 0 )
+					while ( line != null && line.trim().length() > 0 )
 					{
 						int p = line.indexOf( ':' );
 						header.put( line.substring(0,p).trim().toLowerCase(), line.substring(p+1).trim());
@@ -422,18 +422,17 @@ public class NanoHTTPD
 						try { size = Integer.parseInt(contentLength); }
 						catch (NumberFormatException ex) {}
 					}
-					String postLine = "";
+					StringBuffer postLine = new StringBuffer();
 					char buf[] = new char[512];
 					int read = in.read(buf);
-					while ( read >= 0 && size > 0 && !postLine.endsWith("\r\n") )
+					while ( read >= 0 && size > 0 && !postLine.toString().endsWith("\r\n") )
 					{
 						size -= read;
-						postLine += String.valueOf(buf, 0, read);
+						postLine.append(String.valueOf(buf, 0, read));
 						if ( size > 0 )
 							read = in.read(buf);
 					}
-					postLine = postLine.trim();
-					decodeParms( postLine, parms );
+					decodeParms( postLine.toString().trim(), parms );
 				}
 
 				// Ok, now do the serve()
@@ -610,23 +609,23 @@ public class NanoHTTPD
 	 */
 	private String encodeUri( String uri )
 	{
-		String newUri = "";
+		StringBuffer newUri = new StringBuffer();
 		StringTokenizer st = new StringTokenizer( uri, "/ ", true );
 		while ( st.hasMoreTokens())
 		{
 			String tok = st.nextToken();
 			if ( tok.equals( "/" ))
-				newUri += "/";
+				newUri.append("/");
 			else if ( tok.equals( " " ))
-				newUri += "%20";
+				newUri.append("%20");
 			else
 			{
 				//newUri += URLEncoder.encode( tok );
 				// For Java 1.4 you'll want to use this instead:
-				try { newUri += URLEncoder.encode( tok, "UTF-8" ); } catch ( UnsupportedEncodingException uee ) {uee.printStackTrace();};
+				try { newUri.append(URLEncoder.encode( tok, "UTF-8" )); } catch ( UnsupportedEncodingException uee ) {uee.printStackTrace();};
 			}
 		}
-		return newUri;
+		return newUri.toString();
 	}
 
 	private int myTcpPort;
