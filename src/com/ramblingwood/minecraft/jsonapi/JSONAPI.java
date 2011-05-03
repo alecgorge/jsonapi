@@ -209,30 +209,32 @@ public class JSONAPI extends JavaPlugin  {
 		}		
 	}
 	
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (cmd.getName().equals("reloadjsonapi")) {
-			if (sender instanceof ConsoleCommandSender) {
-				onDisable();
-				onEnable();
-				Logger.getLogger("Minecraft").info("JSONAPI reloaded.");
-			}
-			return true;
-		}
-		else if (cmd.getName().equals("jsonapi-list")) {
-			if (sender instanceof ConsoleCommandSender) {
-				for(String key : jsonServer.getCaller().methods.keySet()) {
-					sender.sendMessage(ChatColor.DARK_RED+key+":");
-					StringBuilder sb = new StringBuilder("\t");
-					for(String m : jsonServer.getCaller().methods.get(key).keySet()) {
-						sb.append(jsonServer.getCaller().methods.get(key).get(m).getName()).append(", ");
-					}
-					sender.sendMessage(sb.substring(0, sb.length()-3).toString());
+		if (sender instanceof ConsoleCommandSender) {
+			if (cmd.getName().equals("reloadjsonapi")) {
+				if (sender instanceof ConsoleCommandSender) {
+					log.info("Reloading JSONAPI");
+					onDisable();
+					onEnable();
 				}
-				
+				return true;
 			}
-			return true;
-		}
-		return super.onCommand(sender, cmd, commandLabel, args);
+			else if (cmd.getName().equals("jsonapi-list")) {
+				if (sender instanceof ConsoleCommandSender) {
+					for(String key : jsonServer.getCaller().methods.keySet()) {
+						StringBuilder sb = new StringBuilder((key.trim().equals("") ? "Default Namespace" : key.trim()) +": ");
+						for(String m : jsonServer.getCaller().methods.get(key).keySet()) {
+							sb.append(jsonServer.getCaller().methods.get(key).get(m).getName()).append(", ");
+						}
+						sender.sendMessage(sb.substring(0, sb.length()-2).toString()+"\n");
+					}
+					
+				}
+				return true;
+			}
+        }
+		return false;
 	}
 	
 	

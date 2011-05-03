@@ -3,9 +3,9 @@ main: com.ramblingwood.minecraft.jsonapi.JSONAPI
 version: 1.1
 author: Alec Gorge <alecgorge@gmail.com>
 commands:
-#  reloadjsonapi:
-#    description: Reloads the API methods for JSONAPI.
-#    usage: /<command>
-#  jsonapi-list:
-#    description: Lists all the methods and namespaces currently loaded for JSONAPI
-#    usage: /<command>
+  reloadjsonapi:
+    description: Reloads the API methods for JSONAPI.
+    usage: /<command>
+  jsonapi-list:
+    description: Lists all the methods and namespaces currently loaded for JSONAPI
+    usage: /<command>
