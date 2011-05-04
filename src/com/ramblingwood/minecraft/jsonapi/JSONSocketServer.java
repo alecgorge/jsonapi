@@ -153,7 +153,12 @@ public class JSONSocketServer implements Runnable{
 				output.close();
 				input.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				try {
+					clientSocket.close();
+				} catch (IOException e1) {
+				}
+				
+				//e.printStackTrace();
 			}
 		}
 	}
