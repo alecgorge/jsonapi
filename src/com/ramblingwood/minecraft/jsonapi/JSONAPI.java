@@ -244,9 +244,13 @@ public class JSONAPI extends JavaPlugin  {
 	@Override
 	public void onDisable(){
 		if(jsonServer != null) {
-			jsonServer.stop();
-			jsonSocketServer.stop();
-			jsonWebSocketServer.stop();
+			try {
+				jsonServer.stop();
+				jsonSocketServer.stop();
+				jsonWebSocketServer.stop();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			log.removeHandler(handler);
 		}
 	}
