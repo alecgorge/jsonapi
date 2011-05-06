@@ -246,6 +246,7 @@ public class JSONAPI extends JavaPlugin  {
 		if(jsonServer != null) {
 			jsonServer.stop();
 			jsonSocketServer.stop();
+			jsonWebSocketServer.stop();
 			log.removeHandler(handler);
 		}
 	}
