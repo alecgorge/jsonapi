@@ -9,11 +9,11 @@ public class ConsoleMessage extends JSONAPIStream {
 		setTime();
 	}
 	
-	public String toJSONString () {
+	public JSONObject toJSONObject () {
 		JSONObject o = new JSONObject();
 		o.put("time", getTime());
 		o.put("line", getMessage());
 		
-		return o.toJSONString();		
+		return o;		
 	}
 }
