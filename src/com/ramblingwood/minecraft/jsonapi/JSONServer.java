@@ -77,6 +77,7 @@ public class JSONServer extends NanoHTTPD {
 				outLog.info("[JSONAPI] "+caller.methodCount+" methods loaded in "+caller.methods.size()+" namespaces.");
 				outLog.info("[JSONAPI] JSON Server listening on "+plugin.port);
 				outLog.info("[JSONAPI] JSON Stream Server listening on "+(plugin.port+1));
+				outLog.info("[JSONAPI] JSON WebSocket Stream Server listening on "+(plugin.port+2));
 				outLog.info("[JSONAPI] Active and listening for requests.");
 			}
 		})).start();

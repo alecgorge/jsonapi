@@ -45,6 +45,7 @@ public class JSONAPI extends JavaPlugin  {
 	// private Server server;
 	public JSONServer jsonServer;
 	public JSONSocketServer jsonSocketServer;
+	public JSONWebSocketServer jsonWebSocketServer;
 	
 	public boolean logging = false;
 	public String logFile = "false";
@@ -199,6 +200,8 @@ public class JSONAPI extends JavaPlugin  {
 			log.addHandler(handler);
 
 			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
+			jsonWebSocketServer = new JSONWebSocketServer(port + 2, jsonServer);
+			jsonWebSocketServer.start();
 			
 			initialiseListeners();
 		}
