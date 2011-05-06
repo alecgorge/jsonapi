@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.bukkit.Server;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -23,14 +23,18 @@ import com.jezhumble.javasysmon.JavaSysMon;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.PropertiesFile;
 
-public class APIWrapperMethods implements CommandSender {
+public class APIWrapperMethods extends ConsoleCommandSender {
+	public APIWrapperMethods(Server server) {
+		super(server);
+	}
+
 	private Server Server = JSONAPI.instance.getServer();
 	private static APIWrapperMethods instance;
 	public JavaSysMon system = new JavaSysMon();
 	
 	public static APIWrapperMethods getInstance () {
 		if(instance == null) {
-			instance = new APIWrapperMethods();
+			instance = new APIWrapperMethods(JSONAPI.instance.getServer());
 		}
 		return instance;
 	}
