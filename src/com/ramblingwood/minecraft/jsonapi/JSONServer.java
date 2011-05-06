@@ -32,9 +32,9 @@ public class JSONServer extends NanoHTTPD {
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	private Caller caller;
 
-	private ArrayList<ChatMessage> chat = new ArrayList<ChatMessage>(); 
-	private ArrayList<ConsoleMessage> console = new ArrayList<ConsoleMessage>(); 
-	private ArrayList<ConnectionMessage> connections = new ArrayList<ConnectionMessage>();
+	public ArrayList<ChatMessage> chat = new ArrayList<ChatMessage>(); 
+	public ArrayList<ConsoleMessage> console = new ArrayList<ConsoleMessage>(); 
+	public ArrayList<ConnectionMessage> connections = new ArrayList<ConnectionMessage>();
 	
 	private static boolean initted = false;
 
