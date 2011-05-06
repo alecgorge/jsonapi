@@ -18,10 +18,12 @@ import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.json.simpleForBukkit.JSONObject;
 
 import com.jezhumble.javasysmon.JavaSysMon;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.PropertiesFile;
+import com.ramblingwood.minecraft.jsonapi.streams.JSONAPIStream;
 
 public class APIWrapperMethods extends ConsoleCommandSender {
 	public APIWrapperMethods(Server server) {
@@ -335,6 +337,36 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 	
 	public long getDiskFreeSpace () {
 		return (new File(".")).getFreeSpace();
+	}
+	
+	public List<JSONObject> getConsoleLogs () {
+		ArrayList<JSONAPIStream> stack = new ArrayList<JSONAPIStream>(JSONAPI.instance.jsonServer.console);
+		
+		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
+		for(int i = 0; i < stack.size(); i++) {
+			a.add(stack.get(i).toJSONObject());
+		}
+		return a;
+	}
+	
+	public List<JSONObject> getChatLogs () {
+		ArrayList<JSONAPIStream> stack = new ArrayList<JSONAPIStream>(JSONAPI.instance.jsonServer.chat);
+		
+		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
+		for(int i = 0; i < stack.size(); i++) {
+			a.add(stack.get(i).toJSONObject());
+		}
+		return a;
+	}
+	
+	public List<JSONObject> getConnectionLogs () {
+		ArrayList<JSONAPIStream> stack = new ArrayList<JSONAPIStream>(JSONAPI.instance.jsonServer.connections);
+		
+		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
+		for(int i = 0; i < stack.size(); i++) {
+			a.add(stack.get(i).toJSONObject());
+		}
+		return a;
 	}
 
 	@Override

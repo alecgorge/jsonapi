@@ -379,6 +379,24 @@
 			"desc": "Gets the IPs on the ban list.",
 			"returns": ["String[]", "Returns an array of strings; where each item in the array is a string that contains an IP address."],
 			"call": "this.getBannedIPs()"
+		},
+		{
+			"name": "getLatestConsoleLogs",
+			"desc": "Gets up to the last 50 lines in the console. Returned as an array of JSON stream objects.",
+			"returns": ["Object[]", "The array of objects"],
+			"call": "this.getConsoleLogs()"
+		},
+		{
+			"name": "getLatestChats",
+			"desc": "Gets up to the last 50 lines in chat. Returned as an array of JSON stream objects.",
+			"returns": ["Object[]", "The array of objects"],
+			"call": "this.getChatLogs()"
+		},
+		{
+			"name": "getLatestConnections",
+			"desc": "Gets up to the last 50 connections/disconnections. Returned as an array of JSON stream objects.",
+			"returns": ["Object[]", "The array of objects"],
+			"call": "this.getConnectionLogs()"
 		}
 	]
 }

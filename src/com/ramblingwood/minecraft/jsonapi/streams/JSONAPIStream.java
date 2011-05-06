@@ -40,12 +40,15 @@ public abstract class JSONAPIStream implements JSONAware {
 		time = lUTCtime/1000;
 	}
 	
-	public String toJSONString() {
+	public JSONObject toJSONObject () {
 		JSONObject o = new JSONObject();
 		o.put("time", getTime());
 		o.put("player", getPlayer());
 		o.put("message", getMessage());
-		
-		return o.toJSONString();
+		return o;
+	}
+	
+	public String toJSONString() {
+		return toJSONObject().toJSONString();
 	}	
 }
