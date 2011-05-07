@@ -106,7 +106,7 @@ public final class WebSocket {
     this.bufferQueue = bufferQueue;
     this.handshakeComplete = false;
     this.remoteHandshake = this.currentFrame = null;
-    this.buffer = ByteBuffer.allocate(1);
+    this.buffer = ByteBuffer.allocate(4096);
     this.wsl = listener;
   }
 
@@ -212,30 +212,35 @@ public final class WebSocket {
 
   // PRIVATE INSTANCE METHODS ////////////////////////////////////////////////
   private void recieveFrame() {
-    byte newestByte = this.buffer.get();
-
-    if (newestByte == START_OF_FRAME && !readingState) { // Beginning of Frame
-      this.currentFrame = null;
-      readingState = true;
-
-    } else if (newestByte == END_OF_FRAME && readingState) { // End of Frame
-      readingState = false;
-      String textFrame = null;
-      // currentFrame will be null if END_OF_FRAME was send directly after
-      // START_OF_FRAME, thus we will send 'null' as the sent message.
-      if (this.currentFrame != null) {
-        textFrame = new String(this.currentFrame.array(), UTF8_CHARSET);
+	this.buffer.rewind();
+	
+	while(this.buffer.hasRemaining()) {
+      byte newestByte = this.buffer.get();
+      if (newestByte == START_OF_FRAME && !readingState) { // Beginning of Frame
+        this.currentFrame = null;
+        readingState = true;
+  
+      } else if (newestByte == END_OF_FRAME && readingState) { // End of Frame
+        readingState = false;
+        String textFrame = null;
+        // currentFrame will be null if END_OF_FRAME was send directly after
+        // START_OF_FRAME, thus we will send 'null' as the sent message.
+        if (this.currentFrame != null) {
+          textFrame = new String(this.currentFrame.array(), UTF8_CHARSET);
+        }
+        this.wsl.onMessage(this, textFrame);
+  
+      } else { // Regular frame data, add to current frame buffer
+        ByteBuffer frame = ByteBuffer.allocate((this.currentFrame != null ? this.currentFrame.capacity() : 0) + this.buffer.capacity());
+        if (this.currentFrame != null) {
+          this.currentFrame.rewind();
+          frame.put(this.currentFrame);
+        }
+        frame.put(newestByte);
+        this.currentFrame = frame;
       }
-      this.wsl.onMessage(this, textFrame);
-
-    } else { // Regular frame data, add to current frame buffer
-      ByteBuffer frame = ByteBuffer.allocate((this.currentFrame != null ? this.currentFrame.capacity() : 0) + this.buffer.capacity());
-      if (this.currentFrame != null) {
-        this.currentFrame.rewind();
-        frame.put(this.currentFrame);
-      }
-      frame.put(newestByte);
-      this.currentFrame = frame;
+      
+      this.buffer.position(this.buffer.position()+1);
     }
   }
 
