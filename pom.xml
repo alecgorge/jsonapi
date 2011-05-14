@@ -16,9 +16,6 @@
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
-				<directory>deps/javasysmon-0.3.3</directory>
-			</resource>
-			<resource>
 			 <directory>src</directory>
 			 <includes>
 			     <include>plugin.yml</include>
@@ -41,13 +38,5 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/craftbukkit.jar</systemPath>
 		</dependency>
-		<dependency>
-			<groupId>com.jezhumble.javasysmon</groupId>
-			<artifactId>javasysmon</artifactId>
-			<version>0.3.3</version>
-			<type>jar</type>
-			<scope>system</scope>
-			<systemPath>${basedir}/deps/javasysmon-0.3.3.jar</systemPath>
-		 </dependency>
 	</dependencies>	
 </project>
