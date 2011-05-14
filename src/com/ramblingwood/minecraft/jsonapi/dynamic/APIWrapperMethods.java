@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -22,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.json.simpleForBukkit.JSONObject;
 
-import com.jezhumble.javasysmon.JavaSysMon;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.PropertiesFile;
 import com.ramblingwood.minecraft.jsonapi.streams.JSONAPIStream;
@@ -34,7 +31,6 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 
 	private Server Server = JSONAPI.instance.getServer();
 	private static APIWrapperMethods instance;
-	public JavaSysMon system = new JavaSysMon();
 	
 	public static APIWrapperMethods getInstance () {
 		if(instance == null) {
