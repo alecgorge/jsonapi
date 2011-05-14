@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -314,11 +316,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			throw new FileNotFoundException(fileName+".properties was not found");
 		}
 	}
-	
-	public float getCPUUsage() {
-		return (new JavaSysMon()).cpuTimes().getCpuUsage((new JavaSysMon()).cpuTimes());
-	}
-	
+
 	public long getJavaMaxMemory () {
 		return Runtime.getRuntime().maxMemory();
 	}
@@ -339,34 +337,52 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		return (new File(".")).getFreeSpace();
 	}
 	
-	public List<JSONObject> getConsoleLogs () {
+	public List<JSONObject> getConsoleLogs (int count) {
 		ArrayList<JSONAPIStream> stack = new ArrayList<JSONAPIStream>(JSONAPI.instance.jsonServer.console);
 		
+		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
+		
 		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
-		for(int i = 0; i < stack.size(); i++) {
+		for(int i = 0; i < count; i++) {
 			a.add(stack.get(i).toJSONObject());
 		}
 		return a;
 	}
 	
-	public List<JSONObject> getChatLogs () {
+	public List<JSONObject> getConsoleLogs () {
+		return getConnectionLogs(-1);
+	}
+	
+	public List<JSONObject> getChatLogs (int count) {
 		ArrayList<JSONAPIStream> stack = new ArrayList<JSONAPIStream>(JSONAPI.instance.jsonServer.chat);
 		
+		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
+		
 		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
-		for(int i = 0; i < stack.size(); i++) {
+		for(int i = 0; i < count; i++) {
+			a.add(stack.get(i).toJSONObject());
+		}
+		return a;
+	}
+	
+	
+	public List<JSONObject> getChatLogs () {
+		return getChatLogs(-1);
+	}
+	public List<JSONObject> getConnectionLogs (int count) {
+		ArrayList<JSONAPIStream> stack = new ArrayList<JSONAPIStream>(JSONAPI.instance.jsonServer.connections);
+		
+		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
+		
+		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
+		for(int i = 0; i < count; i++) {
 			a.add(stack.get(i).toJSONObject());
 		}
 		return a;
 	}
 	
 	public List<JSONObject> getConnectionLogs () {
-		ArrayList<JSONAPIStream> stack = new ArrayList<JSONAPIStream>(JSONAPI.instance.jsonServer.connections);
-		
-		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
-		for(int i = 0; i < stack.size(); i++) {
-			a.add(stack.get(i).toJSONObject());
-		}
-		return a;
+		return getConnectionLogs(-1);
 	}
 
 	@Override
