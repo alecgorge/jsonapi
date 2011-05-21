@@ -114,7 +114,7 @@
             "returns": ["boolean", "True if the slot was update. False will be returned if the player is not on the server."],
             "args": [
                 ["String", "Player's name"],
-                ["int", "Slot number"]
+                ["int", "Slot number"],
                 ["int", "New amount"]
             ]
         },
@@ -425,6 +425,15 @@
 			"call": "this.getChatLogs(0)",
 			"args": [
 				["int", "The maximum number of items to return."]
+			]
+		},
+		{
+			"name": "getPluginFiles",
+			"desc": "Retrives an array of files and directories that exist in the plugins data folder. Recursive.",
+			"returns": ["String[]", "The files in string format."],
+			"call": "this.getPluginFiles(0)",
+			"args": [
+				["String", "The plugin that will have its files listed."]
 			]
 		},
 		{

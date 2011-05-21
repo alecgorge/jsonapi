@@ -23,6 +23,7 @@ import org.json.simpleForBukkit.JSONObject;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.PropertiesFile;
 import com.ramblingwood.minecraft.jsonapi.streams.JSONAPIStream;
+import com.ramblingwood.minecraft.jsonapi.util.RecursiveDirLister;
 
 public class APIWrapperMethods extends ConsoleCommandSender {
 	public APIWrapperMethods(Server server) {
@@ -120,6 +121,18 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		}
 		catch(NullPointerException e) {
 			return false;
+		}
+	}
+	
+	public List<File> getPluginFiles(String pluginName) {
+		try {
+			File dir = Server.getPluginManager().getPlugin(pluginName).getDataFolder();
+			RecursiveDirLister d = new RecursiveDirLister(dir);
+			return d.getFileListing();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return new ArrayList<File>();
 		}
 	}
 	
