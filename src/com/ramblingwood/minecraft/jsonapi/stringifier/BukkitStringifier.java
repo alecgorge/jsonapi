@@ -1,5 +1,6 @@
 package com.ramblingwood.minecraft.jsonapi.stringifier;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -29,6 +30,7 @@ public class BukkitStringifier {
 		handle.put("Plugin", org.bukkit.plugin.Plugin.class);
 		handle.put("Plugin[]", org.bukkit.plugin.Plugin[].class);
 		handle.put("ItemStack", org.bukkit.inventory.ItemStack.class);
+		handle.put("File", java.io.File.class);
 		handle.put("ItemStack[]", org.bukkit.inventory.ItemStack[].class);
 		handle.put("PlayerInventory", org.bukkit.inventory.PlayerInventory.class);
 		handle.put("Location", org.bukkit.Location.class);
@@ -54,6 +56,9 @@ public class BukkitStringifier {
 			else {
 				return "normal";
 			}
+		}
+		else if(obj instanceof File) {
+			return ((File)obj).toString();
 		}
 		else if(obj instanceof Player) {
 			Player p = (Player)obj;
