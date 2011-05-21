@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D6200F94-547A-4114-95FD-3A6D8441183B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JSONAPI</RootNamespace>
+    <AssemblyName>JSONAPI</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="JSONAPI.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceStack.Text\AssemblyUtils.cs" />
+    <Compile Include="ServiceStack.Text\Common\DateTimeSerializer.cs" />
+    <Compile Include="ServiceStack.Text\Common\DeserializeArray.cs" />
+    <Compile Include="ServiceStack.Text\Common\DeserializeBuiltin.cs" />
+    <Compile Include="ServiceStack.Text\Common\DeserializeCollection.cs" />
+    <Compile Include="ServiceStack.Text\Common\DeserializeDictionary.cs" />
+    <Compile Include="ServiceStack.Text\Common\DeserializeListWithElements.cs" />
+    <Compile Include="ServiceStack.Text\Common\DeserializeSpecializedCollections.cs" />
+    <Compile Include="ServiceStack.Text\Common\DeserializeType.cs" />
+    <Compile Include="ServiceStack.Text\Common\DeserializeTypeUtils.cs" />
+    <Compile Include="ServiceStack.Text\Common\ITypeSerializer.cs" />
+    <Compile Include="ServiceStack.Text\Common\JsDelegates.cs" />
+    <Compile Include="ServiceStack.Text\Common\JsReader.cs" />
+    <Compile Include="ServiceStack.Text\Common\JsState.cs" />
+    <Compile Include="ServiceStack.Text\Common\JsWriter.cs" />
+    <Compile Include="ServiceStack.Text\Common\ParseUtils.cs" />
+    <Compile Include="ServiceStack.Text\Common\StaticParseMethod.cs" />
+    <Compile Include="ServiceStack.Text\Common\WriteDictionary.cs" />
+    <Compile Include="ServiceStack.Text\Common\WriteLists.cs" />
+    <Compile Include="ServiceStack.Text\Common\WriteType.cs" />
+    <Compile Include="ServiceStack.Text\Controller\CommandProcessor.cs" />
+    <Compile Include="ServiceStack.Text\Controller\PathInfo.cs" />
+    <Compile Include="ServiceStack.Text\CsvConfig.cs" />
+    <Compile Include="ServiceStack.Text\CsvSerializer.cs" />
+    <Compile Include="ServiceStack.Text\CsvStreamExtensions.cs" />
+    <Compile Include="ServiceStack.Text\CsvWriter.cs" />
+    <Compile Include="ServiceStack.Text\DateTimeExtensions.cs" />
+    <Compile Include="ServiceStack.Text\Env.cs" />
+    <Compile Include="ServiceStack.Text\ITracer.cs" />
+    <Compile Include="ServiceStack.Text\ITypeSerializer.Generic.cs" />
+    <Compile Include="ServiceStack.Text\JsConfig.cs" />
+    <Compile Include="ServiceStack.Text\JsonObject.cs" />
+    <Compile Include="ServiceStack.Text\JsonSerializer.cs" />
+    <Compile Include="ServiceStack.Text\JsonSerializer.Generic.cs" />
+    <Compile Include="ServiceStack.Text\Json\JsonReader.Generic.cs" />
+    <Compile Include="ServiceStack.Text\Json\JsonTypeSerializer.cs" />
+    <Compile Include="ServiceStack.Text\Json\JsonUtils.cs" />
+    <Compile Include="ServiceStack.Text\Json\JsonWriter.Generic.cs" />
+    <Compile Include="ServiceStack.Text\JsvFormatter.cs" />
+    <Compile Include="ServiceStack.Text\Jsv\JsvDeserializeType.cs" />
+    <Compile Include="ServiceStack.Text\Jsv\JsvReader.Generic.cs" />
+    <Compile Include="ServiceStack.Text\Jsv\JsvSerializer.Generic.cs" />
+    <Compile Include="ServiceStack.Text\Jsv\JsvTypeSerializer.cs" />
+    <Compile Include="ServiceStack.Text\Jsv\JsvWriter.Generic.cs" />
+    <Compile Include="ServiceStack.Text\ListExtensions.cs" />
+    <Compile Include="ServiceStack.Text\MapExtensions.cs" />
+    <Compile Include="ServiceStack.Text\Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceStack.Text\QueryStringSerializer.cs" />
+    <Compile Include="ServiceStack.Text\ReflectionExtensions.cs" />
+    <Compile Include="ServiceStack.Text\Reflection\StaticAccessors.cs" />
+    <Compile Include="ServiceStack.Text\StreamExtensions.cs" />
+    <Compile Include="ServiceStack.Text\StringExtensions.cs" />
+    <Compile Include="ServiceStack.Text\Support\AssemblyTypeDefinition.cs" />
+    <Compile Include="ServiceStack.Text\Support\DoubleConverter.cs" />
+    <Compile Include="ServiceStack.Text\Support\TypePair.cs" />
+    <Compile Include="ServiceStack.Text\TextExtensions.cs" />
+    <Compile Include="ServiceStack.Text\Tracer.cs" />
+    <Compile Include="ServiceStack.Text\TranslateListWithElements.cs" />
+    <Compile Include="ServiceStack.Text\TypeConfig.cs" />
+    <Compile Include="ServiceStack.Text\TypeSerializer.cs" />
+    <Compile Include="ServiceStack.Text\TypeSerializer.Generic.cs" />
+    <Compile Include="ServiceStack.Text\XmlSerializer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ServiceStack.Text\ServiceStack.Text.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ServiceStack.Text\ServiceStack.Text.pidb" />
+    <None Include="ServiceStack.Text\ServiceStack.Text.suo" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
