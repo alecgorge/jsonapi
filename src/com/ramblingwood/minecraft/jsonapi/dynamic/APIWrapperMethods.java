@@ -14,8 +14,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import net.minecraft.server.EntityHuman;
+import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.ItemInWorldManager;
+
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.json.simpleForBukkit.JSONObject;
@@ -133,6 +142,66 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		catch(Exception e) {
 			e.printStackTrace();
 			return new ArrayList<File>();
+		}
+	}
+	
+	class FauxPlayer extends CraftPlayer {
+		String name;
+		
+		public FauxPlayer(String name, EntityPlayer ent) {
+			super((CraftServer) JSONAPI.instance.getServer(), ent);
+
+			this.name = name;
+		}
+
+		@Override
+		public String getName () {
+			return name;
+		}
+		
+		@Override
+		public boolean isOnline () {
+			return true;
+		}
+		
+		@Override
+		public boolean isOp () {
+			return true;
+		}
+	}
+	
+	public boolean chatWithName(String message, String name) {
+		try {
+			Server server = JSONAPI.instance.getServer();
+			// this is the biggest hack ever.
+			Player player = new FauxPlayer(name, new EntityPlayer(
+													((CraftServer)server).getServer(),
+													((CraftWorld)server.getWorlds().get(0)).getHandle(),
+													name,
+													new ItemInWorldManager(((CraftWorld)server.getWorlds().get(0)).getHandle())
+												)
+											);
+			// end biggest hack ever
+			
+			// copied from CraftBukkit / src / main / java / net / minecraft / server / NetServerHandler.java 
+			PlayerChatEvent event = new PlayerChatEvent(player, message);
+			server.getPluginManager().callEvent(event);
+	
+			if (event.isCancelled()) {
+				return true;
+			}
+	
+			message = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
+			Logger.getLogger("Minecraft").info(message);
+			for (Player recipient : event.getRecipients()) {
+				recipient.sendMessage(message);
+			}
+			
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 	
