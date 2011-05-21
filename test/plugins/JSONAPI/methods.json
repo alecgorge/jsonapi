@@ -437,6 +437,16 @@
 			]
 		},
 		{
+			"name": "broadcastWithName",
+			"desc": "Similar to broadcast, but lets you specify a name to chat as and displays the message with the proper format. Looks just like the person specified is on the esrver.",
+			"returns": ["boolean", "True on success, false on failure."],
+			"call": "this.chatWithName(0, 1)",
+			"args": [
+				["String", "The message."],
+				["String", "The name to send as."]
+			]
+		},
+		{
 			"name": "getLatestConnectionsWithLimit",
 			"desc": "Gets up to the last n connections/disconnections where n is the limit passed. Returned as an array of JSON stream objects.",
 			"returns": ["Object[]", "The array of objects"],
