@@ -1,0 +1,5 @@
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\bin\Debug\JSONAPI.dll
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\bin\Debug\JSONAPI.pdb
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\obj\Debug\ResolveAssemblyReference.cache
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\obj\Debug\JSONAPI.dll
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\obj\Debug\JSONAPI.pdb

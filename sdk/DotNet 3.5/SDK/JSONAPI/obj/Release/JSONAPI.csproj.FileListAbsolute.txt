@@ -1,0 +1,11 @@
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\JSONAPI\obj\Release\ResolveAssemblyReference.cache
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\JSONAPI\bin\Release\JSONAPI.dll
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\JSONAPI\bin\Release\JSONAPI.pdb
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\JSONAPI\obj\Release\JSONAPI.dll
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\JSONAPI\obj\Release\JSONAPI.pdb
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\bin\Release\JSONAPI.dll
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\bin\Release\JSONAPI.pdb
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\obj\Release\ResolveAssemblyReference.cache
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\obj\Release\JSONAPI.dll
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\obj\Release\JSONAPI.pdb
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\SDK\JSONAPI\bin\Release\JsonExSerializer.dll
