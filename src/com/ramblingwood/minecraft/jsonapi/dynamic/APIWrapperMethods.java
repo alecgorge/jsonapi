@@ -94,7 +94,15 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 	
 	public boolean clearPlayerInventorySlot (String playerName, int slot) {
 		try {
-			Server.getPlayer(playerName).getInventory().clear(slot);
+			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			int cnt = inv.getSize();
+			
+			if(slot == 103) inv.clear(cnt + 3);
+			else if(slot == 102) inv.clear(cnt + 2);
+			else if(slot == 101) inv.clear(cnt + 1);
+			else if(slot == 100) inv.clear(cnt + 0);
+			else inv.clear(slot);
+
 			return true;
 		}
 		catch (NullPointerException e) {
