@@ -1,0 +1,9 @@
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\Sample\Sample\bin\Debug\Sample.exe.config
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\Sample\Sample\bin\Debug\Sample.exe
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\Sample\Sample\bin\Debug\Sample.pdb
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\Sample\Sample\bin\Debug\JSONAPI.dll
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\Sample\Sample\bin\Debug\JSONAPI.pdb
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\Sample\Sample\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\Sample\Sample\obj\x86\Debug\Sample.exe
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\Sample\Sample\obj\x86\Debug\Sample.pdb
+F:\java\workspace\jsonapi\sdk\DotNet 3.5\Sample\Sample\bin\Debug\JsonExSerializer.dll
