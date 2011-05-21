@@ -110,6 +110,19 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		}
 	}
 	
+	public boolean updatePlayerInventorySlot(String playerName, int slot, int newAmount) {
+		try {
+			ItemStack s = Server.getPlayer(playerName).getInventory().getItem(slot);
+			s.setAmount(newAmount);
+			Server.getPlayer(playerName).getInventory().setItem(slot, s);
+			
+			return true;
+		}
+		catch(NullPointerException e) {
+			return false;
+		}
+	}
+	
 	public List<String> getWhitelist () throws IOException {
 		String w = getFileContents("white-list.txt");
 		List<String> a = new ArrayList<String>();
