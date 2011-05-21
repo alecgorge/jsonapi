@@ -15,6 +15,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 
+import com.ramblingwood.minecraft.jsonapi.JSONAPI;
+
 public class BukkitStringifier {
 	public static HashMap<String, Class<?>> handle = new HashMap<String, Class<?>>();
 	
@@ -106,6 +108,8 @@ public class BukkitStringifier {
 			o.put("description", d.getDescription());
 			o.put("authors", d.getAuthors());
 			o.put("version", d.getVersion());
+			o.put("website", d.getWebsite());
+			o.put("enabled", JSONAPI.instance.getServer().getPluginManager().isPluginEnabled(p));
 			
 			return o;
 		}
