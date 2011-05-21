@@ -35,6 +35,7 @@ public class JSONServer extends NanoHTTPD {
 	public ArrayList<ChatMessage> chat = new ArrayList<ChatMessage>(); 
 	public ArrayList<ConsoleMessage> console = new ArrayList<ConsoleMessage>(); 
 	public ArrayList<ConnectionMessage> connections = new ArrayList<ConnectionMessage>();
+	public ArrayList<JSONAPIStream> all = new ArrayList<JSONAPIStream>();
 	
 	private static boolean initted = false;
 
@@ -94,35 +95,50 @@ public class JSONServer extends NanoHTTPD {
 	}
 	
 	public void logChat(String player, String message) {
-		chat.add(new ChatMessage(player, message));
+		ChatMessage c = new ChatMessage(player, message);
+		chat.add(c);
+		all.add(c);
+		trimLists();
+	}
+	
+	private void trimLists () {
 		if(chat.size() > 50) {
 			chat.remove(0);
 			chat.trimToSize();
-		}
-	}
-	
-	public void logConsole(String line) {
-		console.add(new ConsoleMessage(line));
+		}		
+		if(connections.size() > 50) {
+			connections.remove(0);
+			connections.trimToSize();
+		}		
 		if(console.size() > 50) {
 			console.remove(0);
 			console.trimToSize();
-		}
+		}		
+		if(all.size() > 50) {
+			all.remove(0);
+			all.trimToSize();
+		}		
+	}
+	
+	public void logConsole(String line) {
+		ConsoleMessage c = new ConsoleMessage(line);
+		console.add(c);
+		all.add(c);
+		trimLists();
 	}
 	
 	public void logConnected(String player) {
-		connections.add(new ConnectionMessage(player, true));
-		if(connections.size() > 50) {
-			connections.remove(0);
-			connections.trimToSize();
-		}
+		ConnectionMessage c = new ConnectionMessage(player, true);
+		connections.add(c);
+		all.add(c);
+		trimLists();
 	}
 	
 	public void logDisconnected(String player) {
-		connections.add(new ConnectionMessage(player, false));
-		if(connections.size() > 50) {
-			connections.remove(0);
-			connections.trimToSize();
-		}
+		ConnectionMessage c = new ConnectionMessage(player, false);
+		connections.add(c);
+		all.add(c);
+		trimLists();
 	}	
 	
 	public boolean testLogin (String method, String hash) {
@@ -203,6 +219,9 @@ public class JSONServer extends NanoHTTPD {
 				}
 				else if(source.equals("console")) {
 					arr = console;
+				}
+				else if(source.equals("all")) {
+					arr = all;
 				}
 				else {
 					throw new Exception();
