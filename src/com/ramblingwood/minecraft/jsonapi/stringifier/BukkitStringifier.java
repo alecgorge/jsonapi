@@ -73,6 +73,7 @@ public class BukkitStringifier {
 			o.put("inventory", p.getInventory());
 			o.put("sneaking", p.isSneaking());
 			o.put("inVehicle", p.isInsideVehicle());
+			o.put("sleeping", p.isSleeping());
 			
 			return o;			
 		}
