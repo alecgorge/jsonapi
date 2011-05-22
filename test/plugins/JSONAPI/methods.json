@@ -269,6 +269,9 @@
 			"name": "sendMessage",
 			"desc": "Send a private message to the specified player.",
 			"call": "Server.getPlayer(0).sendMessage(1)",
+			"flags": [
+			 "NO_EXCEPTIONS"   
+			],
 			"args": [
 				["String", "Player to whom the message is sent"],
 				["String", "The message to send"]

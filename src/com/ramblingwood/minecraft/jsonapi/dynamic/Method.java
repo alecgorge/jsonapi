@@ -1,5 +1,7 @@
 package com.ramblingwood.minecraft.jsonapi.dynamic;
 
+import java.util.ArrayList;
+
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 
@@ -9,6 +11,7 @@ public class Method {
 	private Class<?> returnValue = void.class;
 	private String returnDesc = "Method return desc";
 	private ArgumentList args = new ArgumentList();
+	private ArrayList<String> flags = new ArrayList<String>();
 	public Call call;
 	
 	public Method (JSONObject o) {
@@ -33,7 +36,15 @@ public class Method {
 			}
 		}
 		
-		call = new Call(o.get("call").toString(), args);
+		if(o.get("flags") != null && o.get("flags") instanceof JSONArray) {
+			JSONArray flags = (JSONArray)o.get("flags");
+			
+			for(Object flag : flags) {
+				this.flags.add(flag.toString());
+			}
+		}
+		
+		call = new Call(o.get("call").toString(), args, this.flags);
 	}
 
 	public void setName(String name) {

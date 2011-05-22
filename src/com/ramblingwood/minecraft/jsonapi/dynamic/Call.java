@@ -16,12 +16,14 @@ public class Call {
 	
 	private Class<?>[] signature = new Class<?>[] {};
 	private ArrayList<Object> stack = new ArrayList<Object>();
+	private ArrayList<String> flags = new ArrayList<String>();
 	private HashMap<Integer, String> defaults = new HashMap<Integer, String>();
 	public static boolean debug = false;
 	private int expectedArgs = 0;
 
-	public Call (String input, ArgumentList args) {
+	public Call (String input, ArgumentList args, ArrayList<String> flags) {
 		signature = args.getTypes();
+		this.flags = flags;
 		parseString(input);
 	}
 	
@@ -93,7 +95,16 @@ public class Call {
 					debug("Sig type: "+sig[x].getName());
 				}
 				
-				lastResult = lastResult.getClass().getMethod(obj.getName(), sig).invoke(lastResult, args);
+				java.lang.reflect.Method thisMethod = lastResult.getClass().getMethod(obj.getName(), sig);
+				if(flags.contains("NO_EXCEPTIONS")) {
+					try {
+						lastResult = thisMethod.invoke(lastResult, args);
+					}
+					catch (Exception e) {}
+				}
+				else {
+					lastResult = thisMethod.invoke(lastResult, args);
+				}
 				
 				debug("New value:"+lastResult);
 			}
