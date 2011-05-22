@@ -90,6 +90,6 @@ public class JSONWebSocketServer extends WebSocketServer {
 
 	@Override
 	public void onClientOpen(WebSocket conn) {
-		
+
 	}
 }
