@@ -435,6 +435,9 @@
 			"desc": "Retrives an array of files and directories that exist in the plugins data folder. Recursive.",
 			"returns": ["String[]", "The files in string format."],
 			"call": "this.getPluginFiles(0)",
+			"flags": [
+			 "NO_EXCEPTIONS"
+			],
 			"args": [
 				["String", "The plugin that will have its files listed."]
 			]
