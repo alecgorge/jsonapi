@@ -139,7 +139,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			return d.getFileListing();
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			return new ArrayList<File>();
 		}
 	}
