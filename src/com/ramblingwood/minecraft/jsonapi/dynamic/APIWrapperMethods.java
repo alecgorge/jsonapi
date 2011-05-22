@@ -448,7 +448,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 	}
 	
 	public List<JSONObject> getConsoleLogs () {
-		return getConnectionLogs(-1);
+		return getConsoleLogs(-1);
 	}
 	
 	public List<JSONObject> getChatLogs (int count) {
