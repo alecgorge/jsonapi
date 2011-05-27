@@ -26,6 +26,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.material.MaterialData;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
@@ -77,6 +78,53 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		catch (NullPointerException e) {
 			return false;
 		}
+	}
+	
+	public boolean setPlayerInventorySlotWithData(String playerName, int slot, int blockID, final int data, int quantity) {
+		try {
+			if(blockID == 0) {
+				return clearPlayerInventorySlot(playerName, slot);
+			}
+			
+			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			ItemStack it = (new MaterialData(blockID, (byte)data)).toItemStack(quantity);
+			
+			if(slot == 103) inv.setHelmet(it);
+			else if(slot == 102) inv.setChestplate(it);
+			else if(slot == 101) inv.setLeggings(it);
+			else if(slot == 100) inv.setBoots(it);
+			else inv.setItem(slot, it);
+			
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
+		
+	}
+	
+	public boolean setPlayerInventorySlotWithDataAndDamage(String playerName, int slot, int blockID, final int data, int damage, int quantity) {
+		try {
+			if(blockID == 0) {
+				return clearPlayerInventorySlot(playerName, slot);
+			}
+			
+			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			ItemStack it = (new MaterialData(blockID, (byte)data)).toItemStack(quantity);
+			it.setDurability(Short.valueOf(String.valueOf(damage)).shortValue());
+			
+			if(slot == 103) inv.setHelmet(it);
+			else if(slot == 102) inv.setChestplate(it);
+			else if(slot == 101) inv.setLeggings(it);
+			else if(slot == 100) inv.setBoots(it);
+			else inv.setItem(slot, it);
+			
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
+		
 	}
 	
 	public boolean setPlayerInventorySlot (String playerName, int slot, int blockID, int damage, int quantity) {
