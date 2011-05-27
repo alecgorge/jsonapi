@@ -96,11 +96,15 @@ public class Call {
 				}
 				
 				java.lang.reflect.Method thisMethod = lastResult.getClass().getMethod(obj.getName(), sig);
-				if(flags.contains("NO_EXCEPTIONS")) {
+				if(flags.contains("NO_EXCEPTIONS") || flags.contains("FALSE_ON_EXCEPTION")) {
 					try {
 						lastResult = thisMethod.invoke(lastResult, args);
 					}
-					catch (Exception e) {}
+					catch (Exception e) {
+						if(flags.contains("FALSE_ON_EXCEPTION")) {
+							return false;
+						}
+					}
 				}
 				else {
 					lastResult = thisMethod.invoke(lastResult, args);
