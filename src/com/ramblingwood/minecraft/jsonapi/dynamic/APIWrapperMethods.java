@@ -219,20 +219,19 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 	
 	public boolean chatWithName(String message, String name) {
 		try {
-			Server server = JSONAPI.instance.getServer();
 			// this is the biggest hack ever.
 			Player player = new FauxPlayer(name, new EntityPlayer(
-													((CraftServer)server).getServer(),
-													((CraftWorld)server.getWorlds().get(0)).getHandle(),
+													((CraftServer)Server).getServer(),
+													((CraftWorld)Server.getWorlds().get(0)).getHandle(),
 													name,
-													new ItemInWorldManager(((CraftWorld)server.getWorlds().get(0)).getHandle())
+													new ItemInWorldManager(((CraftWorld)Server.getWorlds().get(0)).getHandle())
 												)
 											);
 			// end biggest hack ever
 			
 			// copied from CraftBukkit / src / main / java / net / minecraft / server / NetServerHandler.java 
 			PlayerChatEvent event = new PlayerChatEvent(player, message);
-			server.getPluginManager().callEvent(event);
+			Server.getPluginManager().callEvent(event);
 	
 			if (event.isCancelled()) {
 				return true;
@@ -251,7 +250,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			return false;
 		}
 	}
-	
+
 	public List<String> getWhitelist () throws IOException {
 		String w = getFileContents("white-list.txt");
 		List<String> a = new ArrayList<String>();

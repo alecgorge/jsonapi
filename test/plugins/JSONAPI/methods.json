@@ -404,6 +404,12 @@
 			"call": "Server.getPort()"
 		},
 		{
+			"name": "getServer",
+			"desc": "Gets server information: maxPlayers, players, port, name, serverName, version, worlds.",
+			"returns": ["Object", "Key value object with information about the server."],
+			"call": "this.getServer()"
+		},
+		{
 			"name": "getServerIp",
 			"desc": "Get the IP that this server is bound to or empty string if not specified.",
 			"returns": ["String", "The IP"],
