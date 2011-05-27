@@ -1,0 +1,27 @@
+{
+	"name" : "Remote Toolkit methods",
+	"namespace" : "remotetoolkit",
+	"depends" : [
+		"RemoteToolkitPlugin"
+	],
+	"methods" : [
+		{
+			"name": "rescheduleServerRestart",
+			"desc": " Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format.",
+			"call": "this.runCommand(\"reschedulerestart\", 0)",
+			"args": [
+				["String", "Time in either the #h #m #s format, or the HH:MM format."]
+			]
+		},
+		{
+			"name": "restartServer",
+			"desc": "Restarts the Minecraft server. THIS WILL TAKE DOWN JSONAPI FOR A SHORT TIME.",
+			"call": "this.runCommand(\"restartsrv\")"
+		},
+		{
+			"name": "stopServer",
+			"desc": "Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT. JSONAPI WILL NOT WORK AFTER THIS IS RUN.",
+			"call": "this.runCommand(\"stopwrapper\")"
+		}
+	]
+}
