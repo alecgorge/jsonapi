@@ -82,7 +82,7 @@ class JSONAPI {
 	 */
 	public function call($method, array $args = array()) {
 		if(is_array($method)) {
-			$this->callMultiple($method, $args);
+			return $this->callMultiple($method, $args);
 		}
 		
 		$url = $this->makeURL($method, $args);
