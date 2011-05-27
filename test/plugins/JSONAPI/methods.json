@@ -84,52 +84,52 @@
 			"returns": ["Player[]", "An array of |Player| objects"],
 			"call": "Server.getOnlinePlayers()"
 		},
-        {
-            "name": "setPlayerInventorySlotWithDamage",
-            "desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified quantity and damage.",
-            "call": "this.setPlayerInventorySlot(0, 1, 2, 3, 4)",
-            "returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
-            "args": [
-                ["String", "Player's name"],
-                ["int", "Slot number"],
-                ["int", "Id of block type to set"],
-                ["int", "The damage of the item."],
-                ["int", "Quantity to set"]
-            ]
-        },
-        {
-            "name": "clearPlayerInventorySlot",
-            "desc": "Removes everything from the specified slot in the player's inventory.",
-            "call": "this.clearPlayerInventorySlot(0, 1)",
-            "returns": ["boolean", "True if the slot was cleared. False will be returned if the player is not on the server."],
-            "args": [
-                ["String", "Player's name"],
-                ["int", "Slot number"]
-            ]
-        },
-        {
-            "name": "updatePlayerInventorySlot",
-            "desc": "Changes the number of items in a player's inventory slot.",
-            "call": "this.updatePlayerInventorySlot(0, 1, 2)",
-            "returns": ["boolean", "True if the slot was update. False will be returned if the player is not on the server."],
-            "args": [
-                ["String", "Player's name"],
-                ["int", "Slot number"],
-                ["int", "New amount"]
-            ]
-        },
-        {
-            "name": "setPlayerInventorySlot",
-            "desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified quantity.",
-            "call": "this.setPlayerInventorySlot(0, 1, 2, 3)",
-            "returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
-            "args": [
-                ["String", "Player's name"],
-                ["int", "Slot number"],
-                ["int", "Id of block type to set"],
-                ["int", "Quantity to set"]
-            ]
-        },
+		{
+			"name": "setPlayerInventorySlotWithDamage",
+			"desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified quantity and damage.",
+			"call": "this.setPlayerInventorySlot(0, 1, 2, 3, 4)",
+			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
+			"args": [
+				["String", "Player's name"],
+				["int", "Slot number"],
+				["int", "Id of block type to set"],
+				["int", "The damage of the item."],
+				["int", "Quantity to set"]
+			]
+		},
+		{
+			"name": "clearPlayerInventorySlot",
+			"desc": "Removes everything from the specified slot in the player's inventory.",
+			"call": "this.clearPlayerInventorySlot(0, 1)",
+			"returns": ["boolean", "True if the slot was cleared. False will be returned if the player is not on the server."],
+			"args": [
+				["String", "Player's name"],
+				["int", "Slot number"]
+			]
+		},
+		{
+			"name": "updatePlayerInventorySlot",
+			"desc": "Changes the number of items in a player's inventory slot.",
+			"call": "this.updatePlayerInventorySlot(0, 1, 2)",
+			"returns": ["boolean", "True if the slot was update. False will be returned if the player is not on the server."],
+			"args": [
+				["String", "Player's name"],
+				["int", "Slot number"],
+				["int", "New amount"]
+			]
+		},
+		{
+			"name": "setPlayerInventorySlot",
+			"desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified quantity.",
+			"call": "this.setPlayerInventorySlot(0, 1, 2, 3)",
+			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
+			"args": [
+				["String", "Player's name"],
+				["int", "Slot number"],
+				["int", "Id of block type to set"],
+				["int", "Quantity to set"]
+			]
+		},
 		{
 			"name": "removePlayerInventoryItem",
 			"desc": "Removes all items of the given type from the given player's inventory.",
@@ -436,7 +436,7 @@
 			"returns": ["String[]", "The files in string format."],
 			"call": "this.getPluginFiles(0)",
 			"flags": [
-			 "NO_EXCEPTIONS"
+				"NO_EXCEPTIONS"
 			],
 			"args": [
 				["String", "The plugin that will have its files listed."]
@@ -459,6 +459,19 @@
 			"call": "this.getConnectionLogs(0)",
 			"args": [
 				["int", "The maximum number of items to return."]
+			]
+		},
+		{
+			"name": "setPlayerHealth",
+			"desc": "Set's a players health on a scale of 1-20.",
+			"returns": ["boolean", "True on succes, false if the player is not on the server."],
+			"call": "Server.getPlayer(0).setHealth(1)",
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"args": [
+				["String", "The player's name."],
+				["int", "The amount of health to set."]
 			]
 		}
 	]
