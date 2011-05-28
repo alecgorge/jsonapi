@@ -19,4 +19,9 @@ public class ConnectionMessage extends JSONAPIStream {
 		
 		return o;
 	}
+
+	@Override
+	public String getSourceName() {
+		return "connections";
+	}
 }
