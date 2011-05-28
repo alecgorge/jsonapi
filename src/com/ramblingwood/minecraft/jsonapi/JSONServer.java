@@ -342,6 +342,9 @@ public class JSONServer extends NanoHTTPD {
 				return returnAPIError("The method '"+calledMethod+"' does not exist!");
 			}
 		}
+		catch (NullPointerException e) {
+			return returnAPIError("The server is offline right now. Try again in 2 seconds.");
+		}
 		catch (Exception e) {
 			return returnAPIException(e);
 		}
