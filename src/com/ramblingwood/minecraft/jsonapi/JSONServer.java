@@ -245,19 +245,19 @@ public class JSONServer extends NanoHTTPD {
 
 		if(calledMethod == null) {
 			info("[API Call] "+header.get("X-REMOTE-ADDR")+": Parameter 'method' was not defined.");
-			return jsonRespone(returnAPIError("Parameter 'method' was not defined."), callback, HTTP_NOTFOUND);
+			return jsonRespone(returnAPIError("", "Parameter 'method' was not defined."), callback, HTTP_NOTFOUND);
 		}
 
 		String key = parms.getProperty("key");
 		if(!inst.method_noauth_whitelist.contains(calledMethod) && !testLogin(calledMethod, key)) {
 			info("[API Call] "+header.get("X-REMOTE-ADDR")+": Invalid API Key.");
-			return jsonRespone(returnAPIError("Invalid API key."), callback, HTTP_FORBIDDEN);
+			return jsonRespone(returnAPIError("", "Invalid API key."), callback, HTTP_FORBIDDEN);
 		}
 
 		info("[API Call] "+header.get("X-REMOTE-ADDR")+": method="+ parms.getProperty("method").concat("?args=").concat((String) args));
 
 		if(args == null || calledMethod == null) {
-			return jsonRespone(returnAPIError("You need to pass a method and an array of arguments."), callback, HTTP_NOTFOUND);
+			return jsonRespone(returnAPIError(calledMethod, "You need to pass a method and an array of arguments."), callback, HTTP_NOTFOUND);
 		}
 		else {
 			try {
@@ -273,7 +273,7 @@ public class JSONServer extends NanoHTTPD {
 						arguments = (List<Object>)args;
 					}
 					else {
-						return jsonRespone(returnAPIException(new Exception("method and args both need to be arrays for /api/call-multiple")), callback);
+						return jsonRespone(returnAPIException(calledMethod, new Exception("method and args both need to be arrays for /api/call-multiple")), callback);
 					}
 
 					int size = methods.size();
@@ -289,24 +289,26 @@ public class JSONServer extends NanoHTTPD {
 				}
 			}
 			catch (Exception e) {
-				return jsonRespone(returnAPIException(e), callback);
+				return jsonRespone(returnAPIException(calledMethod, e), callback);
 			}
 		}
 	}
 
-	public JSONObject returnAPIException (Exception e) {
+	public JSONObject returnAPIException (Object calledMethod, Exception e) {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
 		StringWriter pw = new StringWriter();
 		e.printStackTrace(new PrintWriter( pw ));
 		e.printStackTrace();
+		r.put("source", calledMethod);
 		r.put("error", "Caught exception: "+pw.toString().replaceAll("\\n", "\n").replaceAll("\\r", "\r"));
 		return r;
 	}
 
-	public JSONObject returnAPIError (String error) {
+	public JSONObject returnAPIError (Object calledMethod, String error) {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
+		r.put("source", calledMethod);
 		r.put("error", error);
 		return r;
 	}
@@ -339,16 +341,16 @@ public class JSONServer extends NanoHTTPD {
 			}
 			else {
 				warning("The method '"+calledMethod+"' does not exist!");
-				return returnAPIError("The method '"+calledMethod+"' does not exist!");
+				return returnAPIError(calledMethod, "The method '"+calledMethod+"' does not exist!");
 			}
 		}
 		catch (NullPointerException e) {
-			return returnAPIError("The server is offline right now. Try again in 2 seconds.");
+			return returnAPIError(calledMethod, "The server is offline right now. Try again in 2 seconds.");
 		}
 		catch (Exception e) {
-			return returnAPIException(e);
+			return returnAPIException(calledMethod, e);
 		}
 
-		return returnAPIError("You need to pass a method and an array of arguments.");
+		return returnAPIError(calledMethod, "You need to pass a method and an array of arguments.");
 	}
 }
