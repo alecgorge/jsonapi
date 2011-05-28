@@ -190,7 +190,7 @@ public class JSONServer extends NanoHTTPD {
 		
 		if(inst.whitelist.size() > 0 && !inst.whitelist.contains(header.get("X-REMOTE-ADDR"))) {
 			outLog.warning("[JSONAPI] An API call from "+ header.get("X-REMOTE-ADDR") +" was blocked because "+header.get("X-REMOTE-ADDR")+" is not on the whitelist.");
-			return jsonRespone(returnAPIError("You are not allowed to make API calls."), callback, HTTP_FORBIDDEN);			
+			return jsonRespone(returnAPIError("", "You are not allowed to make API calls."), callback, HTTP_FORBIDDEN);			
 		}
 
 		if(uri.equals("/api/subscribe")) {
@@ -199,7 +199,7 @@ public class JSONServer extends NanoHTTPD {
 
 			if(!testLogin(source, key)) {
 				info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": Invalid API Key.");
-				return jsonRespone(returnAPIError("Invalid API key."), callback, HTTP_FORBIDDEN);
+				return jsonRespone(returnAPIError(source, "Invalid API key."), callback, HTTP_FORBIDDEN);
 			}
 
 			info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": source="+ source);
@@ -232,7 +232,7 @@ public class JSONServer extends NanoHTTPD {
 				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return jsonRespone(returnAPIError("'"+source+"' is not a valid stream source!"), callback, HTTP_NOTFOUND);
+				return jsonRespone(returnAPIError(source, "'"+source+"' is not a valid stream source!"), callback, HTTP_NOTFOUND);
 			}
 		}
 		
