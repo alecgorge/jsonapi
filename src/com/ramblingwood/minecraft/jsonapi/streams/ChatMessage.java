@@ -5,4 +5,9 @@ public class ChatMessage extends JSONAPIStream {
 		super(player, message);
 		setTime();
 	}
+
+	@Override
+	public String getSourceName() {
+		return "chat";
+	}
 }

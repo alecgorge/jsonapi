@@ -50,5 +50,7 @@ public abstract class JSONAPIStream implements JSONAware {
 	
 	public String toJSONString() {
 		return toJSONObject().toJSONString();
-	}	
+	}
+	
+	public abstract String getSourceName();
 }

@@ -227,7 +227,7 @@ public class JSONServer extends NanoHTTPD {
 					throw new Exception();
 				}
 
-				StreamingResponse out = new StreamingResponse(source, arr, callback);
+				StreamingResponse out = new StreamingResponse(arr, callback);
 
 				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);
 			} catch (Exception e) {

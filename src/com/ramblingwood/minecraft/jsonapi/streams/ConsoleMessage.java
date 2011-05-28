@@ -16,4 +16,9 @@ public class ConsoleMessage extends JSONAPIStream {
 		
 		return o;		
 	}
+
+	@Override
+	public String getSourceName() {
+		return "console";
+	}
 }
