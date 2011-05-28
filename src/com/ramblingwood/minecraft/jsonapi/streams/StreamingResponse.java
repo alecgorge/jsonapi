@@ -5,22 +5,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.json.simpleForBukkit.JSONObject;
-import org.json.simpleForBukkit.JSONAware;
 
 import com.ramblingwood.minecraft.jsonapi.JSONServer;
 
 public class StreamingResponse extends InputStream {
 	private ArrayList<? extends JSONAPIStream> stack;
 	private String callback;
-	private String type;
 	private int pos = 0;
 	
-	public StreamingResponse(String type, ArrayList<? extends JSONAPIStream> arr, String callback) {
-		// System.out.println(type);
-		// System.out.println(arr);
-		
+	public StreamingResponse(ArrayList<? extends JSONAPIStream> arr, String callback) {
 		stack = arr;
-		this.type = type;
 	}
 	
 	public String nextLine () {
@@ -38,10 +32,10 @@ public class StreamingResponse extends InputStream {
 		return JSONServer.callback(callback, makeResponseObj(stack.get(pos-1))).concat("\r\n");
 	}
 	
-	private String makeResponseObj (JSONAware ja) {
+	private String makeResponseObj (JSONAPIStream ja) {
 		JSONObject o = new JSONObject();
 		o.put("result", "success");
-		o.put("source", type);
+		o.put("source", ja.getSourceName());
 		o.put("success", ja);
 		
 		String ret = o.toJSONString();
