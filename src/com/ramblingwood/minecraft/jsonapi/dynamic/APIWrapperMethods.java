@@ -245,12 +245,12 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 				
 				// default join event from CraftBukkit / src / main / java / net / minecraft / server / ServerConfigurationManager.java
 				PlayerJoinEvent playerJoinEvent = new PlayerJoinEvent(player, "\u00A7e" + player.getName() + " joined the game.");
-			    Server.getPluginManager().callEvent(playerJoinEvent);				
+				Server.getPluginManager().callEvent(playerJoinEvent);				
 			}
-		    
+			
 			// for some reason this is need to prevent the chat event being processed before the join event
-		    Thread.sleep(500);
-		    
+			Thread.sleep(500);
+			
 			// copied from CraftBukkit / src / main / java / net / minecraft / server / NetServerHandler.java 
 			PlayerChatEvent event = new PlayerChatEvent(player, message);
 			Server.getPluginManager().callEvent(event);
@@ -266,7 +266,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			for (Player recipient : event.getRecipients()) {
 				recipient.sendMessage(message);
 			}
-				        
+						
 			// end biggest hack ever			
 			return true;
 		}
@@ -280,7 +280,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		for(String name : joinedList.keySet()) {
 			Player player = joinedList.get(name);
 			PlayerQuitEvent playerQuitEvent = new PlayerQuitEvent(player, "\u00A7e" + player.getName() + " left the game.");
-	        Server.getPluginManager().callEvent(playerQuitEvent);			
+			Server.getPluginManager().callEvent(playerQuitEvent);			
 		}
 	}
 
