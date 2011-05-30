@@ -33,6 +33,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
+import com.ramblingwood.minecraft.jsonapi.dynamic.APIWrapperMethods;
 
 
 /**
@@ -247,6 +248,7 @@ public class JSONAPI extends JavaPlugin  {
 				jsonServer.stop();
 				jsonSocketServer.stop();
 				jsonWebSocketServer.stop();
+				APIWrapperMethods.getInstance().disconnectAllFauxPlayers();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
