@@ -231,10 +231,6 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			Player player;
 			if(joinedList.containsKey(name)) {
 				player = joinedList.get(name);
-				
-				// default join event from CraftBukkit / src / main / java / net / minecraft / server / ServerConfigurationManager.java
-				PlayerJoinEvent playerJoinEvent = new PlayerJoinEvent(player, "\u00A7e" + player.getName() + " joined the game.");
-			    Server.getPluginManager().callEvent(playerJoinEvent);
 			}
 			else {
 				// this is the biggest hack ever.
@@ -245,6 +241,11 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 						new ItemInWorldManager(((CraftWorld)Server.getWorlds().get(0)).getHandle())
 					)
 				);
+				joinedList.put(name, player);
+				
+				// default join event from CraftBukkit / src / main / java / net / minecraft / server / ServerConfigurationManager.java
+				PlayerJoinEvent playerJoinEvent = new PlayerJoinEvent(player, "\u00A7e" + player.getName() + " joined the game.");
+			    Server.getPluginManager().callEvent(playerJoinEvent);				
 			}
 		    
 			// for some reason this is need to prevent the chat event being processed before the join event
