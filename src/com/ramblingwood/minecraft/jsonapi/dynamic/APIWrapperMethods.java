@@ -24,6 +24,8 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
@@ -215,39 +217,69 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		public boolean isOp () {
 			return true;
 		}
+		
+		@Override
+		public void sendMessage(String message) {
+			System.out.println("message:"+message);
+		}
 	}
+	
+	private HashMap<String, Player> joinedList = new HashMap<String, Player>();
 	
 	public boolean chatWithName(String message, String name) {
 		try {
-			// this is the biggest hack ever.
-			Player player = new FauxPlayer(name, new EntityPlayer(
-													((CraftServer)Server).getServer(),
-													((CraftWorld)Server.getWorlds().get(0)).getHandle(),
-													name,
-													new ItemInWorldManager(((CraftWorld)Server.getWorlds().get(0)).getHandle())
-												)
-											);
-			// end biggest hack ever
-			
+			Player player;
+			if(joinedList.containsKey(name)) {
+				player = joinedList.get(name);
+				
+				// default join event from CraftBukkit / src / main / java / net / minecraft / server / ServerConfigurationManager.java
+				PlayerJoinEvent playerJoinEvent = new PlayerJoinEvent(player, "\u00A7e" + player.getName() + " joined the game.");
+			    Server.getPluginManager().callEvent(playerJoinEvent);
+			}
+			else {
+				// this is the biggest hack ever.
+				player = new FauxPlayer(name, new EntityPlayer(
+						((CraftServer)Server).getServer(),
+						((CraftWorld)Server.getWorlds().get(0)).getHandle(),
+						name,
+						new ItemInWorldManager(((CraftWorld)Server.getWorlds().get(0)).getHandle())
+					)
+				);
+			}
+		    
+			// for some reason this is need to prevent the chat event being processed before the join event
+		    Thread.sleep(500);
+		    
 			// copied from CraftBukkit / src / main / java / net / minecraft / server / NetServerHandler.java 
 			PlayerChatEvent event = new PlayerChatEvent(player, message);
 			Server.getPluginManager().callEvent(event);
 	
+			// NOTE: HeroChat always cancels
 			if (event.isCancelled()) {
 				return true;
 			}
 	
+			// default message from CraftBukkit / src / main / java / net / minecraft / server / NetServerHandler.java
 			message = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
 			Logger.getLogger("Minecraft").info(message);
 			for (Player recipient : event.getRecipients()) {
 				recipient.sendMessage(message);
 			}
-			
+				        
+			// end biggest hack ever			
 			return true;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	public void disconnectAllFauxPlayers () {
+		for(String name : joinedList.keySet()) {
+			Player player = joinedList.get(name);
+			PlayerQuitEvent playerQuitEvent = new PlayerQuitEvent(player, "\u00A7e" + player.getName() + " left the game.");
+	        Server.getPluginManager().callEvent(playerQuitEvent);			
 		}
 	}
 
