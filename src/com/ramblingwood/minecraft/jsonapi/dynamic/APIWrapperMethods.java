@@ -575,6 +575,6 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 
 	@Override
 	public void sendMessage(String arg0) {
-		Logger.getLogger("Minecraft").info("[JSONAPI] [Java Wrapper] "+arg0);
+		// Logger.getLogger("Minecraft").info("[JSONAPI] [Java Wrapper] "+arg0);
 	}
 }
