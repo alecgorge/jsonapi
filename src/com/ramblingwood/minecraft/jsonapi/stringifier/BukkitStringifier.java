@@ -154,9 +154,9 @@ public class BukkitStringifier {
 			
 			JSONObject o = new JSONObject();
 			
-			o.put("x", l.getBlockX());
-			o.put("y", l.getBlockY());
-			o.put("z", l.getBlockZ());
+			o.put("x", l.getX());
+			o.put("y", l.getY());
+			o.put("z", l.getZ());
 			o.put("pitch", l.getPitch());
 			o.put("yaw", l.getYaw());
 			
