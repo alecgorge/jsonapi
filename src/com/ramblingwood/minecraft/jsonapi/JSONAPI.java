@@ -11,7 +11,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
@@ -31,9 +33,11 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.config.Configuration;
+import org.bukkit.util.config.ConfigurationNode;
 
-import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
 import com.ramblingwood.minecraft.jsonapi.dynamic.APIWrapperMethods;
+import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
 
 
 /**
@@ -51,8 +55,8 @@ public class JSONAPI extends JavaPlugin  {
 	public String logFile = "false";
 	public String salt = "";
 	public int port = 20059;
-	public ArrayList<String> whitelist = new ArrayList<String>();
-	public ArrayList<String> method_noauth_whitelist = new ArrayList<String>();
+	public List<String> whitelist = new ArrayList<String>();
+	public List<String> method_noauth_whitelist = new ArrayList<String>();
 	
 	private Logger log = Logger.getLogger("Minecraft");
 	private Logger outLog = Logger.getLogger("JSONAPI");
@@ -87,105 +91,154 @@ public class JSONAPI extends JavaPlugin  {
 	
 	private JSONAPIPlayerListener l = new JSONAPIPlayerListener(this);	
 
+	@SuppressWarnings("unchecked")
 	public void onEnable() {
 		try {
-			Hashtable<String, String> auth = new Hashtable<String, String>();
+			HashMap<String, String> auth = new HashMap<String, String>();
 			
 			if(getDataFolder().exists()) {
 				getDataFolder().createNewFile();
 			}
-			// System.out.println(getDataFolder().getAbsolutePath()+"\\JSONAPI.properties");
-			PropertiesFile options = new PropertiesFile(new File(getDataFolder().getAbsolutePath()+File.separator+"JSONAPI.properties").getAbsolutePath());
+			
+			outLog = Logger.getLogger("JSONAPI");
+
+			File mainConfig = new File(getDataFolder(), "JSONAPI.properties");
+			File authfile = new File(getDataFolder(), "JSONAPIAuthentication.txt");
+			File authfile2 = new File(getDataFolder(), "JSONAPIMethodNoAuthWhitelist.txt");
+			File yamlFile = new File(getDataFolder(), "config.yml");
+
+			PropertiesFile options = new PropertiesFile(mainConfig.getAbsolutePath());
 			logging = options.getBoolean("log-to-console", true);
 			logFile = options.getString("log-to-file", "false");
 			String ipWhitelist = options.getString("ip-whitelist", "false");
 			salt = options.getString("salt", "");
-			
 			String reconstituted = "";
-			if(!ipWhitelist.trim().equals("false")) {
-				String[] ips = ipWhitelist.split(",");
-				StringBuffer t = new StringBuffer();
-				for(String ip : ips) {
-					t.append(ip.trim()+",");
-					whitelist.add(ip);
+
+			if(mainConfig.exists() && !yamlFile.exists()) {
+				// auto-migrate to yaml from properties and plain text files
+				yamlFile.createNewFile();			
+				Configuration yamlConfig = new Configuration(yamlFile);
+				
+				if(!ipWhitelist.trim().equals("false")) {
+					String[] ips = ipWhitelist.split(",");
+					StringBuffer t = new StringBuffer();
+					for(String ip : ips) {
+						t.append(ip.trim()+",");
+						whitelist.add(ip);
+					}
+					reconstituted = t.toString();
 				}
-				reconstituted = t.toString();
+				
+				port = options.getInt("port", 20059);
+
+				try {
+					FileInputStream fstream;
+					try {
+						fstream = new FileInputStream(authfile);
+					}
+					catch (FileNotFoundException e) {
+						authfile.createNewFile();
+						fstream = new FileInputStream(authfile);
+					}
+
+					DataInputStream in = new DataInputStream(fstream);
+					BufferedReader br = new BufferedReader(new InputStreamReader(in));
+					String line;
+					
+					while ((line = br.readLine()) != null)   {
+						if(!line.startsWith("#")) {
+							String[] parts = line.trim().split(":");
+							if(parts.length == 2) {
+								auth.put(parts[0], parts[1]);
+							}
+						}
+					}
+					
+					br.close();
+					in.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					FileInputStream fstream;
+					try {
+						fstream = new FileInputStream(authfile2);
+					}
+					catch (FileNotFoundException e) {
+						authfile2.createNewFile();
+						fstream = new FileInputStream(authfile2);
+					}
+
+					DataInputStream in = new DataInputStream(fstream);
+					BufferedReader br = new BufferedReader(new InputStreamReader(in));
+					String line;
+					
+					while ((line = br.readLine()) != null)   {
+						if(!line.trim().startsWith("#")) {
+							method_noauth_whitelist.add(line.trim());
+						}
+					}
+					
+					br.close();
+					in.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				yamlConfig.setProperty("options.log-to-console", logging);
+				yamlConfig.setProperty("options.log-to-file", logFile);
+				yamlConfig.setProperty("options.ip-whitelist", whitelist);
+				yamlConfig.setProperty("options.salt", salt);
+				yamlConfig.setProperty("options.port", port);
+				
+				yamlConfig.setProperty("method-whitelist", method_noauth_whitelist);
+				
+				yamlConfig.setProperty("logins", auth);
+				
+				yamlConfig.save();
+				
+				mainConfig.delete();
+				authfile.delete();
+				authfile2.delete();
+			}
+			else if(yamlFile.exists()) {
+				Configuration yamlConfig = new Configuration(yamlFile);
+				yamlConfig.load(); // VERY IMPORTANT
+				
+				logging = yamlConfig.getBoolean("options.log-to-console", true);
+				logFile = yamlConfig.getString("options.log-to-file", "false");
+
+				whitelist = yamlConfig.getStringList("options.ip-whitelist", new ArrayList<String>());				
+				for(String ip : whitelist) {
+					reconstituted += ip + ",";
+				}
+				
+				salt = yamlConfig.getString("options.salt", "");
+				port = yamlConfig.getInt("options.port", 20059);
+				
+				method_noauth_whitelist = yamlConfig.getStringList("method-whitelist", new ArrayList<String>());
+				
+				List<String> logins = yamlConfig.getKeys("logins");
+				System.out.println(logins);
+				for(String k : logins) {
+					auth.put(k, yamlConfig.getString("logins."+k));
+				}
 			}
 			
-			outLog = Logger.getLogger("JSONAPI");
 			if(!logging) {
 				for(Handler h : outLog.getHandlers()) {
 					outLog.removeHandler(h);
 				}
 			}
-			if(!logFile.equals("false")) {
+			if(!logFile.equals("false") && !logFile.isEmpty()) {
 				FileHandler fh = new FileHandler(logFile);
 				fh.setFormatter(new SimpleFormatter());
 				outLog.addHandler(fh);
-			}
-			
-			port = options.getInt("port", 20059);
-
-			try {
-				FileInputStream fstream;
-				File authfile = new File(getDataFolder().getAbsolutePath()+File.separator+"JSONAPIAuthentication.txt");
-				try {
-					fstream = new FileInputStream(authfile);
-				}
-				catch (FileNotFoundException e) {
-					authfile.createNewFile();
-					fstream = new FileInputStream(authfile);
-				}
-
-				DataInputStream in = new DataInputStream(fstream);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				String line;
-				
-				while ((line = br.readLine()) != null)   {
-					if(!line.startsWith("#")) {
-						String[] parts = line.trim().split(":");
-						if(parts.length == 2) {
-							auth.put(parts[0], parts[1]);
-						}
-					}
-				}
-				
-				br.close();
-				in.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			try {
-				FileInputStream fstream;
-				File authfile = new File(getDataFolder().getAbsolutePath()+File.separator+"JSONAPIMethodNoAuthWhitelist.txt");
-				try {
-					fstream = new FileInputStream(authfile);
-				}
-				catch (FileNotFoundException e) {
-					authfile.createNewFile();
-					fstream = new FileInputStream(authfile);
-				}
-
-				DataInputStream in = new DataInputStream(fstream);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				String line;
-				
-				while ((line = br.readLine()) != null)   {
-					if(!line.trim().startsWith("#")) {
-						method_noauth_whitelist.add(line.trim());
-					}
-				}
-				
-				br.close();
-				in.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
+			}			
 			
 			if(auth.size() == 0) {
-				log.severe("[JSONAPI] No valid logins for JSONAPI. Check JSONAPIAuthentication.txt");
+				log.severe("[JSONAPI] No valid logins for JSONAPI. Check config.yml");
 				return;
 			}
 			

@@ -1,0 +1,11 @@
+method-whitelist:
+- getPlayerLimit
+- dynmap.getPort
+logins:
+    admin: demo
+options:
+    port: 20059
+    ip-whitelist: []
+    log-to-console: true
+    log-to-file: 'false'
+    salt: ''
