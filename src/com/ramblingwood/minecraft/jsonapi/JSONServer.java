@@ -7,8 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -27,7 +26,7 @@ import com.ramblingwood.minecraft.jsonapi.streams.StreamingResponse;
 
 
 public class JSONServer extends NanoHTTPD {
-	Hashtable<String, String> logins = new Hashtable<String, String>();
+	HashMap<String, String> logins = new HashMap<String, String>();
 	private JSONAPI inst;
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	private Caller caller;
@@ -40,7 +39,7 @@ public class JSONServer extends NanoHTTPD {
 	private static boolean initted = false;
 
 	
-	public JSONServer(Hashtable<String, String> logins, final JSONAPI plugin) throws IOException {
+	public JSONServer(HashMap<String, String> auth, final JSONAPI plugin) throws IOException {
 		super(plugin.port);
 		inst = plugin;
 		
@@ -83,7 +82,7 @@ public class JSONServer extends NanoHTTPD {
 			}
 		})).start();
 		
-		this.logins = logins;
+		this.logins = auth;
 	}
 	
 	public Caller getCaller() {
@@ -145,10 +144,7 @@ public class JSONServer extends NanoHTTPD {
 		try {
 			boolean valid = false;
 			
-			Enumeration<String> e = logins.keys();
-			
-			while(e.hasMoreElements()) {
-				String user = e.nextElement();
+			for(String user : logins.keySet()) {
 				String pass = logins.get(user);
 
 				String thishash = JSONAPI.SHA256(user+method+pass+inst.salt);
