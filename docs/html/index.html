@@ -502,7 +502,7 @@
 			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The dynmap port as a string.</li>
 		</ul>
 	</div>
-</div><h2 id="package-Remote%20Toolkit%20methods">Remote Toolkit methods</h2><h3>Depends on the following plugins:</h3><ul><li>RemoteToolkitPlugin</li></ul><h3>Methods</h3><ul><li><a href='#this.runCommand%28%22reschedulerestart%22%2C%200%29'>void remotetoolkit.rescheduleServerRestart(String)</a></li><li><a href='#this.runCommand%28%22restartsrv%22%29'>void remotetoolkit.restartServer()</a></li><li><a href='#this.runCommand%28%22stopwrapper%22%29'>void remotetoolkit.stopServer()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.runCommand%28%22reschedulerestart%22%2C%200%29">
+</div><h2 id="package-Remote%20Toolkit%20methods">Remote Toolkit methods</h2><h3>Depends on the following plugins:</h3><ul><li>RemoteToolkitPlugin</li></ul><h3>Methods</h3><ul><li><a href='#this.runCommand%28%22reschedulerestart%22%2C%200%29'>void remotetoolkit.rescheduleServerRestart(String)</a></li><li><a href='#this.runCommand%28%22restartsrv%22%29'>void remotetoolkit.restartServer()</a></li><li><a href='#this.runCommand%28%22null%22%29'>void remotetoolkit.startServer()</a></li><li><a href='#this.runCommand%28%22stopwrapper%22%29'>void remotetoolkit.stopServer()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.runCommand%28%22reschedulerestart%22%2C%200%29">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.rescheduleServerRestart</li>
 			<li class="method-info-desc"><strong>Description: </strong> Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format.</li>
@@ -518,10 +518,18 @@
 			<li class="method-info-return"><strong>Returns: </strong>void</li>
 		</ul>
 	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22null%22%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.startServer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Starts the Minecraft server. DO NOT CALL IF remotetookit.stopServer HAS NOT BEEN CALLED!</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
 	<div class="method-wrapper" id="this.runCommand%28%22stopwrapper%22%29">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.stopServer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT. JSONAPI WILL NOT WORK AFTER THIS IS RUN.</li>
+			<li class="method-info-desc"><strong>Description: </strong>Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT.</li>
 			<li class="method-info-args"><strong>Arguments: </strong>None</li>
 			<li class="method-info-return"><strong>Returns: </strong>void</li>
 		</ul>
