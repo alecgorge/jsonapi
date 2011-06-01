@@ -13,7 +13,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
@@ -34,7 +33,6 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
-import org.bukkit.util.config.ConfigurationNode;
 
 import com.ramblingwood.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
@@ -91,7 +89,6 @@ public class JSONAPI extends JavaPlugin  {
 	
 	private JSONAPIPlayerListener l = new JSONAPIPlayerListener(this);	
 
-	@SuppressWarnings("unchecked")
 	public void onEnable() {
 		try {
 			HashMap<String, String> auth = new HashMap<String, String>();
@@ -220,7 +217,6 @@ public class JSONAPI extends JavaPlugin  {
 				method_noauth_whitelist = yamlConfig.getStringList("method-whitelist", new ArrayList<String>());
 				
 				List<String> logins = yamlConfig.getKeys("logins");
-				System.out.println(logins);
 				for(String k : logins) {
 					auth.put(k, yamlConfig.getString("logins."+k));
 				}
