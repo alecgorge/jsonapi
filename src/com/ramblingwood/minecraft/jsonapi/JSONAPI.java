@@ -34,6 +34,9 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
+import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface;
+import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
+import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKListener;
 import com.ramblingwood.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
 
@@ -42,7 +45,7 @@ import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
 *
 * @author alecgorge
 */
-public class JSONAPI extends JavaPlugin  {
+public class JSONAPI extends JavaPlugin implements RTKListener {
 	public PluginLoader pluginLoader;
 	// private Server server;
 	public JSONServer jsonServer;
@@ -60,6 +63,8 @@ public class JSONAPI extends JavaPlugin  {
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	private PluginManager pm;
 	private Handler handler;
+	
+	public RTKInterface rtkAPI;
 	
 	// for dynamic access
 	public static JSONAPI instance;
@@ -222,6 +227,15 @@ public class JSONAPI extends JavaPlugin  {
 				}
 			}
 			
+			Configuration yamlRTK = new Configuration(new File(getDataFolder(), "config_rtk.yml"));
+			try {
+				rtkAPI = RTKInterface.createRTKInterface(yamlRTK.getInt("RTK.port", 25561), "localhost", yamlRTK.getString("RTK.username", "user"), yamlRTK.getString("RTK.password", "pass"));
+				rtkAPI.registerRTKListener(this);
+			} catch (RTKInterfaceException e) {
+				e.printStackTrace();
+			}
+			
+			
 			if(!logging) {
 				for(Handler h : outLog.getHandlers()) {
 					outLog.removeHandler(h);
@@ -367,5 +381,10 @@ public class JSONAPI extends JavaPlugin  {
 		public void onPlayerQuit(PlayerQuitEvent event) {
 			p.jsonServer.logDisconnected(event.getPlayer().getName());
 		}		
+	}
+
+	@Override
+	public void onRTKStringReceived(String message) {
+		
 	}
 }
