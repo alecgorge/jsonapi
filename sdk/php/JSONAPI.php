@@ -13,15 +13,10 @@
  */
 class JSONAPI {
 	public $host;
-	
 	public $port;
-	
 	public $salt;
-	
 	public $username;
-	
 	public $password;
-	
 	private $urlFormats = array(
 		"call" => "http://%s:%s/api/call?method=%s&args=%s&key=%s",
 		"callMultiple" => "http://%s:%s/api/call-multiple?method=%s&args=%s&key=%s"
@@ -36,6 +31,10 @@ class JSONAPI {
 		$this->username = $uname;
 		$this->password = $pword;
 		$this->salt = $salt;
+		
+		if(!extension_loaded("cURL")) {
+			throw new Exception("JSONAPI requires cURL extension in order to work.");
+		}
 	}
 	
 	/**
