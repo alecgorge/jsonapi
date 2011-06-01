@@ -33,6 +33,8 @@ import org.json.simpleForBukkit.JSONObject;
 
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.PropertiesFile;
+import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface;
+import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.ramblingwood.minecraft.jsonapi.streams.JSONAPIStream;
 import com.ramblingwood.minecraft.jsonapi.util.RecursiveDirLister;
 
@@ -577,4 +579,18 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 	public void sendMessage(String arg0) {
 		// Logger.getLogger("Minecraft").info("[JSONAPI] [Java Wrapper] "+arg0);
 	}
+	
+	// RTK methods
+	public void restartServer() throws IOException, RTKInterfaceException {
+		JSONAPI.instance.rtkAPI.executeCommand(RTKInterface.CommandType.RESTART, null);
+	}
+	
+	public void stopServer() throws IOException, RTKInterfaceException {
+		JSONAPI.instance.rtkAPI.executeCommand(RTKInterface.CommandType.HOLD_SERVER, null);
+	}
+	
+	public void rescheduleServerRestart(String format) throws IOException, RTKInterfaceException {
+		JSONAPI.instance.rtkAPI.executeCommand(RTKInterface.CommandType.RESCHEDULE_RESTART, format);		
+	}
+	// end RTK methods
 }

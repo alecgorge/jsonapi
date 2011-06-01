@@ -7,8 +7,12 @@
 	"methods" : [
 		{
 			"name": "rescheduleServerRestart",
-			"desc": " Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format.",
-			"call": "this.runCommand(\"reschedulerestart\", 0)",
+			"desc": "Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format.",
+			"returns": ["boolean", "False on error. Null otherwise."],
+			"call": "this.rescheduleServerRestart(0)",
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
 			"args": [
 				["String", "Time in either the #h #m #s format, or the HH:MM format."]
 			]
@@ -16,12 +20,29 @@
 		{
 			"name": "restartServer",
 			"desc": "Restarts the Minecraft server. THIS WILL TAKE DOWN JSONAPI FOR A SHORT TIME.",
-			"call": "this.runCommand(\"restartsrv\")"
+			"returns": ["boolean", "False on error. Null otherwise."],
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"call": "this.restartServer()"
 		},
 		{
 			"name": "stopServer",
-			"desc": "Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT. JSONAPI WILL NOT WORK AFTER THIS IS RUN.",
-			"call": "this.runCommand(\"stopwrapper\")"
+			"desc": "Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT.",
+			"returns": ["boolean", "False on error. Null otherwise."],
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"call": "this.stopServer()"
+		},
+		{
+			"name": "startServer",
+			"desc": "Starts the Minecraft server. DO NOT CALL IF remotetookit.stopServer HAS NOT BEEN CALLED!",
+			"returns": ["boolean", "True if successful, false otherwise."],
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"call": "this.runCommand(\"null\")"
 		}
 	]
 }
