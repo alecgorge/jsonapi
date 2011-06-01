@@ -1,3 +1,3 @@
 
-Bukkit build #700
-CraftBukkit build #798
+Bukkit build #704
+CraftBukkit build #818

@@ -244,12 +244,12 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 				joinedList.put(name, player);
 				
 				// default join event from CraftBukkit / src / main / java / net / minecraft / server / ServerConfigurationManager.java
-				PlayerJoinEvent playerJoinEvent = new PlayerJoinEvent(player, "\u00A7e" + player.getName() + " joined the game.");
-				Server.getPluginManager().callEvent(playerJoinEvent);				
+				// PlayerJoinEvent playerJoinEvent = new PlayerJoinEvent(player, "\u00A7e" + player.getName() + " joined the game.");
+				// Server.getPluginManager().callEvent(playerJoinEvent);				
 			}
 			
 			// for some reason this is need to prevent the chat event being processed before the join event
-			Thread.sleep(500);
+			// Thread.sleep(500);
 			
 			// copied from CraftBukkit / src / main / java / net / minecraft / server / NetServerHandler.java 
 			PlayerChatEvent event = new PlayerChatEvent(player, message);
