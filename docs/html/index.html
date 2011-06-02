@@ -502,20 +502,20 @@
 			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The dynmap port as a string.</li>
 		</ul>
 	</div>
-</div><h2 id="package-Remote%20Toolkit%20methods">Remote Toolkit methods</h2><h3>Depends on the following plugins:</h3><ul><li>RemoteToolkitPlugin</li></ul><h3>Methods</h3><ul><li><a href='#this.runCommand%28%22reschedulerestart%22%2C%200%29'>void remotetoolkit.rescheduleServerRestart(String)</a></li><li><a href='#this.runCommand%28%22restartsrv%22%29'>void remotetoolkit.restartServer()</a></li><li><a href='#this.runCommand%28%22null%22%29'>void remotetoolkit.startServer()</a></li><li><a href='#this.runCommand%28%22stopwrapper%22%29'>void remotetoolkit.stopServer()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.runCommand%28%22reschedulerestart%22%2C%200%29">
+</div><h2 id="package-Remote%20Toolkit%20methods">Remote Toolkit methods</h2><h3>Depends on the following plugins:</h3><ul><li>RemoteToolkitPlugin</li></ul><h3>Methods</h3><ul><li><a href='#this.rescheduleServerRestart%280%29'>void remotetoolkit.rescheduleServerRestart(String)</a></li><li><a href='#this.restartServer%28%29'>void remotetoolkit.restartServer()</a></li><li><a href='#this.runCommand%28%22null%22%29'>void remotetoolkit.startServer()</a></li><li><a href='#this.stopServer%28%29'>void remotetoolkit.stopServer()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.rescheduleServerRestart%280%29">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.rescheduleServerRestart</li>
-			<li class="method-info-desc"><strong>Description: </strong> Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format.</li>
+			<li class="method-info-desc"><strong>Description: </strong>Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format.</li>
 			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Time in either the #h #m #s format, or the HH:MM format.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> False on error. Null otherwise.</li>
 		</ul>
 	</div>
-	<div class="method-wrapper" id="this.runCommand%28%22restartsrv%22%29">
+	<div class="method-wrapper" id="this.restartServer%28%29">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.restartServer</li>
 			<li class="method-info-desc"><strong>Description: </strong>Restarts the Minecraft server. THIS WILL TAKE DOWN JSONAPI FOR A SHORT TIME.</li>
 			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> False on error. Null otherwise.</li>
 		</ul>
 	</div>
 	<div class="method-wrapper" id="this.runCommand%28%22null%22%29">
@@ -523,15 +523,15 @@
 			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.startServer</li>
 			<li class="method-info-desc"><strong>Description: </strong>Starts the Minecraft server. DO NOT CALL IF remotetookit.stopServer HAS NOT BEEN CALLED!</li>
 			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if successful, false otherwise.</li>
 		</ul>
 	</div>
-	<div class="method-wrapper" id="this.runCommand%28%22stopwrapper%22%29">
+	<div class="method-wrapper" id="this.stopServer%28%29">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.stopServer</li>
 			<li class="method-info-desc"><strong>Description: </strong>Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT.</li>
 			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> False on error. Null otherwise.</li>
 		</ul>
 	</div>
 </div><h2 id="package-System%20Usage%20Methods">System Usage Methods</h2><h3>Depends on the following plugins:</h3><ul><li>JSONAPI</li></ul><h3>Methods</h3><ul><li><a href='#this.getDiskFreeSpace%28%29'>void system.getDiskFreeSpace()</a></li><li><a href='#this.getDiskSize%28%29'>void system.getDiskSize()</a></li><li><a href='#this.getDiskUsage%28%29'>void system.getDiskUsage()</a></li><li><a href='#this.getJavaMaxMemory%28%29'>void system.getJavaMemoryTotal()</a></li><li><a href='#this.getJavaMemoryUsage%28%29'>void system.getJavaMemoryUsage()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.getDiskFreeSpace%28%29">
