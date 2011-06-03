@@ -522,7 +522,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
 		
 		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
-		for(int i = 0; i < count; i++) {
+		for(int i = stack.size() - count; i < stack.size(); i++) {
 			a.add(stack.get(i).toJSONObject());
 		}
 		return a;
@@ -538,7 +538,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
 		
 		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
-		for(int i = 0; i < count; i++) {
+		for(int i = stack.size() - count; i < stack.size(); i++) {
 			a.add(stack.get(i).toJSONObject());
 		}
 		return a;
@@ -554,7 +554,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
 		
 		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
-		for(int i = 0; i < count; i++) {
+		for(int i = stack.size() - count; i < stack.size(); i++) {
 			a.add(stack.get(i).toJSONObject());
 		}
 		return a;
