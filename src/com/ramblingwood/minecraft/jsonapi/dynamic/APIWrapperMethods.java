@@ -38,6 +38,8 @@ import com.ramblingwood.minecraft.jsonapi.streams.JSONAPIStream;
 import com.ramblingwood.minecraft.jsonapi.util.RecursiveDirLister;
 
 public class APIWrapperMethods extends ConsoleCommandSender {
+	private Logger log = Logger.getLogger("Minecraft");
+	
 	public APIWrapperMethods(Server server) {
 		super(server);
 	}
@@ -576,7 +578,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 
 	@Override
 	public void sendMessage(String arg0) {
-		// Logger.getLogger("Minecraft").info("[JSONAPI] [Java Wrapper] "+arg0);
+		log.info(arg0);
 	}
 	
 	// RTK methods
