@@ -98,8 +98,8 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 		try {
 			HashMap<String, String> auth = new HashMap<String, String>();
 			
-			if(getDataFolder().exists()) {
-				getDataFolder().createNewFile();
+			if(!getDataFolder().exists()) {
+				getDataFolder().mkdir();
 			}
 			
 			outLog = Logger.getLogger("JSONAPI");
@@ -108,7 +108,19 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			File authfile = new File(getDataFolder(), "JSONAPIAuthentication.txt");
 			File authfile2 = new File(getDataFolder(), "JSONAPIMethodNoAuthWhitelist.txt");
 			File yamlFile = new File(getDataFolder(), "config.yml");
-
+			File methods = new File(getDataFolder(), "methods.json");
+			
+			if(!methods.exists()) {
+				log.severe("[JSONAPI] plugins/JSONAPI/methods.json is missing!");
+				log.severe("[JSONAPI] JSONAPI not loaded!");
+				return;
+			}
+			if(!yamlFile.exists() && !mainConfig.exists()) {
+				log.severe("[JSONAPI] config.yml and JSONAPI.properties are both missing. You need at least one!");
+				log.severe("[JSONAPI] JSONAPI not loaded!");
+				return;
+			}
+			
 			PropertiesFile options = new PropertiesFile(mainConfig.getAbsolutePath());
 			logging = options.getBoolean("log-to-console", true);
 			logFile = options.getString("log-to-file", "false");
@@ -234,7 +246,6 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			} catch (RTKInterfaceException e) {
 				e.printStackTrace();
 			}
-			
 			
 			if(!logging) {
 				for(Handler h : outLog.getHandlers()) {
