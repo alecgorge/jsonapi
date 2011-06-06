@@ -6,23 +6,6 @@ from hashlib import sha256
 from urllib import urlencode
 from urllib2 import urlopen
 
-class MinecraftStream(object):
-	def __getattribute__(self, name):
-		if name not in ['readjson', '_original_stream']:
-			return getattr(
-				object.__getattribute__(self, '_original_stream'), 
-				name
-			)
-		else:
-			return object.__getattribute__(self, name)
-		
-	def __init__(self, stream):
-		self._original_stream = stream
-		
-	def readjson(self, *args, **kwargs):
-		ret = self._original_stream.readline(*args, **kwargs)
-		return json.loads(ret[2:])
-	
 class MinecraftJsonApi (object):
 	'''
 	Python Interface to JSONAPI for Bukkit (Minecraft)
@@ -204,7 +187,6 @@ class MinecraftJsonApi (object):
 		self.password = password
 		self.port = port
 		self.salt = salt
-		self.__socket = self.__createsocket()
 		self.__methods = []
 		if autoload_methods:
 			self.__loadMethods()
@@ -215,15 +197,11 @@ class MinecraftJsonApi (object):
 				
 	def __rawCall (self, url, retry_on_failure=True):
 		try:
-			self.__socket.write(url)
-			self.__socket.write('\n')
-			self.__socket.flush()
-		
-			result = self.__socket.readline()[2:]
+			data = urllib.urlopen("http://%s:%d%s" % (self.host, self.port, url)).read()
+			result = json.loads(data)
 			return result
 		except Exception as e:
 			if retry_on_failure:
-				self.__socket = self.__createsocket()
 				self.__rawCall(url, False)
 			else:		
 				raise e
@@ -235,15 +213,11 @@ class MinecraftJsonApi (object):
 	
 	def __call(self, url, retry_on_failure = True): 
 		try:
-			self.__socket.write(url)
-			self.__socket.write('\n')
-			self.__socket.flush()
-		
-			result = self.__socket.readjson()
+			data = urllib.urlopen("http://%s:%d%s" % (self.host, self.port, url)).read()
+			result = json.loads(data)
 			return result
 		except Exception as e:
 			if retry_on_failure:
-				self.__socket = self.__createsocket()
 				self.__call(url, False)
 			else:		
 				raise e
