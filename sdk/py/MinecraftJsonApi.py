@@ -197,7 +197,7 @@ class MinecraftJsonApi (object):
 				
 	def __rawCall (self, url, retry_on_failure=True):
 		try:
-			data = urllib.urlopen("http://%s:%d%s" % (self.host, self.port, url)).read()
+			data = urlopen("http://%s:%d%s" % (self.host, self.port, url)).read()
 			result = json.loads(data)
 			return result
 		except Exception as e:
@@ -213,7 +213,7 @@ class MinecraftJsonApi (object):
 	
 	def __call(self, url, retry_on_failure = True): 
 		try:
-			data = urllib.urlopen("http://%s:%d%s" % (self.host, self.port, url)).read()
+			data = urlopen("http://%s:%d%s" % (self.host, self.port, url)).read()
 			result = json.loads(data)
 			return result
 		except Exception as e:
@@ -251,7 +251,15 @@ class MinecraftJsonApi (object):
 			return None
 
 if __name__ == '__main__':
-	api = MinecraftJsonApi()
+	# Read params
+	paramDefaults = {'host': 'localhost', 'port':20060, 'username':'admin', 'password':'demo', 'salt':''}
+	filterFuncs = {'host': str, 'port': int, 'username': str, 'password': str, 'salt': str}
+	params = {}
+	for k in paramDefaults.keys():
+		value = raw_input("%s (%s): " % (k.capitalize(), str(paramDefaults[k])))
+		params[k] = filterFuncs[k](value)
+
+	api = MinecraftJsonApi(params['host'], params['port'], params['username'], params['password'], params['salt'])
 	print (api.getServerIp())
 	print([m['method_name'] for m in api.getLoadedMethods()])
 	print (api.getMethod('kickPlayer'))
