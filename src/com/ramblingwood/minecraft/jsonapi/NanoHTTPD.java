@@ -572,7 +572,7 @@ public class NanoHTTPD
 					while(doContinue && (line = s.nextLine()) != null) {
 						try {
 							if(mySocket.isConnected() && !mySocket.isClosed()) {
-								output.writeBytes(line.trim()+"\r\n");
+								output.writeUTF(line.trim()+"\r\n");
 							}
 							else {
 								doContinue = false;

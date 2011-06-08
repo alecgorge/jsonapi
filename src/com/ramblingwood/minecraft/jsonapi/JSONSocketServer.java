@@ -114,7 +114,7 @@ public class JSONSocketServer implements Runnable{
 								while((line = s.nextLine()) != null && continueSending) {
 									try {
 										if(clientSocket.isConnected() && !clientSocket.isClosed()) {
-											output.writeBytes(line.trim()+"\r\n");
+											output.writeUTF(line.trim()+"\r\n");
 										}
 										else {
 											continueSending = false;
