@@ -1,13 +1,3 @@
-
-Warning: file_get_contents(): Filename cannot be empty in F:\java\workspace\jsonapi\docs\generate-docs.php on line 5
-
-Warning: usort() expects parameter 1 to be array, null given in F:\java\workspace\jsonapi\docs\generate-docs.php on line 36
-
-Warning: Invalid argument supplied for foreach() in F:\java\workspace\jsonapi\docs\generate-docs.php on line 38
-
-Warning: Invalid argument supplied for foreach() in F:\java\workspace\jsonapi\docs\generate-docs.php on line 41
-
-Warning: Invalid argument supplied for foreach() in F:\java\workspace\jsonapi\docs\generate-docs.php on line 46
 <!DOCTYPE html>
 <html>
 	<head>
@@ -20,8 +10,569 @@ Warning: Invalid argument supplied for foreach() in F:\java\workspace\jsonapi\do
 	The methods that require another plugin to be installed simply do not work if that plugin is not installed and enabled.</p>
 	<h2>Available method packages</h2>
 	<ul>
-
-Warning: file_get_contents(): Filename cannot be empty in F:\java\workspace\jsonapi\docs\generate-docs.php on line 23
-<li><a href="#package-"></a> (default namespace)</li>
-</ul><h2 id="package-"></h2><h3>Depends on the following plugins:</h3><ul></ul><h3>Methods</h3><ul></ul><div id="jsonapi-docs" class="doc-wrapper"></div>	</body>
+<li><a href="#package-JSONAPI%20default%20methods">JSONAPI default methods</a> (default namespace)</li>
+<li><a href="#package-Dynmap%20API%20methods">Dynmap API methods</a> (dynmap namespace)</li>
+<li><a href="#package-Remote%20Toolkit%20methods">Remote Toolkit methods</a> (remotetoolkit namespace)</li>
+<li><a href="#package-System%20Usage%20Methods">System Usage Methods</a> (system namespace)</li>
+</ul><h2 id="package-JSONAPI%20default%20methods">JSONAPI default methods</h2><h3>Depends on the following plugins:</h3><ul><li>JSONAPI</li></ul><h3>Methods</h3><ul><li><a href='#this.runCommand%28%22whitelist%20add%20%22%2C%200%29'>void addToWhitelist(String)</a></li><li><a href='#this.runCommand%28%22ban%20%22%2C%200%29'>void ban(String)</a></li><li><a href='#this.runCommand%28%22ban-ip%20%22%2C%200%29'>void banIP(String)</a></li><li><a href='#Server.broadcastMessage%280%29'>void broadcast(String)</a></li><li><a href='#this.chatWithName%280%2C%201%29'>void broadcastWithName(String, String)</a></li><li><a href='#this.clearPlayerInventorySlot%280%2C%201%29'>void clearPlayerInventorySlot(String, int)</a></li><li><a href='#this.runCommand%28%22deop%20%22%2C%200%29'>void deopPlayer(String)</a></li><li><a href='#this.disablePlugin%280%29'>void disablePlugin(String)</a></li><li><a href='#Server.getPluginManager%28%29.disablePlugins%28%29'>void disablePlugins()</a></li><li><a href='#this.editPropertiesFile%280%2C1%2C2%2C3%29'>void editPropertiesFile(String, String, String, String)</a></li><li><a href='#this.enablePlugin%280%29'>void enablePlugin(String)</a></li><li><a href='#this.getBannedIPs%28%29'>void getBannedIPs()</a></li><li><a href='#this.getBannedPlayers%28%29'>void getBannedPlayers()</a></li><li><a href='#this.getFileContents%280%29'>void getFileContents(String)</a></li><li><a href='#this.getChatLogs%28%29'>void getLatestChats()</a></li><li><a href='#this.getChatLogs%280%29'>void getLatestChatsWithLimit(int)</a></li><li><a href='#this.getConnectionLogs%28%29'>void getLatestConnections()</a></li><li><a href='#this.getConnectionLogs%280%29'>void getLatestConnectionsWithLimit(int)</a></li><li><a href='#this.getConsoleLogs%28%29'>void getLatestConsoleLogs()</a></li><li><a href='#this.getConsoleLogs%280%29'>void getLatestConsoleLogsWithLimit(int)</a></li><li><a href='#Server.getPlayer%280%29'>void getPlayer(String)</a></li><li><a href='#Server.getOnlinePlayers%28%29.length'>void getPlayerCount()</a></li><li><a href='#Server.getMaxPlayers%28%29'>void getPlayerLimit()</a></li><li><a href='#Server.getOnlinePlayers%28%29'>void getPlayers()</a></li><li><a href='#Server.getPluginManager%28%29.getPlugin%280%29'>void getPlugin(String)</a></li><li><a href='#this.getPluginFiles%280%29'>void getPluginFiles(String)</a></li><li><a href='#Server.getPluginManager%28%29.getPlugins%28%29'>void getPlugins()</a></li><li><a href='#this.getPropertiesFile%280%29'>void getPropertiesFile(String)</a></li><li><a href='#this.getServer%28%29'>void getServer()</a></li><li><a href='#Server.getIp%28%29'>void getServerIp()</a></li><li><a href='#Server.getPort%28%29'>void getServerPort()</a></li><li><a href='#Server.getVersion%28%29'>void getServerVersion()</a></li><li><a href='#this.getWhitelist%28%29'>void getWhitelist()</a></li><li><a href='#Server.getWorld%280%29'>void getWorld(String)</a></li><li><a href='#Server.getWorlds%28%29'>void getWorlds()</a></li><li><a href='#this.giveItem%280%2C%201%2C%202%29'>void givePlayerItem(String, int, int)</a></li><li><a href='#this.giveItemDrop%280%2C%201%2C%202%29'>void givePlayerItemDrop(String, int, int)</a></li><li><a href='#this.giveItemDrop%280%2C%201%2C%202%2C%203%29'>void givePlayerItemDropWithData(String, int, int, int)</a></li><li><a href='#this.giveItem%280%2C%201%2C%202%2C%203%29'>void givePlayerItemWithData(String, int, int, int)</a></li><li><a href='#Server.getPlayer%280%29.kickPlayer%281%29'>void kickPlayer(String, String)</a></li><li><a href='#this.runCommand%28%22op%20%22%2C%200%29'>void opPlayer(String)</a></li><li><a href='#Server.reload%28%29'>void reloadServer()</a></li><li><a href='#this.runCommand%28%22whitelist%20remove%20%22%2C%200%29'>void removeFromWhitelist(String)</a></li><li><a href='#this.removePlayerInventoryItem%280%2C%201%29'>void removePlayerInventoryItem(String, int)</a></li><li><a href='#this.runCommand%280%29'>void runConsoleCommand(String)</a></li><li><a href='#this.runCommand%28%22save-all%22%29'>void saveMap()</a></li><li><a href='#this.runCommand%28%22save-off%22%29'>void saveOff()</a></li><li><a href='#this.runCommand%28%22save-on%22%29'>void saveOn()</a></li><li><a href='#Server.getPlayer%280%29.sendMessage%281%29'>void sendMessage(String, String)</a></li><li><a href='#this.setFileContents%280%2C%201%29'>void setFileContents(String, String)</a></li><li><a href='#Server.getPlayer%280%29.setHealth%281%29'>void setPlayerHealth(String, int)</a></li><li><a href='#this.setPlayerInventorySlot%280%2C%201%2C%202%2C%203%29'>void setPlayerInventorySlot(String, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlot%280%2C%201%2C%202%2C%203%2C%204%29'>void setPlayerInventorySlotWithDamage(String, int, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlotWithData%280%2C%201%2C%202%2C%203%2C%204%29'>void setPlayerInventorySlotWithData(String, int, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlotWithDataAndDamage%280%2C%201%2C%202%2C%203%2C%204%2C%205%29'>void setPlayerInventorySlotWithDataAndDamage(String, int, int, int, int, int)</a></li><li><a href='#this.runCommand%28%22tp%20%22%2C%200%2C%20%22%20%22%2C%201%29'>void teleport(String, String)</a></li><li><a href='#this.runCommand%28%22pardon%20%22%2C%200%29'>void unban(String)</a></li><li><a href='#this.runCommand%28%22pardon-ip%20%22%2C%200%29'>void unbanIP(String)</a></li><li><a href='#this.updatePlayerInventorySlot%280%2C%201%2C%202%29'>void updatePlayerInventorySlot(String, int, int)</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.runCommand%28%22whitelist%20add%20%22%2C%200%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>addToWhitelist</li>
+			<li class="method-info-desc"><strong>Description: </strong>Adds the specified player to the whitelist.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be added to the whitelist</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22ban%20%22%2C%200%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>ban</li>
+			<li class="method-info-desc"><strong>Description: </strong>Bans the specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be banned.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22ban-ip%20%22%2C%200%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>banIP</li>
+			<li class="method-info-desc"><strong>Description: </strong>Bans the specified IP.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The IP to be banned.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.broadcastMessage%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>broadcast</li>
+			<li class="method-info-desc"><strong>Description: </strong>Send a message to every player on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The message to broadcast</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> The number of players the message was broadcast to.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.chatWithName%280%2C%201%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>broadcastWithName</li>
+			<li class="method-info-desc"><strong>Description: </strong>Similar to broadcast, but lets you specify a name to chat as and displays the message with the proper format. Looks just like the person specified is on the esrver.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The message.</li><li><strong>String</strong> The name to send as.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True on success, false on failure.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.clearPlayerInventorySlot%280%2C%201%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>clearPlayerInventorySlot</li>
+			<li class="method-info-desc"><strong>Description: </strong>Removes everything from the specified slot in the player's inventory.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the slot was cleared. False will be returned if the player is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22deop%20%22%2C%200%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>deopPlayer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Deops the specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be deopped.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.disablePlugin%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>disablePlugin</li>
+			<li class="method-info-desc"><strong>Description: </strong>Disables the specified plugin. Attempting to disable a plugin that is not enabled will have no effect.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the plugin to disable</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the plugin was disabled. False will be returned if the plugin is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getPluginManager%28%29.disablePlugins%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>disablePlugins</li>
+			<li class="method-info-desc"><strong>Description: </strong>Disables all plugins on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.editPropertiesFile%280%2C1%2C2%2C3%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>editPropertiesFile</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets the specified key of the specified file to the specified value with the specified type. The file path is relative to the folder that the craftbukkit jar is in.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the .properties file to edit WITHOUT the extentions. (server, not server.properties)</li><li><strong>String</strong> The type of value. Options are boolean, long, int, string and double.</li><li><strong>String</strong> The key that will have value set to it.</li><li><strong>String</strong> The value to set key to as A STRING. This means that true will be come "true" and 1.5 will become "1.5".</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.enablePlugin%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>enablePlugin</li>
+			<li class="method-info-desc"><strong>Description: </strong>Enables the specified plugin. Attempting to enable a plugin that is already enabled will have no effect.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the plugin to enable</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the plugin was enabled. False will be returned if the plugin is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getBannedIPs%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getBannedIPs</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the IPs on the ban list.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains an IP address.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getBannedPlayers%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getBannedPlayers</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the players on the ban list.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains a player's name.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getFileContents%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getFileContents</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The file's contents.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getChatLogs%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getLatestChats</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last 50 lines in chat. Returned as an array of JSON stream objects.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getChatLogs%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getLatestChatsWithLimit</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last n lines in chat where n is the limit passed. Returned as an array of JSON stream objects.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>int</strong> The maximum number of items to return.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getConnectionLogs%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getLatestConnections</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last 50 connections/disconnections. Returned as an array of JSON stream objects.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getConnectionLogs%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getLatestConnectionsWithLimit</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last n connections/disconnections where n is the limit passed. Returned as an array of JSON stream objects.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>int</strong> The maximum number of items to return.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getConsoleLogs%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getLatestConsoleLogs</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last 50 lines in the console. Returned as an array of JSON stream objects.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getConsoleLogs%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getLatestConsoleLogsWithLimit</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last n lines in the console where n is the limit passed. Returned as an array of JSON stream objects.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>int</strong> The maximum number of items to return.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getPlayer%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlayer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets a |player| object representing the specified person.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player name</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Player</strong> A player object respresenting the specified person.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getOnlinePlayers%28%29.length">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlayerCount</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the amount of players currently on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> The number of players on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getMaxPlayers%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlayerLimit</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the maximum amount of players allowed on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> The player limit.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getOnlinePlayers%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlayers</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets an array of |player| objects that represent all of the players on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Player[]</strong> An array of |Player| objects</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getPluginManager%28%29.getPlugin%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlugin</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the |plugin| object for the plugin with the given name.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the plugin to fetch</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Plugin</strong> The specified plugin.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getPluginFiles%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPluginFiles</li>
+			<li class="method-info-desc"><strong>Description: </strong>Retrives an array of files and directories that exist in the plugins data folder. Recursive.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The plugin that will have its files listed.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> The files in string format.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getPluginManager%28%29.getPlugins%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPlugins</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets an array of all loaded plugins.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Plugin[]</strong> An array of |plugin| objects.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getPropertiesFile%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getPropertiesFile</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets a key value set for the specified properties file. The file path is relative to the folder that the craftbukkit jar is in.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the properties file to read.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> A key value set for the specified properties file.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getServer%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getServer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets server information: maxPlayers, players, port, name, serverName, version, worlds.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> Key value object with information about the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getIp%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getServerIp</li>
+			<li class="method-info-desc"><strong>Description: </strong>Get the IP that this server is bound to or empty string if not specified.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The IP</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getPort%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getServerPort</li>
+			<li class="method-info-desc"><strong>Description: </strong>Get the game port that the server runs on.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> The port</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getVersion%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getServerVersion</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the version of the server implementation (so Craftbukkit or Bukkit, not the actuall Minecraft server</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> A string representing the version.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getWhitelist%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getWhitelist</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the players on the whitelist.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains a player's name.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getWorld%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getWorld</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the |world| object with the given name.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Name of the world to get</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>World</strong> The world with the given name.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getWorlds%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>getWorlds</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets an array of all the |world| objects on the server.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>World[]</strong> All of the worlds on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.giveItem%280%2C%201%2C%202%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>givePlayerItem</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gives the specified player the specified quanity of the item id by placing it in the first empty slot.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Id of item to give</li><li><strong>int</strong> Quantity of item to give</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.giveItemDrop%280%2C%201%2C%202%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>givePlayerItemDrop</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gives the specified player the specified quanity of the item id by dropping it in front of them.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Players' name</li><li><strong>int</strong> Id of item to drop</li><li><strong>int</strong> Quantity of item to drop</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.giveItemDrop%280%2C%201%2C%202%2C%203%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>givePlayerItemDropWithData</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gives the specified player the specified quanity of the item id with the specified data by dropping it in front of them.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Id of item to give</li><li><strong>int</strong> Quantity of item to give</li><li><strong>int</strong> Decimal representation of the data value.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server. An exception could be throw for invalid data (data < 0 or data > 15).</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.giveItem%280%2C%201%2C%202%2C%203%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>givePlayerItemWithData</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gives the specified player the specified quanity of the item id with the specified data by placing it in the first empty slot.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Id of item to give</li><li><strong>int</strong> Quantity of item to give</li><li><strong>int</strong> Decimal representation of the data value.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server. An exception could be throw for invalid data (data < 0 or data > 15).</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getPlayer%280%29.kickPlayer%281%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>kickPlayer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Kick a player with the specified name and the optional message.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Name of player to kick</li><li><strong>String</strong> Custom message to display to the player after they are kicked</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22op%20%22%2C%200%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>opPlayer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Ops the specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be opped.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.reload%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>reloadServer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Reloads the server, refreshing settings and plugin information.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22whitelist%20remove%20%22%2C%200%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>removeFromWhitelist</li>
+			<li class="method-info-desc"><strong>Description: </strong>Removes the specified player from the whitelist.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be removed from the whitelist</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.removePlayerInventoryItem%280%2C%201%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>removePlayerInventoryItem</li>
+			<li class="method-info-desc"><strong>Description: </strong>Removes all items of the given type from the given player's inventory.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Id of block type to remove</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> An object of all the things that couldn't be removed. This shouldn't happen though. Null will be returned if the player is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>runConsoleCommand</li>
+			<li class="method-info-desc"><strong>Description: </strong>Runs a command in the console.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Command to send</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22save-all%22%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>saveMap</li>
+			<li class="method-info-desc"><strong>Description: </strong>Saves the map to the filesystem.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22save-off%22%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>saveOff</li>
+			<li class="method-info-desc"><strong>Description: </strong>Disables automatic terrian saving.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22save-on%22%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>saveOn</li>
+			<li class="method-info-desc"><strong>Description: </strong>Enables automatic terrian saving.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getPlayer%280%29.sendMessage%281%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>sendMessage</li>
+			<li class="method-info-desc"><strong>Description: </strong>Send a private message to the specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player to whom the message is sent</li><li><strong>String</strong> The message to send</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.setFileContents%280%2C%201%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>setFileContents</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets (not appends to) the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li><li><strong>String</strong> The content to put in the file.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Server.getPlayer%280%29.setHealth%281%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>setPlayerHealth</li>
+			<li class="method-info-desc"><strong>Description: </strong>Set's a players health on a scale of 1-20.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player's name.</li><li><strong>int</strong> The amount of health to set.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True on succes, false if the player is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.setPlayerInventorySlot%280%2C%201%2C%202%2C%203%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>setPlayerInventorySlot</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets the specified slot in the specified player's inventory to the specified type with the specified quantity.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> Id of block type to set</li><li><strong>int</strong> Quantity to set</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.setPlayerInventorySlot%280%2C%201%2C%202%2C%203%2C%204%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>setPlayerInventorySlotWithDamage</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets the specified slot in the specified player's inventory to the specified type with the specified quantity and damage.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> Id of block type to set</li><li><strong>int</strong> The damage of the item.</li><li><strong>int</strong> Quantity to set</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.setPlayerInventorySlotWithData%280%2C%201%2C%202%2C%203%2C%204%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>setPlayerInventorySlotWithData</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets the specified slot in the specified player's inventory to the specified type with the specified data and damage.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> Id of block type to set</li><li><strong>int</strong> The data of the item.</li><li><strong>int</strong> Quantity to set</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.setPlayerInventorySlotWithDataAndDamage%280%2C%201%2C%202%2C%203%2C%204%2C%205%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>setPlayerInventorySlotWithDataAndDamage</li>
+			<li class="method-info-desc"><strong>Description: </strong>Sets the specified slot in the specified player's inventory to the specified type with the specified data, quantity and damage.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> Id of block type to set</li><li><strong>int</strong> The data of the item.</li><li><strong>int</strong> The damage of the item.</li><li><strong>int</strong> Quantity to set</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22tp%20%22%2C%200%2C%20%22%20%22%2C%201%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>teleport</li>
+			<li class="method-info-desc"><strong>Description: </strong>Teleports the first specified player to the second specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be teleported.</li><li><strong>String</strong> The name of the player to teleport to.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22pardon%20%22%2C%200%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>unban</li>
+			<li class="method-info-desc"><strong>Description: </strong>Unbans the specified player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be unbanned.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22pardon-ip%20%22%2C%200%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>unbanIP</li>
+			<li class="method-info-desc"><strong>Description: </strong>Bans the specified IP.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The IP to be unbanned.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong>void</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.updatePlayerInventorySlot%280%2C%201%2C%202%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>updatePlayerInventorySlot</li>
+			<li class="method-info-desc"><strong>Description: </strong>Changes the number of items in a player's inventory slot.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> New amount</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the slot was update. False will be returned if the player is not on the server.</li>
+		</ul>
+	</div>
+</div><h2 id="package-Dynmap%20API%20methods">Dynmap API methods</h2><h3>Depends on the following plugins:</h3><ul><li>dynmap</li></ul><h3>Methods</h3><ul><li><a href='#Plugins.dynmap.configuration.getString%28%22webserver-bindaddress%22%2C%20%220.0.0.0%22%29'>void dynmap.getHost()</a></li><li><a href='#Plugins.dynmap.configuration.getString%28%22webserver-port%22%2C%20%228123%22%29'>void dynmap.getPort()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="Plugins.dynmap.configuration.getString%28%22webserver-bindaddress%22%2C%20%220.0.0.0%22%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>dynmap.getHost</li>
+			<li class="method-info-desc"><strong>Description: </strong>Returns the IP/hostname that the dynmap webserver is running on.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The dynmap port as a string.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="Plugins.dynmap.configuration.getString%28%22webserver-port%22%2C%20%228123%22%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>dynmap.getPort</li>
+			<li class="method-info-desc"><strong>Description: </strong>Returns the port that the dynmap webserver is running on.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The dynmap port as a string.</li>
+		</ul>
+	</div>
+</div><h2 id="package-Remote%20Toolkit%20methods">Remote Toolkit methods</h2><h3>Depends on the following plugins:</h3><ul><li>RemoteToolkitPlugin</li></ul><h3>Methods</h3><ul><li><a href='#this.rescheduleServerRestart%280%29'>void remotetoolkit.rescheduleServerRestart(String)</a></li><li><a href='#this.restartServer%28%29'>void remotetoolkit.restartServer()</a></li><li><a href='#this.runCommand%28%22null%22%29'>void remotetoolkit.startServer()</a></li><li><a href='#this.stopServer%28%29'>void remotetoolkit.stopServer()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.rescheduleServerRestart%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.rescheduleServerRestart</li>
+			<li class="method-info-desc"><strong>Description: </strong>Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Time in either the #h #m #s format, or the HH:MM format.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> False on error. Null otherwise.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.restartServer%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.restartServer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Restarts the Minecraft server. THIS WILL TAKE DOWN JSONAPI FOR A SHORT TIME.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> False on error. Null otherwise.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.runCommand%28%22null%22%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.startServer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Starts the Minecraft server. DO NOT CALL IF remotetookit.stopServer HAS NOT BEEN CALLED!</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if successful, false otherwise.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.stopServer%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.stopServer</li>
+			<li class="method-info-desc"><strong>Description: </strong>Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> False on error. Null otherwise.</li>
+		</ul>
+	</div>
+</div><h2 id="package-System%20Usage%20Methods">System Usage Methods</h2><h3>Depends on the following plugins:</h3><ul><li>JSONAPI</li></ul><h3>Methods</h3><ul><li><a href='#this.getDiskFreeSpace%28%29'>void system.getDiskFreeSpace()</a></li><li><a href='#this.getDiskSize%28%29'>void system.getDiskSize()</a></li><li><a href='#this.getDiskUsage%28%29'>void system.getDiskUsage()</a></li><li><a href='#this.getJavaMaxMemory%28%29'>void system.getJavaMemoryTotal()</a></li><li><a href='#this.getJavaMemoryUsage%28%29'>void system.getJavaMemoryUsage()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.getDiskFreeSpace%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>system.getDiskFreeSpace</li>
+			<li class="method-info-desc"><strong>Description: </strong>Returns the number of free byte on the disk that Minecraft is located on.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> Disk free space in bytes</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getDiskSize%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>system.getDiskSize</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the total size of the disk that Minecraft is located on.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> Disk size in bytes</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getDiskUsage%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>system.getDiskUsage</li>
+			<li class="method-info-desc"><strong>Description: </strong>Returns the number of bytes that have been used on the disk that Minecraft is located on.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> Disk usage in bytes</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getJavaMaxMemory%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>system.getJavaMemoryTotal</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the amount of memory available to Java/Bukkit/Minecraft. Note that is not a measurement of all the memory in the machine. To find system wide information look at getSystemMemoryTotal.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> Java memory size in bytes</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.getJavaMemoryUsage%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>system.getJavaMemoryUsage</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the amount of memory used by Java/Bukkit/Minecraft. Note that is not a measurement of all the memory used in the machine. To find system wide information look at getSystemMemoryUsage.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> Java memory usage in bytes</li>
+		</ul>
+	</div>
+</div>	</body>
 </html>

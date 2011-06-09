@@ -170,6 +170,8 @@ public class BukkitStringifier {
 			List<Plugin> l = Arrays.asList((Plugin[])obj);
 			
 			Collections.sort(l, new PluginSorter());
+			
+			return l;
 		}
 		else if(obj instanceof Object[]) {
 			int l = ((Object[])obj).length;
