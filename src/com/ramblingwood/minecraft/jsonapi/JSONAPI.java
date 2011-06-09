@@ -22,6 +22,7 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -386,6 +387,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 		}
 		
 		public void onPlayerJoin(PlayerJoinEvent event) {
+			APIWrapperMethods.getInstance().manager = ((CraftPlayer)event.getPlayer()).getHandle().netServerHandler.networkManager;
 			p.jsonServer.logConnected(event.getPlayer().getName());
 		}
 
