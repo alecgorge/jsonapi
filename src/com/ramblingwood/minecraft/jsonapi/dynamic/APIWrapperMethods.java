@@ -195,15 +195,26 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		}
 	}
 	
-	public List<File> getPluginFiles(String pluginName) {
+	public List<String> getPluginFiles(String pluginName) {
 		try {
 			File dir = Server.getPluginManager().getPlugin(pluginName).getDataFolder();
 			RecursiveDirLister d = new RecursiveDirLister(dir);
-			return d.getFileListing();
+			List<String> s = new ArrayList<String>();
+			
+			for(File f : d.getFileListing()) {
+				if(f.isFile()) {
+					s.add(f.toString());
+				}
+				else {
+					s.add(f.toString()+File.separator);
+				}
+			}
+			
+			return s;
 		}
 		catch(Exception e) {
 			// e.printStackTrace();
-			return new ArrayList<File>();
+			return new ArrayList<String>();
 		}
 	}
 	
