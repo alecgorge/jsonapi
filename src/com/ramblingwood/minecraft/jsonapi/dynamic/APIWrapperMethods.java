@@ -36,6 +36,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
+import org.bukkit.plugin.Plugin;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.ramblingwood.minecraft.jsonapi.APIException;
