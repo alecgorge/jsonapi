@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -16,6 +19,11 @@ import java.util.logging.Logger;
 
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.ItemInWorldManager;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.NetHandler;
+import net.minecraft.server.NetServerHandler;
+import net.minecraft.server.NetworkManager;
+import net.minecraft.server.World;
 
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
@@ -30,6 +38,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
 import org.json.simpleForBukkit.JSONObject;
 
+import com.ramblingwood.minecraft.jsonapi.APIException;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.PropertiesFile;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface;
@@ -39,6 +48,7 @@ import com.ramblingwood.minecraft.jsonapi.util.RecursiveDirLister;
 
 public class APIWrapperMethods extends ConsoleCommandSender {
 	private Logger log = Logger.getLogger("Minecraft");
+	public NetworkManager manager;
 	
 	public APIWrapperMethods(Server server) {
 		super(server);
@@ -200,10 +210,12 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 	class FauxPlayer extends CraftPlayer {
 		String name;
 		
-		public FauxPlayer(String name, EntityPlayer ent) {
+		public FauxPlayer(String name, FauxEntityPlayer ent) {
 			super((CraftServer) JSONAPI.instance.getServer(), ent);
 
 			this.name = name;
+			
+			((FauxNetServerHandler)getHandle().netServerHandler).setPlayer(this);
 		}
 
 		@Override
@@ -227,17 +239,76 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		}
 	}
 	
-	private HashMap<String, Player> joinedList = new HashMap<String, Player>();
+	class FauxEntityPlayer extends EntityPlayer {
+
+		public FauxEntityPlayer(MinecraftServer minecraftserver, World world, String s, ItemInWorldManager iteminworldmanager) {
+			super(minecraftserver, world, s, iteminworldmanager);
+			
+			Socket ss = null;
+			try {
+				ss = new Socket("localhost", fauxPort);
+			} catch (UnknownHostException e) {
+			} catch (IOException e) {
+			}
+			NetworkManager m = new NetworkManager(ss, "???", new NetHandler() {
+				
+				@Override
+				public boolean c() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			});
+
+			netServerHandler = new FauxNetServerHandler(((CraftServer)getServer()).getServer(), m, this);
+			
+			try {
+				ss.close();
+			} catch (IOException e) {
+			}
+		}
+		
+	}
 	
+	class FauxNetServerHandler extends NetServerHandler {
+		private CraftPlayer _player;
+	
+		public FauxNetServerHandler(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer) {
+			super(minecraftserver, networkmanager, entityplayer);
+		}
+		
+		public void setPlayer(CraftPlayer p) {
+			_player = p;
+		}
+		
+		public CraftPlayer getPlayer() {
+			return _player;
+		}
+	}
+	
+	private HashMap<String, FauxPlayer> joinedList = new HashMap<String, FauxPlayer>();
+	private ServerSocket fauxServer = null;
+	private int fauxPort = 0;
+	
+	@SuppressWarnings("unchecked")
 	public boolean chatWithName(String message, String name) {
+		if(fauxServer == null) {
+			try {
+				fauxServer = new ServerSocket(0);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			fauxPort = fauxServer.getLocalPort();
+		}
+		
 		try {
-			Player player;
+			FauxPlayer player;
 			if(joinedList.containsKey(name)) {
 				player = joinedList.get(name);
 			}
 			else {
 				// this is the biggest hack ever.
-				player = new FauxPlayer(name, new EntityPlayer(
+				player = new FauxPlayer(name, new FauxEntityPlayer(
 						((CraftServer)Server).getServer(),
 						((CraftWorld)Server.getWorlds().get(0)).getHandle(),
 						name,
@@ -254,9 +325,13 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			// for some reason this is need to prevent the chat event being processed before the join event
 			// Thread.sleep(500);
 			
+			((CraftServer)Server).getServer().server.getHandle().players.add(player.getHandle()); 
+		
 			// copied from CraftBukkit / src / main / java / net / minecraft / server / NetServerHandler.java 
 			PlayerChatEvent event = new PlayerChatEvent(player, message);
 			Server.getPluginManager().callEvent(event);
+			
+			((CraftServer)Server).getServer().server.getHandle().players.remove(player.getHandle()); 
 	
 			// NOTE: HeroChat always cancels
 			if (event.isCancelled()) {
@@ -287,7 +362,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		}
 	}
 
-	public List<String> getWhitelist () throws IOException {
+	public List<String> getWhitelist () throws APIException {
 		String w = getFileContents("white-list.txt");
 		List<String> a = new ArrayList<String>();
 		for(String s : w.split("\n")) {
@@ -296,7 +371,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		return a;
 	}
 	
-	public List<String> getBannedPlayers () throws IOException {
+	public List<String> getBannedPlayers () throws APIException {
 		String w = getFileContents("banned-players.txt");
 		List<String> a = new ArrayList<String>();
 		for(String s : w.split("\n")) {
@@ -305,7 +380,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		return a;
 	}
 	
-	public List<String> getBannedIPs () throws IOException {
+	public List<String> getBannedIPs () throws APIException {
 		String w = getFileContents("banned-ips.txt");
 		List<String> a = new ArrayList<String>();
 		for(String s : w.split("\n")) {
@@ -438,37 +513,53 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		}
 	}
 	
-	public String getFileContents (String fileName) throws IOException {
+	public String getFileContents (String fileName) throws APIException {
 		if((new File(fileName)).exists()) {
-			FileInputStream stream = new FileInputStream(new File(fileName));
+			FileInputStream stream = null;
 			try {
+				stream = new FileInputStream(new File(fileName));
 				FileChannel fc = stream.getChannel();
 				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 				/* Instead of using default, pass in a decoder. */
 				return Charset.defaultCharset().decode(bb).toString();
 			}
+			catch (Exception e) {
+				throw new APIException(fileName+" could not have its files extracte!");
+			}
 			finally {
-				stream.close();
+				try {
+					stream.close();
+				}
+				catch (Exception e) {
+					throw new APIException(fileName+" could not be closed!");
+				}
 			}
 		}
 		else {
-			throw new FileNotFoundException(fileName+" was not found");
+			throw new APIException(fileName+" doesn't exist!");
 		}
 	}
 	
-	public boolean setFileContents (String fileName, String contents) throws IOException {
+	public boolean setFileContents (String fileName, String contents) throws APIException {
 		if((new File(fileName)).exists()) {
-			FileOutputStream stream = new FileOutputStream(new File(fileName));
+			FileOutputStream stream = null;
 			try {
+				stream = new FileOutputStream(new File(fileName));
 				stream.write(contents.getBytes(Charset.forName("UTF-8")));
+			} catch (IOException e) {
+				throw new APIException(fileName+" could not be written to!");
 			}
 			finally {
-				stream.close();
+				try {
+					stream.close();
+				} catch (IOException e) {
+					throw new APIException(fileName+" could not be closed!");
+				}
 			}
 			return true;			
 		}
 		else {
-			throw new FileNotFoundException(fileName+" was not found");
+			throw new APIException(fileName+" doesn't exist!");
 		}
 	}
 	
