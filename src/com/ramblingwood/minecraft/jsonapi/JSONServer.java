@@ -6,6 +6,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -338,6 +339,14 @@ public class JSONServer extends NanoHTTPD {
 			else {
 				warning("The method '"+calledMethod+"' does not exist!");
 				return returnAPIError(calledMethod, "The method '"+calledMethod+"' does not exist!");
+			}
+		}
+		catch (APIException e) {
+			return returnAPIError(calledMethod, e.getMessage());
+		}
+		catch (InvocationTargetException e) {
+			if(e.getCause() instanceof APIException) {
+				return returnAPIError(calledMethod, e.getCause().getMessage());
 			}
 		}
 		catch (NullPointerException e) {
