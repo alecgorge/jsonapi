@@ -2,7 +2,10 @@ package com.ramblingwood.minecraft.jsonapi.stringifier;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.Location;
@@ -163,6 +166,11 @@ public class BukkitStringifier {
 			
 			return o;
 		}
+		else if(obj instanceof Plugin[]) {
+			List<Plugin> l = Arrays.asList((Plugin[])obj);
+			
+			Collections.sort(l, new PluginSorter());
+		}
 		else if(obj instanceof Object[]) {
 			int l = ((Object[])obj).length;
 			JSONArray a = new JSONArray();
@@ -178,5 +186,12 @@ public class BukkitStringifier {
 		Logger.getLogger("JSONAPI").warning(obj.getClass().getName());
 		
 		return new Object();
+	}
+
+	static class PluginSorter implements Comparator<Plugin> {
+		@Override
+		public int compare(Plugin o1, Plugin o2) {
+			return o1.getDescription().getName().compareTo(o2.getDescription().getName());
+		}
 	}
 }
