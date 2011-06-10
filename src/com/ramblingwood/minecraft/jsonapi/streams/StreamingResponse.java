@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.json.simpleForBukkit.JSONObject;
 
+import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.JSONServer;
 
 public class StreamingResponse extends InputStream {
@@ -13,8 +14,11 @@ public class StreamingResponse extends InputStream {
 	private String callback;
 	private int pos = 0;
 	
-	public StreamingResponse(ArrayList<? extends JSONAPIStream> arr, String callback) {
-		stack = arr;
+	public StreamingResponse(JSONAPI plugin, String istack, String callback) {
+		if(istack.equals("chat")) stack = plugin.jsonServer.chat;
+		else if(istack.equals("console")) stack = plugin.jsonServer.console;
+		else if(istack.equals("connections")) stack = plugin.jsonServer.connections;
+		else if(istack.equals("all")) stack = plugin.jsonServer.all;
 	}
 	
 	public String nextLine () {
