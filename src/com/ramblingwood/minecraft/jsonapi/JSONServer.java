@@ -206,25 +206,7 @@ public class JSONServer extends NanoHTTPD {
 					throw new Exception();
 				}
 				
-				ArrayList<? extends JSONAPIStream> arr;
-				
-				if(source.equals("chat")) {
-					arr = chat;
-				}
-				else if(source.equals("connections")) {
-					arr = connections;
-				}
-				else if(source.equals("console")) {
-					arr = console;
-				}
-				else if(source.equals("all")) {
-					arr = all;
-				}
-				else {
-					throw new Exception();
-				}
-
-				StreamingResponse out = new StreamingResponse(arr, callback);
+				StreamingResponse out = new StreamingResponse(inst, source, callback);
 
 				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);
 			} catch (Exception e) {
