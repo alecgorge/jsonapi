@@ -36,15 +36,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
-import org.bukkit.plugin.Plugin;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.ramblingwood.minecraft.jsonapi.APIException;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
-import com.ramblingwood.minecraft.jsonapi.PropertiesFile;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.ramblingwood.minecraft.jsonapi.streams.JSONAPIStream;
+import com.ramblingwood.minecraft.jsonapi.util.PropertiesFile;
 import com.ramblingwood.minecraft.jsonapi.util.RecursiveDirLister;
 
 public class APIWrapperMethods extends ConsoleCommandSender {
