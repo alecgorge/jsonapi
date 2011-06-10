@@ -1,4 +1,4 @@
-package com.ramblingwood.minecraft.jsonapi;
+package com.ramblingwood.minecraft.jsonapi.util;
 
 
 import java.io.File;

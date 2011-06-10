@@ -40,6 +40,7 @@ import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKListener;
 import com.ramblingwood.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
+import com.ramblingwood.minecraft.jsonapi.util.PropertiesFile;
 
 
 /**
@@ -122,12 +123,17 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				return;
 			}
 			
-			PropertiesFile options = new PropertiesFile(mainConfig.getAbsolutePath());
-			logging = options.getBoolean("log-to-console", true);
-			logFile = options.getString("log-to-file", "false");
-			String ipWhitelist = options.getString("ip-whitelist", "false");
-			salt = options.getString("salt", "");
+			PropertiesFile options = null;
+			String ipWhitelist = "";
 			String reconstituted = "";
+			if(mainConfig.exists()) {
+				options = new PropertiesFile(mainConfig.getAbsolutePath());
+				logging = options.getBoolean("log-to-console", true);
+				logFile = options.getString("log-to-file", "false");
+				ipWhitelist = options.getString("ip-whitelist", "false");
+				salt = options.getString("salt", "");
+				reconstituted = "";
+			}
 
 			if(mainConfig.exists() && !yamlFile.exists()) {
 				// auto-migrate to yaml from properties and plain text files
