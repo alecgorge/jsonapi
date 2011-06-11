@@ -3,6 +3,7 @@ package com.ramblingwood.minecraft.jsonapi.streams;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simpleForBukkit.JSONObject;
 
@@ -18,13 +19,16 @@ public class StreamingResponse extends InputStream {
 	public StreamingResponse(JSONAPI _plugin, String istack, String callback) {
 		plugin = _plugin;
 		stack_name = istack;
+		
+		pos = getStack().size() > 50 ? getStack().size() - 50 : 0;
 	}
 	
 	public String nextLine () {
-		ArrayList<? extends JSONAPIStream> stack = getStack();
+		List<? extends JSONAPIStream> stack = getStack();
 		while(pos >= stack.size()) {
 			try {
-				Thread.sleep(500);
+				Thread.sleep(250);
+				stack = getStack();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -36,8 +40,8 @@ public class StreamingResponse extends InputStream {
 		return JSONServer.callback(callback, makeResponseObj(stack.get(pos-1))).concat("\r\n");
 	}
 	
-	private ArrayList<? extends JSONAPIStream> getStack () {
-		ArrayList<? extends JSONAPIStream> stack = new ArrayList<JSONAPIStream>();
+	private List<? extends JSONAPIStream> getStack () {
+		List<? extends JSONAPIStream> stack = new ArrayList<JSONAPIStream>();
 		if(stack_name.equals("chat")) stack = plugin.jsonServer.chat;
 		else if(stack_name.equals("console")) stack = plugin.jsonServer.console;
 		else if(stack_name.equals("connections")) stack = plugin.jsonServer.connections;
