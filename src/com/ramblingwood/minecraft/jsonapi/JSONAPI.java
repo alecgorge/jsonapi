@@ -279,7 +279,10 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			// add console stream support
 			handler = new ConsoleHandler(jsonServer);
 			log.addHandler(handler);
-			outLog.addHandler(handler);
+			
+			if(logging) {
+				outLog.addHandler(handler);
+			}
 
 			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
 			jsonWebSocketServer = new JSONWebSocketServer(port + 2, jsonServer);
