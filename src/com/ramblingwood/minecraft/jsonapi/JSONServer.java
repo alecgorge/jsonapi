@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -32,10 +33,10 @@ public class JSONServer extends NanoHTTPD {
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	private Caller caller;
 
-	public ArrayList<ChatMessage> chat = new ArrayList<ChatMessage>(); 
-	public ArrayList<ConsoleMessage> console = new ArrayList<ConsoleMessage>(); 
-	public ArrayList<ConnectionMessage> connections = new ArrayList<ConnectionMessage>();
-	public ArrayList<JSONAPIStream> all = new ArrayList<JSONAPIStream>();
+	public List<ChatMessage> chat = Collections.synchronizedList(new ArrayList<ChatMessage>(50)); 
+	public List<ConsoleMessage> console = Collections.synchronizedList(new ArrayList<ConsoleMessage>(50)); 
+	public List<ConnectionMessage> connections = Collections.synchronizedList(new ArrayList<ConnectionMessage>(50));
+	public List<JSONAPIStream> all = Collections.synchronizedList(new ArrayList<JSONAPIStream>(50));
 	
 	private static boolean initted = false;
 
@@ -102,22 +103,19 @@ public class JSONServer extends NanoHTTPD {
 	}
 	
 	private void trimLists () {
-		if(chat.size() > 50) {
+		/*if(chat.size() > 50) {
 			chat.remove(0);
 			chat.trimToSize();
 		}		
 		if(connections.size() > 50) {
 			connections.remove(0);
-			connections.trimToSize();
 		}		
 		if(console.size() > 50) {
 			console.remove(0);
-			console.trimToSize();
 		}		
 		if(all.size() > 50) {
 			all.remove(0);
-			all.trimToSize();
-		}		
+		}*/	
 	}
 	
 	public void logConsole(String line) {
