@@ -44,7 +44,9 @@
 	</script>
 	</head>
 	<body>
-	<div class="ui-helper-reset ui-widget ui-widget-content ui-corner-all" style="position:absolute; top:0.3em;left:0.3em;right:0.3em;bottom:0.3em; min-width: 50em;">
+	<form method="post">
+			{% csrf_token %}
+			<div class="ui-helper-reset ui-widget ui-widget-content ui-corner-all" style="position:absolute; top:0.3em;left:0.3em;right:0.3em;bottom:0.3em; min-width: 50em;">
 		<div class="ui-widget-header ui-corner-all" style="text-align: center;height:5em;">
 			<div class="main-header"><a href="{% url home %}">{{host}}</a></div>
 			<div class="server-status">
@@ -89,8 +91,6 @@
 			</div>
 			<div style="position: absolute; top:2.7em; bottom: 0em; left: 0.2em; right: 0.2em;overflow-y: scroll; overflow-x: hidden;">
 			{% if selectedMethod %}
-			<form method="post">
-			{% csrf_token %}
 			<p>{{selectedMethod.description}}</p>
 			<p><strong>Returns:</strong> {{selectedMethod.returns}}</p>
 			<p><strong>Parameters:</strong>
@@ -103,16 +103,39 @@
 				{%endfor%}
 				</blockquote>
 			</p>
-			<input type="submit" value="Execute method">
+			<input type="submit" value="Execute method" name="action">
 			<p><strong>Result:</strong>
 				<div>
 				<pre>{{result}}</pre>
 				</div>
 			</p>
-			</form>
 			{% else %}
+			{% if server %}
 			<p>Pick a method from the left pane to see more information about the method.</p>
+			{% endif %}
 			<p></p>
+			<p>Connect to a server:</p>
+			<div style="padding-left:1.2em;">
+				<table>
+					<tr>
+					<td>Server Address:</td>
+					<td><input type="text" name="host" value="localhost"/>
+					</tr>
+					<tr>
+					<td>Username:</td>
+					<td><input type="text" name="username" value="admin"/>
+					</tr>
+					<tr>
+					<td>Password:</td>
+					<td><input type="text" name="password" value="demo" />
+					</tr>
+					<tr>
+					<td>Salt:</td>
+					<td><input type="password" name="salt" value=""/>
+					</tr>
+				</table>
+				<input type="submit" name="action" value="Connect">
+			</div>
 			<p>django example site using python interface to JSONAPI for Bukkit (Minecraft)</p>
 			<p>&copy; 2011 Accalia.de.Elementia <a href ="mailto:Accalia.de.Elementia@gmail.com">&lt;Accalia.de.Elementia@gmail.com&gt;</a></p>
 			<p>This work is licensed under a Creative Commons Attribution 3.0 Unported License <a href="http://creativecommons.org/licenses/by/3.0/">&lt;http://creativecommons.org/licenses/by/3.0/&gt;</a></p>
@@ -128,5 +151,7 @@
 			{% endfor %}
 		</div>
 	</div>
+	</form>
+			
 	</body>
 </html>

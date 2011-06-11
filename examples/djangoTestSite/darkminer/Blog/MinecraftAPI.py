@@ -168,7 +168,6 @@ class MinecraftJsonApi (object):
 			return _method
 		
 		attributes = self.__createMethodAttributes(method)
-		print attributes
 		if method['enabled']:
 			rv_method = makeMethod(attributes)
 		else:
