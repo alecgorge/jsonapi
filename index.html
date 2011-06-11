@@ -46,11 +46,18 @@
 		<div id="info" class="bar1 alert">
 			<p>This application does not store ANY information that you input on any server. Everything is done relative to your computer. You can use localhost as the host if the Minecraft server is on the same computer as your browser.</p>
 		</div>
-		<div id="wrapper">
+		<div id="navigation" class="bar2 nopadding">
+			<ul id="nav">
+				<li class="active"><a href="#" id="method-tab">Method Testbed</a></li>
+				<li><a href="#" id="console-tab">Realtime Console</a></li>
+			</ul>
+			<br class="clear" />
+		</div>
+		<div id="method" class="content">
 			<div id="left">
 				<div class="gutter">
 					<h2>API Methods</h2>	
-					<ul id="methods">
+					<ul id="methods-list">
 						
 					</ul>
 				</div>
@@ -64,6 +71,13 @@
 					<h2>Results</h2>	
 					<pre id="res"></pre>
 				</div>
+			</div>
+		</div>
+		<div id="console" class="content">
+			<div class="gutter">
+				<h2>Realtime Console</h2>
+				<textarea id="display" rows="30"></textarea>
+				<input id="cmd" /><button id="send">Send</button>
 			</div>
 		</div>
 		<script type="text/javascript">

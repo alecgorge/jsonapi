@@ -4,8 +4,13 @@ $(function () {
 		methods = null,
 		argb = $("#arg-builder"),
 		$res = $("#res"),
-		activeMethod = "";
+		activeMethod = ""
+		socket = null;
 		
+	
+	window.unload = function () {
+		socket.close();
+	};
 	function set_status(text) {
 		status.html(text).slideDown();
 	}
@@ -56,11 +61,55 @@ $(function () {
 			return false;
 		});
 	}
+	
+	$('#navigation a').click(function (e) {
+		e.preventDefault();
+		
+		$(this).parent().parent().find('li').removeClass('active');
+		
+		$(this).parent().addClass('active');
+		
+		$('.content').hide();
+		
+		$('#'+$(this).attr('id').split('-')[0]).show();
+	});
+	$('#navigation').hide();
+	
+	$('#cmd').keyup(function (e) {
+		if(e.keyCode == 13) {
+			send_cmd($(this).val());
+			$(this).val('');
+		}
+	});
+	
+	$('#send').click(function () {
+		send_cmd($('#cmd').val());
+		$('#cmd').val('');
+	});
+	
+	var $display = $("#display");
+	function cmd_log(e) {
+		$display.val($display.val() + e);
+		$display.scrollTop(9999);
+		$display.scrollTop($display.scrollTop()*12);
+	}
+	
+	function send_cmd(e) {
+		var url = api.makeURL("runConsoleCommand", [e]);
+		url = "/api"+url.substr(url.lastIndexOf("/"));
+		url = url.substr(0, url.indexOf("&callback=?"));
+		socket.send(url);
+		cmd_log("INPUT: "+e+"\n");
+	};
+	
+	if(!window.WebSocket) {
+		alert('WebSocket not detected, console will not work! Get a cooler browser!');
+	}
 
 	$("#jsonapi-login").submit(function (e) {
 		api = new JSONAPI({
 			host: $("#jsonapi-host").val(),
-			port: $("#jsonapi-port").val(),
+			port: parseInt($("#jsonapi-port").val()),
 			username: $("#jsonapi-user").val(),
 			password: $("#jsonapi-pass").val(),
 			salt: $("#jsonapi-salt").val(),
@@ -76,12 +125,31 @@ $(function () {
 				set_status("Connected!");
 				set_status("Loading API methods...");
 				
+				socket = new WebSocket('ws://'+api.host+':'+(api.port+2)+'/');
+				
+				socket.onopen = function (e) {
+					cmd_log("Connected...\n");
+					socket.send("/api/subscribe?source=console&key="+api.createKey("console"));
+				};
+				
+				socket.onmessage = function (e) {
+					var data = JSON.parse(e.data);
+					
+					if(data.source == "console") {
+						cmd_log(data.result == "success" ? data.success.line : data.error);
+					}
+				};
+				
+				socket.oncolse = function (e) {
+					cmd_log("Connection lost...\n");
+				};
+				
 				$.getJSON("http://ramblingwood.com/minecraft/jsonapi/console/serve-json.php?callback=?", function(data) {
-					$("#wrapper").show();
+					$(".content, #navigation").show();
 					set_status("Processing API methods...");
 					methods = data;
 					
-					var $methods = $("#methods");
+					var $methods = $("#methods-list");
 					$.each(methods, function (k, v) {
 						var thehtml = "";
 						
