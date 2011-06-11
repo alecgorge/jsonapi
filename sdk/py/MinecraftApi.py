@@ -40,7 +40,7 @@ class MinecraftJsonApi (object):
 		http://ramblingwood.com/minecraft/jsonapi/
 	'''
 	
-	__basic_url = '/api/call?{query}'
+	__basic_url = 'http://{host}:{port}/api/call?{query}'
 	__subscribe_url = '/api/subscribe?{query}'
 	__letters = list('abcdefghijklmnopqrstuvwxyz')
 		
@@ -63,6 +63,8 @@ class MinecraftJsonApi (object):
 		key = self.__createkey(method)
 		
 		return self.__basic_url.format(
+			host = self.host,
+			port = self.port,
 			query = urlencode([
 				('method', method),
 				('args', json.dumps(args)),
@@ -76,7 +78,7 @@ class MinecraftJsonApi (object):
 		'''			
 		key = self.__createkey(source)
 		
-		return self.__basic_url.format(
+		return self.__subscribe_url.format(
 			query = urlencode([
 				('source', source),
 				('key', key),
@@ -95,7 +97,7 @@ class MinecraftJsonApi (object):
 			flags = socket.AI_ADDRCONFIG
 		except AttributeError:
 			flags = 0
-		for res in socket.getaddrinfo(self.host, self.port, 
+		for res in socket.getaddrinfo(self.host, (self.port+1), 
 				socket.AF_UNSPEC, socket.SOCK_STREAM, 
 				socket.IPPROTO_TCP,	flags):
 			af, socktype, proto, canonname, sa = res
@@ -211,14 +213,13 @@ class MinecraftJsonApi (object):
 				cfg['params'] = [s for s in cfg['params'].split('\n') if len(s)] 
 				self.__methods.append(cfg)
 	
-	def __init__(self, host='localhost', port=20060, username='admin', 
+	def __init__(self, host='localhost', port=20059, username='admin', 
 		password='demo', salt='', autoload_methods=True):
 		self.host = host
 		self.username = username
 		self.password = password
 		self.port = port
 		self.salt = salt
-		self.__socket = self.__createsocket()
 		self.__methods = []
 		if autoload_methods:
 			self.__loadMethods()
@@ -228,49 +229,22 @@ class MinecraftJsonApi (object):
 		Make a remote call and return the raw response.
 		'''
 		url = self.__createURL(method, args)
-		return self.__rawCall(url)
+		result = urlopen(url).read()
+		return result
 				
-	def __rawCall (self, url, retry_on_failure=True):
-		try:
-			self.__socket.write(url)
-			self.__socket.write('\n')
-			self.__socket.flush()
-		
-			result = self.__socket.readline()[2:]
-			return result
-		except Exception as e:
-			if retry_on_failure:
-				self.__socket = self.__createsocket()
-				self.__rawCall(url, False)
-			else:		
-				raise e
 				
 	def call (self, method, *args):
 		'''
 		Make a remote call and return the JSON response.
 		'''
-		url = self.__createURL(method, args)
-		result = self.__call(url)
+		data = self.rawCall(method, *args)
+		result = json.loads(data)
 		if result['result'] =='success':
 			return result['success']	
 		else:
 			raise Exception('(%s) %s' %(result['result'], result[result['result']]))
 	
-	def __call(self, url, retry_on_failure = True): 
-		try:
-			self.__socket.write(url)
-			self.__socket.write('\n')
-			self.__socket.flush()
-		
-			result = self.__socket.readjson()
-			return result
-		except Exception as e:
-			if retry_on_failure:
-				self.__socket = self.__createsocket()
-				self.__call(url, False)
-			else:		
-				raise e
-
+	
 	def subscribe (self, feed):
 		'''
 		Subscribe to the remote stream.
@@ -278,6 +252,9 @@ class MinecraftJsonApi (object):
 		Return a file like object for reading responses from. Use 
 		read/readline for raw values, use readjson for parsed values.
 		'''
+		# This doesn't work right, I don't know why.... yet.
+		raise NotImplementedError()
+		
 		if feed not in ['console', 'chat', 'connections']:
 			raise NotImplementedError(
 				'Subscribing to feed \'%s\' is not supported.' % feed)
@@ -316,11 +293,24 @@ class MinecraftJsonApi (object):
 
 if __name__ == '__main__':
 	# Some basic test code
-	api = MinecraftJsonApi(
-		host = 'minecraft.darkstaranime.com',
-		username = 'minecraft',
-		password = 'W3bCr4fter',
-		salt = 'D4rkSt4r101',
-	)
+	# Read params
+ 	paramDefaults = {'host': 'localhost', 'port':20059, 'username':'admin', 'password':'demo', 'salt':''}
+ 	filterFuncs = {'host': str, 'port': int, 'username': str, 'password': str, 'salt': str}
+ 	params = {}
+ 	for k in paramDefaults.keys():
+ 		value = raw_input("%s (%s): " % (k.capitalize(), str(paramDefaults[k])))
+ 		if len(value):
+	 		params[k] = filterFuncs[k](value)
+	 	else:
+			params[k] = paramDefaults[k]
+ 	
+ 	api = MinecraftJsonApi(
+ 		host = params['host'], 
+ 		port = params['port'], 
+ 		username = params['username'], 
+ 		password = params['password'], 
+ 		salt = params['salt']
+ 	)
+	
 	print([m['method_name'] for m in api.getLoadedMethods()])
 	print (api.getMethod('kickPlayer'))	

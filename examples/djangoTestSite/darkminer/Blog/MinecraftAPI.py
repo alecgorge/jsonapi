@@ -6,24 +6,6 @@ from hashlib import sha256
 from urllib import urlencode
 from urllib2 import urlopen
 
-class MinecraftStream(object):
-	#	Extends the basic stream object and adds a readjson method to the object
-	def __getattribute__(self, name):
-		if name not in ['readjson', '_original_stream']:
-			return getattr(
-				object.__getattribute__(self, '_original_stream'), 
-				name
-			)
-		else:
-			return object.__getattribute__(self, name)
-		
-	def __init__(self, stream):
-		self._original_stream = stream
-		
-	def readjson(self, *args, **kwargs):
-		ret = self._original_stream.readline(*args, **kwargs)
-		return json.loads(ret[2:])
-	
 class MinecraftJsonApi (object):
 	'''
 	Python Interface to JSONAPI for Bukkit (Minecraft)
@@ -211,14 +193,13 @@ class MinecraftJsonApi (object):
 				cfg['params'] = [s for s in cfg['params'].split('\n') if len(s)] 
 				self.__methods.append(cfg)
 	
-	def __init__(self, host='localhost', port=20060, username='admin', 
+	def __init__(self, host='localhost', port=20059, username='admin', 
 		password='demo', salt='', autoload_methods=True):
 		self.host = host
 		self.username = username
 		self.password = password
 		self.port = port
 		self.salt = salt
-		self.__socket = self.__createsocket()
 		self.__methods = []
 		if autoload_methods:
 			self.__loadMethods()
@@ -227,50 +208,23 @@ class MinecraftJsonApi (object):
 		'''
 		Make a remote call and return the raw response.
 		'''
-		url = self.__createURL(method, args)
-		return self.__rawCall(url)
-				
-	def __rawCall (self, url, retry_on_failure=True):
-		try:
-			self.__socket.write(url)
-			self.__socket.write('\n')
-			self.__socket.flush()
-		
-			result = self.__socket.readline()[2:]
-			return result
-		except Exception as e:
-			if retry_on_failure:
-				self.__socket = self.__createsocket()
-				self.__rawCall(url, False)
-			else:		
-				raise e
+		query = self.__createURL(method, args)
+		url ="http://%s:%d%s" % (self.host, self.port, query)
+		data = urlopen(url).read()
+		return data
 				
 	def call (self, method, *args):
 		'''
 		Make a remote call and return the JSON response.
 		'''
-		url = self.__createURL(method, args)
-		result = self.__call(url)
+		data = self.rawCall(method, *args)
+		result = json.loads(data)
 		if result['result'] =='success':
 			return result['success']	
 		else:
 			raise Exception('(%s) %s' %(result['result'], result[result['result']]))
 	
-	def __call(self, url, retry_on_failure = True): 
-		try:
-			self.__socket.write(url)
-			self.__socket.write('\n')
-			self.__socket.flush()
-		
-			result = self.__socket.readjson()
-			return result
-		except Exception as e:
-			if retry_on_failure:
-				self.__socket = self.__createsocket()
-				self.__call(url, False)
-			else:		
-				raise e
-
+	
 	def subscribe (self, feed):
 		'''
 		Subscribe to the remote stream.
@@ -316,11 +270,22 @@ class MinecraftJsonApi (object):
 
 if __name__ == '__main__':
 	# Some basic test code
-	api = MinecraftJsonApi(
-		host = 'minecraft.darkstaranime.com',
-		username = 'minecraft',
-		password = 'W3bCr4fter',
-		salt = 'D4rkSt4r101',
-	)
+	# Read params
+	paramDefaults = {'host': 'localhost', 'port':20059, 'username':'admin', 'password':'demo', 'salt':''}
+	filterFuncs = {'host': str, 'port': int, 'username': str, 'password': str, 'salt': str}
+	params = {}
+	for k in paramDefaults.keys():
+		value = raw_input("%s (%s): " % (k.capitalize(), str(paramDefaults[k])))
+		if len(value):
+ 			params[k] = filterFuncs[k](value)
+ 		else:
+			params[k] = paramDefaults[kh]
+ 	api = MinecraftJsonApi(
+ 		host=params['host'],
+ 		port=params['port'],
+ 		username=params['username'],
+ 		password=params['password'], 
+ 		salt=params['salt'])
+
 	print([m['method_name'] for m in api.getLoadedMethods()])
 	print (api.getMethod('kickPlayer'))	
