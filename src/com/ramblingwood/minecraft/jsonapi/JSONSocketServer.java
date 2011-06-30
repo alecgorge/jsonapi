@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.Properties;
 
 import com.ramblingwood.minecraft.jsonapi.streams.StreamingResponse;
@@ -114,7 +115,8 @@ public class JSONSocketServer implements Runnable{
 								while((line = s.nextLine()) != null && continueSending) {
 									try {
 										if(clientSocket.isConnected() && !clientSocket.isClosed()) {
-											output.writeUTF(line.trim()+"\r\n");
+											output.write((line.trim()+"\r\n").getBytes("UTF-8"));
+											// fuck java: output.writeUTF(line+"\r\n");
 										}
 										else {
 											continueSending = false;
@@ -141,7 +143,8 @@ public class JSONSocketServer implements Runnable{
 							String line = "";
 	
 							while((line = data.readLine()) != null) {
-								output.writeUTF(line+"\r\n");
+								output.write((line+"\r\n").getBytes("UTF-8"));
+								// fuck java: output.writeUTF(line+"\r\n");
 							}
 						}
 						catch (IOException e) {
