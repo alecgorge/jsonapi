@@ -310,11 +310,12 @@ public class JSONServer extends NanoHTTPD {
 	public JSONObject serveAPICall(String calledMethod, Object args) {
 		try {
 			if(caller.methodExists(calledMethod)) {
-				if(args instanceof JSONArray) {
-					Object result = caller.call(calledMethod,
-							(Object[]) ((ArrayList) args).toArray(new Object[((ArrayList) args).size()]));
-					return returnAPISuccess(calledMethod, result);
+				if(!(args instanceof JSONArray)) {
+					args = new JSONArray();
 				}
+				Object result = caller.call(calledMethod,
+						(Object[]) ((ArrayList) args).toArray(new Object[((ArrayList) args).size()]));
+				return returnAPISuccess(calledMethod, result);
 			}
 			else {
 				warning("The method '"+calledMethod+"' does not exist!");
@@ -328,6 +329,7 @@ public class JSONServer extends NanoHTTPD {
 			if(e.getCause() instanceof APIException) {
 				return returnAPIError(calledMethod, e.getCause().getMessage());
 			}
+			return returnAPIException(calledMethod, e);
 		}
 		catch (NullPointerException e) {
 			return returnAPIError(calledMethod, "The server is offline right now. Try again in 2 seconds.");
@@ -336,6 +338,6 @@ public class JSONServer extends NanoHTTPD {
 			return returnAPIException(calledMethod, e);
 		}
 
-		return returnAPIError(calledMethod, "You need to pass a method and an array of arguments.");
+		//return returnAPIError(calledMethod, "You need to pass a method and an array of arguments.");
 	}
 }

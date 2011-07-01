@@ -1,9 +1,12 @@
 //RTK UDP API, Revision 5
 //(C) Nick Stones-Havas 2011
-//Revision date: April 27th, 2011
+//Revision date: June 23rd, 2011
 /*-------------------
  
  CHANGELOG
+ 
+ --Revision 6--
+ * Added support for usernames/passwords with mixed case
  
  --Revision 5--
  * Added support for restart reschedules
@@ -29,11 +32,13 @@
 
 package com.ramblingwood.minecraft.jsonapi.McRKit.api;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.DatagramSocket;
+import java.net.DatagramPacket;
 import java.net.SocketTimeoutException;
+
+import java.io.IOException;
+
 import java.util.LinkedList;
 
 
@@ -112,9 +117,8 @@ public class RTKInterface{
 	private RTKInterface(int port, String host, String user, String password){
 		this.port=port;
 		this.host=host;
-		singleton=this;
-		this.user=user.toLowerCase();
-		this.password=password.toLowerCase();
+		this.user=user;
+		this.password=password;
 		listeners = new LinkedList<RTKListener>();
 	}
 	/**
@@ -127,7 +131,7 @@ public class RTKInterface{
 	 */
 	public static RTKInterface createRTKInterface(int port,String host,String user,String password)throws RTKInterfaceException{
 		if(singleton==null){
-			return new RTKInterface(port,host,user,password);
+			return (singleton=new RTKInterface(port,host,user,password));
 		}else{
 			throw new RTKInterfaceException("RTKInterface already instantiated.");
 		}
