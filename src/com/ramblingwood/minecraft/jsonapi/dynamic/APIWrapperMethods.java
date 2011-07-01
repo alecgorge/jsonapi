@@ -40,8 +40,8 @@ import org.json.simpleForBukkit.JSONObject;
 
 import com.ramblingwood.minecraft.jsonapi.APIException;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
-import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
+import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
 import com.ramblingwood.minecraft.jsonapi.streams.JSONAPIStream;
 import com.ramblingwood.minecraft.jsonapi.util.PropertiesFile;
 import com.ramblingwood.minecraft.jsonapi.util.RecursiveDirLister;
@@ -683,17 +683,22 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		log.info(arg0);
 	}
 	
+	boolean isRTKloaded = false;
+	
 	// RTK methods
-	public void restartServer() throws IOException, RTKInterfaceException {
-		JSONAPI.instance.rtkAPI.executeCommand(RTKInterface.CommandType.RESTART, null);
+	public boolean restartServer() throws IOException, RTKInterfaceException {
+		JSONAPI.instance.rtkAPI.executeCommand(CommandType.RESTART, null);
+		return true;
 	}
 	
-	public void stopServer() throws IOException, RTKInterfaceException {
-		JSONAPI.instance.rtkAPI.executeCommand(RTKInterface.CommandType.HOLD_SERVER, null);
+	public boolean stopServer() throws IOException, RTKInterfaceException {
+		JSONAPI.instance.rtkAPI.executeCommand(CommandType.HOLD_SERVER, null);
+		return true;
 	}
 	
-	public void rescheduleServerRestart(String format) throws IOException, RTKInterfaceException {
-		JSONAPI.instance.rtkAPI.executeCommand(RTKInterface.CommandType.RESCHEDULE_RESTART, format);		
+	public boolean rescheduleServerRestart(String format) throws IOException, RTKInterfaceException {
+		JSONAPI.instance.rtkAPI.executeCommand(CommandType.RESCHEDULE_RESTART, format);
+		return true;
 	}
 	// end RTK methods
 }
