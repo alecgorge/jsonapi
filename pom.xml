@@ -38,5 +38,12 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/craftbukkit.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>com.drdanick.McRKit</groupId>
+			<artifactId>McRKit</artifactId>
+			<version>10</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/deps/Minecraft_RKit.jar</systemPath>
+		</dependency>
 	</dependencies>	
 </project>
