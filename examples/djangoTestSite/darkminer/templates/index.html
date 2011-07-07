@@ -1,0 +1,157 @@
+<html>
+	<head>
+	<script src="/static/js/jquery.js" type="text/javascript"></script>
+	<script src="/static/js/jquery-ui.js" type="text/javascript"></script>
+	<link href="/static/css/jquery-ui.css" type="text/css" rel="stylesheet" media="all" />
+	<style>
+		.player.op {
+			font-weight: bold;
+		}
+		.ui-widget {
+			padding: 0.2em;
+		}
+		.main-header {
+			font-size: 2em;
+			font-weight:bold;
+			padding-top:.5em;
+			padding-bottom: .25em;	
+		}
+		.main-content {
+			padding-top: 0.5em;
+			padding-bottom: 0.5em;
+		}
+		.server-status{
+			font-size: .7em;
+		}
+		.method_list li {
+			cursor: pointer;
+		}
+		.ui-selected {
+			border: 1px solid #e78f08; 
+			background: #f6a828 url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
+			color: #ffffff;	
+		}
+	</style>
+	<script type="text/javascript">
+		$(function(){
+			$('.method_list li').each(function(i,o){
+				$(o).click(function(){
+					document.location = $(o).find('a').attr('href');
+				});
+			});
+			$('div:has(.method_list)').scrollTop($('.method_list li.ui-selected').position().top);			
+		});
+	</script>
+	</head>
+	<body>
+	<form method="post">
+			{% csrf_token %}
+			<div class="ui-helper-reset ui-widget ui-widget-content ui-corner-all" style="position:absolute; top:0.3em;left:0.3em;right:0.3em;bottom:0.3em; min-width: 50em;">
+		<div class="ui-widget-header ui-corner-all" style="text-align: center;height:5em;">
+			<div class="main-header"><a href="{% url home %}">{{host}}</a></div>
+			<div class="server-status">
+				<em>Server status:</em> 
+				{% if server %}
+					Online ({{hostIP}}:{{server.port}}) 
+					{{ server.players|length }} out of 
+					{{ server.maxPlayers }} players online
+				{% else %}
+					Offline
+				{% endif %}
+			</div>
+		</div>
+	
+		<div class="main-content">
+		{% regroup methods|dictsort:"name"|dictsort:"namespace" by namespace as grouped %}
+		<div class="ui-helper-reset ui-widget ui-widget-content ui-corner-all" style="position:absolute; top: 5.4em; bottom:1.3em;left: 0.2em; width: 20em;">
+			<div class="ui-widget-header ui-corner-all" style="font-weight: bold; padding: 0.5em;">
+			Loaded methods:
+			</div>
+			<div style="position: absolute; top:2.7em; bottom: 0em; left: 0.2em; right: 0.2em;overflow-y: scroll; overflow-x: hidden;">
+			<ul class="method_list ui-helper-reset ">
+			{% for namespace in grouped %}
+			{% for method in namespace.list %}
+				<li class="method ui-widget-content ui-corner-all {{method.method_name}}{% if method.method_name == selectedMethod.method_name %} ui-selected{%endif%}" title="{{method.description}}">
+					<a href="{% url home method.method_name %}">
+						{% if method.namespace|length > 0%}{{method.namespace}}.{%endif%}{{method.name}}
+					</a>
+				</li>
+			{% endfor %}
+			{% endfor %}
+			</ul>
+			</div>
+		</div>
+		<div class="ui-helper-reset ui-widget ui-widget-content ui-corner-all" style="position:absolute; top: 5.4em; bottom:1.3em;right: 0.2em; left: 20.8em;">
+			<div class="ui-widget-header ui-corner-all" style="font-weight: bold; padding: 0.5em;">
+			{% if selectedMethod %}
+			Method: {% if selectedMethod.namespace|length > 0%}{{selectedMethod.namespace}}.{%endif%}{{selectedMethod.name}}
+			{% else %}
+			Select a method
+			{% endif %}
+			</div>
+			<div style="position: absolute; top:2.7em; bottom: 0em; left: 0.2em; right: 0.2em;overflow-y: scroll; overflow-x: hidden;">
+			{% if selectedMethod %}
+			<p>{{selectedMethod.description}}</p>
+			<p><strong>Returns:</strong> {{selectedMethod.returns}}</p>
+			<p><strong>Parameters:</strong>
+				<blockquote>
+				{% for param in selectedMethod.params %}
+				<div>{{param}}</div>
+				<div><input type="text" name="param{{forloop.counter}}" /></div>
+				{%empty%}
+				<div>No parameters, just click the Execute button</div>
+				{%endfor%}
+				</blockquote>
+			</p>
+			<input type="submit" value="Execute method" name="action">
+			<p><strong>Result:</strong>
+				<div>
+				<pre>{{result}}</pre>
+				</div>
+			</p>
+			{% else %}
+			{% if server %}
+			<p>Pick a method from the left pane to see more information about the method.</p>
+			{% endif %}
+			<p></p>
+			<p>Connect to a server:</p>
+			<div style="padding-left:1.2em;">
+				<table>
+					<tr>
+					<td>Server Address:</td>
+					<td><input type="text" name="host" value="localhost"/>
+					</tr>
+					<tr>
+					<td>Username:</td>
+					<td><input type="text" name="username" value="admin"/>
+					</tr>
+					<tr>
+					<td>Password:</td>
+					<td><input type="text" name="password" value="demo" />
+					</tr>
+					<tr>
+					<td>Salt:</td>
+					<td><input type="password" name="salt" value=""/>
+					</tr>
+				</table>
+				<input type="submit" name="action" value="Connect">
+			</div>
+			<p>django example site using python interface to JSONAPI for Bukkit (Minecraft)</p>
+			<p>&copy; 2011 Accalia.de.Elementia <a href ="mailto:Accalia.de.Elementia@gmail.com">&lt;Accalia.de.Elementia@gmail.com&gt;</a></p>
+			<p>This work is licensed under a Creative Commons Attribution 3.0 Unported License <a href="http://creativecommons.org/licenses/by/3.0/">&lt;http://creativecommons.org/licenses/by/3.0/&gt;</a></p>
+			<p>JSONAPI homepage:<br/>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://ramblingwood.com/minecraft/jsonapi/">http://ramblingwood.com/minecraft/jsonapi/</a></p>
+			{% endif %}
+			</div>
+		</div>
+		<div class="ui-helper-reset ui-widget ui-widget-content ui-corner-all" style="font-size:0.7em; height: 1em; position: absolute; bottom: 0.2em;left:0.2em;right:0.2em;">
+			<em>Players online: </em>
+			{% for player in server.players %}
+				<span class="player{% if player.op %} op{% endif %}">{{player.name}} </span>
+			{% endfor %}
+		</div>
+	</div>
+	</form>
+			
+	</body>
+</html>
