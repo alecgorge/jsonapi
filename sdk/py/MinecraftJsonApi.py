@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python26
 
 import json
 import socket
@@ -121,26 +121,19 @@ class MinecraftJsonApi (object):
 		return attrs
 	
 	def __createMethod (self, method):
-		method_source = '''def {method_name} (self, {args}):
-		"""{description}
-	
-		{returns}
-	
-		Parameters:
-		{params}
-		"""
-		return self.call('{call_name}',{args})
-		'''
+                def proxy_wrapper(self,attributes):
+                        def wrapper(self, *args):
+                                return self.call(attributes['call_name'],*args)
+                        wrapper.__doc__ = attributes['description']
+                        wrapper._is_wrapper = True
+                        return wrapper
 		
 		attributes = self.__createMethodAttributes(method)
 		if method['enabled']:
-			object_ = {}
-			exec method_source.format(**attributes) in object_
-			rv_method = object_[attributes['method_name']]
+			rv_method = proxy_wrapper(self,attributes)
 		else:
 			rv_method = None
 		attributes['method'] = rv_method
-		del attributes['call_name']
 		del attributes['args']
 		return attributes
 	
