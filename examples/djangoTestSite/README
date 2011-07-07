@@ -1,0 +1,12 @@
+To use this test site you will need:
+
+	Python 2.6 or Python 2.7
+	django 1.3
+	
+To run the test site execute:
+	$> darkminer/manage.py runserver
+this will start the development server, point your web browser at
+	http://localhost:8000
+and go to town!
+
+#TODO: Better README
