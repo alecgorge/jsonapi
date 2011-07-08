@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 import org.bukkit.plugin.Plugin;
@@ -14,6 +17,8 @@ import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
 
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
+import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
+import com.ramblingwood.minecraft.jsonapi.api.JSONAPICallHandler;
 
 public class Caller {
 	public HashMap<String, HashMap<String, Method>> methods = new HashMap<String, HashMap<String, Method>>();
@@ -22,14 +27,23 @@ public class Caller {
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	public int methodCount = 0;
 	
+	private List<JSONAPICallHandler> handlers = new ArrayList<JSONAPICallHandler>();
+	
 	public Caller (JSONAPI plugin) {
 		inst = plugin;
 	}
 	
-	public Object call(String methodAndNamespace, Object[] params) throws Exception {
+	public Object call(String methodAndNamespace, final Object[] params) throws Exception {
 		String[] methodParts = methodAndNamespace.split("\\.", 2);
 		
-		Call c;
+		APIMethodName n = new APIMethodName(methodAndNamespace);
+		for(JSONAPICallHandler c : handlers) {
+			if(c.willHandle(n)) {
+				return c.handle(n, params);
+			}
+		}		
+		
+		final Call c;
 		if(methodParts.length == 1) {
 			c = methods.get("").get(methodParts[0]).getCall();
 		}
@@ -41,11 +55,36 @@ public class Caller {
 			throw new Exception("Incorrect number of args: gave "+params.length+" ("+Arrays.asList(params).toString()+"), expected "+c.getNumberOfExpectedArgs());
 		}
 		
-		return c.call(params);
+		return innerCall(c, params);
+	}
+	
+	private Object innerCall(final Call c, final Object[] params) {
+		Future<Object> f = inst.getServer().getScheduler().callSyncMethod(inst, new Callable<Object> () {
+			public Object call() throws Exception {
+				return c.call(params);
+			}
+		});
+		
+		try {
+			return f.get();
+		} catch (InterruptedException e) {
+		     System.out.println("Interrupt triggered which waiting on callable to return");
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.getCause().printStackTrace();
+		}
+		return null;
 	}
 	
 	public boolean methodExists (String name) {
 		String[] methodParts = name.split("\\.", 2);
+		
+		APIMethodName n = new APIMethodName(name);
+		for(JSONAPICallHandler c : handlers) {
+			if(c.willHandle(n)) {
+				return true;
+			}
+		}
 		
 		if(methodParts.length == 1) {
 			return methods.get("").containsKey(methodParts[0]);
@@ -62,6 +101,14 @@ public class Caller {
 			e.printStackTrace();
 		}
 	}
+	
+	public void registerAPICallHandler(JSONAPICallHandler handler) {
+		handlers.add(handler);
+	}
+	
+	public void deregisterAPICallHandler(JSONAPICallHandler handler) {
+		handlers.remove(handler);
+	}	
 	
 	private void magicWithMethods (Object raw) throws Exception {
 		if(raw instanceof JSONObject) {
