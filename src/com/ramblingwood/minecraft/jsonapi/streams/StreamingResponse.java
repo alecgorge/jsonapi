@@ -25,7 +25,12 @@ public class StreamingResponse extends InputStream {
 		this.sourceLists = sourceLists;
 
 		for(String s : sourceLists) {
-			stacks.add(plugin.getStreamManager().getStream(s));
+			if(plugin.getStreamManager().streamExists(s)) {
+				stacks.add(plugin.getStreamManager().getStream(s));
+			}
+			else {
+				plugin.outLog.warning("The requested stream: '"+s+"' does not exist.");
+			}
 		}
 		
 		for(JSONAPIStream s : stacks) {
@@ -37,17 +42,20 @@ public class StreamingResponse extends InputStream {
 		while(true) {
 			for(int i = 0; i < stacks.size(); i++) {
 				List<JSONAPIStreamMessage> stack = stacks.get(i).getStack();
-				Integer pos = positions.get(i);
 				
-				if(pos >= stack.size()) {
-					continue;
-				}
-				else {
-					String res = JSONServer.callback(callback, makeResponseObj(stack.get(pos), i)).concat("\r\n");
+				synchronized(stack) {
+					Integer pos = positions.get(i);
+				
+					if(pos >= stack.size()) {
+						continue;
+					}
+					else {
+						String res = JSONServer.callback(callback, makeResponseObj(stack.get(pos), i)).concat("\r\n");
 					
-					positions.set(i, pos+1);
+						positions.set(i, pos+1);
 					
-					return res;
+						return res;
+					}
 				}
 			}
 			try {
