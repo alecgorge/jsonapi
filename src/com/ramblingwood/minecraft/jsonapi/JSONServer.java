@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -18,12 +17,15 @@ import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONAware;
 import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
+import org.json.simpleForBukkit.parser.ParseException;
 
 import com.ramblingwood.minecraft.jsonapi.dynamic.Caller;
 import com.ramblingwood.minecraft.jsonapi.streams.ChatMessage;
+import com.ramblingwood.minecraft.jsonapi.streams.ChatStream;
 import com.ramblingwood.minecraft.jsonapi.streams.ConnectionMessage;
+import com.ramblingwood.minecraft.jsonapi.streams.ConnectionStream;
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleMessage;
-import com.ramblingwood.minecraft.jsonapi.streams.JSONAPIStream;
+import com.ramblingwood.minecraft.jsonapi.streams.ConsoleStream;
 import com.ramblingwood.minecraft.jsonapi.streams.StreamingResponse;
 
 
@@ -33,10 +35,9 @@ public class JSONServer extends NanoHTTPD {
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	private Caller caller;
 
-	public List<ChatMessage> chat = Collections.synchronizedList(new ArrayList<ChatMessage>(50)); 
-	public List<ConsoleMessage> console = Collections.synchronizedList(new ArrayList<ConsoleMessage>(50)); 
-	public List<ConnectionMessage> connections = Collections.synchronizedList(new ArrayList<ConnectionMessage>(50));
-	public List<JSONAPIStream> all = Collections.synchronizedList(new ArrayList<JSONAPIStream>(50));
+	public ChatStream chat = new ChatStream(); 
+	public ConsoleStream console = new ConsoleStream(); 
+	public ConnectionStream connections = new ConnectionStream();
 	
 	private static boolean initted = false;
 
@@ -96,47 +97,19 @@ public class JSONServer extends NanoHTTPD {
 	}
 	
 	public void logChat(String player, String message) {
-		ChatMessage c = new ChatMessage(player, message);
-		chat.add(c);
-		all.add(c);
-		trimLists();
-	}
-	
-	private void trimLists () {
-		/*if(chat.size() > 50) {
-			chat.remove(0);
-			chat.trimToSize();
-		}		
-		if(connections.size() > 50) {
-			connections.remove(0);
-		}		
-		if(console.size() > 50) {
-			console.remove(0);
-		}		
-		if(all.size() > 50) {
-			all.remove(0);
-		}*/	
+		chat.addMessage(new ChatMessage(player, message));
 	}
 	
 	public void logConsole(String line) {
-		ConsoleMessage c = new ConsoleMessage(line);
-		console.add(c);
-		all.add(c);
-		trimLists();
+		console.addMessage(new ConsoleMessage(line));
 	}
 	
 	public void logConnected(String player) {
-		ConnectionMessage c = new ConnectionMessage(player, true);
-		connections.add(c);
-		all.add(c);
-		trimLists();
+		connections.addMessage(new ConnectionMessage(player, true));
 	}
 	
 	public void logDisconnected(String player) {
-		ConnectionMessage c = new ConnectionMessage(player, false);
-		connections.add(c);
-		all.add(c);
-		trimLists();
+		connections.addMessage(new ConnectionMessage(player, false));
 	}	
 	
 	public boolean testLogin (String method, String hash) {
@@ -190,21 +163,60 @@ public class JSONServer extends NanoHTTPD {
 
 		if(uri.equals("/api/subscribe")) {
 			String source = parms.getProperty("source");
+			String sources = parms.getProperty("sources");
 			String key = parms.getProperty("key");
-
-			if(!testLogin(source, key)) {
-				info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": Invalid API Key.");
-				return jsonRespone(returnAPIError(source, "Invalid API key."), callback, HTTP_FORBIDDEN);
+			
+			Object prev = parms.getProperty("show_previous");
+			boolean showOlder;
+			if(prev == null) {
+				showOlder = true;
 			}
-
-			info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": source="+ source);
+			else {
+				if(prev.equals("false")) {
+					showOlder = false;
+				}
+				showOlder = true;
+			}
+			
+			List<String> sourceList = new ArrayList<String>();
+			if(source != null) {
+				if(!testLogin(source, key)) {
+					info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": Invalid API Key.");
+					return jsonRespone(returnAPIError(source, "Invalid API key."), callback, HTTP_FORBIDDEN);
+				}
+				
+				if(source.equals("all")) {
+					sourceList = new ArrayList<String>(JSONAPI.instance.getStreamManager().getStreams().keySet());
+				}
+				else {
+					sourceList.add(source);
+				}
+			}
+			else if(sources != null) {
+				if(!testLogin(sources, key)) {
+					info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": Invalid API Key.");
+					return jsonRespone(returnAPIError(source, "Invalid API key."), callback, HTTP_FORBIDDEN);
+				}
+				JSONParser p = new JSONParser();
+				try {
+					for(Object o : (JSONArray)p.parse(sources)) {
+						sourceList.add(o.toString());
+					}
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+			info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": source="+ sourceList.toString());
 
 			try {
 				if(source == null) {
 					throw new Exception();
 				}
 				
-				StreamingResponse out = new StreamingResponse(inst, source, callback);
+				StreamingResponse out = new StreamingResponse(inst, sourceList, callback, showOlder);
 
 				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);
 			} catch (Exception e) {

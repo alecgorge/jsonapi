@@ -2,26 +2,24 @@ package com.ramblingwood.minecraft.jsonapi.streams;
 
 import org.json.simpleForBukkit.JSONObject;
 
-public class ConnectionMessage extends JSONAPIStream {
+import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStreamMessage;
+
+public class ConnectionMessage extends JSONAPIStreamMessage {
 	private boolean TrueIsConnectedFalseIsDisconnected;
+	private String player;
 	
 	public ConnectionMessage(String player, boolean TrueIsConnectedFalseIsDisconnected) {
-		super(player, "");
 		this.TrueIsConnectedFalseIsDisconnected = TrueIsConnectedFalseIsDisconnected;
+		this.player = player;
 		setTime();
 	}
 
 	public JSONObject toJSONObject() {
 		JSONObject o = new JSONObject();
 		o.put("time", getTime());
-		o.put("player", getPlayer());
+		o.put("player", player);
 		o.put("action", TrueIsConnectedFalseIsDisconnected ? "connected" : "disconnected");
 		
 		return o;
-	}
-
-	@Override
-	public String getSourceName() {
-		return "connections";
 	}
 }

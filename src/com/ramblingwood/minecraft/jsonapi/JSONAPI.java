@@ -38,8 +38,12 @@ import org.bukkit.util.config.Configuration;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKListener;
+import com.ramblingwood.minecraft.jsonapi.api.JSONAPICallHandler;
 import com.ramblingwood.minecraft.jsonapi.dynamic.APIWrapperMethods;
+import com.ramblingwood.minecraft.jsonapi.dynamic.Caller;
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
+import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStream;
+import com.ramblingwood.minecraft.jsonapi.streams.StreamManager;
 import com.ramblingwood.minecraft.jsonapi.util.PropertiesFile;
 
 
@@ -53,6 +57,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 	public JSONServer jsonServer;
 	public JSONSocketServer jsonSocketServer;
 	public JSONWebSocketServer jsonWebSocketServer;
+	private StreamManager streamManager = new StreamManager();
 	
 	public boolean logging = false;
 	public String logFile = "false";
@@ -86,12 +91,36 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 		return jsonServer;
 	}
 	
+	public synchronized StreamManager getStreamManager () {
+		return this.streamManager;
+	}
+	
+	public void registerStreamManager(String streamName, JSONAPIStream stream) {
+		getStreamManager().registerStream(streamName, stream);
+	}
+	
+	public void deregisterStream(String streamName) {
+		getStreamManager().deregisterStream(streamName);
+	}
+	
 	public void registerMethod(String method) {
 		getJSONServer().getCaller().loadString("["+method+"]");
 	}
 	
 	public void registerMethods(String method) {
 		getJSONServer().getCaller().loadString(method);
+	}
+	
+	public synchronized Caller getCaller() {
+		return getJSONServer().getCaller();
+	}
+	
+	public void registerAPICallHandler(JSONAPICallHandler handler) {
+		getCaller().registerAPICallHandler(handler);
+	}
+	
+	public void deregisterAPICallHandler(JSONAPICallHandler handler) {
+		getCaller().deregisterAPICallHandler(handler);
 	}
 	
 	private JSONAPIPlayerListener l = new JSONAPIPlayerListener(this);	
@@ -283,10 +312,14 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			if(logging) {
 				outLog.addHandler(handler);
 			}
-
+			
 			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
 			jsonWebSocketServer = new JSONWebSocketServer(port + 2, jsonServer);
 			jsonWebSocketServer.start();
+			
+			registerStreamManager("chat", getJSONServer().chat);			
+			registerStreamManager("console", getJSONServer().console);
+			registerStreamManager("connections", getJSONServer().connections);			
 			
 			initialiseListeners();
 		}
