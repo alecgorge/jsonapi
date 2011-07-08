@@ -67,7 +67,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 	public List<String> method_noauth_whitelist = new ArrayList<String>();
 	
 	private Logger log = Logger.getLogger("Minecraft");
-	private Logger outLog = Logger.getLogger("JSONAPI");
+	public Logger outLog = Logger.getLogger("JSONAPI");
 	private PluginManager pm;
 	private Handler handler;
 	
