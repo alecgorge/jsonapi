@@ -1,13 +1,24 @@
 package com.ramblingwood.minecraft.jsonapi.streams;
 
-public class ChatMessage extends JSONAPIStream {
+import org.json.simpleForBukkit.JSONObject;
+
+import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStreamMessage;
+
+public class ChatMessage extends JSONAPIStreamMessage {
+	private String player;
+	private String message;
+	
 	public ChatMessage(String player, String message) {
-		super(player, message);
+		this.player = player;
+		this.message = message;
 		setTime();
 	}
 
-	@Override
-	public String getSourceName() {
-		return "chat";
+	public JSONObject toJSONObject() {
+		JSONObject o = new JSONObject();
+		o.put("time", getTime());
+		o.put("player", player);
+		o.put("message", message);
+		return o;
 	}
 }

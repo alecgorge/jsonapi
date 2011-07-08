@@ -72,7 +72,7 @@ public class Call {
 				SubCall obj = (SubCall)v;
 				
 				debug("Calling method: '"+obj.getName()+"' with signature: '"+obj.requiresArgs()+"' '"+Arrays.asList(sigForIndices(obj.requiresArgs()))+"'.");
-				debug("Last result:"+lastResult.toString());
+				debug("Last result:"+lastResult == null ? null : lastResult.toString());
 				debug("Invoking method: '"+obj.getName()+"' with args: '"+Arrays.asList(indicies(oParams, obj.requiresArgs()))+"'.");
 				
 				Object[] args = indicies(oParams, obj.requiresArgs());

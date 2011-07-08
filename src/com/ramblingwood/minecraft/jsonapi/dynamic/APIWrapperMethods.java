@@ -42,7 +42,7 @@ import com.ramblingwood.minecraft.jsonapi.APIException;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
-import com.ramblingwood.minecraft.jsonapi.streams.JSONAPIStream;
+import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStreamMessage;
 import com.ramblingwood.minecraft.jsonapi.util.PropertiesFile;
 import com.ramblingwood.minecraft.jsonapi.util.RecursiveDirLister;
 
@@ -620,8 +620,8 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		return (new File(".")).getFreeSpace();
 	}
 	
-	public List<JSONObject> getConsoleLogs (int count) {
-		ArrayList<JSONAPIStream> stack = new ArrayList<JSONAPIStream>(JSONAPI.instance.jsonServer.console);
+	public List<JSONObject> getStreamWithLimit (String streamName, int count) {
+		List<JSONAPIStreamMessage> stack = JSONAPI.instance.getStreamManager().getStream(streamName).getStack();
 		
 		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
 		
@@ -630,6 +630,14 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			a.add(stack.get(i).toJSONObject());
 		}
 		return a;
+	}
+	
+	public List<JSONObject> getStream (String streamName) {
+		return getStreamWithLimit(streamName, -1);
+	}
+	
+	public List<JSONObject> getConsoleLogs (int count) {
+		return getStreamWithLimit("console", count);
 	}
 	
 	public List<JSONObject> getConsoleLogs () {
@@ -637,15 +645,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 	}
 	
 	public List<JSONObject> getChatLogs (int count) {
-		ArrayList<JSONAPIStream> stack = new ArrayList<JSONAPIStream>(JSONAPI.instance.jsonServer.chat);
-		
-		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
-		
-		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
-		for(int i = stack.size() - count; i < stack.size(); i++) {
-			a.add(stack.get(i).toJSONObject());
-		}
-		return a;
+		return getStreamWithLimit("chat", count);
 	}
 	
 	
@@ -653,15 +653,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		return getChatLogs(-1);
 	}
 	public List<JSONObject> getConnectionLogs (int count) {
-		ArrayList<JSONAPIStream> stack = new ArrayList<JSONAPIStream>(JSONAPI.instance.jsonServer.connections);
-		
-		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
-		
-		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
-		for(int i = stack.size() - count; i < stack.size(); i++) {
-			a.add(stack.get(i).toJSONObject());
-		}
-		return a;
+		return getStreamWithLimit("connections", count);
 	}
 	
 	public List<JSONObject> getConnectionLogs () {
