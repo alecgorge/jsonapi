@@ -211,18 +211,9 @@ public class JSONServer extends NanoHTTPD {
 			
 			info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": source="+ sourceList.toString());
 
-			try {
-				if(source == null) {
-					throw new Exception();
-				}
-				
-				StreamingResponse out = new StreamingResponse(inst, sourceList, callback, showOlder);
+			StreamingResponse out = new StreamingResponse(inst, sourceList, callback, showOlder);
 
-				return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return jsonRespone(returnAPIError(source, "'"+source+"' is not a valid stream source!"), callback, HTTP_NOTFOUND);
-			}
+			return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);
 		}
 		
 		if(!uri.equals("/api/call") && !uri.equals("/api/call-multiple")) {
