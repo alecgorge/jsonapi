@@ -13,6 +13,10 @@ public class ChatMessage extends JSONAPIStreamMessage {
 		this.message = message;
 		setTime();
 	}
+	
+	public String streamName () {
+		return "chat";
+	}
 
 	public JSONObject toJSONObject() {
 		JSONObject o = new JSONObject();

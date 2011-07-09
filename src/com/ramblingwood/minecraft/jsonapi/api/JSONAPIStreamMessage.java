@@ -8,6 +8,8 @@ import org.json.simpleForBukkit.JSONObject;
 abstract public class JSONAPIStreamMessage implements JSONAware {
 	protected long time = -1;
 
+	public abstract String streamName();
+	
 	public void setTime(long time) {
 		this.time = time;
 	}

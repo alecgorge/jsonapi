@@ -4,26 +4,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.json.simpleForBukkit.JSONObject;
 
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
 import com.ramblingwood.minecraft.jsonapi.JSONServer;
 import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStream;
+import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStreamListener;
 import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStreamMessage;
 
-public class StreamingResponse extends InputStream {
+public class StreamingResponse extends InputStream implements JSONAPIStreamListener {
 	private List<JSONAPIStream> stacks = new ArrayList<JSONAPIStream>();
-	private List<Integer> positions = new ArrayList<Integer>();
-	private List<String> sourceLists = new ArrayList<String>();
+	private LinkedBlockingQueue<JSONAPIStreamMessage> queue = new LinkedBlockingQueue<JSONAPIStreamMessage>();
 	private JSONAPI plugin;
 	private String callback;
 	
 	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, boolean showOlder) {
 		plugin = _plugin;
 		
-		this.sourceLists = sourceLists;
-
 		for(String s : sourceLists) {
 			if(plugin.getStreamManager().streamExists(s)) {
 				stacks.add(plugin.getStreamManager().getStream(s));
@@ -34,32 +33,26 @@ public class StreamingResponse extends InputStream {
 		}
 		
 		for(JSONAPIStream s : stacks) {
-			positions.add(showOlder ? (s.getStack().size() > 50 ? s.getStack().size() - 50 : 0) : s.getStack().size());
+			s.registerListener(this, showOlder);
 		}
 	}
 	
+	
+	public void onMessage(JSONAPIStreamMessage message, JSONAPIStream sender) {
+		try {
+			queue.put(message);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public String nextLine () {
 		while(true) {
-			for(int i = 0; i < stacks.size(); i++) {
-				List<JSONAPIStreamMessage> stack = stacks.get(i).getStack();
-				
-				synchronized(stack) {
-					Integer pos = positions.get(i);
-				
-					if(pos >= stack.size()) {
-						continue;
-					}
-					else {
-						String res = JSONServer.callback(callback, makeResponseObj(stack.get(pos), i)).concat("\r\n");
-					
-						positions.set(i, pos+1);
-					
-						return res;
-					}
-				}
-			}
+			JSONAPIStreamMessage m;
 			try {
-				Thread.sleep(250);
+				m = queue.take();
+				return  JSONServer.callback(callback, makeResponseObj(m)).concat("\r\n");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -67,10 +60,10 @@ public class StreamingResponse extends InputStream {
 		}
 	}
 	
-	private String makeResponseObj (JSONAPIStreamMessage ja, Integer pos) {
+	private String makeResponseObj (JSONAPIStreamMessage ja) {
 		JSONObject o = new JSONObject();
 		o.put("result", "success");
-		o.put("source", sourceLists.get(pos));
+		o.put("source", ja.streamName());
 		o.put("success", ja);
 		
 		String ret = o.toJSONString();

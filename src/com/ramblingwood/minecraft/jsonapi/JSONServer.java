@@ -175,9 +175,11 @@ public class JSONServer extends NanoHTTPD {
 				if(prev.equals("false")) {
 					showOlder = false;
 				}
-				showOlder = true;
+				else {
+					showOlder = true;
+				}
 			}
-			
+
 			List<String> sourceList = new ArrayList<String>();
 			if(source != null) {
 				if(!testLogin(source, key)) {

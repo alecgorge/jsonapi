@@ -13,6 +13,10 @@ public class ConnectionMessage extends JSONAPIStreamMessage {
 		this.player = player;
 		setTime();
 	}
+	
+	public String streamName () {
+		return "connections";
+	}
 
 	public JSONObject toJSONObject() {
 		JSONObject o = new JSONObject();
