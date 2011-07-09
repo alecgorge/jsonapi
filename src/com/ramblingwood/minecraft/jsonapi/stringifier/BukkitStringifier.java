@@ -106,8 +106,8 @@ public class BukkitStringifier {
 			o.put("fullTime", w.getFullTime());
 			o.put("time", w.getTime());
 			o.put("name", w.getName());
-			o.put("isThundering", w.isThundering());
-			o.put("hasStorm", w.hasStorm());
+			//o.put("isThundering", w.isThundering());
+			//o.put("hasStorm", w.hasStorm());
 			
 			return o;
 		}
