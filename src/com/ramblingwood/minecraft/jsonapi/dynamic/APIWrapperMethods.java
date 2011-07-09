@@ -620,14 +620,17 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		return (new File(".")).getFreeSpace();
 	}
 	
-	public synchronized List<JSONObject> getStreamWithLimit (String streamName, int count) {
+	public List<JSONObject> getStreamWithLimit (String streamName, int count) {
 		List<JSONAPIStreamMessage> stack = JSONAPI.instance.getStreamManager().getStream(streamName).getStack();
 		
 		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
 		
 		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
-		for(int i = stack.size() - count; i < stack.size(); i++) {
-			a.add(stack.get(i).toJSONObject());
+		
+		synchronized (stack) {
+			for(int i = stack.size() - count; i < stack.size(); i++) {
+				a.add(stack.get(i).toJSONObject());
+			}			
 		}
 		return a;
 	}
