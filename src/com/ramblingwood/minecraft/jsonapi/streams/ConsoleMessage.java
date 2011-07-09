@@ -12,6 +12,10 @@ public class ConsoleMessage extends JSONAPIStreamMessage {
 		setTime();
 	}
 	
+	public String streamName () {
+		return "console";
+	}
+	
 	public JSONObject toJSONObject () {
 		JSONObject o = new JSONObject();
 		o.put("time", getTime());
