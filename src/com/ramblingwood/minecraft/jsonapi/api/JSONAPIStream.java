@@ -35,15 +35,17 @@ public abstract class JSONAPIStream {
 	public void pushMessage(JSONAPIStreamMessage m) {		
 		try {
 			messages.put(m);
+		} catch (InterruptedException e) {
+			
+		}
+		finally {
 			last50.add(m);
 			
 			if(last50.size() > 50) {
 				last50.remove(0);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			}			
 		}
+		
 		ArrayList<JSONAPIStreamMessage> stack = new ArrayList<JSONAPIStreamMessage>();
 		messages.drainTo(stack);
 		
