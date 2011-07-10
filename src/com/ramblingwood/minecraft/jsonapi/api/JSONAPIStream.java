@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.ramblingwood.minecraft.jsonapi.JSONAPI;
+
 public abstract class JSONAPIStream {
 	protected List<JSONAPIStreamListener> listeners = Collections.synchronizedList(new ArrayList<JSONAPIStreamListener>());
 	protected LinkedBlockingQueue<JSONAPIStreamMessage> messages = new LinkedBlockingQueue<JSONAPIStreamMessage>();
@@ -32,29 +34,32 @@ public abstract class JSONAPIStream {
 		pushMessage(m);
 	}
 	
-	public void pushMessage(JSONAPIStreamMessage m) {		
-		try {
-			messages.put(m);
-		} catch (InterruptedException e) {
-			
-		}
-		finally {
-			last50.add(m);
-			
-			if(last50.size() > 50) {
-				last50.remove(0);
-			}			
-		}
-		
-		ArrayList<JSONAPIStreamMessage> stack = new ArrayList<JSONAPIStreamMessage>();
-		messages.drainTo(stack);
-		
-		synchronized (listeners) {
-			for(JSONAPIStreamListener l : listeners) {
-				for(JSONAPIStreamMessage mm : stack) {
-					l.onMessage(mm, this);
-				}			
+	public void pushMessage(final JSONAPIStreamMessage m) {
+		final JSONAPIStream that = this;
+		JSONAPI.instance.getServer().getScheduler().scheduleSyncDelayedTask(JSONAPI.instance, new Runnable() {
+			public void run () {
+				try {
+					messages.put(m);
+					last50.add(m);
+					
+					if(last50.size() > 50) {
+						last50.remove(0);
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				ArrayList<JSONAPIStreamMessage> stack = new ArrayList<JSONAPIStreamMessage>();
+				messages.drainTo(stack);
+				
+				synchronized (listeners) {
+					for(JSONAPIStreamListener l : listeners) {
+						for(JSONAPIStreamMessage mm : stack) {
+							l.onMessage(mm, that);
+						}			
+					}
+				}
 			}
-		}
+		});
 	}
 }
