@@ -23,7 +23,12 @@ public class APIMethodName {
 	public String getNamespace() {
 		return namespace;
 	}
+	
 	public String getMethodName() {
 		return method;
+	}
+	
+	public boolean matches(String test) {
+		return test.equals((namespace.equals("") ? "" : namespace+".")+method);
 	}
 }
