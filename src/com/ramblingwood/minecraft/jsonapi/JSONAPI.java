@@ -36,13 +36,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface;
-import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKListener;
 import com.ramblingwood.minecraft.jsonapi.api.JSONAPICallHandler;
+import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStream;
 import com.ramblingwood.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.ramblingwood.minecraft.jsonapi.dynamic.Caller;
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
-import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStream;
 import com.ramblingwood.minecraft.jsonapi.streams.StreamManager;
 import com.ramblingwood.minecraft.jsonapi.util.PropertiesFile;
 
@@ -277,9 +276,10 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			
 			Configuration yamlRTK = new Configuration(new File(getDataFolder(), "config_rtk.yml"));
 			try {
+				yamlRTK.load();
 				rtkAPI = RTKInterface.createRTKInterface(yamlRTK.getInt("RTK.port", 25561), "localhost", yamlRTK.getString("RTK.username", "user"), yamlRTK.getString("RTK.password", "pass"));
 				rtkAPI.registerRTKListener(this);
-			} catch (RTKInterfaceException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
