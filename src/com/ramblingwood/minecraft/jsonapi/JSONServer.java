@@ -319,7 +319,7 @@ public class JSONServer extends NanoHTTPD {
 					args = new JSONArray();
 				}
 				Object result = caller.call(calledMethod,
-						(Object[]) ((ArrayList) args).toArray(new Object[((ArrayList) args).size()]));
+						(Object[]) ((ArrayList<Object>) args).toArray(new Object[((ArrayList<Object>) args).size()]));
 				return returnAPISuccess(calledMethod, result);
 			}
 			else {
