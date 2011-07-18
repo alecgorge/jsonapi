@@ -525,6 +525,15 @@
 				["String", "The name of the stream to fetch messages from."],
 				["int", "The number of messages to limit the results to."]
 			]
+		},
+		{
+			"name":"getDirectory",
+			"desc":"Retrieves an array of files and directories that exist in the specified directory.",
+			"returns":["String[]", "The files in string format."],
+			"call":"this.getDirectory(0)",
+			"args": [
+				["String", "The directory that will have its files listed, relative to the folder that contains the the plugins folder."]
+			]
 		}
 	]
 }

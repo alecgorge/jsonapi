@@ -696,4 +696,27 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		return true;
 	}
 	// end RTK methods
+	
+	public List<String> getDirectory (String path) {
+		try {
+			File dir = new File(path);
+			RecursiveDirLister d = new RecursiveDirLister(dir);
+			List<String> s = new ArrayList<String>();
+			
+			for(File f : d.getFileListing()) {
+				if(f.isFile()) {
+					s.add(f.toString());
+				}
+				else {
+					s.add(f.toString()+File.separator);
+				}
+			}
+			
+			return s;
+		}
+		catch(Exception e) {
+			// e.printStackTrace();
+			return new ArrayList<String>();
+		}
+	}
 }
