@@ -9,4 +9,4 @@ options:
     ip-whitelist: []
     log-to-console: true
     log-to-file: 'false'
-    salt: ''
+    salt: 'abc123'
