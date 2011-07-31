@@ -62,6 +62,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 	public String logFile = "false";
 	public String salt = "";
 	public int port = 20059;
+	private long startupDelay = 2000;
 	public List<String> whitelist = new ArrayList<String>();
 	public List<String> method_noauth_whitelist = new ArrayList<String>();
 	
@@ -265,6 +266,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				
 				salt = yamlConfig.getString("options.salt", "");
 				port = yamlConfig.getInt("options.port", 20059);
+				startupDelay = yamlConfig.getInt("options.startup-delay", 2000);
 				
 				method_noauth_whitelist = yamlConfig.getStringList("method-whitelist", new ArrayList<String>());
 				
@@ -303,7 +305,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			log.info("[JSONAPI] Logging to console: "+String.valueOf(logging));
 			log.info("[JSONAPI] IP Whitelist = "+(reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
 
-			jsonServer = new JSONServer(auth, this);
+			jsonServer = new JSONServer(auth, this, startupDelay);
 			
 			// add console stream support
 			handler = new ConsoleHandler(jsonServer);

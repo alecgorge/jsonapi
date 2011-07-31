@@ -42,7 +42,7 @@ public class JSONServer extends NanoHTTPD {
 	private static boolean initted = false;
 
 	
-	public JSONServer(HashMap<String, String> auth, final JSONAPI plugin) throws IOException {
+	public JSONServer(HashMap<String, String> auth, final JSONAPI plugin, final long startupDelay) throws IOException {
 		super(plugin.port);
 		inst = plugin;
 		
@@ -54,7 +54,7 @@ public class JSONServer extends NanoHTTPD {
 				
 				try {
 					if(!initted) {
-						Thread.sleep(2000);
+						Thread.sleep(startupDelay);
 						initted = true;
 					}
 				} catch (InterruptedException e) {
