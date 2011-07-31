@@ -557,15 +557,13 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			try {
 				stream = new FileOutputStream(new File(fileName));
 				stream.write(contents.getBytes(Charset.forName("UTF-8")));
-			} catch (IOException e) {
-				throw new APIException(fileName+" could not be written to!");
-			}
-			finally {
 				try {
 					stream.close();
 				} catch (IOException e) {
 					throw new APIException(fileName+" could not be closed!");
 				}
+			} catch (IOException e) {
+				throw new APIException(fileName+" could not be written to!");
 			}
 			return true;			
 		}
@@ -574,7 +572,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		}
 	}
 	
-	public boolean editPropertiesFile (String fileName, String type, String key, Object value) throws FileNotFoundException {
+	public boolean editPropertiesFile (String fileName, String type, String key, String value) throws FileNotFoundException {
 		if((new File(fileName+".properties")).exists()) {
 			PropertiesFile p = new PropertiesFile(fileName+".properties");
 			if(type.toLowerCase().equals("boolean")) {
