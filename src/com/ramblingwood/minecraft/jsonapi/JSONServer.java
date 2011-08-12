@@ -49,7 +49,8 @@ public class JSONServer extends NanoHTTPD {
 		(new Thread(new Runnable() {
 			@Override
 			public void run() {
-				outLog.info("[JSONAPI] Waiting 2 seconds to load methods so that all the other plugins load...");
+				float seconds = startupDelay/1000;
+				outLog.info("[JSONAPI] Waiting "+String.format("%2.3f", seconds)+" seconds to load methods so that all the other plugins load...");
 				outLog.info("[JSONAPI] Any requests in this time will not work...");
 				
 				try {
