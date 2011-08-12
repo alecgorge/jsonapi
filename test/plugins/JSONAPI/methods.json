@@ -12,12 +12,6 @@
 			"call": "Server.getMaxPlayers()"
 		},
 		{
-			"name": "getPlayerCount",
-			"desc": "Gets the amount of players currently on the server.",
-			"returns": ["int", "The number of players on the server."],
-			"call": "Server.getOnlinePlayers().length"
-		},
-		{
 			"name": "getServerVersion",
 			"desc": "Gets the version of the server implementation (so Craftbukkit or Bukkit, not the actuall Minecraft server",
 			"returns": ["String", "A string representing the version."],
@@ -525,6 +519,12 @@
 				["String", "The name of the stream to fetch messages from."],
 				["int", "The number of messages to limit the results to."]
 			]
+		},
+		{
+			"name": "getPlayerCount",
+			"desc": "Gets the amount of players currently on the server.",
+			"returns": ["int", "The number of players on the server."],
+			"call": "Server.getOnlinePlayers().length"
 		},
 		{
 			"name":"getDirectory",

@@ -4,7 +4,6 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
@@ -15,25 +14,20 @@ public class Call {
 	private static Server Server = JSONAPI.instance.getServer();
 	private static APIWrapperMethods APIInstance = APIWrapperMethods.getInstance();
 	
-	private ArrayList<Class<?>> signature;
+	private Class<?>[] signature = new Class<?>[] {};
 	private ArrayList<Object> stack = new ArrayList<Object>();
 	private ArrayList<String> flags = new ArrayList<String>();
-	private HashMap<Integer, Object> defaults = new HashMap<Integer, Object>();
+	private HashMap<Integer, String> defaults = new HashMap<Integer, String>();
 	public static boolean debug = false;
 	private int expectedArgs = 0;
 
 	public Call (String input, ArgumentList args, ArrayList<String> flags) {
-		this(input, new ArrayList<Class<?>>(Arrays.asList(args.getTypes())), flags);
-	}
-
-	public Call (String input,  ArrayList<Class<?>> sig, ArrayList<String> flags) {
-		signature = sig;
+		signature = args.getTypes();
 		this.flags = flags;
-		debug("INPUT: "+input);
 		parseString(input);
 	}
 	
-	private void debug(Object in) {
+	private void debug(String in) {
 		if(debug) {
 			System.out.println(in);
 		}
@@ -49,9 +43,6 @@ public class Call {
 		ArrayList<Object> oParams = new ArrayList<Object>(Arrays.asList(params));
 		
 		oParams.ensureCapacity(oParams.size()+defaults.size());
-		
-		debug("defaults:"+defaults);
-		debug("oParams:"+oParams);
 		for(Integer i : defaults.keySet()) {
 			oParams.add(i, defaults.get(i));
 		}
@@ -83,7 +74,6 @@ public class Call {
 				debug("Calling method: '"+obj.getName()+"' with signature: '"+obj.requiresArgs()+"' '"+Arrays.asList(sigForIndices(obj.requiresArgs()))+"'.");
 				debug("Last result:"+lastResult == null ? null : lastResult.toString());
 				debug("Invoking method: '"+obj.getName()+"' with args: '"+Arrays.asList(indicies(oParams, obj.requiresArgs()))+"'.");
-				debug("Requires arg: "+obj.requiresArgs());
 				
 				Object[] args = indicies(oParams, obj.requiresArgs());
 				Class<?>[] sig = sigForIndices(obj.requiresArgs());
@@ -105,22 +95,6 @@ public class Call {
 					debug("Sig type: "+sig[x].getName());
 				}
 				
-				debug("CLASS: "+lastResult.getClass());
-				debug("SUBCALL NAME: "+obj.getName());
-				debug("Sig:"+Arrays.toString(sig));
-				debug("Args:"+Arrays.toString(args));
-				
-				int count = 0;
-				for(Class<?> s : sig) {
-					if(s.equals(Call.class)) {
-						Object res = ((Call)args[count]).call(params);
-						sig[count] = res.getClass();
-						args[count] = res;
-					}
-					count++;
-				}
-				debug("Sig:"+Arrays.toString(sig));
-				debug("Args:"+Arrays.toString(args));
 				java.lang.reflect.Method thisMethod = lastResult.getClass().getMethod(obj.getName(), sig);
 				if(flags.contains("NO_EXCEPTIONS") || flags.contains("FALSE_ON_EXCEPTION")) {
 					try {
@@ -137,11 +111,6 @@ public class Call {
 				}
 				
 				debug("New value:"+lastResult);
-			}
-			else if(v instanceof Call) {
-				Call c = (Call)v;
-				
-				lastResult = c.call(params);
 			}
 		}
 		
@@ -164,62 +133,31 @@ public class Call {
 		
 		Class<?>[] ret = new Class<?>[i.size()];
 		for(int y = 0; y < ret.length; y++) {
-			ret[y] = signature.get(i.get(y));
+			ret[y] = signature[i.get(y)];
 		}
 		
 		return ret;
 	}
 	
 	public void parseString (String input) {
-		int parOpen = 0;
-		List<String> parts = new ArrayList<String>();
-		int xx = 0;
-		int lastIndex = 0;
-		boolean isOpen = false;
-		for(char c : input.toCharArray()) {
-			if(c == '(') {
-				parOpen++;
-				isOpen = true;
-			}
-			else if(c == ')') {
-				parOpen--;
-				
-				if(parOpen == 0) {
-					isOpen = false;
-					//System.out.println(input.length());
-					//System.out.println(xx);
-					if(input.length()-1 == xx) {
-						parts.add(input.substring(lastIndex == 0 ? lastIndex : lastIndex+1, xx+1));
-						lastIndex = xx;
-					}
-				}
-			}
-			else if(!isOpen && c == '.') {
-				parts.add(input.substring(lastIndex == 0 ? lastIndex : lastIndex+1, xx));
-				lastIndex = xx;
-			}
-				
-			xx++;
-		}
+		String[] parts = input.split("\\.(?=[a-zA-Z])");
 
-		debug("PARTS: "+parts);
-		int size = parts.size();
-		int argcnt = 0;
-		for(int i = 0; i < size; i++) {
-			String v = parts.get(i);
-			
-			if(v.equals("Server")) {
-				stack.add(Server);
-			}
-			else if(v.equals("this")) {
-				stack.add(APIInstance);
-			}
-			else if(v.equals("Plugins")) { // handles Plugins.PLUGINNAME.pluginMethod(0,1,2)
-				String v2 = parts.get(i+1);
-				stack.add(Server.getPluginManager().getPlugin(v2));
-				i++;
-				continue;
-			}
+		for(int i = 0; i < parts.length; i++) {
+			String v = parts[i];
+			//if(i == 0) {
+				if(v.equals("Server")) {
+					stack.add(Server);
+				}
+				else if(v.equals("this")) {
+					stack.add(APIInstance);
+				}
+				else if(v.equals("Plugins")) { // handles Plugins.PLUGINNAME.pluginMethod(0,1,2)
+					String v2 = parts[i+1];
+					stack.add(Server.getPluginManager().getPlugin(v2));
+					i++;
+					continue;
+				}
+			//}
 			else {
 				// no args
 				if(v.endsWith("()")) {
@@ -234,76 +172,39 @@ public class Call {
 				// args
 				else {
 					// find the position of the args
-					int startPos = v.indexOf("(");
+					int startPos = v.lastIndexOf("(");
 					
 					// take the stuff in the ('s and )'s 
 					String[] argParts = v.substring(startPos+1, v.length() - 1).split(",");
-					debug("ARG PARTS: "+Arrays.toString(argParts));
 
 					ArrayList<Integer> argPos = new ArrayList<Integer>();
 					
 					// put all string 0, 1, 2, 3 etc into a int[]
-					
-					// multiplyer is the number of args to skip due to string hard codes
 					int multiplier = 0;
 					
-					for(int x = 0; x < argParts.length; x++, argcnt++) {
-						String arg = argParts[x].trim();
-						debug("x: ("+String.valueOf(x)+")");
-						try {
-							// if arg is a number (user supplied argument) then this will go just peachy
-							// otherwise we can handle thing in the exception
-							argPos.add(Integer.parseInt(arg) + multiplier);
-						}
-						catch (NumberFormatException e) {
-							// default placeholder string
-							if(arg.startsWith("\"") && arg.endsWith("\"")) {
-								defaults.put(argcnt, arg.substring(1, arg.length() - 1));
-								signature.add(argcnt, String.class);
-								
-								if(argPos.size() > 0) {
-									argPos.add(argPos.get(argPos.size()-1)+1);
-								}
-								else {
-									argPos.add(0);
-								}
-								
-								multiplier++;
+					for(int x = 0; x < argParts.length; x++) {
+						if(argParts[x].trim().startsWith("\"") && argParts[x].trim().endsWith("\"")) {
+							defaults.put(x, argParts[x].trim().substring(1, argParts[x].trim().length() - 1));
+							
+							ArrayList<Class<?>> cc = new ArrayList<Class<?>>(Arrays.asList(signature));
+							cc.add(x, String.class);
+							signature = cc.toArray(signature);
+							
+							if(argPos.size() > 0) {
+								argPos.add(argPos.get(argPos.size()-1)+1);
 							}
-							else if(arg.startsWith("\\")) {
-								try {
-									debug("ISNUMBERARG:"+argcnt);
-									defaults.put(argcnt, Integer.parseInt(arg.substring(1)));
-									signature.add(argcnt, Integer.TYPE);
-									
-									if(argPos.size() > 0) {
-										argPos.add(argPos.get(argPos.size()-1)+1);
-									}
-									else {
-										argPos.add(0);
-									}
-									
-									multiplier++;
-								}
-								catch (Exception e1) {
-									e1.printStackTrace();
-									System.err.println("Expected number after the \\");
-								}
-							}
-							// assume a subcall
 							else {
-								debug("MAKING NEW CALL");
-								defaults.put(argcnt, new Call(arg, signature, flags));
-								signature.add(argcnt, Call.class);
-								
-								if(argPos.size() > 0) {
-									argPos.add(argPos.get(argPos.size()-1)+1);
-								}
-								else {
-									argPos.add(0);
-								}
-								
-								multiplier++;
+								argPos.add(0);
+							}
+							
+							multiplier++;
+						}
+						else {
+							try {
+								argPos.add(Integer.parseInt(argParts[x].trim()) + (multiplier));
+							}
+							catch (NumberFormatException e) {
+								e.printStackTrace();
 							}
 						}
 					}
@@ -311,8 +212,7 @@ public class Call {
 					expectedArgs = argPos.size() - multiplier;
 					
 					// add this "method" onto the stack
-					debug("ARG PART: "+v);
-					stack.add(new SubCall(v, argPos));
+					stack.add(new SubCall(v.substring(0, startPos), argPos));
 				}
 			}
 		}
@@ -335,13 +235,7 @@ public class Call {
 		private ArrayList<Integer> argPos;
 		
 		public SubCall(String name, ArrayList<Integer> argPos) {
-			int i = name.indexOf("(");
-			this.name = name.substring(0, i == -1 ? name.length() : i+1);
-			
-			if(this.name.endsWith("(")) {
-				this.name = this.name.substring(0, this.name.length()-1);
-			}
-			
+			this.name = name;
 			this.argPos = argPos;
 		}
 		
