@@ -2,11 +2,11 @@ method-whitelist:
 - getPlayerLimit
 - dynmap.getPort
 logins:
-    admin: demo
+    username: password
 options:
     startup-delay: 2000
     port: 20059
     ip-whitelist: []
     log-to-console: true
     log-to-file: 'false'
-    salt: 'abc123'
+    salt: 'salt goes here'
