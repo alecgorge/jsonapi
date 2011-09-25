@@ -32,7 +32,7 @@
                     			<target>1.6</target>
                 		</configuration>
             		</plugin>
-		</plugin>
+		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
