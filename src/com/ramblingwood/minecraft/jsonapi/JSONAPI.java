@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -72,6 +74,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 	private Handler handler;
 	
 	public RTKInterface rtkAPI;
+	public InetAddress bindAddress;
 	
 	// for dynamic access
 	public static JSONAPI instance;
@@ -267,6 +270,14 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				salt = yamlConfig.getString("options.salt", "");
 				port = yamlConfig.getInt("options.port", 20059);
 				startupDelay = yamlConfig.getInt("options.startup-delay", 2000);
+				
+				String host = yamlConfig.getString("options.bind-address", "");
+				if(host.equals("")) {
+					bindAddress = null;
+				}
+				else {
+					bindAddress = InetAddress.getByName(host);
+				}
 				
 				method_noauth_whitelist = yamlConfig.getStringList("method-whitelist", new ArrayList<String>());
 				
