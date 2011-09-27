@@ -1,6 +1,7 @@
 package com.ramblingwood.minecraft.jsonapi.dynamic;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

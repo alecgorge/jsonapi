@@ -266,7 +266,12 @@ public class NanoHTTPD
 			myServerSocket = ssocketFactory.createServerSocket(port);
 		}
 		else {
-			myServerSocket = new ServerSocket( myTcpPort );
+			if(JSONAPI.instance.bindAddress != null) {
+				myServerSocket = new ServerSocket( myTcpPort, /*default value */ 0, JSONAPI.instance.bindAddress);
+			}
+			else {
+				myServerSocket = new ServerSocket( myTcpPort );
+			}
 		}
 		myThread = new Thread( new Runnable()
 			{
