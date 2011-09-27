@@ -323,7 +323,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 						((CraftServer)Server).getServer(),
 						((CraftWorld)Server.getWorlds().get(0)).getHandle(),
 						name,
-						new ItemInWorldManager(((CraftWorld)Server.getWorlds().get(0)).getHandle())
+						new ItemInWorldManager(((CraftServer)Server).getServer().getWorldServer(0))
 					)
 				);
 				joinedList.put(name, player);

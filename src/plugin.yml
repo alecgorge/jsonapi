@@ -1,8 +1,8 @@
 name: JSONAPI
 main: com.ramblingwood.minecraft.jsonapi.JSONAPI
-version: 2.2.1
+version: 2.3
 description: Control your server and fetch information form your server.
-website: http://ramblingwood.com/minecraft/jsonapi/
+website: http://alecgorge.com/minecraft/jsonapi/
 author: Alec Gorge
 commands:
   reloadjsonapi:
