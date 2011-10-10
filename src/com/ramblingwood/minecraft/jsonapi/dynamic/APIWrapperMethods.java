@@ -603,7 +603,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 	}
 	
 	public long getJavaMemoryUsage () {
-		return Runtime.getRuntime().totalMemory();
+		return return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}
 	
 	public long getDiskUsage () {
