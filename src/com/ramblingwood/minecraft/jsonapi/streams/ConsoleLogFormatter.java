@@ -7,11 +7,11 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-final class ConsoleLogFormatter extends Formatter {
+final public class ConsoleLogFormatter extends Formatter {
 
     private SimpleDateFormat a = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    ConsoleLogFormatter() {}
+    public ConsoleLogFormatter() {}
 
     public String format(LogRecord logrecord) {
         StringBuilder stringbuilder = new StringBuilder();
