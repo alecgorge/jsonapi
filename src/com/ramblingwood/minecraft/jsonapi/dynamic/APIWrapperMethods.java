@@ -36,18 +36,20 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
+import org.bukkit.permissions.Permission;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.ramblingwood.minecraft.jsonapi.APIException;
 import com.ramblingwood.minecraft.jsonapi.JSONAPI;
-import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
+import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStreamMessage;
 import com.ramblingwood.minecraft.jsonapi.util.PropertiesFile;
 import com.ramblingwood.minecraft.jsonapi.util.RecursiveDirLister;
 
 public class APIWrapperMethods extends ConsoleCommandSender {
 	private Logger log = Logger.getLogger("Minecraft");
+	private Logger outLog = Logger.getLogger("JSONAPI");
 	public NetworkManager manager;
 	
 	public APIWrapperMethods(Server server) {
@@ -472,10 +474,11 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			command.append(s);
 		}
 		
-		if(Call.debug) {
-			System.out.println("running command: "+command.toString());
-		}
-		Server.dispatchCommand(this, command.toString());
+		String cmd = command.toString();
+		
+		outLog.info("Command run by remote user: '" + cmd + "'");
+		
+		Server.dispatchCommand(this, cmd);
 	}
 	
 	public void runCommand (String obj) {
@@ -661,21 +664,6 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		return getConnectionLogs(-1);
 	}
 
-	@Override
-	public Server getServer() {
-		return Server;
-	}
-
-	@Override
-	public boolean isOp() {
-		return true;
-	}
-
-	@Override
-	public void sendMessage(String arg0) {
-		log.info(arg0);
-	}
-	
 	boolean isRTKloaded = false;
 	
 	// RTK methods
@@ -717,4 +705,47 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			return new ArrayList<String>();
 		}
 	}
+	
+	// I'm a real boy! I swear!
+	@Override
+	public Server getServer() {
+		return Server;
+	}
+
+	@Override
+	public boolean isOp() {
+		return true;
+	}
+	
+	@Override
+	public String getName() {
+		return "JSONAPI";
+	}
+	
+	// This boy is a console. He should be able to run ALL of the commands.
+	@Override
+	public boolean hasPermission(Permission p) {
+		return true;
+	}
+	
+	@Override
+	public boolean hasPermission(String p) {
+		return true;
+	}
+	
+	@Override
+	public boolean isPermissionSet(Permission p) {
+		return true;
+	}
+	
+	@Override
+	public boolean isPermissionSet(String p) {
+		return true;
+	}
+
+	@Override
+	public void sendMessage(String arg0) {
+		outLog.info(arg0); // when does ever happen?
+	}
+	// end impersonation stuff
 }

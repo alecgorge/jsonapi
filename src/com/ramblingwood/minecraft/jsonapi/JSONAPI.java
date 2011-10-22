@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,7 +17,6 @@ import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -44,6 +42,7 @@ import com.ramblingwood.minecraft.jsonapi.api.JSONAPIStream;
 import com.ramblingwood.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.ramblingwood.minecraft.jsonapi.dynamic.Caller;
 import com.ramblingwood.minecraft.jsonapi.streams.ConsoleHandler;
+import com.ramblingwood.minecraft.jsonapi.streams.ConsoleLogFormatter;
 import com.ramblingwood.minecraft.jsonapi.streams.StreamManager;
 import com.ramblingwood.minecraft.jsonapi.util.PropertiesFile;
 
@@ -297,13 +296,14 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			}
 			
 			if(!logging) {
+				outLog.setUseParentHandlers(false);
 				for(Handler h : outLog.getHandlers()) {
 					outLog.removeHandler(h);
 				}
 			}
 			if(!logFile.equals("false") && !logFile.isEmpty()) {
-				FileHandler fh = new FileHandler(logFile);
-				fh.setFormatter(new SimpleFormatter());
+				FileHandler fh = new FileHandler(logFile, true);
+				fh.setFormatter(new ConsoleLogFormatter());
 				outLog.addHandler(fh);
 			}			
 			
