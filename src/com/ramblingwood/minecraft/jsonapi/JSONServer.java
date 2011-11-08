@@ -43,7 +43,7 @@ public class JSONServer extends NanoHTTPD {
 
 	
 	public JSONServer(HashMap<String, String> auth, final JSONAPI plugin, final long startupDelay) throws IOException {
-		super(plugin.port);
+		super(plugin.port, plugin.bindAddress);
 		inst = plugin;
 		
 		(new Thread(new Runnable() {

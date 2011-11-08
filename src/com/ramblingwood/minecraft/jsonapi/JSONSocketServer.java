@@ -30,7 +30,12 @@ public class JSONSocketServer implements Runnable{
 		}
 		
 		try {
-			this.serverSocket = new ServerSocket(this.serverPort);
+			if(JSONAPI.instance.bindAddress != null) {
+				this.serverSocket = new ServerSocket(this.serverPort, -1, JSONAPI.instance.bindAddress);
+			}
+			else {
+				this.serverSocket = new ServerSocket(this.serverPort);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
