@@ -25,6 +25,7 @@ import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.World;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
@@ -405,6 +406,17 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			a.add(s.trim());
 		}
 		return a;
+	}
+	
+	public boolean banWithReason(String name, String reason) {
+		try {
+			Bukkit.getOfflinePlayer(name).setBanned(true);
+			Bukkit.getPlayer(name).kickPlayer(reason);
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
 	}
 	
 	public boolean enablePlugin(String name) {
