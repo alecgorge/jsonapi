@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
@@ -22,6 +23,8 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
@@ -33,7 +36,6 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.config.Configuration;
 
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKInterface;
 import com.ramblingwood.minecraft.jsonapi.McRKit.api.RTKListener;
@@ -169,7 +171,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			if(mainConfig.exists() && !yamlFile.exists()) {
 				// auto-migrate to yaml from properties and plain text files
 				yamlFile.createNewFile();			
-				Configuration yamlConfig = new Configuration(yamlFile);
+				YamlConfiguration yamlConfig = new YamlConfiguration();
 				
 				if(!ipWhitelist.trim().equals("false")) {
 					String[] ips = ipWhitelist.split(",");
@@ -238,30 +240,30 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 					e.printStackTrace();
 				}
 
-				yamlConfig.setProperty("options.log-to-console", logging);
-				yamlConfig.setProperty("options.log-to-file", logFile);
-				yamlConfig.setProperty("options.ip-whitelist", whitelist);
-				yamlConfig.setProperty("options.salt", salt);
-				yamlConfig.setProperty("options.port", port);
+				yamlConfig.set("options.log-to-console", logging);
+				yamlConfig.set("options.log-to-file", logFile);
+				yamlConfig.set("options.ip-whitelist", whitelist);
+				yamlConfig.set("options.salt", salt);
+				yamlConfig.set("options.port", port);
 				
-				yamlConfig.setProperty("method-whitelist", method_noauth_whitelist);
+				yamlConfig.set("method-whitelist", method_noauth_whitelist);
 				
-				yamlConfig.setProperty("logins", auth);
+				yamlConfig.set("logins", auth);
 				
-				yamlConfig.save();
+				yamlConfig.save(yamlFile);
 				
 				mainConfig.delete();
 				authfile.delete();
 				authfile2.delete();
 			}
 			else if(yamlFile.exists()) {
-				Configuration yamlConfig = new Configuration(yamlFile);
-				yamlConfig.load(); // VERY IMPORTANT
+				YamlConfiguration yamlConfig = new YamlConfiguration();
+				yamlConfig.load(yamlFile); // VERY IMPORTANT
 				
 				logging = yamlConfig.getBoolean("options.log-to-console", true);
 				logFile = yamlConfig.getString("options.log-to-file", "false");
 
-				whitelist = yamlConfig.getStringList("options.ip-whitelist", new ArrayList<String>());				
+				whitelist = (List<String>)yamlConfig.getList("options.ip-whitelist", new ArrayList<String>());
 				for(String ip : whitelist) {
 					reconstituted += ip + ",";
 				}
@@ -278,17 +280,18 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 					bindAddress = InetAddress.getByName(host);
 				}
 				
-				method_noauth_whitelist = yamlConfig.getStringList("method-whitelist", new ArrayList<String>());
+				method_noauth_whitelist = (List<String>)yamlConfig.getList("method-whitelist", new ArrayList<String>());
 				
-				List<String> logins = yamlConfig.getKeys("logins");
+				Set<String> logins = ((ConfigurationSection)yamlConfig.get("logins")).getKeys(false);
 				for(String k : logins) {
 					auth.put(k, yamlConfig.getString("logins."+k));
 				}
 			}
 			
-			Configuration yamlRTK = new Configuration(new File(getDataFolder(), "config_rtk.yml"));
+			YamlConfiguration yamlRTK = new YamlConfiguration();
+			
 			try {
-				yamlRTK.load();
+				yamlRTK.load(new File(getDataFolder(), "config_rtk.yml"));
 				rtkAPI = RTKInterface.createRTKInterface(yamlRTK.getInt("RTK.port", 25561), "localhost", yamlRTK.getString("RTK.username", "user"), yamlRTK.getString("RTK.password", "pass"));
 				rtkAPI.registerRTKListener(this);
 			} catch (Exception e) {
@@ -336,7 +339,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			
 			initialiseListeners();
 		}
-		catch( IOException ioe ) {
+		catch( Exception ioe ) {
 			log.severe( "[JSONAPI] Couldn't start server!\n");
 			ioe.printStackTrace();
 			//System.exit( -1 );
