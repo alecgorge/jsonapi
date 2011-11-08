@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -38,11 +39,11 @@ public class BukkitStringifier {
 		handle.put("PlayerInventory", org.bukkit.inventory.PlayerInventory.class);
 		handle.put("Location", org.bukkit.Location.class);
 		handle.put("World.Environment", org.bukkit.World.Environment.class);
+		handle.put("GameMode", org.bukkit.GameMode.class);
 	}
 	
 	public static boolean canHandle(Class<?> c) {
 		for(Class<?> cc : handle.values()) {
-			// if (c instance of cc)
 			if(cc.isAssignableFrom(c)) {
 				return true;
 			}
@@ -70,15 +71,19 @@ public class BukkitStringifier {
 			o.put("name", p.getName());
 			o.put("op", p.isOp());
 			o.put("health", p.getHealth());
+			o.put("foodLevel", p.getFoodLevel());
+			o.put("exhaustion", p.getExhaustion());
 			o.put("ip", p.getAddress().toString());
 			o.put("itemInHand", p.getItemInHand());
 			o.put("location", p.getLocation());
 			o.put("inventory", p.getInventory());
 			o.put("sneaking", p.isSneaking());
+			o.put("sprinting", p.isSprinting());
 			o.put("inVehicle", p.isInsideVehicle());
 			o.put("sleeping", p.isSleeping());
 			o.put("world", p.getServer().getWorlds().indexOf(p.getWorld()));
 			o.put("worldInfo", p.getWorld());
+			o.put("gameMode", p.getGameMode());
 			
 			return o;			
 		}
@@ -173,6 +178,9 @@ public class BukkitStringifier {
 			Collections.sort(l, new PluginSorter());
 			
 			return l;
+		}
+		else if(obj instanceof GameMode) {
+			return ((GameMode)obj).getValue();
 		}
 		else if(obj instanceof Object[]) {
 			int l = ((Object[])obj).length;
