@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URLEncoder;
@@ -257,7 +258,7 @@ public class NanoHTTPD
 	 * Starts a HTTP server to given port.<p>
 	 * Throws an IOException if the socket is already in use
 	 */
-	public NanoHTTPD( int port, boolean ssl ) throws IOException
+	public NanoHTTPD( int port, boolean ssl, InetAddress bindAddress ) throws IOException
 	{
 		myTcpPort = port;
 		
@@ -266,8 +267,8 @@ public class NanoHTTPD
 			myServerSocket = ssocketFactory.createServerSocket(port);
 		}
 		else {
-			if(JSONAPI.instance.bindAddress != null) {
-				myServerSocket = new ServerSocket( myTcpPort, /*default value */ 0, JSONAPI.instance.bindAddress);
+			if(bindAddress != null) {
+				myServerSocket = new ServerSocket( myTcpPort, /*default value */ 0, bindAddress);
 			}
 			else {
 				myServerSocket = new ServerSocket( myTcpPort );
@@ -290,7 +291,11 @@ public class NanoHTTPD
 		myThread.start();
 	}
 	
-	public NanoHTTPD( int port ) throws IOException{ this(port,false); }
+	public NanoHTTPD( int port ) throws IOException{ this(port,false, null); }
+
+	public NanoHTTPD(int port, InetAddress bindAddress) throws IOException {
+		this(port, false, bindAddress);
+	}
 
 	/**
 	 * Stops the server.
