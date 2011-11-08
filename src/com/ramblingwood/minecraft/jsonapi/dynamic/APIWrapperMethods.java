@@ -25,6 +25,7 @@ import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.World;
 
+import org.bukkit.GameMode;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.CraftServer;
@@ -164,6 +165,10 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		catch (NullPointerException e) {
 			return false;
 		}
+	}
+	
+	public void setPlayerGameMode(String playerName, int gameMode) throws Exception {
+		Server.getPlayer(playerName).setGameMode(GameMode.getByValue(gameMode));
 	}
 	
 	public boolean clearPlayerInventorySlot (String playerName, int slot) {
@@ -745,7 +750,7 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 
 	@Override
 	public void sendMessage(String arg0) {
-		outLog.info(arg0); // when does ever happen?
+		// outLog.info(arg0); // when does ever happen? on every runConsoleCommand aparently.
 	}
 	// end impersonation stuff
 }
