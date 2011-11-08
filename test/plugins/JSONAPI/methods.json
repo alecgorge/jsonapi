@@ -490,7 +490,7 @@
 		},
 		{
 			"name": "setPlayerHealth",
-			"desc": "Set's a players health on a scale of 1-20.",
+			"desc": "Sets a players health on a scale of 1-20.",
 			"returns": ["boolean", "True on succes, false if the player is not on the server."],
 			"call": "Server.getPlayer(0).setHealth(1)",
 			"flags": [
@@ -499,6 +499,19 @@
 			"args": [
 				["String", "The player's name."],
 				["int", "The amount of health to set."]
+			]
+		},
+		{
+			"name": "setPlayerGameMode",
+			"desc": "Sets the game mode for a player. 0 is creative. 1 is survivial.",
+			"returns": ["boolean", "True on succes, false if the player is not on the server."],
+			"call": "this.setPlayerGameMode(0, 1)",
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"args": [
+				["String", "The player's name."],
+				["int", "The game mode."]
 			]
 		},
 		{
