@@ -202,6 +202,16 @@
 			]
 		},
 		{
+			"name": "banWithReason",
+			"desc": "Bans the specified player with the specified reason.",
+			"call": "this.banWithReason(0, 1)",
+			"returns": "Returns true if the player was banned while online; false if the player was offline when he/she was banned.",
+			"args": [
+				["String", "The name of the player to be banned."],
+				["String", "The reason the player is being banned."]
+			]
+		},
+		{
 			"name": "unban",
 			"desc": "Unbans the specified player.",
 			"call": "this.runCommand(\"pardon \", 0)",
