@@ -27,6 +27,7 @@ import net.minecraft.server.World;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.CraftServer;
@@ -382,30 +383,23 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 	}
 
 	public List<String> getWhitelist () throws APIException {
-		String w = getFileContents("white-list.txt");
 		List<String> a = new ArrayList<String>();
-		for(String s : w.split("\n")) {
-			a.add(s.trim());
+		for(OfflinePlayer p : Server.getWhitelistedPlayers()) {
+			a.add(p.getName());
 		}
 		return a;
 	}
 	
 	public List<String> getBannedPlayers () throws APIException {
-		String w = getFileContents("banned-players.txt");
 		List<String> a = new ArrayList<String>();
-		for(String s : w.split("\n")) {
-			a.add(s.trim());
+		for(OfflinePlayer p : Server.getBannedPlayers()) {
+			a.add(p.getName());
 		}
 		return a;
 	}
 	
 	public List<String> getBannedIPs () throws APIException {
-		String w = getFileContents("banned-ips.txt");
-		List<String> a = new ArrayList<String>();
-		for(String s : w.split("\n")) {
-			a.add(s.trim());
-		}
-		return a;
+		return new ArrayList<String>(Server.getIPBans());
 	}
 	
 	public boolean banWithReason(String name, String reason) {
@@ -721,6 +715,18 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 			// e.printStackTrace();
 			return new ArrayList<String>();
 		}
+	}
+	
+	public boolean teleport(String player1, String player2) {
+		Server.getPlayer(player1).teleport(Server.getPlayer(player2));
+		
+		return true;
+	}
+	
+	public boolean setWorldTime(String worldName, long time) {
+		Server.getWorld(worldName).setTime(time);
+		
+		return true;
 	}
 	
 	// I'm a real boy! I swear!

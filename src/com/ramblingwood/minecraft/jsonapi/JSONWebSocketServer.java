@@ -92,4 +92,9 @@ public class JSONWebSocketServer extends WebSocketServer {
 	public void onClientOpen(WebSocket conn) {
 
 	}
+
+	@Override
+	public void onError(Throwable ex) {
+		
+	}
 }
