@@ -1,5 +1,5 @@
 name: JSONAPI
-main: com.ramblingwood.minecraft.jsonapi.JSONAPI
+main: com.alecgorge.minecraft.jsonapi.JSONAPI
 version: 3.0.0
 description: Control your server and fetch information from your server.
 website: http://alecgorge.com/minecraft/jsonapi/
@@ -11,3 +11,6 @@ commands:
   jsonapi-list:
     description: Lists all the methods and namespaces currently loaded for JSONAPI
     usage: /<command>
+  calladmin:
+    description: Sends a message to the admin of the server if they have Adminium installed on their iOS device.
+    usage: /<command> <why>

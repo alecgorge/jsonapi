@@ -18,7 +18,7 @@ import org.json.simpleForBukkit.JSONStreamAware;
 import org.json.simpleForBukkit.parser.JSONParser;
 import org.json.simpleForBukkit.parser.ParseException;
 
-import com.ramblingwood.minecraft.jsonapi.stringifier.BukkitStringifier;
+import com.alecgorge.minecraft.jsonapi.stringifier.BukkitStringifier;
 
 
 /**
