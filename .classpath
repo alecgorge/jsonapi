@@ -3,6 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="deps/craftbukkit.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="F:/java/workspace/jsonapi/deps/Minecraft_RKit.jar"/>
+	<classpathentry kind="lib" path="deps/Minecraft_RKit.jar"/>
+	<classpathentry kind="lib" path="F:/java/workspace/jsonapi/deps/httpclient.jar"/>
+	<classpathentry kind="lib" path="F:/java/workspace/jsonapi/deps/httpcore.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
