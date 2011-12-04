@@ -238,7 +238,11 @@
 		{
 			"name": "teleport",
 			"desc": "Teleports the first specified player to the second specified player.",
-			"call": "this.runCommand(\"tp \", 0, \" \", 1)",
+			"call": "this.teleport(0, 1)",
+			"returns": "Returns true if player one was successfully teleported. False if one or more players is offline.",
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
 			"args": [
 				["String", "The name of the player to be teleported."],
 				["String", "The name of the player to teleport to."]
@@ -500,7 +504,7 @@
 		},
 		{
 			"name": "setPlayerHealth",
-			"desc": "Sets a players health on a scale of 1-20.",
+			"desc": "Sets a player's health on a scale of 0-20.",
 			"returns": ["boolean", "True on succes, false if the player is not on the server."],
 			"call": "Server.getPlayer(0).setHealth(1)",
 			"flags": [
@@ -509,6 +513,32 @@
 			"args": [
 				["String", "The player's name."],
 				["int", "The amount of health to set."]
+			]
+		},
+		{
+			"name": "setPlayerFoodLevel",
+			"desc": "Sets a player's food level on a scale of 0-20.",
+			"returns": ["boolean", "True on succes, false if the player is not on the server."],
+			"call": "Server.getPlayer(0).setFoodLevel(1)",
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"args": [
+				["String", "The player's name."],
+				["int", "The amount of food to set."]
+			]
+		},
+		{
+			"name": "setWorldTime",
+			"desc": "Sets the time for a given world.",
+			"returns": ["boolean", "True on succes, false if the world does not exist."],
+			"call": "this.setWorldTime(0, 1)",
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"args": [
+				["String", "The world's name."],
+				["int", "Time (from 0-24000), 6000 is dawn, 24000 is midnight."]
 			]
 		},
 		{
