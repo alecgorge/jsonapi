@@ -46,6 +46,9 @@ public class JSONServer extends NanoHTTPD {
 		super(plugin.port, plugin.bindAddress);
 		inst = plugin;
 		
+		caller = new Caller(inst);
+		caller.loadFile(new File(inst.getDataFolder()+File.separator+"methods.json"));
+		
 		(new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -62,9 +65,6 @@ public class JSONServer extends NanoHTTPD {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				caller = new Caller(inst);
-				caller.loadFile(new File(inst.getDataFolder()+File.separator+"methods.json"));
 				
 				File[] files = (new File(inst.getDataFolder()+File.separator+"methods"+File.separator)).listFiles(new FilenameFilter() {
 				    @Override
