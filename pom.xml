@@ -23,15 +23,15 @@
 			</resource>
 		</resources>
 		<plugins>
-			 <plugin>
-                		<groupId>org.apache.maven.plugins</groupId>
-                		<artifactId>maven-compiler-plugin</artifactId>
-                		<version>2.3.2</version>
-                		<configuration>
-                    			<source>1.6</source>
-                    			<target>1.6</target>
-                		</configuration>
-            		</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -48,6 +48,20 @@
 			<version>10</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/Minecraft_RKit.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.http.client</groupId>
+			<artifactId>HttpClient</artifactId>
+			<version>4.1.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/deps/httpclient.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.http</groupId>
+			<artifactId>HttpCore</artifactId>
+			<version>4.1.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/deps/httpcore.jar</systemPath>
 		</dependency>
 	</dependencies>	
 </project>
