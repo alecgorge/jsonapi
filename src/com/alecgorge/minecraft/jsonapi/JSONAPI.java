@@ -12,6 +12,7 @@ import java.net.InetAddress;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -375,13 +376,32 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				}
 				return true;
 			}
-			else if(adminium.init && cmd.getName().equals("calladmin")) {
-				adminium.pushNotification(sender.getName() + " is calling for an Admin!");
+			else if(adminium.init && args.length > 1 && cmd.getName().equals("calladmin")) {
+				adminium.pushNotification(sender.getName() + ": " + join(Arrays.asList(args), " "));
+				return true;
 			}
+			/*else if(!adminium.init && args.length > 1 && cmd.getName().equals("calladmin")) {
+				System.out.println(sender.getName() + ": " + join(Arrays.asList(args), " "));
+				return true;
+			}*/
         }
 		return false;
 	}
 	
+	static public String join(List<String> list, String conjunction)
+	{
+	   StringBuilder sb = new StringBuilder();
+	   boolean first = true;
+	   for (String item : list)
+	   {
+	      if (first)
+	         first = false;
+	      else
+	         sb.append(conjunction);
+	      sb.append(item);
+	   }
+	   return sb.toString();
+	}
 	
 	@Override
 	public void onDisable(){
