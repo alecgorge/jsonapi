@@ -49,19 +49,5 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/Minecraft_RKit.jar</systemPath>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.http.client</groupId>
-			<artifactId>HttpClient</artifactId>
-			<version>4.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/httpclient.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.http</groupId>
-			<artifactId>HttpCore</artifactId>
-			<version>4.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/httpcore.jar</systemPath>
-		</dependency>
 	</dependencies>	
 </project>
