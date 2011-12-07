@@ -3,21 +3,21 @@ package com.alecgorge.minecraft.jsonapi.adminium;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.json.simple.JSONObject;
 
+import com.alecgorge.java.http.HttpRequest;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.api.APIMethodName;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
@@ -33,16 +33,36 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	List<String> devices;
 	Map<String, Boolean> settings = new HashMap<String, Boolean>();
 	
-	private final String APNS_PUSH_ENDPOINT = "http://adminium.nodejitsu.com/push";
+	private final String APNS_PUSH_ENDPOINT = "http://alecgorge.com:25132/push";
 	
 	private JSONAPI api;
 	public boolean init = false;
 	
+	public boolean doTrace = true;
+	
+	private Logger mcLog = Logger.getLogger("Minecraft");
+	
+	private void trace(Object ... args) {		
+		if(doTrace) {
+			String[] na = new String[args.length];
+			for(int i = 0; i < args.length; i++)
+				na[i] = args[i] == null ? "NULL_VALUE" : args[i].toString();
+			
+			mcLog.info("'" + api.join(Arrays.asList(na), "' '") + "'");
+		}
+	}
+	
+	private List<String> pushTypes = new ArrayList<String>();
+	private List<String> pushTypeDescriptions;
+	
 	public PushNotificationDaemon(File configFile, JSONAPI api) throws FileNotFoundException, IOException, InvalidConfigurationException {
 		this.configFile = configFile;
 		this.api = api;
-		
+				
 		api.registerAPICallHandler(this);
+		if(configFile.exists()) {
+			initalize();
+		}
 	}
 	
 	public void addDeviceIfNotExist(String device) throws IOException {
@@ -52,6 +72,8 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	}
 	
 	private void registerDevice(final String device) {
+		trace("Attempting to register", device);
+		
 		if(device.length() != 64) {
 			return;
 		}
@@ -80,79 +102,108 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	}
 	
 	public void pushNotification(final String message) {
-		(new Thread(new Runnable() {
+		new Thread(new Runnable() {
+			
 			@Override
 			public void run() {
-				DefaultHttpClient httpclient = new DefaultHttpClient();
+				trace("pushing", message);
+				HttpRequest r = null;
 				try {
-					HttpPost p = new HttpPost(APNS_PUSH_ENDPOINT);
-					
-			        List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-			        
+					r = new HttpRequest(new URL(APNS_PUSH_ENDPOINT));
 			        for(String d : devices) {
-			        	nvps.add(new BasicNameValuePair("devices[]", d));
+			        	r.addPostValue("devices[]", d);
 			        }
-			        nvps.add(new BasicNameValuePair("message", message));
+			        r.addPostValue("message", message);
+			        
+			        trace("Sending Post Args:", devices, message, r.getPostKeys(), r.getPostValues());
 			
-			        p.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-			
-			        httpclient.execute(p);
+			        trace("Complete", r.post().getReponse());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				finally {
-					httpclient.getConnectionManager().shutdown();
+					if(r!=null) r.close();
 				}
 			}
-		})).start();
+		}).start();		
 	}
 
 	@Override
 	public boolean willHandle(APIMethodName methodName) {
-		return (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("registerDevice"));
+		return (methodName.getNamespace().equals("adminium") && (methodName.getMethodName().equals("registerDevice") || methodName.getMethodName().equals("listPushTypes")));
+	}
+	
+	private void initalize() {
+		if(!this.init) {
+			boolean initialSetup = !configFile.exists();
+			
+			try {
+				configFile.createNewFile();
+				deviceConfig.load(configFile);
+				
+				if(initialSetup) {
+					deviceConfig.set("devices", null);
+					deviceConfig.set("settings", "");
+					deviceConfig.set("settings.player_joined", true);
+					deviceConfig.set("settings.player_quit", true);
+					deviceConfig.set("settings.admin_call", true);
+					deviceConfig.set("settings.severe_log", true);
+					
+					deviceConfig.save(configFile);
+					deviceConfig.load(configFile);
+				}
+				
+				devices = deviceConfig.getList("devices", new ArrayList<String>());
+				
+				trace("Current Devices", devices);
+				
+				Map<String, Object> tempDefaults = ((ConfigurationSection)deviceConfig.get("settings")).getValues(false);
+				for(String key : tempDefaults.keySet()) {
+					settings.put(key, Boolean.valueOf(tempDefaults.get(key).toString()));
+				}
+				
+				if(settings.get("player_joined") || settings.get("player_quit")) {
+					api.getStreamManager().getStream("connections").registerListener(this, false);
+				}				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			pushTypes.addAll(settings.keySet());
+			Collections.sort(pushTypes);
+			pushTypeDescriptions = Arrays.asList(new String[] {
+				"A notification with the caller's name and reason when someone runs the command /calladmin.",
+				"A notification when someone joins the server.",
+				"A notification when someone leaves the server.",
+				"A notification with part of the error whenever a SEVERE log is identified."
+			});
+			
+			this.init = true;
+		}		
 	}
 
 	@Override
 	public Object handle(APIMethodName methodName, Object[] args) {
-		if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("registerDevice")) {
-			if(!this.init) {
-				boolean initialSetup = !configFile.exists();
-				
-				try {
-					configFile.createNewFile();
-					deviceConfig.load(configFile);
-					
-					if(initialSetup) {
-						HashMap<String, Boolean> defaults = new HashMap<String, Boolean>();
-						defaults.put("player_joined", true);
-						defaults.put("player_quit", true);
-						defaults.put("admin_call", true);
-						defaults.put("severe_log", true);
-						
-						deviceConfig.set("devices", null);
-						deviceConfig.set("settings", defaults);
-						
-						deviceConfig.save(configFile);
-					}
-					
-					devices = deviceConfig.getList("devices", new ArrayList<String>());
-					
-					Map<String, Object> tempDefaults = ((ConfigurationSection)deviceConfig.get("settings")).getValues(false);
-					for(String key : tempDefaults.keySet()) {
-						settings.put(key, Boolean.valueOf(tempDefaults.get(key).toString()));
-					}
-					
-					if(settings.get("player_joined") || settings.get("player_quit")) {
-						api.getStreamManager().getStream("connections").registerListener(this, false);
-					}				
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
+		if(methodName.getNamespace().equals("adminium")) {
+			initalize();
+		}
+		
+		
+		if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("registerDevice")) {			
 			String deviceToken = args[0].toString();
 			
 			registerDevice(deviceToken);
+		}
+		else if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("listPushTypes")) {
+			JSONObject o = new JSONObject();
+			
+			int i = 0;
+			for(String k : pushTypes) {
+				o.put(k, pushTypeDescriptions.get(i));
+				i++;
+			}
+			
+			return o;
 		}
 		return null;
 	}
