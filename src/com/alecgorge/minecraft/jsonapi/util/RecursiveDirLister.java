@@ -22,21 +22,28 @@ public class RecursiveDirLister {
 	*/
 	public List<File> getFileListing() throws FileNotFoundException {
 		validateDirectory(aStartingDir);
-		List<File> result = getFileListingNoSort(aStartingDir);
+		List<File> result = getFileListingNoSort(aStartingDir, true);
 		Collections.sort(result);
 		return result;
 	}
 	
-	private List<File> getFileListingNoSort(File aStartingDir) throws FileNotFoundException {
+	public List<File> getSingleFileListing() throws FileNotFoundException {
+		validateDirectory(aStartingDir);
+		List<File> result = getFileListingNoSort(aStartingDir, false);
+		Collections.sort(result);
+		return result;
+	}
+	
+	private List<File> getFileListingNoSort(File aStartingDir, boolean recursive) throws FileNotFoundException {
 		List<File> result = new ArrayList<File>();
 		File[] filesAndDirs = aStartingDir.listFiles();
 		List<File> filesDirs = Arrays.asList(filesAndDirs);
 		for(File file : filesDirs) {
 			result.add(file); //always add, even if directory
-			if ( ! file.isFile() ) {
+			if (recursive && !file.isFile()) {
 				//must be a directory
 				//recursive call!
-				List<File> deeperList = getFileListingNoSort(file);
+				List<File> deeperList = getFileListingNoSort(file, recursive);
 				result.addAll(deeperList);
 			}
 		}

@@ -717,14 +717,37 @@ public class APIWrapperMethods extends ConsoleCommandSender {
 		}
 	}
 	
+	public List<String> getSingleDirectory (String path) {
+		try {
+			File dir = new File(path);
+			RecursiveDirLister d = new RecursiveDirLister(dir);
+			List<String> s = new ArrayList<String>();
+			
+			for(File f : d.getSingleFileListing()) {
+				if(f.isFile()) {
+					s.add(f.toString());
+				}
+				else {
+					s.add(f.toString()+File.separator);
+				}
+			}
+			
+			return s;
+		}
+		catch(Exception e) {
+			// e.printStackTrace();
+			return new ArrayList<String>();
+		}		
+	}
+	
 	public boolean teleport(String player1, String player2) {
 		Server.getPlayer(player1).teleport(Server.getPlayer(player2));
 		
 		return true;
 	}
 	
-	public boolean setWorldTime(String worldName, long time) {
-		Server.getWorld(worldName).setTime(time);
+	public boolean setWorldTime(String worldName, int time) {
+		Server.getWorld(worldName).setTime(Long.valueOf(time));
 		
 		return true;
 	}
