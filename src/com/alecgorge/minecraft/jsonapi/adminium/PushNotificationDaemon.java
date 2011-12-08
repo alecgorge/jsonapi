@@ -199,7 +199,10 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			
 			int i = 0;
 			for(String k : pushTypes) {
-				o.put(k, pushTypeDescriptions.get(i));
+				JSONObject oo = new JSONObject();
+				oo.put("enabled", settings.get(k));
+				oo.put("description", pushTypeDescriptions.get(i));
+				o.put(k, oo);
 				i++;
 			}
 			
