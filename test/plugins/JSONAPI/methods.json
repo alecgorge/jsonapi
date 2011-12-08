@@ -587,6 +587,15 @@
 			"args": [
 				["String", "The directory that will have its files listed, relative to the folder that contains the the plugins folder."]
 			]
+		},
+		{
+			"name":"getSingleDirectory",
+			"desc":"Retrieves an array of files and directories that are direct children of the specified directory.",
+			"returns":["String[]", "The files in string format."],
+			"call":"this.getSingleDirectory(0)",
+			"args": [
+				["String", "The directory that will have its files listed, relative to the folder that contains the the plugins folder."]
+			]
 		}
 	]
 }
