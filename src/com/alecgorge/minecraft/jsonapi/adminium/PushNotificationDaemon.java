@@ -106,7 +106,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	private void registerDevice(final String device) {
 		trace("Attempting to register", device);
 		
-		if(device.length() != 64) {
+		if(device.length() != 64 || devices.contains(device)) {
 			return;
 		}
 		
@@ -162,7 +162,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 	@Override
 	public boolean willHandle(APIMethodName methodName) {
-		return (methodName.getNamespace().equals("adminium") && (methodName.getMethodName().equals("registerDevice") || methodName.getMethodName().equals("listPushTypes")));
+		return (methodName.getNamespace().equals("adminium") && (methodName.getMethodName().equals("registerDevice") || methodName.getMethodName().equals("listPushTypes") || methodName.getMethodName().equals("setPushTypeEnabled")));
 	}
 	
 	private void initalize() {
@@ -240,9 +240,15 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			
 			return o;
 		}
-		else if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("setPushTypeEnabled") && args.length == 2) {
+		else if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("setPushTypeEnabled")) {
 			settings.put(args[0].toString(), Boolean.valueOf(args[1].toString()));
 			deviceConfig.set("settings."+args[0].toString(), settings.get(args[0].toString()));
+			try {
+				deviceConfig.save(configFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			return true;
 		}
