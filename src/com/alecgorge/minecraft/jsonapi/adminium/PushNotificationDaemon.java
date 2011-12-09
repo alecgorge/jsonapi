@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -58,10 +61,39 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	public PushNotificationDaemon(File configFile, JSONAPI api) throws FileNotFoundException, IOException, InvalidConfigurationException {
 		this.configFile = configFile;
 		this.api = api;
-				
+		
+		mcLog.addHandler(new ConsoleHandler(this));
 		api.registerAPICallHandler(this);
 		if(configFile.exists()) {
 			initalize();
+		}
+	}
+	
+	public class ConsoleHandler extends Handler {
+		PushNotificationDaemon p;
+		
+		public ConsoleHandler (PushNotificationDaemon d) {
+			p = d;
+		}
+		
+
+		@Override
+		public void close() throws SecurityException {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void flush() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void publish(LogRecord arg0) {
+			if(arg0.getLevel().equals(Level.SEVERE)) {
+				p.pushNotification("SEVERE message logged in the console: "+arg0.getMessage().substring(0, 200));
+			}
 		}
 	}
 	
@@ -172,10 +204,10 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			pushTypes.addAll(settings.keySet());
 			Collections.sort(pushTypes);
 			pushTypeDescriptions = Arrays.asList(new String[] {
-				"A notification with the caller's name and reason when someone runs the command /calladmin.",
-				"A notification when someone joins the server.",
-				"A notification when someone leaves the server.",
-				"A notification with part of the error whenever a SEVERE log is identified."
+				"On /calladmin",
+				"On player join",
+				"On player quit",
+				"On SEVERE logs"
 			});
 			
 			this.init = true;
@@ -189,7 +221,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		}
 		
 		
-		if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("registerDevice")) {			
+		if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("registerDevice") && args.length == 1) {			
 			String deviceToken = args[0].toString();
 			
 			registerDevice(deviceToken);
@@ -208,6 +240,13 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			
 			return o;
 		}
+		else if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("setPushTypeEnabled") && args.length == 2) {
+			settings.put(args[0].toString(), Boolean.valueOf(args[1].toString()));
+			deviceConfig.set("settings."+args[0].toString(), settings.get(args[0].toString()));
+			
+			return true;
+		}
+		
 		return null;
 	}
 }

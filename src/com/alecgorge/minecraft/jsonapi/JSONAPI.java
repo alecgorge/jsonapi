@@ -376,15 +376,16 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				}
 				return true;
 			}
-			else if(adminium.init && args.length > 1 && cmd.getName().equals("calladmin")) {
-				adminium.pushNotification(sender.getName() + ": " + join(Arrays.asList(args), " "));
-				return true;
-			}
 			/*else if(!adminium.init && args.length > 1 && cmd.getName().equals("calladmin")) {
 				System.out.println(sender.getName() + ": " + join(Arrays.asList(args), " "));
 				return true;
 			}*/
         }
+		if(adminium.init && args.length >= 1 && cmd.getName().equals("calladmin")) {
+			adminium.pushNotification("Admin request from "+ sender.getName() + ": " + join(Arrays.asList(args), " "));
+			return true;
+		}
+		
 		return false;
 	}
 	

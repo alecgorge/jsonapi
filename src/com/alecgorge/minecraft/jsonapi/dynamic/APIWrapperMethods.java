@@ -29,9 +29,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.command.CraftConsoleCommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -44,19 +44,19 @@ import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.APIException;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
-import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
+import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
 import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
 
-public class APIWrapperMethods extends ConsoleCommandSender {
+public class APIWrapperMethods extends CraftConsoleCommandSender {
 	private Logger log = Logger.getLogger("Minecraft");
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	public NetworkManager manager;
 	
 	public APIWrapperMethods(Server server) {
-		super(server);
+		
 	}
 
 	private Server Server = JSONAPI.instance.getServer();
