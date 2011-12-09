@@ -41,7 +41,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	private JSONAPI api;
 	public boolean init = false;
 	
-	public boolean doTrace = true;
+	public boolean doTrace = false;
 	
 	private Logger mcLog = Logger.getLogger("Minecraft");
 	
