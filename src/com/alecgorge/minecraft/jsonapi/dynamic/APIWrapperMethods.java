@@ -39,7 +39,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
-import org.bukkit.permissions.Permission;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.APIException;
@@ -758,40 +757,5 @@ public class APIWrapperMethods extends CraftConsoleCommandSender {
 		return Server;
 	}
 
-	@Override
-	public boolean isOp() {
-		return true;
-	}
-	
-	@Override
-	public String getName() {
-		return "JSONAPI";
-	}
-	
-	// This boy is a console. He should be able to run ALL of the commands.
-	@Override
-	public boolean hasPermission(Permission p) {
-		return true;
-	}
-	
-	@Override
-	public boolean hasPermission(String p) {
-		return true;
-	}
-	
-	@Override
-	public boolean isPermissionSet(Permission p) {
-		return true;
-	}
-	
-	@Override
-	public boolean isPermissionSet(String p) {
-		return true;
-	}
-
-	@Override
-	public void sendMessage(String arg0) {
-		// outLog.info(arg0); // when does ever happen? on every runConsoleCommand aparently.
-	}
 	// end impersonation stuff
 }
