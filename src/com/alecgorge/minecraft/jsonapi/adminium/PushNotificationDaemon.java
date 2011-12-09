@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,9 +72,11 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	
 	public class ConsoleHandler extends Handler {
 		PushNotificationDaemon p;
+		long lastNotification;
 		
 		public ConsoleHandler (PushNotificationDaemon d) {
 			p = d;
+			lastNotification = new Date().getTime();
 		}
 		
 
@@ -92,7 +95,9 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		@Override
 		public void publish(LogRecord arg0) {
 			if(arg0.getLevel().equals(Level.SEVERE)) {
-				p.pushNotification("SEVERE message logged in the console: "+arg0.getMessage().substring(0, 200));
+				if((new Date()).getTime() - lastNotification > (60*15)) {
+					p.pushNotification("SEVERE message logged in the console: "+arg0.getMessage().substring(0, Math.min(200, arg0.getMessage().length()-1)));
+				}
 			}
 		}
 	}
