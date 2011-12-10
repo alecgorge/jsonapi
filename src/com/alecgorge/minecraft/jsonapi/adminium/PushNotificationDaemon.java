@@ -34,7 +34,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	YamlConfiguration deviceConfig = new YamlConfiguration();
 	File configFile;
 	
-	List<String> devices;
+	List<String> devices = new ArrayList<String>();
 	Map<String, Boolean> settings = new HashMap<String, Boolean>();
 	
 	private final String APNS_PUSH_ENDPOINT = "http://alecgorge.com:25132/push";
@@ -139,6 +139,10 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	}
 	
 	public void pushNotification(final String message) {
+		if(devices.size() < 1) {
+			return;
+		}
+		
 		new Thread(new Runnable() {
 			
 			@Override
@@ -191,6 +195,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 				}
 				
 				devices = deviceConfig.getList("devices", new ArrayList<String>());
+				if(devices == null) devices = new ArrayList<String>();
 				
 				trace("Current Devices", devices);
 				
