@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ramblingwood.minecraft.jsonapi</groupId>
-	<artifactId>jsonapi</artifactId>
+	<artifactId>JSONAPI</artifactId>
 	<packaging>jar</packaging>
 	<version>bleeding</version>
 	<name>JSONAPI</name>
@@ -13,12 +13,13 @@
 		<url>https://github.com/alecgorge/jsonapi/tree/master/</url>
 	</scm>
 	<build>
+		<finalName>JSONAPI</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
 			 <directory>src</directory>
 			 <includes>
-			     <include>plugin.yml</include>
+					 <include>plugin.yml</include>
 			 </includes>
 			</resource>
 		</resources>
@@ -32,6 +33,24 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2-beta-5</version>
+				<configuration>
+					<descriptors>
+						<descriptor>zip.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- append to the packaging phase. -->
+						<goals>
+							<goal>single</goal> <!-- goals == mojos -->
+						</goals>
+					</execution>
+				</executions>
+			</plugin>			
 		</plugins>
 	</build>
 	<dependencies>
