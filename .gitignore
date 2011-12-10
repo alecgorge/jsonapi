@@ -1,6 +1,6 @@
 test/
+target/classes/*
 release/
-target/
 bin/
 *~
 *.lock
