@@ -185,10 +185,10 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 				if(initialSetup) {
 					deviceConfig.set("devices", null);
 					deviceConfig.set("settings", "");
-					deviceConfig.set("settings.player_joined", true);
-					deviceConfig.set("settings.player_quit", true);
+					deviceConfig.set("settings.player_joined", false);
+					deviceConfig.set("settings.player_quit", false);
 					deviceConfig.set("settings.admin_call", true);
-					deviceConfig.set("settings.severe_log", true);
+					deviceConfig.set("settings.severe_log", false);
 					
 					deviceConfig.save(configFile);
 					deviceConfig.load(configFile);
