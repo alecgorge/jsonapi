@@ -94,7 +94,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 		@Override
 		public void publish(LogRecord arg0) {
-			if(arg0.getLevel().equals(Level.SEVERE)) {
+			if(arg0 != null && arg0.getLevel().equals(Level.SEVERE)) {
 				if((new Date()).getTime() - lastNotification > (60*15)) {
 					p.pushNotification("SEVERE message logged in the console: "+arg0.getMessage().substring(0, Math.min(200, arg0.getMessage().length()-1)));
 				}
