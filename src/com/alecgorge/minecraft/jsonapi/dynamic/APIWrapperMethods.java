@@ -31,8 +31,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.craftbukkit.command.CraftConsoleCommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -49,7 +49,7 @@ import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
 import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
 
-public class APIWrapperMethods extends CraftConsoleCommandSender {
+public class APIWrapperMethods {
 	private Logger log = Logger.getLogger("Minecraft");
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	public NetworkManager manager;
@@ -313,11 +313,11 @@ public class APIWrapperMethods extends CraftConsoleCommandSender {
 		if(fauxServer == null) {
 			try {
 				fauxServer = new ServerSocket(0);
+				fauxPort = fauxServer.getLocalPort();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			fauxPort = fauxServer.getLocalPort();
 		}
 		
 		try {
@@ -479,7 +479,7 @@ public class APIWrapperMethods extends CraftConsoleCommandSender {
 	}
 	
 	public void runCommand (String...obj) {
-		StringBuffer command = new StringBuffer();
+		StringBuilder command = new StringBuilder();
 		for(String s : obj) {
 			command.append(s);
 		}
@@ -488,7 +488,7 @@ public class APIWrapperMethods extends CraftConsoleCommandSender {
 		
 		outLog.info("Command run by remote user: '" + cmd + "'");
 		
-		Server.dispatchCommand(this, cmd);
+		Server.dispatchCommand(getServer().getConsoleSender(), cmd);
 	}
 	
 	public void runCommand (String obj) {

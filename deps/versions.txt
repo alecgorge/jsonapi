@@ -1,3 +1,2 @@
-CraftBukkit build #1566
+CraftBukkit build #1592
 Remote Toolkit revision 10
-HttpClient 4.1.2
