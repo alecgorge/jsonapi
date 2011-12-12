@@ -32,7 +32,6 @@ import org.bukkit.Server;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -752,7 +751,6 @@ public class APIWrapperMethods {
 	}
 	
 	// I'm a real boy! I swear!
-	@Override
 	public Server getServer() {
 		return Server;
 	}
