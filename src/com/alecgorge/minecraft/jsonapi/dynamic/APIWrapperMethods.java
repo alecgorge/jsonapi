@@ -32,6 +32,7 @@ import org.bukkit.Server;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -73,6 +74,71 @@ public class APIWrapperMethods {
 		}
 		catch (NullPointerException e) {
 			return null;
+		}
+	}
+	
+	public boolean removeEnchantmentsFromPlayerInventorySlot (String playerName, int slot, List<Object> enchantments) {
+		try {
+			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			ItemStack it;
+			
+			if(slot == inv.getHeldItemSlot()) it = inv.getHelmet();
+			else if(slot == 102) it = inv.getChestplate();
+			else if(slot == 101) it = inv.getLeggings();
+			else if(slot == 100) it = inv.getBoots();
+			else it = inv.getItem(slot);
+			
+			for(Object o : enchantments) {
+				it.removeEnchantment(Enchantment.getById(Integer.valueOf(o.toString())));
+			}
+			
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
+	}
+	
+	public boolean addEnchantmentToPlayerInventorySlot (String playerName, int slot, int enchantmentID, int level) {
+		try {
+			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			ItemStack it;
+			
+			if(slot == inv.getHeldItemSlot()) it = inv.getHelmet();
+			else if(slot == 102) it = inv.getChestplate();
+			else if(slot == 101) it = inv.getLeggings();
+			else if(slot == 100) it = inv.getBoots();
+			else it = inv.getItem(slot);
+			
+			it.addEnchantment(Enchantment.getById(enchantmentID), level);
+			
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
+	}
+	
+	public boolean addEnchantmentsToPlayerInventorySlot (String playerName, int slot, List<Object> enchantments) {
+		try {
+			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			ItemStack it;
+			
+			if(slot == inv.getHeldItemSlot()) it = inv.getHelmet();
+			else if(slot == 102) it = inv.getChestplate();
+			else if(slot == 101) it = inv.getLeggings();
+			else if(slot == 100) it = inv.getBoots();
+			else it = inv.getItem(slot);
+			
+			for(int i = 0; i < enchantments.size(); i++) {
+				JSONObject o = (JSONObject) enchantments.get(i);
+				it.addEnchantment(Enchantment.getById(Integer.valueOf(o.get("enchantment").toString())), Integer.valueOf(o.get("level").toString()));
+			}
+			
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
 		}
 	}
 	
@@ -130,6 +196,35 @@ public class APIWrapperMethods {
 			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
 			ItemStack it = (new MaterialData(blockID, (byte)data)).toItemStack(quantity);
 			it.setDurability(Short.valueOf(String.valueOf(damage)).shortValue());
+			
+			if(slot == 103) inv.setHelmet(it);
+			else if(slot == 102) inv.setChestplate(it);
+			else if(slot == 101) inv.setLeggings(it);
+			else if(slot == 100) inv.setBoots(it);
+			else inv.setItem(slot, it);
+			
+			return true;
+		}
+		catch (NullPointerException e) {
+			return false;
+		}
+		
+	}
+	
+	public boolean setPlayerInventorySlotWithDataDamageAndEnchantments(String playerName, int slot, int blockID, final int data, int damage, int quantity, List<Object> enchantments) {
+		try {
+			if(blockID == 0) {
+				return clearPlayerInventorySlot(playerName, slot);
+			}
+			
+			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			ItemStack it = (new MaterialData(blockID, (byte)data)).toItemStack(quantity);
+			it.setDurability(Short.valueOf(String.valueOf(damage)).shortValue());
+			
+			for(int i = 0; i < enchantments.size(); i++) {
+				JSONObject o = (JSONObject) enchantments.get(i);
+				it.addEnchantment(Enchantment.getById(Integer.valueOf(o.get("enchantment").toString())), Integer.valueOf(o.get("level").toString()));
+			}
 			
 			if(slot == 103) inv.setHelmet(it);
 			else if(slot == 102) inv.setChestplate(it);
