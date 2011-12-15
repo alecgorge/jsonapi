@@ -106,6 +106,55 @@
 			]
 		},
 		{
+			"name": "addEnchantmentToPlayerInventorySlot",
+			"desc": "Adds an enchantment to the specified slot in the specified player's inventory with the specified level.",
+			"call": "this.addEnchantmentToPlayerInventorySlot(0, 1, 2, 3)",
+			"returns": ["boolean", "True if the enchanting process was successful. False is usually the restult will be returned if the player is not on the server."],
+			"args": [
+				["String", "Player's name"],
+				["int", "Slot number"],
+				["int", "The enchantment ID (EID): http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types"],
+				["int", "The enchantment level"]
+			]
+		},
+		{
+			"name": "addEnchantmentsToPlayerInventorySlot",
+			"desc": "Adds an enchantment to the specified slot in the specified player's inventory with the specified level.",
+			"call": "this.addEnchantmentsToPlayerInventorySlot(0, 1, 2)",
+			"returns": ["boolean", "True if the enchanting process was successful. False is usually the restult will be returned if the player is not on the server."],
+			"args": [
+				["String", "Player's name"],
+				["int", "Slot number"],
+				["Object[]", "Array of {enchantment: 0, level: 1}-esque objects where enchantment is the EID-value from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types"]
+			]
+		},
+		{
+			"name": "removeEnchantmentsFromPlayerInventorySlot",
+			"desc": "Removes an enchantment to the specified slot in the specified player's inventory with the specified level.",
+			"call": "this.removeEnchantmentsFromPlayerInventorySlot(0, 1, 2)",
+			"returns": ["boolean", "True if the de-enchanting process was successful. False is usually the restult will be returned if the player is not on the server."],
+			"args": [
+				["String", "Player's name"],
+				["int", "Slot number"],
+				["Object[]", "Array of EID-values from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types"]
+			]
+		},
+		{
+			"name": "setPlayerInventorySlotWithDataDamageAndEnchantments",
+			"desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified data, quantity and damage.",
+			"call": "this.setPlayerInventorySlotWithDataDamageAndEnchantments(0, 1, 2, 3, 4, 5, 6)",
+			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
+			"args": [
+				["String", "Player's name"],
+				["int", "Slot number"],
+				["int", "Id of block type to set"],
+				["int", "The data of the item."],
+				["int", "The damage of the item."],
+				["int", "Quantity to set"],
+				["Object[]", "Array of {enchantment: 0, level: 1}-esque objects where enchantment is the EID-value from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types"]
+			]
+		},
+		{
 			"name": "setPlayerInventorySlotWithData",
 			"desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified data and damage.",
 			"call": "this.setPlayerInventorySlotWithData(0, 1, 2, 3, 4)",
