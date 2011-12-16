@@ -76,7 +76,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		
 		public ConsoleHandler (PushNotificationDaemon d) {
 			p = d;
-			lastNotification = new Date().getTime();
+			lastNotification = 0;
 		}
 		
 
@@ -95,8 +95,10 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		@Override
 		public void publish(LogRecord arg0) {
 			if(arg0 != null && arg0.getLevel().equals(Level.SEVERE)) {
-				if((new Date()).getTime() - lastNotification > (60*15)) {
-					p.pushNotification("SEVERE message logged in the console: "+arg0.getMessage().substring(0, Math.min(200, arg0.getMessage().length()-1)));
+				long time = (new Date()).getTime();
+				if(time - lastNotification > 60*1000) {
+					lastNotification = time;
+					p.pushNotification("SEVERE message logged in the console: "+arg0.getMessage().substring(0, Math.min(200, arg0.getMessage().length())));
 				}
 			}
 		}
@@ -171,7 +173,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 	@Override
 	public boolean willHandle(APIMethodName methodName) {
-		return (methodName.getNamespace().equals("adminium") && (methodName.getMethodName().equals("registerDevice") || methodName.getMethodName().equals("listPushTypes") || methodName.getMethodName().equals("setPushTypeEnabled")));
+		return (methodName.getNamespace().equals("adminium") && (methodName.getMethodName().equals("registerDevice") || methodName.getMethodName().equals("listPushTypes") || methodName.getMethodName().equals("setPushTypeEnabled") || methodName.getMethodName().equals("triggerSevere")));
 	}
 	
 	private void initalize() {
@@ -259,6 +261,11 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			return true;
+		}
+		else if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("triggerSevere")) {
+			for(int i = 0; i < 10; i++) mcLog.severe("This is a severe log: " + i);
 			
 			return true;
 		}
