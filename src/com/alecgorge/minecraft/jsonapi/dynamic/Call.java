@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
@@ -84,13 +85,16 @@ public class Call {
 						args[x] = Integer.valueOf(val.toString());
 						val = args[x];
 					}
-					if((val.getClass().equals(Integer.class) || val.getClass().equals(Long.class) || val.getClass().equals(String.class) || val.getClass().equals(long.class) || val.getClass().equals(int.class)) && (sig[x].equals(Double.class) || sig[x].equals(double.class))) {
+					else if((val.getClass().equals(Integer.class) || val.getClass().equals(Long.class) || val.getClass().equals(String.class) || val.getClass().equals(long.class) || val.getClass().equals(int.class)) && (sig[x].equals(Double.class) || sig[x].equals(double.class))) {
 						args[x] = Double.valueOf(val.toString());
 						val = args[x];
 					}
-					if((val.getClass().equals(Integer.class) || val.getClass().equals(Double.class) || val.getClass().equals(String.class) || val.getClass().equals(int.class) || val.getClass().equals(double.class)) && (sig[x].equals(Long.class) || sig[x].equals(long.class))) {
+					else if((val.getClass().equals(Integer.class) || val.getClass().equals(Double.class) || val.getClass().equals(String.class) || val.getClass().equals(int.class) || val.getClass().equals(double.class)) && (sig[x].equals(Long.class) || sig[x].equals(long.class))) {
 						args[x] = Long.valueOf(val.toString());
 						val = args[x];
+					}
+					else if(val instanceof List) {
+						sig[x] = List.class;
 					}
 					debug("Arg "+x+": '"+val+"', type: "+val.getClass().getName());
 					debug("Sig type: "+sig[x].getName());
