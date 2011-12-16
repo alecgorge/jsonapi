@@ -43,7 +43,7 @@ public class RecursiveDirLister {
 		File[] filesAndDirs = aStartingDir.listFiles();
 		List<File> filesDirs = Arrays.asList(filesAndDirs);
 		for(File file : filesDirs) {
-			result.add(file.toString()+(file.isFile() ? "" : File.separator)); //always add, even if directory
+			result.add(file.toString().replace('\\', '/')+(file.isFile() ? "" : "/")); //always add, even if directory
 			if (recursive && !file.isFile()) {
 				//must be a directory
 				//recursive call!
