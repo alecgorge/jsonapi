@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.bukkit.GameMode;
@@ -87,6 +88,9 @@ public class BukkitStringifier {
 			o.put("worldInfo", p.getWorld());
 			o.put("gameMode", p.getGameMode());
 			
+			o.put("level", p.getLevel());
+			o.put("experience", p.getTotalExperience());
+			
 			return o;			
 		}
 		else if(obj instanceof Server) {
@@ -142,8 +146,13 @@ public class BukkitStringifier {
 			o.put("type", i.getTypeId());
 			o.put("durability", i.getDurability());
 			o.put("amount", i.getAmount());
-			o.put("enchantments", i.getEnchantments());
 			
+			JSONObject enchantments = new JSONObject();
+			for (Map.Entry<Enchantment,Integer> enchantment : i.getEnchantments().entrySet()) {
+			    enchantments.put(enchantment.getKey().getId(), enchantment.getValue());
+			}
+
+			o.put("enchantments", enchantments);			
 			return o;
 		}
 		else if(obj instanceof PlayerInventory) {
