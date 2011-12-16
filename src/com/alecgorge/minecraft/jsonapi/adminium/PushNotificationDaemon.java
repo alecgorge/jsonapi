@@ -37,7 +37,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	List<String> devices = new ArrayList<String>();
 	Map<String, Boolean> settings = new HashMap<String, Boolean>();
 	
-	private final String APNS_PUSH_ENDPOINT = "http://alecgorge.com:25132/push";
+	private final String APNS_PUSH_ENDPOINT = "http://push.adminiumapp.com/push-message";
 	
 	private JSONAPI api;
 	public boolean init = false;

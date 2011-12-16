@@ -20,30 +20,34 @@ public class RecursiveDirLister {
 	*
 	* @param aStartingDir is a valid directory, which can be read.
 	*/
-	public List<File> getFileListing() throws FileNotFoundException {
+	public List<String> getFileListing() throws FileNotFoundException {
 		validateDirectory(aStartingDir);
-		List<File> result = getFileListingNoSort(aStartingDir, true);
-		Collections.sort(result);
+		
+		List<String> result = getFileListingNoSort(aStartingDir, true);
+		Collections.sort(result, String.CASE_INSENSITIVE_ORDER);
+		
 		return result;
 	}
 	
-	public List<File> getSingleFileListing() throws FileNotFoundException {
+	public List<String> getSingleFileListing() throws FileNotFoundException {
 		validateDirectory(aStartingDir);
-		List<File> result = getFileListingNoSort(aStartingDir, false);
-		Collections.sort(result);
+		
+		List<String> result = getFileListingNoSort(aStartingDir, false);
+		Collections.sort(result, String.CASE_INSENSITIVE_ORDER);
+		
 		return result;
 	}
 	
-	private List<File> getFileListingNoSort(File aStartingDir, boolean recursive) throws FileNotFoundException {
-		List<File> result = new ArrayList<File>();
+	private List<String> getFileListingNoSort(File aStartingDir, boolean recursive) throws FileNotFoundException {
+		List<String> result = new ArrayList<String>();
 		File[] filesAndDirs = aStartingDir.listFiles();
 		List<File> filesDirs = Arrays.asList(filesAndDirs);
 		for(File file : filesDirs) {
-			result.add(file); //always add, even if directory
+			result.add(file.toString()+(file.isFile() ? "" : File.separator)); //always add, even if directory
 			if (recursive && !file.isFile()) {
 				//must be a directory
 				//recursive call!
-				List<File> deeperList = getFileListingNoSort(file, recursive);
+				List<String> deeperList = getFileListingNoSort(file, recursive);
 				result.addAll(deeperList);
 			}
 		}

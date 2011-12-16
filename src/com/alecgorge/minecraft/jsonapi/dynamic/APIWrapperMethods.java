@@ -301,18 +301,8 @@ public class APIWrapperMethods {
 		try {
 			File dir = Server.getPluginManager().getPlugin(pluginName).getDataFolder();
 			RecursiveDirLister d = new RecursiveDirLister(dir);
-			List<String> s = new ArrayList<String>();
 			
-			for(File f : d.getFileListing()) {
-				if(f.isFile()) {
-					s.add(f.toString());
-				}
-				else {
-					s.add(f.toString()+File.separator);
-				}
-			}
-			
-			return s;
+			return d.getFileListing();
 		}
 		catch(Exception e) {
 			// e.printStackTrace();
@@ -791,18 +781,8 @@ public class APIWrapperMethods {
 		try {
 			File dir = new File(path);
 			RecursiveDirLister d = new RecursiveDirLister(dir);
-			List<String> s = new ArrayList<String>();
 			
-			for(File f : d.getFileListing()) {
-				if(f.isFile()) {
-					s.add(f.toString());
-				}
-				else {
-					s.add(f.toString()+File.separator);
-				}
-			}
-			
-			return s;
+			return d.getFileListing();
 		}
 		catch(Exception e) {
 			// e.printStackTrace();
@@ -814,18 +794,8 @@ public class APIWrapperMethods {
 		try {
 			File dir = new File(path);
 			RecursiveDirLister d = new RecursiveDirLister(dir);
-			List<String> s = new ArrayList<String>();
 			
-			for(File f : d.getSingleFileListing()) {
-				if(f.isFile()) {
-					s.add(f.toString());
-				}
-				else {
-					s.add(f.toString()+File.separator);
-				}
-			}
-			
-			return s;
+			return d.getSingleFileListing();
 		}
 		catch(Exception e) {
 			// e.printStackTrace();
