@@ -803,6 +803,10 @@ public class APIWrapperMethods {
 		}		
 	}
 	
+	public void setBlockData(String w, int x, int y, int z, int data) {
+		Server.getWorld(w).getBlockAt(x, y, z).setData((byte)data);
+	}
+	
 	public boolean teleport(String player1, String player2) {
 		Server.getPlayer(player1).teleport(Server.getPlayer(player2));
 		
