@@ -638,6 +638,42 @@
 			]
 		},
 		{
+			"name":"getBlock",
+			"desc":"Retrieves the block in the specified world at the specified coordinate.",
+			"returns":["Object", "Information about the block."],
+			"call":"Server.getWorld(0).getBlockAt(1, 2, 3)",
+			"args": [
+				["String", "The world name."],
+				["int", "The x-coord of the block."],
+				["int", "The y-coord of the block."],
+				["int", "The z-coord of the block."]
+			]
+		},
+		{
+			"name":"setBlockType",
+			"desc":"Set the type of the block in the specified world at the specified coordinate.",
+			"call":"Server.getWorld(0).getBlockAt(1, 2, 3).setTypeId(4)",
+			"args": [
+				["String", "The world name."],
+				["int", "The x-coord of the block."],
+				["int", "The y-coord of the block."],
+				["int", "The z-coord of the block."],
+				["int", "The type ID to change the block to."]
+			]
+		},
+		{
+			"name":"setBlockData",
+			"desc":"Set the data value of the block in the specified world at the specified coordinate.",
+			"call":"this.setBlockData(0,1,2,3,4)",
+			"args": [
+				["String", "The world name."],
+				["int", "The x-coord of the block."],
+				["int", "The y-coord of the block."],
+				["int", "The z-coord of the block."],
+				["int", "The decimal representation of the data value to set on the block."]
+			]
+		},
+		{
 			"name":"getSingleDirectory",
 			"desc":"Retrieves an array of files and directories that are direct children of the specified directory.",
 			"returns":["String[]", "The files in string format."],

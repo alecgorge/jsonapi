@@ -13,6 +13,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -43,6 +44,7 @@ public class BukkitStringifier {
 		handle.put("World.Environment", org.bukkit.World.Environment.class);
 		handle.put("GameMode", org.bukkit.GameMode.class);
 		handle.put("Enchantment", org.bukkit.enchantments.Enchantment.class);
+		handle.put("Block", org.bukkit.block.Block.class);
 	}
 	
 	public static boolean canHandle(Class<?> c) {
@@ -66,6 +68,15 @@ public class BukkitStringifier {
 		}
 		else if(obj instanceof File) {
 			return ((File)obj).toString();
+		}
+		else if(obj instanceof Block) {
+			Block b = (Block)obj;
+			JSONObject o = new JSONObject();
+
+			o.put("type", b.getTypeId());
+			o.put("data", b.getData());
+			
+			return o;			
 		}
 		else if(obj instanceof Player) {
 			Player p = (Player)obj;
