@@ -823,6 +823,96 @@ public class APIWrapperMethods {
 	public Server getServer() {
 		return Server;
 	}
+	
+	public List<String> getPlayerNames () {
+		List<String> names = new ArrayList<String>();
+		
+		for(Player p : Server.getOnlinePlayers()) {
+			names.add(p.getName());
+		}
+		
+		return names;
+	}
+	
+	public List<String> getOfflinePlayerNames () {
+		List<String> names = new ArrayList<String>();
+		List<String> online = getPlayerNames();
+		
+		for(OfflinePlayer p : Server.getOfflinePlayers()) {
+			if(!online.contains(p.getName())) {
+				names.add(p.getName());
+			}
+		}
+		
+		return names;
+	}
+	
+	public List<OfflinePlayer> getOfflinePlayers () {
+		List<OfflinePlayer> o = new ArrayList<OfflinePlayer>();
+		List<String> online = getPlayerNames();
+		
+		for(OfflinePlayer p : Server.getOfflinePlayers()) {
+			if(!online.contains(p.getName())) {
+				o.add(p);
+			}
+		}
+		
+		return o;
+	}
+	
+	public boolean ban(String playerName) {
+		return banWithReason(playerName, "Banned by admin.");
+	}
+	
+	public boolean unban(String playerName) {
+		try {
+			Bukkit.getOfflinePlayer(playerName).setBanned(false);
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean whitelist(String playerName) {
+		try {
+			Bukkit.getOfflinePlayer(playerName).setWhitelisted(true);
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean unwhitelist(String playerName) {
+		try {
+			Bukkit.getOfflinePlayer(playerName).setWhitelisted(false);
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
+	}
+
+	public boolean op(String playerName) {
+		try {
+			Bukkit.getOfflinePlayer(playerName).setOp(true);
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean deop(String playerName) {
+		try {
+			Bukkit.getOfflinePlayer(playerName).setOp(false);
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
+	}
 
 	// end impersonation stuff
 }
