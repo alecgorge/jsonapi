@@ -28,6 +28,8 @@ public class Argument {
 		mapping.put("Player[]", org.bukkit.entity.Player[].class);
 		mapping.put("Plugin", org.bukkit.plugin.Plugin.class);
 		mapping.put("Plugin[]", org.bukkit.plugin.Plugin[].class);
+		mapping.put("OfflinePlayer", org.bukkit.OfflinePlayer.class);
+		mapping.put("OfflinePlayer[]", org.bukkit.OfflinePlayer[].class);
 		mapping.put("Object[]", Object[].class);
 	}
 	

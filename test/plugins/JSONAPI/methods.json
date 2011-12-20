@@ -213,7 +213,7 @@
 		{
 			"name": "addToWhitelist",
 			"desc": "Adds the specified player to the whitelist.",
-			"call": "this.runCommand(\"whitelist add \", 0)",
+			"call": "this.whitelist(0)",
 			"args": [
 				["String", "The name of the player to be added to the whitelist"]
 			]
@@ -221,7 +221,7 @@
 		{
 			"name": "removeFromWhitelist",
 			"desc": "Removes the specified player from the whitelist.",
-			"call": "this.runCommand(\"whitelist remove \", 0)",
+			"call": "this.unwhitelist(0)",
 			"args": [
 				["String", "The name of the player to be removed from the whitelist"]
 			]
@@ -229,7 +229,7 @@
 		{
 			"name": "opPlayer",
 			"desc": "Ops the specified player.",
-			"call": "this.runCommand(\"op \", 0)",
+			"call": "this.op(0)",
 			"args": [
 				["String", "The name of the player to be opped."]
 			]
@@ -237,7 +237,7 @@
 		{
 			"name": "deopPlayer",
 			"desc": "Deops the specified player.",
-			"call": "this.runCommand(\"deop \", 0)",
+			"call": "this.deop(0)",
 			"args": [
 				["String", "The name of the player to be deopped."]
 			]
@@ -245,7 +245,7 @@
 		{
 			"name": "ban",
 			"desc": "Bans the specified player.",
-			"call": "this.runCommand(\"ban \", 0)",
+			"call": "this.ban(0)",
 			"args": [
 				["String", "The name of the player to be banned."]
 			]
@@ -263,7 +263,7 @@
 		{
 			"name": "unban",
 			"desc": "Unbans the specified player.",
-			"call": "this.runCommand(\"pardon \", 0)",
+			"call": "this.unban(0)",
 			"args": [
 				["String", "The name of the player to be unbanned."]
 			]
@@ -271,7 +271,7 @@
 		{
 			"name": "banIP",
 			"desc": "Bans the specified IP.",
-			"call": "this.runCommand(\"ban-ip \", 0)",
+			"call": "Server.banIP(0)",
 			"args": [
 				["String", "The IP to be banned."]
 			]
@@ -279,7 +279,7 @@
 		{
 			"name": "unbanIP",
 			"desc": "Bans the specified IP.",
-			"call": "this.runCommand(\"pardon-ip \", 0)",
+			"call": "Server.unbanIP(0)",
 			"args": [
 				["String", "The IP to be unbanned."]
 			]
@@ -681,6 +681,24 @@
 			"args": [
 				["String", "The directory that will have its files listed, relative to the folder that contains the the plugins folder."]
 			]
+		},
+		{
+			"name":"getPlayerNames",
+			"desc":"Retrieves an array of the names of all the players currently on the server.",
+			"returns":["String[]", "The players' names."],
+			"call":"this.getPlayerNames()"
+		},
+		{
+			"name":"getOfflinePlayers",
+			"desc":"Retrieves an array of all the players who have ever played on the server but are not currently on the server.",
+			"returns":["OfflinePlayer[]", "An array of offlinePlayers."],
+			"call":"this.getOfflinePlayers()"
+		},
+		{
+			"name":"getOfflinePlayerNames",
+			"desc":"Retrieves an array of the names of all the players who have ever played on the server but are not currently on the server.",
+			"returns":["String[]", "The offline players' names."],
+			"call":"this.getOfflinePlayerNames()"
 		}
 	]
 }

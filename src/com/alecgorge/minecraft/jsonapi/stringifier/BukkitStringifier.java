@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -31,6 +32,8 @@ public class BukkitStringifier {
 	static {
 		handle.put("Player", org.bukkit.entity.Player.class);
 		handle.put("Player[]", org.bukkit.entity.Player[].class);
+		handle.put("OfflinePlayer", org.bukkit.OfflinePlayer.class);
+		handle.put("OfflinePlayer[]", org.bukkit.OfflinePlayer[].class);
 		handle.put("Server", org.bukkit.Server.class);
 		handle.put("World", org.bukkit.World.class);
 		handle.put("World[]", org.bukkit.World[].class);
@@ -77,6 +80,18 @@ public class BukkitStringifier {
 			o.put("data", b.getData());
 			
 			return o;			
+		}
+		else if(obj instanceof OfflinePlayer) {
+			OfflinePlayer op = (OfflinePlayer)obj;
+			JSONObject o = new JSONObject();
+			
+			o.put("firstPlayed", Math.round(op.getFirstPlayed()/1000.0));
+			o.put("lastPlayed", Math.round(op.getLastPlayed()/1000.0));
+			o.put("banned", op.isBanned());
+			o.put("whitelisted", op.isWhitelisted());
+			o.put("name", op.getName());
+			
+			return o;
 		}
 		else if(obj instanceof Player) {
 			Player p = (Player)obj;
