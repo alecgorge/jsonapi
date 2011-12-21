@@ -81,18 +81,6 @@ public class BukkitStringifier {
 			
 			return o;			
 		}
-		else if(obj instanceof OfflinePlayer) {
-			OfflinePlayer op = (OfflinePlayer)obj;
-			JSONObject o = new JSONObject();
-			
-			o.put("firstPlayed", Math.round(op.getFirstPlayed()/1000.0));
-			o.put("lastPlayed", Math.round(op.getLastPlayed()/1000.0));
-			o.put("banned", op.isBanned());
-			o.put("whitelisted", op.isWhitelisted());
-			o.put("name", op.getName());
-			
-			return o;
-		}
 		else if(obj instanceof Player) {
 			Player p = (Player)obj;
 			JSONObject o = new JSONObject();
@@ -118,6 +106,18 @@ public class BukkitStringifier {
 			o.put("experience", p.getTotalExperience());
 			
 			return o;			
+		}
+		else if(obj instanceof OfflinePlayer) {
+			OfflinePlayer op = (OfflinePlayer)obj;
+			JSONObject o = new JSONObject();
+			
+			o.put("firstPlayed", Math.round(op.getFirstPlayed()/1000.0));
+			o.put("lastPlayed", Math.round(op.getLastPlayed()/1000.0));
+			o.put("banned", op.isBanned());
+			o.put("whitelisted", op.isWhitelisted());
+			o.put("name", op.getName());
+			
+			return o;
 		}
 		else if(obj instanceof Server) {
 			Server s = (Server)obj;
