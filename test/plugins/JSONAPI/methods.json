@@ -27,6 +27,15 @@
 			]
 		},
 		{
+			"name": "getOfflinePlayer",
+			"desc": "Gets an offlinePlayer object representing the specified person.",
+			"returns": ["OfflinePlayer", "A offlinePlayer object respresenting the specified person."],
+			"call": "Server.getOfflinePlayer(0)",
+			"args": [
+				["String","Player name"]
+			]
+		},
+		{
 			"name": "givePlayerItem",
 			"desc": "Gives the specified player the specified quanity of the item id by placing it in the first empty slot.",
 			"call": "this.giveItem(0, 1, 2)",
