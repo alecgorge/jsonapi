@@ -94,6 +94,7 @@ class JSONAPI {
 		curl_setopt($c, CURLOPT_PORT, $this->port);
 		curl_setopt($c, CURLOPT_HEADER, false);
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($c, CURLOPT_TIMEOUT, 10);		
 		$result = curl_exec($c);
 		curl_close($c);
 		return $result;
