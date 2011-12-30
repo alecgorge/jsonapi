@@ -27,6 +27,7 @@ import net.minecraft.server.World;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.craftbukkit.CraftServer;
@@ -910,6 +911,27 @@ public class APIWrapperMethods {
 			return true;
 		}
 		catch(Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean teleport(String playername, int x, int y, int z) {
+		try {
+			Player player = Server.getPlayer(playername);
+			player.teleport(new Location(player.getWorld(), x, y, z));
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean teleport(String playername, String world, int x, int y, int z) {
+		try {
+			Server.getPlayer(playername).teleport(new Location(Server.getWorld(world), x, y, z));
+			return true;
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
