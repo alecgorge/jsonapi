@@ -129,6 +129,8 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 	@Override
 	public void onMessage(JSONAPIStreamMessage message, JSONAPIStream sender) {
+		trace(message);
+
 		if(message instanceof ConnectionMessage) {
 			ConnectionMessage c = (ConnectionMessage) message;
 			if(settings.get("player_joined") && c.TrueIsConnectedFalseIsDisconnected) {
@@ -157,7 +159,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			        	r.addPostValue("devices[]", d);
 			        }
 			        r.addPostValue("message", message);
-			        
+
 			        trace("Sending Post Args:", devices, message, r.getPostKeys(), r.getPostValues());
 			
 			        trace("Complete", r.post().getReponse());
