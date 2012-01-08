@@ -268,7 +268,7 @@ public class NanoHTTPD
 		}
 		else {
 			if(bindAddress != null) {
-				myServerSocket = new ServerSocket( myTcpPort, /*default value */ 0, bindAddress);
+				myServerSocket = new ServerSocket( myTcpPort, /*default value */ -1, bindAddress);
 			}
 			else {
 				myServerSocket = new ServerSocket( myTcpPort );
