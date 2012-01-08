@@ -670,6 +670,27 @@ public class APIWrapperMethods {
 		}
 	}
 	
+	public boolean appendFileContents (String fileName, String contents) throws APIException {
+		if((new File(fileName)).exists()) {
+			FileOutputStream stream = null;
+			try {
+				stream = new FileOutputStream(new File(fileName), true);
+				stream.write(contents.getBytes(Charset.forName("UTF-8")));
+				try {
+					stream.close();
+				} catch (IOException e) {
+					throw new APIException(fileName+" could not be closed!");
+				}
+			} catch (IOException e) {
+				throw new APIException(fileName+" could not be written to!");
+			}
+			return true;			
+		}
+		else {
+			throw new APIException(fileName+" doesn't exist!");
+		}
+	}
+	
 	public boolean editPropertiesFile (String fileName, String type, String key, String value) throws FileNotFoundException {
 		if((new File(fileName+".properties")).exists()) {
 			PropertiesFile p = new PropertiesFile(fileName+".properties");
