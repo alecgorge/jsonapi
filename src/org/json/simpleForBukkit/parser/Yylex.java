@@ -2,8 +2,6 @@
 
 package org.json.simpleForBukkit.parser;
 
-import org.json.simpleForBukkit.parser.ParseException;
-import org.json.simpleForBukkit.parser.Yytoken;
 
 class Yylex {
 

@@ -2,9 +2,6 @@ package org.json.simpleForBukkit.parser;
 
 import java.io.IOException;
 
-import org.json.simpleForBukkit.parser.ContentHandler;
-import org.json.simpleForBukkit.parser.ParseException;
-
 /**
  * A simplified and stoppable SAX-like content handler for stream processing of JSON text. 
  * 

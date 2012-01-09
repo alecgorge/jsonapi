@@ -1,8 +1,5 @@
 package net.tootallnate.websocket.drafts;
 
-import java.nio.ByteBuffer;
-
-import net.tootallnate.websocket.Framedata;
 import net.tootallnate.websocket.HandshakeBuilder;
 import net.tootallnate.websocket.Handshakedata;
 import net.tootallnate.websocket.exeptions.InvalidHandshakeException;

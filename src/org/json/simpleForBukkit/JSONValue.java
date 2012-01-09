@@ -11,10 +11,6 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
-import org.json.simpleForBukkit.JSONArray;
-import org.json.simpleForBukkit.JSONAware;
-import org.json.simpleForBukkit.JSONObject;
-import org.json.simpleForBukkit.JSONStreamAware;
 import org.json.simpleForBukkit.parser.JSONParser;
 import org.json.simpleForBukkit.parser.ParseException;
 

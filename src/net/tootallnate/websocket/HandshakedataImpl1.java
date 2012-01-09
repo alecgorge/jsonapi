@@ -1,10 +1,8 @@
 package net.tootallnate.websocket;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class HandshakedataImpl1 implements HandshakeBuilder {
 	

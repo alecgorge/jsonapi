@@ -3,8 +3,6 @@ package org.json.simpleForBukkit.parser;
 import java.util.List;
 import java.util.Map;
 
-import org.json.simpleForBukkit.parser.ContainerFactory;
-
 /**
  * Container factory for creating containers for JSON object and JSON array.
  * 
