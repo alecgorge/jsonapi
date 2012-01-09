@@ -8,14 +8,16 @@ import java.nio.channels.SocketChannel;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 import net.tootallnate.websocket.Draft.HandshakeState;
 import net.tootallnate.websocket.Framedata.Opcode;
-import net.tootallnate.websocket.drafts.*;
+import net.tootallnate.websocket.drafts.Draft_10;
+import net.tootallnate.websocket.drafts.Draft_17;
+import net.tootallnate.websocket.drafts.Draft_75;
+import net.tootallnate.websocket.drafts.Draft_76;
 import net.tootallnate.websocket.exeptions.InvalidFrameException;
 import net.tootallnate.websocket.exeptions.InvalidHandshakeException;
-
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Represents one end (client or server) of a single WebSocket connection.

@@ -7,15 +7,11 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import net.tootallnate.websocket.WebSocket.Role;
-import net.tootallnate.websocket.drafts.*;
+import net.tootallnate.websocket.drafts.Draft_10;
 import net.tootallnate.websocket.exeptions.InvalidHandshakeException;
 
 /**

@@ -9,6 +9,7 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * A JSON object. Key value pairs are unordered. JSONObject supports java.util.Map interface.

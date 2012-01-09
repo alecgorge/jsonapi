@@ -1,8 +1,6 @@
 package net.tootallnate.websocket;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 
 /**
  * Implemented by <tt>WebSocketClient</tt> and <tt>WebSocketServer</tt>.
