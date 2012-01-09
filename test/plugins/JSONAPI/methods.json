@@ -437,6 +437,16 @@
 			]
 		},
 		{
+			"name": "appendToFile",
+			"desc": "Appends to the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.",
+			"call": "this.appendFileContents(0, 1)",
+			"returns": ["boolean", "True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist."],
+			"args": [
+				["String", "The name of the file to read."],
+				["String", "The content to append to the file."]
+			]
+		},
+		{
 			"name": "editPropertiesFile",
 			"desc": "Sets the specified key of the specified file to the specified value with the specified type. The file path is relative to the folder that the craftbukkit jar is in.",
 			"call": "this.editPropertiesFile(0,1,2,3)",
