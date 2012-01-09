@@ -1,6 +1,5 @@
 package net.tootallnate.websocket;
 
-import java.util.HashMap;
 import net.tootallnate.websocket.exeptions.InvalidFrameException;
 
 public interface Framedata {

@@ -1,6 +1,5 @@
 package net.tootallnate.websocket;
 
-import java.util.HashMap;
 import java.util.Iterator;
 
 public interface Handshakedata {

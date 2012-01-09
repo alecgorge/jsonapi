@@ -11,11 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.json.simpleForBukkit.parser.ContainerFactory;
-import org.json.simpleForBukkit.parser.ContentHandler;
-import org.json.simpleForBukkit.parser.ParseException;
-import org.json.simpleForBukkit.parser.Yylex;
-import org.json.simpleForBukkit.parser.Yytoken;
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 

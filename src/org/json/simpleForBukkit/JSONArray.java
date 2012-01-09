@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.json.simpleForBukkit.JSONAware;
-import org.json.simpleForBukkit.JSONStreamAware;
-import org.json.simpleForBukkit.JSONValue;
-
 
 /**
  * A JSON array. JSONObject supports java.util.List interface.
