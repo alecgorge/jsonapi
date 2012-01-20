@@ -11,11 +11,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -36,6 +38,10 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	
 	List<String> devices = new ArrayList<String>();
 	Map<String, Boolean> settings = new HashMap<String, Boolean>();
+	
+	// log /calladmin & severes
+	List<String> calladmins = Collections.synchronizedList(new ArrayList<String>(50));
+	List<String> severeLogs = Collections.synchronizedList(new ArrayList<String>(50));
 	
 	private final String APNS_PUSH_ENDPOINT = "http://push.adminiumapp.com/push-message";
 	
@@ -70,6 +76,26 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		}
 	}
 	
+	public boolean calladmin(CommandSender from, String message) {
+		if(api.anyoneCanUseCallAdmin || from.hasPermission("jsonapi.calladmin")) {
+			if(!settings.get("admin_call")) {
+				from.sendMessage("The admin has disabled /calladmin.");
+				return true;
+			}
+			
+			String push = "Admin request from " + from.getName() + ": " + message;
+			
+			calladmins.add(0, "Admin request from " + from.getName() + ": " + message);
+			pushNotification(push);
+			from.sendMessage("A message was sent to the admin(s).");
+		}
+		else if(!from.hasPermission("jsonapi.calladmin")) {
+			from.sendMessage("You don't have the jsonapi.calladmin permission to call for an admin.");
+		}
+		
+		return true;
+	}
+	
 	public class ConsoleHandler extends Handler {
 		PushNotificationDaemon p;
 		long lastNotification;
@@ -98,7 +124,10 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 				long time = (new Date()).getTime();
 				if(time - lastNotification > 60*1000) {
 					lastNotification = time;
-					p.pushNotification("SEVERE message logged in the console: "+arg0.getMessage().substring(0, Math.min(200, arg0.getMessage().length())));
+					
+					String message = "SEVERE message logged in the console: "+arg0.getMessage();
+					severeLogs.add(0, message);					
+					p.pushNotification(message);
 				}
 			}
 		}
@@ -142,10 +171,12 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		}
 	}
 	
-	public void pushNotification(final String message) {
+	public void pushNotification(String messager) {
 		if(devices.size() < 1) {
 			return;
 		}
+		
+		final String message = messager.length() > 210 ? messager.substring(0, 208) + "…" : messager;
 		
 		new Thread(new Runnable() {
 			
@@ -270,6 +301,12 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			for(int i = 0; i < 10; i++) mcLog.severe("This is a severe log: " + i);
 			
 			return true;
+		}
+		else if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("getCallAdmins")) {
+			return calladmins;
+		}
+		else if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("getSeveres")) {
+			return severeLogs;
 		}
 		
 		return null;

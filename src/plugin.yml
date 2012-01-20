@@ -1,6 +1,6 @@
 name: JSONAPI
 main: com.alecgorge.minecraft.jsonapi.JSONAPI
-version: 3.2.2
+version: 3.3.0
 description: Control your server and fetch information from your server.
 website: http://alecgorge.com/minecraft/jsonapi/
 author: Alec Gorge
@@ -14,3 +14,7 @@ commands:
   calladmin:
     description: Sends a message to the admin of the server if they have Adminium installed on their iOS device.
     usage: /<command> <why>
+permissions:
+    jsonapi.calladmin:
+        description: NOTE: If you want to use this, make sure you set `anyone-can-use-calladmin` to false in config.yml. Allows users to send a push notification to the devices connected with Adminium.
+        default: op
