@@ -723,7 +723,7 @@
 			"name":"teleportPlayerToLocation",
 			"desc":"Teleports the specified player to the specified x, y and z co-ordinates.",
 			"call":"this.teleport(0,1,2,3)",
-			"returns":["boolean", "True if successful, false otherwise."]
+			"returns":["boolean", "True if successful, false otherwise."],
 			"args": [
 				["String", "The player name."],
 				["int", "The x-coord of the block."],
@@ -735,7 +735,7 @@
 			"name":"teleportPlayerToWorldLocation",
 			"desc":"Teleports the specified player to the specified world and xyz co-ordinates.",
 			"call":"this.teleport(0,1,2,3,4)",
-			"returns":["boolean", "True if successful, false otherwise."]
+			"returns":["boolean", "True if successful, false otherwise."],
 			"args": [
 				["String", "The player name."],
 				["String", "The world name."],
