@@ -10,3 +10,4 @@ options:
     log-to-console: true
     log-to-file: 'false'
     salt: 'salt goes here'
+    anyone-can-use-calladmin: true

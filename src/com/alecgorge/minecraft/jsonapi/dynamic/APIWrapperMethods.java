@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import net.minecraft.server.EntityPlayer;
@@ -40,6 +41,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.APIException;
@@ -71,7 +74,7 @@ public class APIWrapperMethods {
 	
 	public HashMap<Integer,ItemStack> removePlayerInventoryItem (String playerName, int itemID) {
 		try {
-			return Server.getPlayer(playerName).getInventory().removeItem(new ItemStack(itemID));
+			return Server.getPlayerExact(playerName).getInventory().removeItem(new ItemStack(itemID));
 		}
 		catch (NullPointerException e) {
 			return null;
@@ -80,7 +83,7 @@ public class APIWrapperMethods {
 	
 	public boolean removeEnchantmentsFromPlayerInventorySlot (String playerName, int slot, List<Object> enchantments) {
 		try {
-			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
 			ItemStack it;
 			
 			if(slot == inv.getHeldItemSlot()) it = inv.getHelmet();
@@ -102,7 +105,7 @@ public class APIWrapperMethods {
 	
 	public boolean addEnchantmentToPlayerInventorySlot (String playerName, int slot, int enchantmentID, int level) {
 		try {
-			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
 			ItemStack it;
 			
 			if(slot == inv.getHeldItemSlot()) it = inv.getHelmet();
@@ -122,7 +125,7 @@ public class APIWrapperMethods {
 	
 	public boolean addEnchantmentsToPlayerInventorySlot (String playerName, int slot, List<Object> enchantments) {
 		try {
-			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
 			ItemStack it;
 			
 			if(slot == inv.getHeldItemSlot()) it = inv.getHelmet();
@@ -149,7 +152,7 @@ public class APIWrapperMethods {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
 			
-			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
 			ItemStack it = new ItemStack(blockID, quantity);
 			
 			if(slot == 103) inv.setHelmet(it);
@@ -171,7 +174,7 @@ public class APIWrapperMethods {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
 			
-			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
 			ItemStack it = (new MaterialData(blockID, (byte)data)).toItemStack(quantity);
 			
 			if(slot == 103) inv.setHelmet(it);
@@ -194,7 +197,7 @@ public class APIWrapperMethods {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
 			
-			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
 			ItemStack it = (new MaterialData(blockID, (byte)data)).toItemStack(quantity);
 			it.setDurability(Short.valueOf(String.valueOf(damage)).shortValue());
 			
@@ -218,7 +221,7 @@ public class APIWrapperMethods {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
 			
-			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
 			ItemStack it = (new MaterialData(blockID, (byte)data)).toItemStack(quantity);
 			it.setDurability(Short.valueOf(String.valueOf(damage)).shortValue());
 			
@@ -247,7 +250,7 @@ public class APIWrapperMethods {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
 
-			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
 			ItemStack it = new ItemStack(blockID, quantity, Short.valueOf(String.valueOf(damage)).shortValue());
 			
 			if(slot == 103) inv.setHelmet(it);
@@ -264,12 +267,12 @@ public class APIWrapperMethods {
 	}
 	
 	public void setPlayerGameMode(String playerName, int gameMode) throws Exception {
-		Server.getPlayer(playerName).setGameMode(GameMode.getByValue(gameMode));
+		Server.getPlayerExact(playerName).setGameMode(GameMode.getByValue(gameMode));
 	}
 	
 	public boolean clearPlayerInventorySlot (String playerName, int slot) {
 		try {
-			PlayerInventory inv = Server.getPlayer(playerName).getInventory();
+			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
 			int cnt = inv.getSize();
 			
 			if(slot == 103) inv.clear(cnt + 3);
@@ -287,9 +290,9 @@ public class APIWrapperMethods {
 	
 	public boolean updatePlayerInventorySlot(String playerName, int slot, int newAmount) {
 		try {
-			ItemStack s = Server.getPlayer(playerName).getInventory().getItem(slot);
+			ItemStack s = Server.getPlayerExact(playerName).getInventory().getItem(slot);
 			s.setAmount(newAmount);
-			Server.getPlayer(playerName).getInventory().setItem(slot, s);
+			Server.getPlayerExact(playerName).getInventory().setItem(slot, s);
 			
 			return true;
 		}
@@ -384,7 +387,7 @@ public class APIWrapperMethods {
 			_player = p;
 		}
 		
-		public CraftPlayer getPlayer() {
+		public CraftPlayer getPlayerExact() {
 			return _player;
 		}
 	}
@@ -443,7 +446,7 @@ public class APIWrapperMethods {
 			}
 	
 			// default message from CraftBukkit / src / main / java / net / minecraft / server / NetServerHandler.java
-			message = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
+			message = String.format(event.getFormat(), event.getPlayerExact().getDisplayName(), event.getMessage());
 			Logger.getLogger("Minecraft").info(message);
 			for (Player recipient : event.getRecipients()) {
 				recipient.sendMessage(message);
@@ -489,7 +492,7 @@ public class APIWrapperMethods {
 	public boolean banWithReason(String name, String reason) {
 		try {
 			Bukkit.getOfflinePlayer(name).setBanned(true);
-			Bukkit.getPlayer(name).kickPlayer(reason);
+			Bukkit.getPlayerExact(name).kickPlayer(reason);
 			return true;
 		}
 		catch (Exception e) {
@@ -519,7 +522,7 @@ public class APIWrapperMethods {
 	
 	public boolean giveItem (String name, int id, int quant) {
 		try {
-			Server.getPlayer(name).getInventory().addItem(new ItemStack(id, quant));
+			Server.getPlayerExact(name).getInventory().addItem(new ItemStack(id, quant));
 			return true;
 		}
 		catch (NullPointerException e) {
@@ -532,7 +535,7 @@ public class APIWrapperMethods {
 			if(data < 0 || data > 15) {
 				throw new Exception("The given data needs to be in decimal form and between 0 and 15");
 			}
-			Server.getPlayer(name).getInventory().addItem(new ItemStack(id, quant, (short)0, Byte.valueOf(String.valueOf(data)).byteValue()));
+			Server.getPlayerExact(name).getInventory().addItem(new ItemStack(id, quant, (short)0, Byte.valueOf(String.valueOf(data)).byteValue()));
 			return true;
 		}
 		catch (NullPointerException e) {
@@ -542,7 +545,7 @@ public class APIWrapperMethods {
 	
 	public boolean giveItemDrop (String name, int id, int quant) {
 		try {
-			Server.getPlayer(name).getWorld().dropItem(Server.getPlayer(name).getLocation(), new ItemStack(id, quant));
+			Server.getPlayerExact(name).getWorld().dropItem(Server.getPlayerExact(name).getLocation(), new ItemStack(id, quant));
 			return true;
 		}
 		catch (NullPointerException e) {
@@ -555,7 +558,7 @@ public class APIWrapperMethods {
 			if(data < 0 || data > 15) {
 				throw new Exception("The given data needs to be in decimal form and between 0 and 15");
 			}
-			Server.getPlayer(name).getWorld().dropItem(Server.getPlayer(name).getLocation(), new ItemStack(id, quant, (short)0, Byte.valueOf(String.valueOf(data)).byteValue()));
+			Server.getPlayerExact(name).getWorld().dropItem(Server.getPlayerExact(name).getLocation(), new ItemStack(id, quant, (short)0, Byte.valueOf(String.valueOf(data)).byteValue()));
 			return true;
 		}
 		catch (NullPointerException e) {
@@ -830,7 +833,7 @@ public class APIWrapperMethods {
 	}
 	
 	public boolean teleport(String player1, String player2) {
-		Server.getPlayer(player1).teleport(Server.getPlayer(player2));
+		Server.getPlayerExact(player1).teleport(Server.getPlayerExact(player2));
 		
 		return true;
 	}
@@ -846,7 +849,7 @@ public class APIWrapperMethods {
 		return Server;
 	}
 	
-	public List<String> getPlayerNames () {
+	public List<String> getPlayerExactNames () {
 		List<String> names = new ArrayList<String>();
 		
 		for(Player p : Server.getOnlinePlayers()) {
@@ -858,7 +861,7 @@ public class APIWrapperMethods {
 	
 	public List<String> getOfflinePlayerNames () {
 		List<String> names = new ArrayList<String>();
-		List<String> online = getPlayerNames();
+		List<String> online = getPlayerExactNames();
 		
 		for(OfflinePlayer p : Server.getOfflinePlayers()) {
 			if(!online.contains(p.getName())) {
@@ -871,7 +874,7 @@ public class APIWrapperMethods {
 	
 	public List<OfflinePlayer> getOfflinePlayers () {
 		List<OfflinePlayer> o = new ArrayList<OfflinePlayer>();
-		List<String> online = getPlayerNames();
+		List<String> online = getPlayerExactNames();
 		
 		for(OfflinePlayer p : Server.getOfflinePlayers()) {
 			if(!online.contains(p.getName())) {
@@ -938,7 +941,7 @@ public class APIWrapperMethods {
 	
 	public boolean teleport(String playername, int x, int y, int z) {
 		try {
-			Player player = Server.getPlayer(playername);
+			Player player = Server.getPlayerExact(playername);
 			player.teleport(new Location(player.getWorld(), x, y, z));
 			return true;
 		}
@@ -949,13 +952,79 @@ public class APIWrapperMethods {
 	
 	public boolean teleport(String playername, String world, int x, int y, int z) {
 		try {
-			Server.getPlayer(playername).teleport(new Location(Server.getWorld(world), x, y, z));
+			Server.getPlayerExact(playername).teleport(new Location(Server.getWorld(world), x, y, z));
 			return true;
 		}
 		catch (Exception e) {
 			return false;
 		}
 	}
-
-	// end impersonation stuff
+	
+	public boolean addPermission(String playername, String key, boolean value) {
+		try {
+			Server.getPlayerExact(playername).addAttachment(JSONAPI.instance, key, value);
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean removePermission(String playername, String key) {
+		try {
+			Player player = Server.getPlayerExact(playername);
+			Set<PermissionAttachmentInfo> eps = player.getEffectivePermissions();
+			
+			PermissionAttachment a = null;
+			for(PermissionAttachmentInfo o : eps) {
+				if(o.getPermission().equals(key)) {
+					a = o.getAttachment();
+					break;
+				}
+			}
+			if(a != null) {
+				player.removeAttachment(a);
+				player.recalculatePermissions();
+			}
+			
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}		
+	}
+	
+	public List<JSONObject> getPermissions(String playername) {
+		List<JSONObject> perms = new ArrayList<JSONObject>();
+		try {
+			Player player = Server.getPlayerExact(playername);
+			Set<PermissionAttachmentInfo> eps = player.getEffectivePermissions();
+			
+			for(PermissionAttachmentInfo o : eps) {
+				JSONObject oo = new JSONObject();
+				
+				oo.put("key", o.getPermission());
+				oo.put("value", o.getValue());
+				
+				perms.add(oo);
+			}
+			
+			return perms;
+		}
+		catch (Exception e) {
+			return perms;
+		}		
+	}
+	
+	public Map<String, List<JSONObject>> getAllPermissions() {
+		Map<String, List<JSONObject>> l = new HashMap<String, List<JSONObject>>();
+		try {
+			for(Player p : Server.getOnlinePlayers()) {
+				l.put(p.getName(), getPermissions(p.getName()));
+			}
+		}
+		catch (Exception e) {
+		}
+		return l;
+	}
 }

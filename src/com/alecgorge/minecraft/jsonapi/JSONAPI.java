@@ -70,6 +70,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 	private long startupDelay = 2000;
 	public List<String> whitelist = new ArrayList<String>();
 	public List<String> method_noauth_whitelist = new ArrayList<String>();
+	public boolean anyoneCanUseCallAdmin = true;
 	
 	private Logger log = Logger.getLogger("Minecraft");
 	public Logger outLog = Logger.getLogger("JSONAPI");
@@ -249,6 +250,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				yamlConfig.set("options.ip-whitelist", whitelist);
 				yamlConfig.set("options.salt", salt);
 				yamlConfig.set("options.port", port);
+				yamlConfig.set("options.anyone-can-use-calladmin", false);
 				
 				yamlConfig.set("method-whitelist", method_noauth_whitelist);
 				
@@ -275,6 +277,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				salt = yamlConfig.getString("options.salt", "");
 				port = yamlConfig.getInt("options.port", 20059);
 				startupDelay = yamlConfig.getInt("options.startup-delay", 2000);
+				anyoneCanUseCallAdmin = yamlConfig.getBoolean("options.anyone-can-use-calladmin", false);
 				
 				String host = yamlConfig.getString("options.bind-address", "");
 				if(host.equals("")) {
@@ -382,8 +385,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			}*/
         }
 		if(adminium.init && args.length >= 1 && cmd.getName().equals("calladmin")) {
-			adminium.pushNotification("Admin request from "+ sender.getName() + ": " + join(Arrays.asList(args), " "));
-			return true;
+			return adminium.calladmin(sender, join(Arrays.asList(args), " "));
 		}
 		
 		return false;
