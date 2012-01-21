@@ -4,6 +4,7 @@ version: 3.3.0
 description: Control your server and fetch information from your server.
 website: http://alecgorge.com/minecraft/jsonapi/
 author: Alec Gorge
+softdepend: [Vault, RemoteToolkitPlugin, dynmap]
 commands:
   reloadjsonapi:
     description: Reloads the API methods for JSONAPI.
@@ -16,5 +17,5 @@ commands:
     usage: /<command> <why>
 permissions:
     jsonapi.calladmin:
-        description: NOTE: If you want to use this, make sure you set `anyone-can-use-calladmin` to false in config.yml. Allows users to send a push notification to the devices connected with Adminium.
+        description: NOTE If you want to use this, make sure you set `anyone-can-use-calladmin` to false in config.yml. Allows users to send a push notification to the devices connected with Adminium.
         default: op

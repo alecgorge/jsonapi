@@ -269,7 +269,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				logging = yamlConfig.getBoolean("options.log-to-console", true);
 				logFile = yamlConfig.getString("options.log-to-file", "false");
 
-				whitelist = (List<String>)yamlConfig.getList("options.ip-whitelist", new ArrayList<String>());
+				whitelist = yamlConfig.getStringList("options.ip-whitelist");
 				for(String ip : whitelist) {
 					reconstituted += ip + ",";
 				}
@@ -287,7 +287,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 					bindAddress = InetAddress.getByName(host);
 				}
 				
-				method_noauth_whitelist = (List<String>)yamlConfig.getList("method-whitelist", new ArrayList<String>());
+				method_noauth_whitelist = yamlConfig.getStringList("method-whitelist");
 				
 				Set<String> logins = ((ConfigurationSection)yamlConfig.get("logins")).getKeys(false);
 				for(String k : logins) {

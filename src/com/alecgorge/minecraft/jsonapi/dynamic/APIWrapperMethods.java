@@ -52,14 +52,16 @@ import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
 import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
+import com.alecgorge.minecraft.permissions.PermissionWrapper;
 
 public class APIWrapperMethods {
 	private Logger log = Logger.getLogger("Minecraft");
 	private Logger outLog = Logger.getLogger("JSONAPI");
+	public PermissionWrapper permissions;
 	public NetworkManager manager;
 	
 	public APIWrapperMethods(Server server) {
-		
+		permissions = new PermissionWrapper(server);
 	}
 
 	private Server Server = JSONAPI.instance.getServer();
@@ -445,8 +447,8 @@ public class APIWrapperMethods {
 				return true;
 			}
 	
-			// default message from CraftBukkit / src / main / java / net / minecraft / server / NetServerHandler.java
-			message = String.format(event.getFormat(), event.getPlayerExact().getDisplayName(), event.getMessage());
+			// default message from CraftBukkit / src / main / java / net / minecraft / server / NetServerHandler.java#chat(String s)
+			message = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
 			Logger.getLogger("Minecraft").info(message);
 			for (Player recipient : event.getRecipients()) {
 				recipient.sendMessage(message);
@@ -958,73 +960,5 @@ public class APIWrapperMethods {
 		catch (Exception e) {
 			return false;
 		}
-	}
-	
-	public boolean addPermission(String playername, String key, boolean value) {
-		try {
-			Server.getPlayerExact(playername).addAttachment(JSONAPI.instance, key, value);
-			return true;
-		}
-		catch (Exception e) {
-			return false;
-		}
-	}
-	
-	public boolean removePermission(String playername, String key) {
-		try {
-			Player player = Server.getPlayerExact(playername);
-			Set<PermissionAttachmentInfo> eps = player.getEffectivePermissions();
-			
-			PermissionAttachment a = null;
-			for(PermissionAttachmentInfo o : eps) {
-				if(o.getPermission().equals(key)) {
-					a = o.getAttachment();
-					break;
-				}
-			}
-			if(a != null) {
-				player.removeAttachment(a);
-				player.recalculatePermissions();
-			}
-			
-			return true;
-		}
-		catch (Exception e) {
-			return false;
-		}		
-	}
-	
-	public List<JSONObject> getPermissions(String playername) {
-		List<JSONObject> perms = new ArrayList<JSONObject>();
-		try {
-			Player player = Server.getPlayerExact(playername);
-			Set<PermissionAttachmentInfo> eps = player.getEffectivePermissions();
-			
-			for(PermissionAttachmentInfo o : eps) {
-				JSONObject oo = new JSONObject();
-				
-				oo.put("key", o.getPermission());
-				oo.put("value", o.getValue());
-				
-				perms.add(oo);
-			}
-			
-			return perms;
-		}
-		catch (Exception e) {
-			return perms;
-		}		
-	}
-	
-	public Map<String, List<JSONObject>> getAllPermissions() {
-		Map<String, List<JSONObject>> l = new HashMap<String, List<JSONObject>>();
-		try {
-			for(Player p : Server.getOnlinePlayers()) {
-				l.put(p.getName(), getPermissions(p.getName()));
-			}
-		}
-		catch (Exception e) {
-		}
-		return l;
-	}
+	}	
 }
