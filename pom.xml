@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>org.bukkit.craftbukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>733</version>
+			<version>1956</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/craftbukkit.jar</systemPath>
 		</dependency>
@@ -67,6 +67,13 @@
 			<version>10</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/Minecraft_RKit.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.milkbowl.vault</groupId>
+			<artifactId>Vault</artifactId>
+			<version>1.2.5</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/deps/Vault.jar</systemPath>
 		</dependency>
 	</dependencies>	
 </project>
