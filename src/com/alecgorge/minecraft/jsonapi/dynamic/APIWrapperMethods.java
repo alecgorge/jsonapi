@@ -851,7 +851,7 @@ public class APIWrapperMethods {
 		return Server;
 	}
 	
-	public List<String> getPlayerExactNames () {
+	public List<String> getPlayerNames () {
 		List<String> names = new ArrayList<String>();
 		
 		for(Player p : Server.getOnlinePlayers()) {
@@ -863,7 +863,7 @@ public class APIWrapperMethods {
 	
 	public List<String> getOfflinePlayerNames () {
 		List<String> names = new ArrayList<String>();
-		List<String> online = getPlayerExactNames();
+		List<String> online = getPlayerNames();
 		
 		for(OfflinePlayer p : Server.getOfflinePlayers()) {
 			if(!online.contains(p.getName())) {
@@ -876,7 +876,7 @@ public class APIWrapperMethods {
 	
 	public List<OfflinePlayer> getOfflinePlayers () {
 		List<OfflinePlayer> o = new ArrayList<OfflinePlayer>();
-		List<String> online = getPlayerExactNames();
+		List<String> online = getPlayerNames();
 		
 		for(OfflinePlayer p : Server.getOfflinePlayers()) {
 			if(!online.contains(p.getName())) {
