@@ -229,7 +229,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 					deviceConfig.load(configFile);
 				}
 				
-				devices = deviceConfig.getList("devices", new ArrayList<String>());
+				devices = deviceConfig.getStringList("devices");
 				if(devices == null) devices = new ArrayList<String>();
 				
 				trace("Current Devices", devices);

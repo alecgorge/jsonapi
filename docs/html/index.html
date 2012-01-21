@@ -679,7 +679,7 @@
 			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The dynmap port as a string.</li>
 		</ul>
 	</div>
-</div><h2 id="package-Permission%20methods">Permission methods</h2><h3>Depends on the following plugins:</h3><ul><li>JSONAPI</li></ul><h3>Methods</h3><ul><li><a href='#this.addPermission%280%2C1%2C2%29'>void permissions.addPermission(String, String, Boolean)</a></li><li><a href='#this.getAllPermissions%28%29'>void permissions.getAllPermissions()</a></li><li><a href='#this.getPermissions%280%29'>void permissions.getPermissions(String)</a></li><li><a href='#this.removePermission%280%2C1%29'>void permissions.removePermission(String, String)</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.addPermission%280%2C1%2C2%29">
+</div><h2 id="package-Permission%20methods">Permission methods</h2><h3>Depends on the following plugins:</h3><ul><li>JSONAPI</li><li>Vault</li></ul><h3>Methods</h3><ul><li><a href='#this.permissions.addPermission%280%2C1%2C2%29'>void permissions.addPermission(String, String, Boolean)</a></li><li><a href='#this.permissions.addGroup%280%2C1%2C2%29'>void permissions.addPlayerToGroup(String, String)</a></li><li><a href='#this.permissions.getAllGroups%28%29'>void permissions.getAllGroups()</a></li><li><a href='#this.permissions.getAllPermissions%28%29'>void permissions.getAllPermissions()</a></li><li><a href='#this.permissions.getGroups%280%29'>void permissions.getGroups(String)</a></li><li><a href='#this.permissions.getPermissions%280%29'>void permissions.getPermissions(String)</a></li><li><a href='#this.permissions.removePermission%280%2C1%29'>void permissions.removePermission(String, String)</a></li><li><a href='#this.permissions.removeGroup%280%2C1%29'>void permissions.removePlayerFromGroup(String, String)</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.permissions.addPermission%280%2C1%2C2%29">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>permissions.addPermission</li>
 			<li class="method-info-desc"><strong>Description: </strong>Add a permission node for a player.</li>
@@ -687,7 +687,23 @@
 			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> Success?</li>
 		</ul>
 	</div>
-	<div class="method-wrapper" id="this.getAllPermissions%28%29">
+	<div class="method-wrapper" id="this.permissions.addGroup%280%2C1%2C2%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>permissions.addPlayerToGroup</li>
+			<li class="method-info-desc"><strong>Description: </strong>Add a group for a player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player's name.</li><li><strong>String</strong> The group name.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> Success?</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.permissions.getAllGroups%28%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>permissions.getAllGroups</li>
+			<li class="method-info-desc"><strong>Description: </strong>Retrieves all groups.</li>
+			<li class="method-info-args"><strong>Arguments: </strong>None</li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> All the groups in use on the server.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.permissions.getAllPermissions%28%29">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>permissions.getAllPermissions</li>
 			<li class="method-info-desc"><strong>Description: </strong>Retrieves all permissions for all players.</li>
@@ -695,7 +711,15 @@
 			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> A map from player to a list of permission settings.</li>
 		</ul>
 	</div>
-	<div class="method-wrapper" id="this.getPermissions%280%29">
+	<div class="method-wrapper" id="this.permissions.getGroups%280%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>permissions.getGroups</li>
+			<li class="method-info-desc"><strong>Description: </strong>Gets the groups for a specific player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player's name.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> Gets all the groups for a player.</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.permissions.getPermissions%280%29">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>permissions.getPermissions</li>
 			<li class="method-info-desc"><strong>Description: </strong>Gets the permissions for a specific player.</li>
@@ -703,11 +727,19 @@
 			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> Gets all the permissions and their values for a player.</li>
 		</ul>
 	</div>
-	<div class="method-wrapper" id="this.removePermission%280%2C1%29">
+	<div class="method-wrapper" id="this.permissions.removePermission%280%2C1%29">
 		<ul class="method-info">
 			<li class="method-info-name"><strong>Name: </strong>permissions.removePermission</li>
 			<li class="method-info-desc"><strong>Description: </strong>Removes a permission node for a player.</li>
 			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player's name.</li><li><strong>String</strong> The permission node.</li></ul></li>
+			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> Success?</li>
+		</ul>
+	</div>
+	<div class="method-wrapper" id="this.permissions.removeGroup%280%2C1%29">
+		<ul class="method-info">
+			<li class="method-info-name"><strong>Name: </strong>permissions.removePlayerFromGroup</li>
+			<li class="method-info-desc"><strong>Description: </strong>Remove a group from a player.</li>
+			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player's name.</li><li><strong>String</strong> The group name.</li></ul></li>
 			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> Success?</li>
 		</ul>
 	</div>
