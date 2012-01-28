@@ -170,7 +170,7 @@ public class Caller {
 				String name = ((JSONObject)o).get("name").toString();
 				
 				if(this.methods.containsKey(name)) {
-					Logger.getLogger("Minecraft").warning("[JSONAPI] The method " + name + " already exists! It is being overridden.");
+					Logger.getLogger("Minecraft").info("[JSONAPI] The method " + name + " already exists! It is being overridden.");
 				}
 				
 				if(!this.methods.containsKey(namespace)) {
