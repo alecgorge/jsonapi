@@ -13,9 +13,27 @@
 		},
 		{
 			"name": "getServerVersion",
-			"desc": "Gets the version of the server implementation (so Craftbukkit or Bukkit, not the actuall Minecraft server",
+			"desc": "Gets the version string of this server implementation.",
 			"returns": ["String", "A string representing the version."],
 			"call": "Server.getVersion()"
+		},
+		{
+			"name": "getBukkitVersion",
+			"desc": "Gets the Bukkit version that this server is running.",
+			"returns": ["String", "A string representing the version."],
+			"call": "Server.getBukkitVersion()"
+		},
+		{
+			"name": "getPluginVersion",
+			"desc": "Gets version of a plugin.",
+			"returns": ["String", "A string representing the version."],
+			"call": "Server.getPluginManager().getPlugin(0).getDescription().getVersion()",
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"args": [
+				["String","Plugin name"]
+			]			
 		},
 		{
 			"name": "getPlayer",
