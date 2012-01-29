@@ -17,6 +17,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
@@ -43,6 +44,7 @@ public class BukkitStringifier {
 		handle.put("File", java.io.File.class);
 		handle.put("ItemStack[]", org.bukkit.inventory.ItemStack[].class);
 		handle.put("PlayerInventory", org.bukkit.inventory.PlayerInventory.class);
+		handle.put("Inventory", org.bukkit.inventory.Inventory.class);
 		handle.put("Location", org.bukkit.Location.class);
 		handle.put("World.Environment", org.bukkit.World.Environment.class);
 		handle.put("GameMode", org.bukkit.GameMode.class);
@@ -197,6 +199,11 @@ public class BukkitStringifier {
 			o.put("inventory", Arrays.asList(p.getContents()));
 			
 			return o;
+		}
+		else if(obj instanceof Inventory) {
+			Inventory p = (Inventory)obj;
+			
+			return Arrays.asList(p.getContents());
 		}
 		else if(obj instanceof Location) {
 			Location l = (Location)obj;
