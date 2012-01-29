@@ -1004,7 +1004,7 @@ public class APIWrapperMethods {
 			return ((Chest) d).getInventory();
 		}
 		
-		throw new Exception("That isn't a sign!");
+		throw new Exception("That isn't a chest!");
 	}
 	
 	public boolean giveChestItem (String world, int x, int y, int z, int slot, int blockID, int quantity) {
