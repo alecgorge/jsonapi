@@ -4,6 +4,8 @@
 	<classpathentry kind="lib" path="deps/craftbukkit.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="deps/Minecraft_RKit.jar"/>
-	<classpathentry kind="lib" path="deps/Vault.jar"/>
+        :x
+
+:x
 	<classpathentry kind="output" path="bin"/>
 </classpath>

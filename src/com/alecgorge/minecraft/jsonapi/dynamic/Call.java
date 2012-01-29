@@ -62,6 +62,8 @@ public class Call {
 			else if(v instanceof SubField) {
 				SubField obj = (SubField)v;
 				
+				debug("Requesting field: "+obj.getName());
+
 				if(obj.getName().equals("length") && lastResult.getClass().isArray()) {
 					lastResult = Array.getLength(lastResult);
 				}
