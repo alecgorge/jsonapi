@@ -1,6 +1,7 @@
 package com.alecgorge.minecraft.jsonapi.dynamic;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -68,7 +69,10 @@ public class Call {
 					lastResult = Array.getLength(lastResult);
 				}
 				else {
-					lastResult = lastResult.getClass().getField(obj.getName()).get(lastResult);
+					Field field = lastResult.getClass().getDeclaredField(obj.getName());
+					field.setAccessible(true);
+					
+					lastResult = field.get(lastResult);
 				}
 			}
 			else if(v instanceof SubCall) {
@@ -101,7 +105,9 @@ public class Call {
 					debug("Sig type: "+sig[x].getName());
 				}
 				
-				java.lang.reflect.Method thisMethod = lastResult.getClass().getMethod(obj.getName(), sig);
+				java.lang.reflect.Method thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);
+				thisMethod.setAccessible(true);
+				
 				if(flags.contains("NO_EXCEPTIONS") || flags.contains("FALSE_ON_EXCEPTION")) {
 					try {
 						lastResult = thisMethod.invoke(lastResult, args);
