@@ -104,21 +104,23 @@ public class Call {
 					debug("Arg "+x+": '"+val+"', type: "+val.getClass().getName());
 					debug("Sig type: "+sig[x].getName());
 				}
-				
-				java.lang.reflect.Method thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);
-				thisMethod.setAccessible(true);
-				
+								
 				if(flags.contains("NO_EXCEPTIONS") || flags.contains("FALSE_ON_EXCEPTION")) {
 					try {
+						java.lang.reflect.Method thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);
+						thisMethod.setAccessible(true);
 						lastResult = thisMethod.invoke(lastResult, args);
 					}
 					catch (Exception e) {
 						if(flags.contains("FALSE_ON_EXCEPTION")) {
 							return false;
 						}
+						return null;
 					}
 				}
 				else {
+					java.lang.reflect.Method thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);
+					thisMethod.setAccessible(true);
 					lastResult = thisMethod.invoke(lastResult, args);
 				}
 				
