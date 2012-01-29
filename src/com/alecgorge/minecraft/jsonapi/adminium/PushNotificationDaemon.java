@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -31,6 +30,7 @@ import com.alecgorge.minecraft.jsonapi.api.JSONAPIStream;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamListener;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ConnectionMessage;
+import com.alecgorge.minecraft.jsonapi.util.FixedSizeArrayList;
 
 public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICallHandler {
 	YamlConfiguration deviceConfig = new YamlConfiguration();
@@ -40,8 +40,8 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	Map<String, Boolean> settings = new HashMap<String, Boolean>();
 	
 	// log /calladmin & severes
-	List<String> calladmins = Collections.synchronizedList(new ArrayList<String>(50));
-	List<String> severeLogs = Collections.synchronizedList(new ArrayList<String>(50));
+	List<String> calladmins = Collections.synchronizedList(new FixedSizeArrayList<String>(50));
+	List<String> severeLogs = Collections.synchronizedList(new FixedSizeArrayList<String>(50));
 	
 	private final String APNS_PUSH_ENDPOINT = "http://push.adminiumapp.com/push-message";
 	
@@ -78,14 +78,15 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	
 	public boolean calladmin(CommandSender from, String message) {
 		if(api.anyoneCanUseCallAdmin || from.hasPermission("jsonapi.calladmin")) {
+			String push = "Admin request from " + from.getName() + ": " + message;	
+			
 			if(!settings.get("admin_call")) {
 				from.sendMessage("The admin has disabled /calladmin.");
+				calladmins.add(0, push);
+				
 				return true;
 			}
 			
-			String push = "Admin request from " + from.getName() + ": " + message;
-			
-			calladmins.add(0, "Admin request from " + from.getName() + ": " + message);
 			pushNotification(push);
 			from.sendMessage("A message was sent to the admin(s).");
 		}
@@ -120,14 +121,17 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 		@Override
 		public void publish(LogRecord arg0) {
-			if(arg0 != null && arg0.getLevel().equals(Level.SEVERE) && settings.get("severe_log")) {
-				long time = (new Date()).getTime();
-				if(time - lastNotification > 60*1000) {
-					lastNotification = time;
-					
-					String message = "SEVERE message logged in the console: "+arg0.getMessage();
-					severeLogs.add(0, message);					
-					p.pushNotification(message);
+			if(arg0 != null && arg0.getLevel().equals(Level.SEVERE)) {
+				String message = "SEVERE message logged in the console: "+arg0.getMessage();
+				severeLogs.add(0, message);
+				
+				if(settings.get("severe_log")) {
+					long time = (new Date()).getTime();
+					if(time - lastNotification > 60*1000) {
+						lastNotification = time;
+						
+						p.pushNotification(message);
+					}
 				}
 			}
 		}
