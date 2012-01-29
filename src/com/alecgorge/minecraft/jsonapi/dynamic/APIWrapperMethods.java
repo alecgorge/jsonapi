@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import net.minecraft.server.EntityPlayer;
@@ -31,6 +30,9 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Sign;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -38,11 +40,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.APIException;
@@ -960,5 +961,96 @@ public class APIWrapperMethods {
 		catch (Exception e) {
 			return false;
 		}
-	}	
+	}
+	
+	public String[] getSignText(String world, int x, int y, int z) throws Exception {
+		BlockState d = Server.getWorld(world).getBlockAt(x, y, z).getState();
+		
+		if(d instanceof Sign) {
+			return ((Sign) d).getLines();
+		}
+		
+		throw new Exception("That isn't a sign!");
+	}
+	
+	public boolean setSignText(String world, int x, int y, int z, List<String> lines) {
+		BlockState d = Server.getWorld(world).getBlockAt(x, y, z).getState();
+		
+		if(d instanceof Sign) {
+			for(int i = 0; i < lines.size(); i++) {
+				((Sign) d).setLine(i, lines.get(i));
+			}
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean setSignTextLine(String world, int x, int y, int z, int line, String txt) {
+		BlockState d = Server.getWorld(world).getBlockAt(x, y, z).getState();
+		
+		if(d instanceof Sign) {
+			((Sign) d).setLine(line, txt);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public Inventory getChestContents(String world, int x, int y, int z) throws Exception {
+		BlockState d = Server.getWorld(world).getBlockAt(x, y, z).getState();
+		
+		if(d instanceof Chest) {
+			return ((Chest) d).getInventory();
+		}
+		
+		throw new Exception("That isn't a sign!");
+	}
+	
+	public boolean giveChestItem (String world, int x, int y, int z, int slot, int blockID, int quantity) {
+		try {
+			if(blockID == 0) {
+				return clearChestSlot(world, x, y, z, slot);
+			}
+			
+			Inventory inv = ((Chest)Server.getWorld(world).getBlockAt(x, y, z).getState()).getInventory();
+			ItemStack it = new ItemStack(blockID, quantity);
+			inv.setItem(slot, it);
+			
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean giveChestItem(String world, int x, int y, int z, int slot, int blockID, final int data, int quantity) {
+		try {
+			if(blockID == 0) {
+				return clearChestSlot(world, x, y, z, slot);
+			}
+			
+			Inventory inv = ((Chest)Server.getWorld(world).getBlockAt(x, y, z).getState()).getInventory();
+			ItemStack it = (new MaterialData(blockID, (byte)data)).toItemStack(quantity);
+			inv.setItem(slot, it);
+			
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+		
+	}
+	
+	public boolean clearChestSlot (String world, int x, int y, int z, int slot) {
+		try {
+			Inventory inv = ((Chest)Server.getWorld(world).getBlockAt(x, y, z).getState()).getInventory();
+			inv.clear(slot);
+
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
 }
