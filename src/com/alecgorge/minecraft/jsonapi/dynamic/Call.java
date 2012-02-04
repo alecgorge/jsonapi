@@ -69,7 +69,13 @@ public class Call {
 					lastResult = Array.getLength(lastResult);
 				}
 				else {
-					Field field = lastResult.getClass().getDeclaredField(obj.getName());
+					java.lang.reflect.Field field;
+					try {
+						field = lastResult.getClass().getField(obj.getName());
+					}
+					catch(NoSuchFieldException e) {
+						field = lastResult.getClass().getDeclaredField(obj.getName());							
+					}
 					field.setAccessible(true);
 					
 					lastResult = field.get(lastResult);
@@ -107,7 +113,13 @@ public class Call {
 								
 				if(flags.contains("NO_EXCEPTIONS") || flags.contains("FALSE_ON_EXCEPTION")) {
 					try {
-						java.lang.reflect.Method thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);
+						java.lang.reflect.Method thisMethod;
+						try {
+							thisMethod = lastResult.getClass().getMethod(obj.getName(), sig);
+						}
+						catch(NoSuchMethodException e) {
+							thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);							
+						}
 						thisMethod.setAccessible(true);
 						lastResult = thisMethod.invoke(lastResult, args);
 					}
@@ -119,7 +131,13 @@ public class Call {
 					}
 				}
 				else {
-					java.lang.reflect.Method thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);
+					java.lang.reflect.Method thisMethod;
+					try {
+						thisMethod = lastResult.getClass().getMethod(obj.getName(), sig);
+					}
+					catch(NoSuchMethodException e) {
+						thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);							
+					}
 					thisMethod.setAccessible(true);
 					lastResult = thisMethod.invoke(lastResult, args);
 				}
