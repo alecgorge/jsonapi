@@ -173,6 +173,7 @@ public class BukkitStringifier {
 			
 			o.put("type", i.getTypeId());
 			o.put("durability", i.getDurability());
+			o.put("dataValue", (int)i.getData().getData());
 			o.put("amount", i.getAmount());
 			
 			JSONObject enchantments = new JSONObject();
