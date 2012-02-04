@@ -27,11 +27,10 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
@@ -74,7 +73,6 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 	
 	private Logger log = Logger.getLogger("Minecraft");
 	public Logger outLog = Logger.getLogger("JSONAPI");
-	private PluginManager pm;
 	private Handler handler;
 	
 	public RTKInterface rtkAPI;
@@ -420,12 +418,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 	}
 	
 	private void initialiseListeners() {
-		pm = getServer().getPluginManager();
-			
-		pm.registerEvent(Event.Type.PLAYER_CHAT, l, Priority.Normal, this);
-		// 	pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, l, Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_QUIT, l, Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_JOIN, l, Priority.Normal, this);
+		getServer().getPluginManager().registerEvents(l, this);
 	}
 	
 	/**
@@ -462,7 +455,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 		jsonServer.stop();
 	}
 	
-	public static class JSONAPIPlayerListener extends PlayerListener {
+	public static class JSONAPIPlayerListener implements Listener {
 		JSONAPI p;
 		
 		// This controls the accessibility of functions / variables from the main class.
@@ -470,15 +463,18 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			p = plugin;
 		}
 		
+		@EventHandler
 		public void onPlayerChat(PlayerChatEvent event) {
 			p.jsonServer.logChat(event.getPlayer().getName(),event.getMessage());			
 		}
 		
+		@EventHandler
 		public void onPlayerJoin(PlayerJoinEvent event) {
 			APIWrapperMethods.getInstance().manager = ((CraftPlayer)event.getPlayer()).getHandle().netServerHandler.networkManager;
 			p.jsonServer.logConnected(event.getPlayer().getName());
 		}
 
+		@EventHandler
 		public void onPlayerQuit(PlayerQuitEvent event) {
 			p.jsonServer.logDisconnected(event.getPlayer().getName());
 		}		

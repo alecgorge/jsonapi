@@ -56,7 +56,6 @@ import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
 import com.alecgorge.minecraft.permissions.PermissionWrapper;
 
 public class APIWrapperMethods {
-	private Logger log = Logger.getLogger("Minecraft");
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	public PermissionWrapper permissions;
 	public NetworkManager manager;
