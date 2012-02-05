@@ -70,6 +70,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 	public List<String> whitelist = new ArrayList<String>();
 	public List<String> method_noauth_whitelist = new ArrayList<String>();
 	public boolean anyoneCanUseCallAdmin = true;
+	public String serverName = "default";
 	
 	private Logger log = Logger.getLogger("Minecraft");
 	public Logger outLog = Logger.getLogger("JSONAPI");
@@ -276,6 +277,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				port = yamlConfig.getInt("options.port", 20059);
 				startupDelay = yamlConfig.getInt("options.startup-delay", 2000);
 				anyoneCanUseCallAdmin = yamlConfig.getBoolean("options.anyone-can-use-calladmin", false);
+				serverName = yamlConfig.getString("options.server-name", "default");
 				
 				String host = yamlConfig.getString("options.bind-address", "");
 				if(host.equals("")) {
