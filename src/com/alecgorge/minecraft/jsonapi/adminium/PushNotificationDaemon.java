@@ -180,6 +180,10 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			return;
 		}
 		
+		if(!api.serverName.equals("")) {
+			messager = (api.serverName.equals("default") ? api.getServer().getName() : api.serverName) + ": " + messager;
+		}
+		
 		final String message = messager.length() > 210 ? messager.substring(0, 208) + "…" : messager;
 		
 		new Thread(new Runnable() {
