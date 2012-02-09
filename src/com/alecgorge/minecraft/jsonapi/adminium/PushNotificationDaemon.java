@@ -82,11 +82,11 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			
 			if(!settings.get("admin_call")) {
 				from.sendMessage("The admin has disabled /calladmin.");
-				calladmins.add(0, push);
 				
 				return true;
 			}
 			
+			calladmins.add(0, push);
 			pushNotification(push);
 			from.sendMessage("A message was sent to the admin(s).");
 		}
@@ -179,9 +179,9 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		if(devices.size() < 1) {
 			return;
 		}
-		
-		if(!api.serverName.equals("")) {
-			messager = (api.serverName.equals("default") ? api.getServer().getName() : api.serverName) + ": " + messager;
+
+		if(api.serverName != null && !api.serverName.isEmpty()) {
+			messager = (api.serverName.equals("default") ? api.getServer().getServerName() : api.serverName) + ": " + messager;
 		}
 		
 		final String message = messager.length() > 210 ? messager.substring(0, 208) + "…" : messager;
@@ -214,7 +214,14 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 	@Override
 	public boolean willHandle(APIMethodName methodName) {
-		return (methodName.getNamespace().equals("adminium") && (methodName.getMethodName().equals("registerDevice") || methodName.getMethodName().equals("listPushTypes") || methodName.getMethodName().equals("setPushTypeEnabled") || methodName.getMethodName().equals("triggerSevere")));
+		return (methodName.getNamespace().equals("adminium")
+				&& (methodName.getMethodName().equals("registerDevice")
+						|| methodName.getMethodName().equals("listPushTypes")
+						|| methodName.getMethodName().equals("setPushTypeEnabled")
+						|| methodName.getMethodName().equals("triggerSevere")
+						|| methodName.getMethodName().equals("getCallAdmins")
+						|| methodName.getMethodName().equals("getSeveres")
+						));
 	}
 	
 	private void initalize() {
