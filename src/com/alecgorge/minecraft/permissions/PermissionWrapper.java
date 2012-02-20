@@ -27,7 +27,7 @@ public class PermissionWrapper {
 	
 	public PermissionWrapper(Server s) {
         if (s.getPluginManager().getPlugin("Vault") == null) {
-            Logger.getLogger("Minecraft").warning("[JSONAPI] You don't have Vault installed, you cannot use permission methods!");
+            Logger.getLogger("Minecraft").info("[JSONAPI] You don't have Vault installed, you cannot use permission methods!");
         }
         else {
         	active= true;

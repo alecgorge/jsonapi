@@ -24,6 +24,7 @@ import net.minecraft.server.NetHandler;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.World;
+import net.tootallnate.websocket.Base64;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -654,46 +655,103 @@ public class APIWrapperMethods {
 		}
 	}
 	
-	public boolean setFileContents (String fileName, String contents) throws APIException {
+	public String getFileBinaryBase64(String fileName) throws APIException {
 		if((new File(fileName)).exists()) {
-			FileOutputStream stream = null;
+			FileInputStream stream = null;
 			try {
-				stream = new FileOutputStream(new File(fileName));
-				stream.write(contents.getBytes(Charset.forName("UTF-8")));
+				stream = new FileInputStream(new File(fileName));
+				FileChannel fc = stream.getChannel();
+				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+				/* Instead of using default, pass in a decoder. */
+				byte[] b = new byte[bb.remaining()];
+				bb.get(b);
+				
+				return Base64.encodeBytes(b);
+			}
+			catch (Exception e) {
+				throw new APIException(fileName+" could not have its files extracte!");
+			}
+			finally {
 				try {
 					stream.close();
-				} catch (IOException e) {
+				}
+				catch (Exception e) {
 					throw new APIException(fileName+" could not be closed!");
 				}
-			} catch (IOException e) {
-				throw new APIException(fileName+" could not be written to!");
 			}
-			return true;			
 		}
 		else {
 			throw new APIException(fileName+" doesn't exist!");
+		}		
+	}
+	
+	public boolean setFileBinaryBase64(String fileName, String base64) throws APIException {
+		FileOutputStream stream = null;
+		try {
+			File f = new File(fileName);
+			
+			f.createNewFile();
+			
+			stream = new FileOutputStream(f);
+			stream.write(Base64.decode(base64));
+			try {
+				stream.close();
+			} catch (IOException e) {
+				throw new APIException(fileName+" could not be closed!");
+			}
 		}
+		catch (Exception e) {
+			throw new APIException(fileName+" could not have its files extracte!");
+		}
+		finally {
+			try {
+				stream.close();
+			}
+			catch (Exception e) {
+				throw new APIException(fileName+" could not be closed!");
+			}
+		}
+		return true;
+	}
+	
+	public boolean setFileContents (String fileName, String contents) throws APIException {
+		FileOutputStream stream = null;
+		try {
+			File f = new File(fileName);
+			
+			f.createNewFile();
+			
+			stream = new FileOutputStream(f);
+			stream.write(contents.getBytes(Charset.forName("UTF-8")));
+			try {
+				stream.close();
+			} catch (IOException e) {
+				throw new APIException(fileName+" could not be closed!");
+			}
+		} catch (IOException e) {
+			throw new APIException(fileName+" could not be written to!");
+		}
+		return true;			
 	}
 	
 	public boolean appendFileContents (String fileName, String contents) throws APIException {
-		if((new File(fileName)).exists()) {
-			FileOutputStream stream = null;
+		FileOutputStream stream = null;
+		try {
+			File f = new File(fileName);
+			
+			f.createNewFile();
+			
+			stream = new FileOutputStream(f, true);
+			stream.write(contents.getBytes(Charset.forName("UTF-8")));
 			try {
-				stream = new FileOutputStream(new File(fileName), true);
-				stream.write(contents.getBytes(Charset.forName("UTF-8")));
-				try {
-					stream.close();
-				} catch (IOException e) {
-					throw new APIException(fileName+" could not be closed!");
-				}
+				stream.close();
 			} catch (IOException e) {
-				throw new APIException(fileName+" could not be written to!");
+				throw new APIException(fileName+" could not be closed!");
 			}
-			return true;			
+		} catch (IOException e) {
+			throw new APIException(fileName+" could not be written to!");
 		}
-		else {
-			throw new APIException(fileName+" doesn't exist!");
-		}
+		return true;			
 	}
 	
 	public boolean editPropertiesFile (String fileName, String type, String key, String value) throws FileNotFoundException {
@@ -720,6 +778,16 @@ public class APIWrapperMethods {
 		else {
 			throw new FileNotFoundException(fileName+".properties was not found");
 		}
+	}
+	
+	public boolean setPlayerLevel(String player, int level) {
+		Server.getPlayerExact(player).setLevel(level);
+		return true;
+	}
+	
+	public boolean setPlayerExperience(String player, float level) {
+		Server.getPlayerExact(player).setExp(level);
+		return true;
 	}
 
 	public long getJavaMaxMemory () {
