@@ -445,6 +445,15 @@
 			]
 		},
 		{
+			"name": "getBinaryFileBase64",
+			"desc": "Gets the binary contents of the specified file encoded in base64. The file path is relative to the folder that the craftbukkit jar is in.",
+			"returns": ["String", "The file's contents."],
+			"call": "this.getFileBinaryBase64(0)",
+			"args": [
+				["String", "The name of the file to read."]
+			]
+		},
+		{
 			"name": "setFileContents",
 			"desc": "Sets (not appends to) the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.",
 			"call": "this.setFileContents(0, 1)",
@@ -452,6 +461,16 @@
 			"args": [
 				["String", "The name of the file to read."],
 				["String", "The content to put in the file."]
+			]
+		},
+		{
+			"name": "setFileBinaryBase64",
+			"desc": "Sets (not appends to) the contents of the specified binary file. The file path is relative to the folder that the craftbukkit jar is in. The second argument is base64 decoded and then set as the file's contents.",
+			"call": "this.setFileBinaryBase64(0, 1)",
+			"returns": ["boolean", "True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist."],
+			"args": [
+				["String", "The name of the file to read."],
+				["String", "The base64 encoded content to put in the file."]
 			]
 		},
 		{
@@ -599,6 +618,32 @@
 			"args": [
 				["String", "The player's name."],
 				["int", "The amount of health to set."]
+			]
+		},
+		{
+			"name": "setPlayerLevel",
+			"desc": "Sets a player's level on a scale of 0-50.",
+			"returns": ["boolean", "True on succes, false if the player is not on the server."],
+			"call": "this.setPlayerLevel(0,1)",
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"args": [
+				["String", "The player's name."],
+				["int", "The level to set."]
+			]
+		},
+		{
+			"name": "setPlayerExperience",
+			"desc": "Sets a player's health on a scale of 0-4625 (level 50).",
+			"returns": ["boolean", "True on succes, false if the player is not on the server."],
+			"call": "this.setPlayerExperience(0,1)",
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"args": [
+				["String", "The player's name."],
+				["int", "The amount of experience to set."]
 			]
 		},
 		{

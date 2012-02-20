@@ -50,6 +50,7 @@ public class BukkitStringifier {
 		handle.put("GameMode", org.bukkit.GameMode.class);
 		handle.put("Enchantment", org.bukkit.enchantments.Enchantment.class);
 		handle.put("Block", org.bukkit.block.Block.class);
+		handle.put("Object[]", java.lang.Object[].class);
 	}
 	
 	public static boolean canHandle(Class<?> c) {
