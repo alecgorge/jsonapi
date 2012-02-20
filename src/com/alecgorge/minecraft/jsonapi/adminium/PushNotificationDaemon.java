@@ -121,11 +121,11 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 		@Override
 		public void publish(LogRecord arg0) {
-			if(arg0 != null && arg0.getLevel().equals(Level.SEVERE)) {
+			if(settings != null && arg0 != null && arg0.getLevel().equals(Level.SEVERE)) {
 				String message = "SEVERE message logged in the console: "+arg0.getMessage();
 				severeLogs.add(0, message);
 				
-				if(settings.get("severe_log")) {
+				if(settings != null && settings.get("severe_log")) {
 					long time = (new Date()).getTime();
 					if(time - lastNotification > 60*1000) {
 						lastNotification = time;
@@ -159,6 +159,23 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			e.printStackTrace();
 		}
 	}
+	
+	private void deregisterDevice(final String device) {
+		trace("Attempting to deregister", device);
+		
+		if(device.length() != 64 || !devices.contains(device)) {
+			return;
+		}
+		
+    	devices.remove(device);
+    	deviceConfig.set("devices", devices);
+    	try {
+			deviceConfig.save(configFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void onMessage(JSONAPIStreamMessage message, JSONAPIStream sender) {
@@ -166,10 +183,10 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 		if(message instanceof ConnectionMessage) {
 			ConnectionMessage c = (ConnectionMessage) message;
-			if(settings.get("player_joined") && c.TrueIsConnectedFalseIsDisconnected) {
+			if(settings != null && settings.get("player_joined") && c.TrueIsConnectedFalseIsDisconnected) {
 				pushNotification(c.player + " joined!");
 			}
-			else if(settings.get("player_quit") && !c.TrueIsConnectedFalseIsDisconnected) {
+			else if(settings != null && settings.get("player_quit") && !c.TrueIsConnectedFalseIsDisconnected) {
 				pushNotification(c.player + " quit!");
 			}
 		}
@@ -221,6 +238,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 						|| methodName.getMethodName().equals("triggerSevere")
 						|| methodName.getMethodName().equals("getCallAdmins")
 						|| methodName.getMethodName().equals("getSeveres")
+						|| methodName.getMethodName().equals("deregisterDevice")
 						));
 	}
 	
@@ -254,7 +272,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 					settings.put(key, Boolean.valueOf(tempDefaults.get(key).toString()));
 				}
 				
-				if(settings.get("player_joined") || settings.get("player_quit")) {
+				if(settings != null && settings.get("player_joined") || settings.get("player_quit")) {
 					api.getStreamManager().getStream("connections").registerListener(this, false);
 				}				
 			} catch (Exception e) {
@@ -285,6 +303,11 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			String deviceToken = args[0].toString();
 			
 			registerDevice(deviceToken);
+		}
+		else if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("deregisterDevice") && args.length == 1) {			
+			String deviceToken = args[0].toString();
+			
+			deregisterDevice(deviceToken);
 		}
 		else if(methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("listPushTypes")) {
 			JSONObject o = new JSONObject();
