@@ -991,7 +991,13 @@ public class APIWrapperMethods {
 
 	public boolean op(String playerName) {
 		try {
-			Bukkit.getOfflinePlayer(playerName).setOp(true);
+			OfflinePlayer p = Bukkit.getOfflinePlayer(playerName);
+			
+			if(p.isOnline()) {
+				p.getPlayer().sendMessage("You are now OP");
+			}
+			
+			p.setOp(true);
 			return true;
 		}
 		catch(Exception e) {
@@ -1001,7 +1007,13 @@ public class APIWrapperMethods {
 	
 	public boolean deop(String playerName) {
 		try {
-			Bukkit.getOfflinePlayer(playerName).setOp(false);
+			OfflinePlayer p = Bukkit.getOfflinePlayer(playerName);
+			
+			if(p.isOnline()) {
+				p.getPlayer().sendMessage("You are no longer OP");
+			}
+			
+			p.setOp(false);
 			return true;
 		}
 		catch(Exception e) {
