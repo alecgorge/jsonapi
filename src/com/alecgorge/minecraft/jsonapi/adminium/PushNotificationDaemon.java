@@ -69,8 +69,6 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		this.configFile = configFile;
 		this.api = api;
 		
-		mcLog.addHandler(new ConsoleHandler(this));
-		api.registerAPICallHandler(this);
 		if(configFile.exists()) {
 			initalize();
 		}
@@ -80,7 +78,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		if(api.anyoneCanUseCallAdmin || from.hasPermission("jsonapi.calladmin")) {
 			String push = "Admin request from " + from.getName() + ": " + message;	
 			
-			if(!settings.get("admin_call")) {
+			if(settings.get("admin_call") != null && settings.get("admin_call")) {
 				from.sendMessage("The admin has disabled /calladmin.");
 				
 				return true;
@@ -125,7 +123,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 				String message = "SEVERE message logged in the console: "+arg0.getMessage();
 				severeLogs.add(0, message);
 				
-				if(settings != null && settings.get("severe_log")) {
+				if(settings.get("severe_log") != null && settings.get("severe_log")) {
 					long time = (new Date()).getTime();
 					if(time - lastNotification > 60*1000) {
 						lastNotification = time;
@@ -183,10 +181,10 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 		if(message instanceof ConnectionMessage) {
 			ConnectionMessage c = (ConnectionMessage) message;
-			if(settings != null && settings.get("player_joined") && c.TrueIsConnectedFalseIsDisconnected) {
+			if(settings.get("player_joined") != null && settings.get("player_joined") && c.TrueIsConnectedFalseIsDisconnected) {
 				pushNotification(c.player + " joined!");
 			}
-			else if(settings != null && settings.get("player_quit") && !c.TrueIsConnectedFalseIsDisconnected) {
+			else if(settings.get("player_quit") != null && settings.get("player_quit") && !c.TrueIsConnectedFalseIsDisconnected) {
 				pushNotification(c.player + " quit!");
 			}
 		}
@@ -244,6 +242,9 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	
 	private void initalize() {
 		if(!this.init) {
+			mcLog.addHandler(new ConsoleHandler(this));
+			api.registerAPICallHandler(this);
+
 			boolean initialSetup = !configFile.exists();
 			
 			try {
