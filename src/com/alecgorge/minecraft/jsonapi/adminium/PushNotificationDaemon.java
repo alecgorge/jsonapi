@@ -78,7 +78,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		if(api.anyoneCanUseCallAdmin || from.hasPermission("jsonapi.calladmin")) {
 			String push = "Admin request from " + from.getName() + ": " + message;	
 			
-			if(settings.get("admin_call") != null && settings.get("admin_call")) {
+			if(!(settings.get("admin_call") != null && settings.get("admin_call"))) {
 				from.sendMessage("The admin has disabled /calladmin.");
 				
 				return true;
