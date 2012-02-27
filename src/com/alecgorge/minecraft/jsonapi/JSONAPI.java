@@ -38,6 +38,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface;
+import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKListener;
 import com.alecgorge.minecraft.jsonapi.adminium.PushNotificationDaemon;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
@@ -76,7 +77,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 	public Logger outLog = Logger.getLogger("JSONAPI");
 	private Handler handler;
 	
-	public RTKInterface rtkAPI;
+	public RTKInterface rtkAPI = null;
 	public InetAddress bindAddress;
 	
 	// for dynamic access
@@ -300,9 +301,17 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			try {
 				yamlRTK.load(new File(getDataFolder(), "config_rtk.yml"));
 				rtkAPI = RTKInterface.createRTKInterface(yamlRTK.getInt("RTK.port", 25561), "localhost", yamlRTK.getString("RTK.username", "user"), yamlRTK.getString("RTK.password", "pass"));
-				rtkAPI.registerRTKListener(this);
-			} catch (Exception e) {
+			} 
+			catch (RTKInterfaceException e) {
+				
+			}
+			catch (Exception e) {
 				e.printStackTrace();
+			}
+			finally {
+				if(rtkAPI != null) {
+					rtkAPI.registerRTKListener(this);
+				}
 			}
 			
 			if(!logging) {
@@ -412,6 +421,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				jsonSocketServer.stop();
 				jsonWebSocketServer.stop();
 				APIWrapperMethods.getInstance().disconnectAllFauxPlayers();
+				rtkAPI.deregisterRTKListener(this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
