@@ -69,6 +69,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		this.configFile = configFile;
 		this.api = api;
 		
+		api.registerAPICallHandler(this);
 		if(configFile.exists()) {
 			initalize();
 		}
@@ -243,7 +244,6 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	private void initalize() {
 		if(!this.init) {
 			mcLog.addHandler(new ConsoleHandler(this));
-			api.registerAPICallHandler(this);
 
 			boolean initialSetup = !configFile.exists();
 			
