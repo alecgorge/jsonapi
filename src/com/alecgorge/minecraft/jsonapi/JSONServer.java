@@ -150,7 +150,21 @@ public class JSONServer extends NanoHTTPD {
 		if(inst.logging || !inst.logFile.equals("false")) {
 			outLog.warning("[JSONAPI] " +log);
 		}
-	}	
+	}
+	
+	private void setLastRequestHeader(Properties lastRequestHeader) {
+		synchronized (lastRequestHeader) {
+			this.lastRequestHeader = lastRequestHeader;			
+		}
+	}
+
+	private Properties getLastRequestHeader() {
+		synchronized (lastRequestHeader) {
+			return lastRequestHeader;			
+		}
+	}
+
+	private Properties lastRequestHeader;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -303,11 +317,16 @@ public class JSONServer extends NanoHTTPD {
 		return r;
 	}
 
-	public NanoHTTPD.Response jsonRespone (JSONAware o, String callback, String code) {
+	public NanoHTTPD.Response jsonRespone (JSONObject o, String callback, String code) {
+		Properties p = getLastRequestHeader();
+		if(p.containsKey("tag")) {
+			o.put("tag", p.get("tag"));
+		}
+		
 		return new NanoHTTPD.Response(code, MIME_JSON, callback(callback, o.toJSONString()));
 	}
 
-	public NanoHTTPD.Response jsonRespone (JSONAware o, String callback) {
+	public NanoHTTPD.Response jsonRespone (JSONObject o, String callback) {
 		return jsonRespone(o, callback, HTTP_OK);
 	}
 
