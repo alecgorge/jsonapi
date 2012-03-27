@@ -24,7 +24,6 @@ import net.minecraft.server.NetHandler;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.World;
-import net.tootallnate.websocket.Base64;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -45,6 +44,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
+import org.java_websocket.util.Base64;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.APIException;
