@@ -19,9 +19,11 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 	private LinkedBlockingQueue<JSONAPIStreamMessage> queue = new LinkedBlockingQueue<JSONAPIStreamMessage>();
 	private JSONAPI plugin;
 	private String callback;
+	private String tag;
 	
-	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, boolean showOlder) {
+	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, boolean showOlder, String tag) {
 		plugin = _plugin;
+		this.tag = tag;
 		
 		for(String s : sourceLists) {
 			if(plugin.getStreamManager().streamExists(s)) {
@@ -65,6 +67,7 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 		o.put("result", "success");
 		o.put("source", ja.streamName());
 		o.put("success", ja);
+		o.put("tag", tag);
 		
 		String ret = o.toJSONString();
 		return ret;

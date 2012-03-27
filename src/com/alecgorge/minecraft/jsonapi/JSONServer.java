@@ -14,7 +14,6 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.json.simpleForBukkit.JSONArray;
-import org.json.simpleForBukkit.JSONAware;
 import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
 import org.json.simpleForBukkit.parser.ParseException;
@@ -152,24 +151,25 @@ public class JSONServer extends NanoHTTPD {
 		}
 	}
 	
-	private void setLastRequestHeader(Properties lastRequestHeader) {
-		synchronized (lastRequestHeader) {
-			this.lastRequestHeader = lastRequestHeader;			
+	private void setLastRequestParms(Properties parms) {
+		synchronized (parms) {
+			this.lastRequestParms = parms;			
 		}
 	}
 
-	private Properties getLastRequestHeader() {
-		synchronized (lastRequestHeader) {
-			return lastRequestHeader;			
+	private Properties getLastRequestParms() {
+		synchronized (lastRequestParms) {
+			return lastRequestParms;			
 		}
 	}
 
-	private Properties lastRequestHeader;
+	private Properties lastRequestParms = null;
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Response serve( String uri, String method, Properties header, Properties parms )	{
 		String callback = parms.getProperty("callback");
+		setLastRequestParms(parms);
 		
 		if(inst.whitelist.size() > 0 && !inst.whitelist.contains(header.get("X-REMOTE-ADDR"))) {
 			outLog.warning("[JSONAPI] An API call from "+ header.get("X-REMOTE-ADDR") +" was blocked because "+header.get("X-REMOTE-ADDR")+" is not on the whitelist.");
@@ -227,8 +227,7 @@ public class JSONServer extends NanoHTTPD {
 			}
 			
 			info("[Streaming API] "+header.get("X-REMOTE-ADDR")+": source="+ sourceList.toString());
-
-			StreamingResponse out = new StreamingResponse(inst, sourceList, callback, showOlder);
+			StreamingResponse out = new StreamingResponse(inst, sourceList, callback, showOlder, parms.containsKey("tag") ? parms.getProperty("tag") : null);
 
 			return new NanoHTTPD.Response( HTTP_OK, MIME_PLAINTEXT, out);
 		}
@@ -318,8 +317,8 @@ public class JSONServer extends NanoHTTPD {
 	}
 
 	public NanoHTTPD.Response jsonRespone (JSONObject o, String callback, String code) {
-		Properties p = getLastRequestHeader();
-		if(p.containsKey("tag")) {
+		Properties p = getLastRequestParms();
+		if(p != null && p.containsKey("tag")) {
 			o.put("tag", p.get("tag"));
 		}
 		
