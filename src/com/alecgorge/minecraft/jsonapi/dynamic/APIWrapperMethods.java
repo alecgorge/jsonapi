@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.ItemInWorldManager;
 import net.minecraft.server.MinecraftServer;
@@ -44,6 +45,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.java_websocket.util.Base64;
 import org.json.simpleForBukkit.JSONObject;
 
@@ -61,8 +63,17 @@ public class APIWrapperMethods {
 	public PermissionWrapper permissions;
 	public NetworkManager manager;
 	
+	public Economy econ;
+	
 	public APIWrapperMethods(Server server) {
 		permissions = new PermissionWrapper(server);
+		
+        if (server.getPluginManager().getPlugin("Vault") != null) {
+        	RegisteredServiceProvider<Economy> rsp = server.getServicesManager().getRegistration(Economy.class);
+        	if(rsp != null) {
+        		econ = rsp.getProvider();
+        	}
+        }
 	}
 
 	private Server Server = JSONAPI.instance.getServer();
