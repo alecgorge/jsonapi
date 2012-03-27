@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.economy.EconomyResponse;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -51,6 +53,7 @@ public class BukkitStringifier {
 		handle.put("Enchantment", org.bukkit.enchantments.Enchantment.class);
 		handle.put("Block", org.bukkit.block.Block.class);
 		handle.put("Object[]", java.lang.Object[].class);
+		handle.put("EconomyResponse", net.milkbowl.vault.economy.EconomyResponse.class);
 	}
 	
 	public static boolean canHandle(Class<?> c) {
@@ -232,6 +235,17 @@ public class BukkitStringifier {
 		}
 		else if(obj instanceof Enchantment) {
 			return ((Enchantment)obj).getId();
+		}
+		else if(obj instanceof EconomyResponse) {
+			JSONObject o = new JSONObject();
+			EconomyResponse r = (EconomyResponse)obj;
+			
+			o.put("amount", r.amount);
+			o.put("balance", r.balance);
+			o.put("errorMessage", r.errorMessage);
+			o.put("type", r.type.toString());
+			
+			return o;
 		}
 		else if(obj instanceof Object[]) {
 			int l = ((Object[])obj).length;

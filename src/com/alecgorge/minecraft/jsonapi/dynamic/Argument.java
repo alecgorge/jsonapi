@@ -75,7 +75,12 @@ public class Argument {
 					try {
 						ret = Class.forName("org.bukkit.entity."+name);
 					} catch (Exception e3) {
-						e3.printStackTrace();
+						try {
+							ret = Class.forName("net.milkbowl.vault.economy."+name);
+						} catch (ClassNotFoundException e4) {
+							// TODO Auto-generated catch block
+							e4.printStackTrace();
+						}
 					}
 				}
 			}
