@@ -3,10 +3,13 @@ package com.alecgorge.minecraft.jsonapi;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
+import java.nio.channels.NotYetConnectedException;
 import java.util.Properties;
 
-import net.tootallnate.websocket.WebSocket;
-import net.tootallnate.websocket.WebSocketServer;
+import org.java_websocket.WebSocket;
+import org.java_websocket.WebSocketServer;
+import org.java_websocket.handshake.ClientHandshake;
 
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
@@ -14,18 +17,25 @@ public class JSONWebSocketServer extends WebSocketServer {
 	JSONServer jsonServer;
 	
 	public JSONWebSocketServer (int port, JSONServer jsonServer) {
-		super(port);
+		super(new InetSocketAddress(port));
 		this.jsonServer = jsonServer;
 	}
-	
+
+
 	@Override
-	public void onClientClose(WebSocket conn) {
+	public void onOpen(WebSocket conn, ClientHandshake handshake) {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onClientMessage(final WebSocket conn, String message) {
-		// format method=xyz&args=[]&username=user&password=pass
+	public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMessage(final WebSocket conn, String message) {
 		String[] split = message.split("\\?", 2);
 		
 		NanoHTTPD.Response r = null;
@@ -36,7 +46,7 @@ public class JSONWebSocketServer extends WebSocketServer {
 			Properties header = new Properties();
 			NanoHTTPD.decodeParms(split[1], header);
 			Properties p = new Properties();
-			p.put("X-REMOTE-ADDR", conn.socketChannel().socket().getInetAddress().getHostAddress());
+			p.put("X-REMOTE-ADDR", conn.getRemoteSocketAddress().getAddress().getHostAddress());
 			r = jsonServer.serve(split[0], "GET", p, header);
 		}
 		
@@ -50,19 +60,21 @@ public class JSONWebSocketServer extends WebSocketServer {
 					
 					while((line = s.nextLine()) != null && continueSending) {
 						try {
-							if(conn.socketChannel().isOpen() && conn.socketChannel().isConnected()) {
+							if(conn.isOpen()) {
 								conn.send(line.trim()+"\r\n");
 							}
 							else {
 								continueSending = false;
 							}
-						} catch (IOException e) {
-							continueSending = false;
-							try {
-								conn.close();
-							} catch (IOException e1) {
-								
-							}
+						} catch (NotYetConnectedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}
 				}
@@ -79,22 +91,23 @@ public class JSONWebSocketServer extends WebSocketServer {
 				}
 			}
 			catch (IOException e) {
-				try {
-					conn.close();
-				} catch (IOException e1) {
-					
-				}
+				conn.close(0);
+			} catch (NotYetConnectedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
 
 	@Override
-	public void onClientOpen(WebSocket conn) {
-
-	}
-
-	@Override
-	public void onError(Throwable ex) {
+	public void onError(WebSocket conn, Exception ex) {
+		// TODO Auto-generated method stub
 		
 	}
 }
