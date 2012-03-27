@@ -93,25 +93,27 @@ class MinecraftJsonApi (object):
 		Copied with minor edits from examples on: 
 			http://docs.python.org/library/socket.html
 		'''
-		try:
+		'''try:
 			flags = socket.AI_ADDRCONFIG
 		except AttributeError:
 			flags = 0
 		for res in socket.getaddrinfo(self.host, (self.port+1), 
 				socket.AF_UNSPEC, socket.SOCK_STREAM, 
 				socket.IPPROTO_TCP,	flags):
-			af, socktype, proto, canonname, sa = res
-			try:
-				sock = socket.socket(af, socktype, proto)
-				sock.connect(sa)
-			except socket.error:
-				if sock:
-					sock.close()
-					sock = None
-				continue
-			break
-		if not sock:
-			raise Exception('Connect failed') 
+			af, socktype, proto, canonname, sa = res'''
+		try:
+			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			port = self.port +1
+			sock.connect((self.host, port))
+		except socket.error:
+			if sock:
+				sock.close()
+				sock = None
+			#continue
+		#break
+			if not sock:
+				raise Exception('Connect failed') 
+			
 		return MinecraftStream(sock.makefile('rwb'))
 
 	def __createMethodAttributes(self, method):
@@ -253,7 +255,7 @@ class MinecraftJsonApi (object):
 		read/readline for raw values, use readjson for parsed values.
 		'''
 		# This doesn't work right, I don't know why.... yet.
-		raise NotImplementedError()
+		#raise NotImplementedError()
 		
 		if feed not in ['console', 'chat', 'connections']:
 			raise NotImplementedError(
@@ -314,3 +316,9 @@ if __name__ == '__main__':
 	
 	print([m['method_name'] for m in api.getLoadedMethods()])
 	print (api.getMethod('kickPlayer'))	
+	x = True
+	while x:
+		method = raw_input('>')
+		print (api.getMethod(method))
+		method = raw_input('->')
+		print api.call(method)
