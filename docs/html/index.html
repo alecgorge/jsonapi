@@ -2,970 +2,2052 @@
 <html>
 	<head>
 		<title>JSONAPI API Docs</title>
+		<link type="text/css" rel="stylesheet" name="stylesheet" href="bootstrap.min.css" />
 		<link type="text/css" rel="stylesheet" name="stylesheet" href="styles.css" />
 	</head>
 	<body>
-	<h1>API Documentation for JSONAPI</h1>
-	<p>This page documents all the methods that ship with JSONAPI. This includes the base method that work as long as JSONAPI is installed and enabled, along with the methods that require another plugin to be installed and enabled for them to work.
-	The methods that require another plugin to be installed simply do not work if that plugin is not installed and enabled.</p>
-	<h2>Available method packages</h2>
-	<ul>
-<li><a href="#package-JSONAPI%20default%20methods">JSONAPI default methods</a> (default namespace)</li>
-<li><a href="#package-Dynmap%20API%20methods">Dynmap API methods</a> (dynmap namespace)</li>
-<li><a href="#package-Economy%20Methods">Economy Methods</a> (econ namespace)</li>
-<li><a href="#package-Remote%20Toolkit%20methods">Remote Toolkit methods</a> (remotetoolkit namespace)</li>
-<li><a href="#package-System%20Usage%20Methods">System Usage Methods</a> (system namespace)</li>
-</ul><h2 id="package-JSONAPI%20default%20methods">JSONAPI default methods</h2><h3>Depends on the following plugins:</h3><ul><li>JSONAPI</li></ul><h3>Methods</h3><ul><li><a href='#this.addEnchantmentToPlayerInventorySlot%280%2C%201%2C%202%2C%203%29'>void addEnchantmentToPlayerInventorySlot(String, int, int, int)</a></li><li><a href='#this.addEnchantmentsToPlayerInventorySlot%280%2C%201%2C%202%29'>void addEnchantmentsToPlayerInventorySlot(String, int, Object[])</a></li><li><a href='#this.whitelist%280%29'>void addToWhitelist(String)</a></li><li><a href='#this.appendFileContents%280%2C%201%29'>void appendToFile(String, String)</a></li><li><a href='#this.ban%280%29'>void ban(String)</a></li><li><a href='#Server.banIP%280%29'>void banIP(String)</a></li><li><a href='#this.banWithReason%280%2C%201%29'>void banWithReason(String, String)</a></li><li><a href='#Server.broadcastMessage%280%29'>void broadcast(String)</a></li><li><a href='#this.chatWithName%280%2C%201%29'>void broadcastWithName(String, String)</a></li><li><a href='#this.clearPlayerInventorySlot%280%2C%201%29'>void clearPlayerInventorySlot(String, int)</a></li><li><a href='#this.deop%280%29'>void deopPlayer(String)</a></li><li><a href='#this.disablePlugin%280%29'>void disablePlugin(String)</a></li><li><a href='#Server.getPluginManager%28%29.disablePlugins%28%29'>void disablePlugins()</a></li><li><a href='#this.editPropertiesFile%280%2C1%2C2%2C3%29'>void editPropertiesFile(String, String, String, String)</a></li><li><a href='#this.enablePlugin%280%29'>void enablePlugin(String)</a></li><li><a href='#this.getBannedIPs%28%29'>void getBannedIPs()</a></li><li><a href='#this.getBannedPlayers%28%29'>void getBannedPlayers()</a></li><li><a href='#this.getFileBinaryBase64%280%29'>void getBinaryFileBase64(String)</a></li><li><a href='#Server.getWorld%280%29.getBlockAt%281%2C%202%2C%203%29'>void getBlock(String, int, int, int)</a></li><li><a href='#Server.getBukkitVersion%28%29'>void getBukkitVersion()</a></li><li><a href='#this.getDirectory%280%29'>void getDirectory(String)</a></li><li><a href='#this.getFileContents%280%29'>void getFileContents(String)</a></li><li><a href='#this.getChatLogs%28%29'>void getLatestChats()</a></li><li><a href='#this.getChatLogs%280%29'>void getLatestChatsWithLimit(int)</a></li><li><a href='#this.getConnectionLogs%28%29'>void getLatestConnections()</a></li><li><a href='#this.getConnectionLogs%280%29'>void getLatestConnectionsWithLimit(int)</a></li><li><a href='#this.getConsoleLogs%28%29'>void getLatestConsoleLogs()</a></li><li><a href='#this.getConsoleLogs%280%29'>void getLatestConsoleLogsWithLimit(int)</a></li><li><a href='#Server.getOfflinePlayer%280%29'>void getOfflinePlayer(String)</a></li><li><a href='#this.getOfflinePlayerNames%28%29'>void getOfflinePlayerNames()</a></li><li><a href='#this.getOfflinePlayers%28%29'>void getOfflinePlayers()</a></li><li><a href='#Server.getPlayer%280%29'>void getPlayer(String)</a></li><li><a href='#Server.getOnlinePlayers%28%29.length'>void getPlayerCount()</a></li><li><a href='#Server.getMaxPlayers%28%29'>void getPlayerLimit()</a></li><li><a href='#this.getPlayerNames%28%29'>void getPlayerNames()</a></li><li><a href='#Server.getOnlinePlayers%28%29'>void getPlayers()</a></li><li><a href='#Server.getPluginManager%28%29.getPlugin%280%29'>void getPlugin(String)</a></li><li><a href='#this.getPluginFiles%280%29'>void getPluginFiles(String)</a></li><li><a href='#Server.getPluginManager%28%29.getPlugin%280%29.getDescription%28%29.getVersion%28%29'>void getPluginVersion(String)</a></li><li><a href='#Server.getPluginManager%28%29.getPlugins%28%29'>void getPlugins()</a></li><li><a href='#this.getPropertiesFile%280%29'>void getPropertiesFile(String)</a></li><li><a href='#this.getServer%28%29'>void getServer()</a></li><li><a href='#Server.getIp%28%29'>void getServerIp()</a></li><li><a href='#Server.getPort%28%29'>void getServerPort()</a></li><li><a href='#Server.getVersion%28%29'>void getServerVersion()</a></li><li><a href='#this.getSingleDirectory%280%29'>void getSingleDirectory(String)</a></li><li><a href='#this.getStream%280%29'>void getStream(String)</a></li><li><a href='#this.getStreamWithLimit%280%2C%201%29'>void getStreamWithLimit(String, int)</a></li><li><a href='#this.getWhitelist%28%29'>void getWhitelist()</a></li><li><a href='#Server.getWorld%280%29'>void getWorld(String)</a></li><li><a href='#Server.getWorlds%28%29'>void getWorlds()</a></li><li><a href='#this.giveItem%280%2C%201%2C%202%29'>void givePlayerItem(String, int, int)</a></li><li><a href='#this.giveItemDrop%280%2C%201%2C%202%29'>void givePlayerItemDrop(String, int, int)</a></li><li><a href='#this.giveItemDrop%280%2C%201%2C%202%2C%203%29'>void givePlayerItemDropWithData(String, int, int, int)</a></li><li><a href='#this.giveItem%280%2C%201%2C%202%2C%203%29'>void givePlayerItemWithData(String, int, int, int)</a></li><li><a href='#Server.getPlayer%280%29.kickPlayer%281%29'>void kickPlayer(String, String)</a></li><li><a href='#this.op%280%29'>void opPlayer(String)</a></li><li><a href='#Server.reload%28%29'>void reloadServer()</a></li><li><a href='#this.removeEnchantmentsFromPlayerInventorySlot%280%2C%201%2C%202%29'>void removeEnchantmentsFromPlayerInventorySlot(String, int, Object[])</a></li><li><a href='#this.unwhitelist%280%29'>void removeFromWhitelist(String)</a></li><li><a href='#this.removePlayerInventoryItem%280%2C%201%29'>void removePlayerInventoryItem(String, int)</a></li><li><a href='#this.runCommand%280%29'>void runConsoleCommand(String)</a></li><li><a href='#this.runCommand%28%22save-all%22%29'>void saveMap()</a></li><li><a href='#this.runCommand%28%22save-off%22%29'>void saveOff()</a></li><li><a href='#this.runCommand%28%22save-on%22%29'>void saveOn()</a></li><li><a href='#Server.getPlayer%280%29.sendMessage%281%29'>void sendMessage(String, String)</a></li><li><a href='#this.setBlockData%280%2C1%2C2%2C3%2C4%29'>void setBlockData(String, int, int, int, int)</a></li><li><a href='#Server.getWorld%280%29.getBlockAt%281%2C%202%2C%203%29.setTypeId%284%29'>void setBlockType(String, int, int, int, int)</a></li><li><a href='#this.setFileBinaryBase64%280%2C%201%29'>void setFileBinaryBase64(String, String)</a></li><li><a href='#this.setFileContents%280%2C%201%29'>void setFileContents(String, String)</a></li><li><a href='#this.setPlayerExperience%280%2C1%29'>void setPlayerExperience(String, int)</a></li><li><a href='#Server.getPlayer%280%29.setFoodLevel%281%29'>void setPlayerFoodLevel(String, int)</a></li><li><a href='#this.setPlayerGameMode%280%2C%201%29'>void setPlayerGameMode(String, int)</a></li><li><a href='#Server.getPlayer%280%29.setHealth%281%29'>void setPlayerHealth(String, int)</a></li><li><a href='#this.setPlayerInventorySlot%280%2C%201%2C%202%2C%203%29'>void setPlayerInventorySlot(String, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlot%280%2C%201%2C%202%2C%203%2C%204%29'>void setPlayerInventorySlotWithDamage(String, int, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlotWithData%280%2C%201%2C%202%2C%203%2C%204%29'>void setPlayerInventorySlotWithData(String, int, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlotWithDataAndDamage%280%2C%201%2C%202%2C%203%2C%204%2C%205%29'>void setPlayerInventorySlotWithDataAndDamage(String, int, int, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlotWithDataDamageAndEnchantments%280%2C%201%2C%202%2C%203%2C%204%2C%205%2C%206%29'>void setPlayerInventorySlotWithDataDamageAndEnchantments(String, int, int, int, int, int, Object[])</a></li><li><a href='#this.setPlayerLevel%280%2C1%29'>void setPlayerLevel(String, int)</a></li><li><a href='#this.setWorldTime%280%2C%201%29'>void setWorldTime(String, int)</a></li><li><a href='#this.teleport%280%2C%201%29'>void teleport(String, String)</a></li><li><a href='#this.teleport%280%2C1%2C2%2C3%29'>void teleportPlayerToLocation(String, int, int, int)</a></li><li><a href='#this.teleport%280%2C1%2C2%2C3%2C4%29'>void teleportPlayerToWorldLocation(String, String, int, int, int)</a></li><li><a href='#this.unban%280%29'>void unban(String)</a></li><li><a href='#Server.unbanIP%280%29'>void unbanIP(String)</a></li><li><a href='#this.updatePlayerInventorySlot%280%2C%201%2C%202%29'>void updatePlayerInventorySlot(String, int, int)</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.addEnchantmentToPlayerInventorySlot%280%2C%201%2C%202%2C%203%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>addEnchantmentToPlayerInventorySlot</li>
-			<li class="method-info-desc"><strong>Description: </strong>Adds an enchantment to the specified slot in the specified player's inventory with the specified level.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> The enchantment ID (EID): http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types</li><li><strong>int</strong> The enchantment level</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the enchanting process was successful. False is usually the restult will be returned if the player is not on the server.</li>
-		</ul>
+	<div class="navbar navbar-fixed-top">
+	    <div class="navbar-inner">
+	      <div class="container">
+	        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	        </a>
+	        <a class="brand" href="#">JSONAPI Documentation</a>
+	        <div class="nav-collapse">
+	          <ul class="nav">
+	          	<li><a href="#package-JSONAPI%20standard">JSONAPI standard</a></li>
+<li><a href="#package-Dynmap">Dynmap</a></li>
+<li><a href="#package-Economy">Economy</a></li>
+<li><a href="#package-Remote%20Toolkit">Remote Toolkit</a></li>
+<li><a href="#package-System%20Usage">System Usage</a></li>
+	          </ul>
+	        </div><!-- /.nav-collapse -->
+	      </div>
+	    </div><!-- /navbar-inner -->
+	  </div>
+	<div class="container">
+		<div class="jumbotron subhead">
+			<h1>API Documentation for JSONAPI</h1>
+			<p class="lead">This page documents all the methods that ship with JSONAPI. This includes the base method that work as long as JSONAPI is installed and enabled, along with the methods that require another plugin to be installed and enabled for them to work.
+			</p>
+			<p class="lead"><em>The methods that require another plugin to be installed simply do not work if that plugin is not installed and enabled.</em></p>
+			<h2>Available method packages</h2>
+		</div>
+		<ul>
+	<li><a href="#package-JSONAPI%20standard">JSONAPI standard</a> (default namespace)</li>
+<li><a href="#package-Dynmap">Dynmap</a> (dynmap namespace)</li>
+<li><a href="#package-Economy">Economy</a> (econ namespace)</li>
+<li><a href="#package-Remote%20Toolkit">Remote Toolkit</a> (remotetoolkit namespace)</li>
+<li><a href="#package-System%20Usage">System Usage</a> (system namespace)</li>
+</ul>	<section>
+		<div class="page-header">
+			<h1 id="package-JSONAPI%20standard">JSONAPI standard</h1>
+		</div>
+		<dl class="dl-horizontal">
+			<dt>Dependencies</dt>
+			<dd><ul><li>JSONAPI</li></ul></dd>
+			<dt>Methods</dt>
+			<dd><ul><li><a href='#this.addEnchantmentToPlayerInventorySlot%280%2C%201%2C%202%2C%203%29'>void addEnchantmentToPlayerInventorySlot(String, int, int, int)</a></li><li><a href='#this.addEnchantmentsToPlayerInventorySlot%280%2C%201%2C%202%29'>void addEnchantmentsToPlayerInventorySlot(String, int, Object[])</a></li><li><a href='#this.whitelist%280%29'>void addToWhitelist(String)</a></li><li><a href='#this.appendFileContents%280%2C%201%29'>void appendToFile(String, String)</a></li><li><a href='#this.ban%280%29'>void ban(String)</a></li><li><a href='#Server.banIP%280%29'>void banIP(String)</a></li><li><a href='#this.banWithReason%280%2C%201%29'>void banWithReason(String, String)</a></li><li><a href='#Server.broadcastMessage%280%29'>void broadcast(String)</a></li><li><a href='#this.chatWithName%280%2C%201%29'>void broadcastWithName(String, String)</a></li><li><a href='#this.clearPlayerInventorySlot%280%2C%201%29'>void clearPlayerInventorySlot(String, int)</a></li><li><a href='#this.deop%280%29'>void deopPlayer(String)</a></li><li><a href='#this.disablePlugin%280%29'>void disablePlugin(String)</a></li><li><a href='#Server.getPluginManager%28%29.disablePlugins%28%29'>void disablePlugins()</a></li><li><a href='#this.editPropertiesFile%280%2C1%2C2%2C3%29'>void editPropertiesFile(String, String, String, String)</a></li><li><a href='#this.enablePlugin%280%29'>void enablePlugin(String)</a></li><li><a href='#this.getBannedIPs%28%29'>void getBannedIPs()</a></li><li><a href='#this.getBannedPlayers%28%29'>void getBannedPlayers()</a></li><li><a href='#this.getFileBinaryBase64%280%29'>void getBinaryFileBase64(String)</a></li><li><a href='#Server.getWorld%280%29.getBlockAt%281%2C%202%2C%203%29'>void getBlock(String, int, int, int)</a></li><li><a href='#Server.getBukkitVersion%28%29'>void getBukkitVersion()</a></li><li><a href='#this.getDirectory%280%29'>void getDirectory(String)</a></li><li><a href='#this.getFileContents%280%29'>void getFileContents(String)</a></li><li><a href='#this.getChatLogs%28%29'>void getLatestChats()</a></li><li><a href='#this.getChatLogs%280%29'>void getLatestChatsWithLimit(int)</a></li><li><a href='#this.getConnectionLogs%28%29'>void getLatestConnections()</a></li><li><a href='#this.getConnectionLogs%280%29'>void getLatestConnectionsWithLimit(int)</a></li><li><a href='#this.getConsoleLogs%28%29'>void getLatestConsoleLogs()</a></li><li><a href='#this.getConsoleLogs%280%29'>void getLatestConsoleLogsWithLimit(int)</a></li><li><a href='#Server.getOfflinePlayer%280%29'>void getOfflinePlayer(String)</a></li><li><a href='#this.getOfflinePlayerNames%28%29'>void getOfflinePlayerNames()</a></li><li><a href='#this.getOfflinePlayers%28%29'>void getOfflinePlayers()</a></li><li><a href='#Server.getPlayer%280%29'>void getPlayer(String)</a></li><li><a href='#Server.getOnlinePlayers%28%29.length'>void getPlayerCount()</a></li><li><a href='#Server.getMaxPlayers%28%29'>void getPlayerLimit()</a></li><li><a href='#this.getPlayerNames%28%29'>void getPlayerNames()</a></li><li><a href='#Server.getOnlinePlayers%28%29'>void getPlayers()</a></li><li><a href='#Server.getPluginManager%28%29.getPlugin%280%29'>void getPlugin(String)</a></li><li><a href='#this.getPluginFiles%280%29'>void getPluginFiles(String)</a></li><li><a href='#Server.getPluginManager%28%29.getPlugin%280%29.getDescription%28%29.getVersion%28%29'>void getPluginVersion(String)</a></li><li><a href='#Server.getPluginManager%28%29.getPlugins%28%29'>void getPlugins()</a></li><li><a href='#this.getPropertiesFile%280%29'>void getPropertiesFile(String)</a></li><li><a href='#this.getServer%28%29'>void getServer()</a></li><li><a href='#Server.getIp%28%29'>void getServerIp()</a></li><li><a href='#Server.getPort%28%29'>void getServerPort()</a></li><li><a href='#Server.getVersion%28%29'>void getServerVersion()</a></li><li><a href='#this.getSingleDirectory%280%29'>void getSingleDirectory(String)</a></li><li><a href='#this.getStream%280%29'>void getStream(String)</a></li><li><a href='#this.getStreamWithLimit%280%2C%201%29'>void getStreamWithLimit(String, int)</a></li><li><a href='#this.getWhitelist%28%29'>void getWhitelist()</a></li><li><a href='#Server.getWorld%280%29'>void getWorld(String)</a></li><li><a href='#Server.getWorlds%28%29'>void getWorlds()</a></li><li><a href='#this.giveItem%280%2C%201%2C%202%29'>void givePlayerItem(String, int, int)</a></li><li><a href='#this.giveItemDrop%280%2C%201%2C%202%29'>void givePlayerItemDrop(String, int, int)</a></li><li><a href='#this.giveItemDrop%280%2C%201%2C%202%2C%203%29'>void givePlayerItemDropWithData(String, int, int, int)</a></li><li><a href='#this.giveItem%280%2C%201%2C%202%2C%203%29'>void givePlayerItemWithData(String, int, int, int)</a></li><li><a href='#Server.getPlayer%280%29.kickPlayer%281%29'>void kickPlayer(String, String)</a></li><li><a href='#this.op%280%29'>void opPlayer(String)</a></li><li><a href='#Server.reload%28%29'>void reloadServer()</a></li><li><a href='#this.removeEnchantmentsFromPlayerInventorySlot%280%2C%201%2C%202%29'>void removeEnchantmentsFromPlayerInventorySlot(String, int, Object[])</a></li><li><a href='#this.unwhitelist%280%29'>void removeFromWhitelist(String)</a></li><li><a href='#this.removePlayerInventoryItem%280%2C%201%29'>void removePlayerInventoryItem(String, int)</a></li><li><a href='#this.runCommand%280%29'>void runConsoleCommand(String)</a></li><li><a href='#this.runCommand%28%22save-all%22%29'>void saveMap()</a></li><li><a href='#this.runCommand%28%22save-off%22%29'>void saveOff()</a></li><li><a href='#this.runCommand%28%22save-on%22%29'>void saveOn()</a></li><li><a href='#Server.getPlayer%280%29.sendMessage%281%29'>void sendMessage(String, String)</a></li><li><a href='#this.setBlockData%280%2C1%2C2%2C3%2C4%29'>void setBlockData(String, int, int, int, int)</a></li><li><a href='#Server.getWorld%280%29.getBlockAt%281%2C%202%2C%203%29.setTypeId%284%29'>void setBlockType(String, int, int, int, int)</a></li><li><a href='#this.setFileBinaryBase64%280%2C%201%29'>void setFileBinaryBase64(String, String)</a></li><li><a href='#this.setFileContents%280%2C%201%29'>void setFileContents(String, String)</a></li><li><a href='#this.setPlayerExperience%280%2C1%29'>void setPlayerExperience(String, int)</a></li><li><a href='#Server.getPlayer%280%29.setFoodLevel%281%29'>void setPlayerFoodLevel(String, int)</a></li><li><a href='#this.setPlayerGameMode%280%2C%201%29'>void setPlayerGameMode(String, int)</a></li><li><a href='#Server.getPlayer%280%29.setHealth%281%29'>void setPlayerHealth(String, int)</a></li><li><a href='#this.setPlayerInventorySlot%280%2C%201%2C%202%2C%203%29'>void setPlayerInventorySlot(String, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlot%280%2C%201%2C%202%2C%203%2C%204%29'>void setPlayerInventorySlotWithDamage(String, int, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlotWithData%280%2C%201%2C%202%2C%203%2C%204%29'>void setPlayerInventorySlotWithData(String, int, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlotWithDataAndDamage%280%2C%201%2C%202%2C%203%2C%204%2C%205%29'>void setPlayerInventorySlotWithDataAndDamage(String, int, int, int, int, int)</a></li><li><a href='#this.setPlayerInventorySlotWithDataDamageAndEnchantments%280%2C%201%2C%202%2C%203%2C%204%2C%205%2C%206%29'>void setPlayerInventorySlotWithDataDamageAndEnchantments(String, int, int, int, int, int, Object[])</a></li><li><a href='#this.setPlayerLevel%280%2C1%29'>void setPlayerLevel(String, int)</a></li><li><a href='#this.setWorldTime%280%2C%201%29'>void setWorldTime(String, int)</a></li><li><a href='#this.teleport%280%2C%201%29'>void teleport(String, String)</a></li><li><a href='#this.teleport%280%2C1%2C2%2C3%29'>void teleportPlayerToLocation(String, int, int, int)</a></li><li><a href='#this.teleport%280%2C1%2C2%2C3%2C4%29'>void teleportPlayerToWorldLocation(String, String, int, int, int)</a></li><li><a href='#this.unban%280%29'>void unban(String)</a></li><li><a href='#Server.unbanIP%280%29'>void unbanIP(String)</a></li><li><a href='#this.updatePlayerInventorySlot%280%2C%201%2C%202%29'>void updatePlayerInventorySlot(String, int, int)</a></li></ul></dd>
+		</dl>
+		<div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.addEnchantmentToPlayerInventorySlot%280%2C%201%2C%202%2C%203%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">addEnchantmentToPlayerInventorySlot</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Adds an enchantment to the specified slot in the specified player's inventory with the specified level.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>int</dt><dd>The enchantment ID (EID): http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types</dd>
+<dt>int</dt><dd>The enchantment level</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the enchanting process was successful. False is usually the restult will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.addEnchantmentsToPlayerInventorySlot%280%2C%201%2C%202%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>addEnchantmentsToPlayerInventorySlot</li>
-			<li class="method-info-desc"><strong>Description: </strong>Adds an enchantment to the specified slot in the specified player's inventory with the specified level.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>Object[]</strong> Array of {enchantment: 0, level: 1}-esque objects where enchantment is the EID-value from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the enchanting process was successful. False is usually the restult will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">addEnchantmentsToPlayerInventorySlot</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Adds an enchantment to the specified slot in the specified player's inventory with the specified level.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>Object[]</dt><dd>Array of {enchantment: 0, level: 1}-esque objects where enchantment is the EID-value from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the enchanting process was successful. False is usually the restult will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.whitelist%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>addToWhitelist</li>
-			<li class="method-info-desc"><strong>Description: </strong>Adds the specified player to the whitelist.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be added to the whitelist</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">addToWhitelist</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Adds the specified player to the whitelist.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the player to be added to the whitelist</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.appendFileContents%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>appendToFile</li>
-			<li class="method-info-desc"><strong>Description: </strong>Appends to the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li><li><strong>String</strong> The content to append to the file.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">appendToFile</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Appends to the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the file to read.</dd>
+<dt>String</dt><dd>The content to append to the file.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.ban%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>ban</li>
-			<li class="method-info-desc"><strong>Description: </strong>Bans the specified player.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be banned.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">ban</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Bans the specified player.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the player to be banned.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.banIP%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>banIP</li>
-			<li class="method-info-desc"><strong>Description: </strong>Bans the specified IP.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The IP to be banned.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">banIP</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Bans the specified IP.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The IP to be banned.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.banWithReason%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>banWithReason</li>
-			<li class="method-info-desc"><strong>Description: </strong>Bans the specified player with the specified reason.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be banned.</li><li><strong>String</strong> The reason the player is being banned.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>R</strong> e</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">banWithReason</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Bans the specified player with the specified reason.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the player to be banned.</dd>
+<dt>String</dt><dd>The reason the player is being banned.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Returns true if the player was banned while online; false if the player was offline when he/she was banned.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.broadcastMessage%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>broadcast</li>
-			<li class="method-info-desc"><strong>Description: </strong>Send a message to every player on the server.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The message to broadcast</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> The number of players the message was broadcast to.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">broadcast</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Send a message to every player on the server.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The message to broadcast</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> The number of players the message was broadcast to.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.chatWithName%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>broadcastWithName</li>
-			<li class="method-info-desc"><strong>Description: </strong>Similar to broadcast, but lets you specify a name to chat as and displays the message with the proper format. Looks just like the person specified is on the esrver.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The message.</li><li><strong>String</strong> The name to send as.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True on success, false on failure.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">broadcastWithName</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Similar to broadcast, but lets you specify a name to chat as and displays the message with the proper format. Looks just like the person specified is on the esrver.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The message.</dd>
+<dt>String</dt><dd>The name to send as.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on success, false on failure.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.clearPlayerInventorySlot%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>clearPlayerInventorySlot</li>
-			<li class="method-info-desc"><strong>Description: </strong>Removes everything from the specified slot in the player's inventory.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the slot was cleared. False will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">clearPlayerInventorySlot</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes everything from the specified slot in the player's inventory.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Slot number</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the slot was cleared. False will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.deop%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>deopPlayer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Deops the specified player.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be deopped.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">deopPlayer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Deops the specified player.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the player to be deopped.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.disablePlugin%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>disablePlugin</li>
-			<li class="method-info-desc"><strong>Description: </strong>Disables the specified plugin. Attempting to disable a plugin that is not enabled will have no effect.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the plugin to disable</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the plugin was disabled. False will be returned if the plugin is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">disablePlugin</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Disables the specified plugin. Attempting to disable a plugin that is not enabled will have no effect.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the plugin to disable</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the plugin was disabled. False will be returned if the plugin is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getPluginManager%28%29.disablePlugins%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>disablePlugins</li>
-			<li class="method-info-desc"><strong>Description: </strong>Disables all plugins on the server.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">disablePlugins</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Disables all plugins on the server.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.editPropertiesFile%280%2C1%2C2%2C3%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>editPropertiesFile</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets the specified key of the specified file to the specified value with the specified type. The file path is relative to the folder that the craftbukkit jar is in.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the .properties file to edit WITHOUT the extentions. (server, not server.properties)</li><li><strong>String</strong> The type of value. Options are boolean, long, int, string and double.</li><li><strong>String</strong> The key that will have value set to it.</li><li><strong>String</strong> The value to set key to as A STRING. This means that true will be come "true" and 1.5 will become "1.5".</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">editPropertiesFile</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the specified key of the specified file to the specified value with the specified type. The file path is relative to the folder that the craftbukkit jar is in.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the .properties file to edit WITHOUT the extentions. (server, not server.properties)</dd>
+<dt>String</dt><dd>The type of value. Options are boolean, long, int, string and double.</dd>
+<dt>String</dt><dd>The key that will have value set to it.</dd>
+<dt>String</dt><dd>The value to set key to as A STRING. This means that true will be come "true" and 1.5 will become "1.5".</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.enablePlugin%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>enablePlugin</li>
-			<li class="method-info-desc"><strong>Description: </strong>Enables the specified plugin. Attempting to enable a plugin that is already enabled will have no effect.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the plugin to enable</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the plugin was enabled. False will be returned if the plugin is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">enablePlugin</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Enables the specified plugin. Attempting to enable a plugin that is already enabled will have no effect.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the plugin to enable</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the plugin was enabled. False will be returned if the plugin is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getBannedIPs%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getBannedIPs</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the IPs on the ban list.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains an IP address.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getBannedIPs</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the IPs on the ban list.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains an IP address.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getBannedPlayers%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getBannedPlayers</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the players on the ban list.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains a player's name.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getBannedPlayers</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the players on the ban list.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains a player's name.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getFileBinaryBase64%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getBinaryFileBase64</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the binary contents of the specified file encoded in base64. The file path is relative to the folder that the craftbukkit jar is in.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The file's contents.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getBinaryFileBase64</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the binary contents of the specified file encoded in base64. The file path is relative to the folder that the craftbukkit jar is in.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the file to read.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The file's contents.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getWorld%280%29.getBlockAt%281%2C%202%2C%203%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getBlock</li>
-			<li class="method-info-desc"><strong>Description: </strong>Retrieves the block in the specified world at the specified coordinate.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The world name.</li><li><strong>int</strong> The x-coord of the block.</li><li><strong>int</strong> The y-coord of the block.</li><li><strong>int</strong> The z-coord of the block.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> Information about the block.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getBlock</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves the block in the specified world at the specified coordinate.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The world name.</dd>
+<dt>int</dt><dd>The x-coord of the block.</dd>
+<dt>int</dt><dd>The y-coord of the block.</dd>
+<dt>int</dt><dd>The z-coord of the block.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> Information about the block.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getBukkitVersion%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getBukkitVersion</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the Bukkit version that this server is running.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> A string representing the version.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getBukkitVersion</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the Bukkit version that this server is running.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> A string representing the version.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getDirectory%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getDirectory</li>
-			<li class="method-info-desc"><strong>Description: </strong>Retrieves an array of files and directories that exist in the specified directory.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The directory that will have its files listed, relative to the folder that contains the the plugins folder.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> The files in string format.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getDirectory</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves an array of files and directories that exist in the specified directory.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The directory that will have its files listed, relative to the folder that contains the the plugins folder.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The files in string format.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getFileContents%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getFileContents</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The file's contents.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getFileContents</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the file to read.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The file's contents.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getChatLogs%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getLatestChats</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last 50 lines in chat. Returned as an array of JSON stream objects.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getLatestChats</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets up to the last 50 lines in chat. Returned as an array of JSON stream objects.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The array of objects</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getChatLogs%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getLatestChatsWithLimit</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last n lines in chat where n is the limit passed. Returned as an array of JSON stream objects.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>int</strong> The maximum number of items to return.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getLatestChatsWithLimit</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets up to the last n lines in chat where n is the limit passed. Returned as an array of JSON stream objects.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>int</dt><dd>The maximum number of items to return.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The array of objects</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getConnectionLogs%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getLatestConnections</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last 50 connections/disconnections. Returned as an array of JSON stream objects.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getLatestConnections</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets up to the last 50 connections/disconnections. Returned as an array of JSON stream objects.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The array of objects</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getConnectionLogs%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getLatestConnectionsWithLimit</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last n connections/disconnections where n is the limit passed. Returned as an array of JSON stream objects.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>int</strong> The maximum number of items to return.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getLatestConnectionsWithLimit</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets up to the last n connections/disconnections where n is the limit passed. Returned as an array of JSON stream objects.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>int</dt><dd>The maximum number of items to return.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The array of objects</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getConsoleLogs%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getLatestConsoleLogs</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last 50 lines in the console. Returned as an array of JSON stream objects.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getLatestConsoleLogs</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets up to the last 50 lines in the console. Returned as an array of JSON stream objects.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The array of objects</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getConsoleLogs%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getLatestConsoleLogsWithLimit</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets up to the last n lines in the console where n is the limit passed. Returned as an array of JSON stream objects.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>int</strong> The maximum number of items to return.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> The array of objects</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getLatestConsoleLogsWithLimit</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets up to the last n lines in the console where n is the limit passed. Returned as an array of JSON stream objects.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>int</dt><dd>The maximum number of items to return.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The array of objects</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getOfflinePlayer%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getOfflinePlayer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets an offlinePlayer object representing the specified person.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player name</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>OfflinePlayer</strong> A offlinePlayer object respresenting the specified person.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getOfflinePlayer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets an offlinePlayer object representing the specified person.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>OfflinePlayer</strong> A offlinePlayer object respresenting the specified person.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getOfflinePlayerNames%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getOfflinePlayerNames</li>
-			<li class="method-info-desc"><strong>Description: </strong>Retrieves an array of the names of all the players who have ever played on the server but are not currently on the server.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> The offline players' names.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getOfflinePlayerNames</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves an array of the names of all the players who have ever played on the server but are not currently on the server.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The offline players' names.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getOfflinePlayers%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getOfflinePlayers</li>
-			<li class="method-info-desc"><strong>Description: </strong>Retrieves an array of all the players who have ever played on the server but are not currently on the server.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>OfflinePlayer[]</strong> An array of offlinePlayers.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getOfflinePlayers</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves an array of all the players who have ever played on the server but are not currently on the server.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>OfflinePlayer[]</strong> An array of offlinePlayers.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getPlayer%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getPlayer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets a |player| object representing the specified person.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player name</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Player</strong> A player object respresenting the specified person.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getPlayer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets a |player| object representing the specified person.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Player</strong> A player object respresenting the specified person.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getOnlinePlayers%28%29.length">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getPlayerCount</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the amount of players currently on the server.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> The number of players on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getPlayerCount</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the amount of players currently on the server.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> The number of players on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getMaxPlayers%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getPlayerLimit</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the maximum amount of players allowed on the server.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> The player limit.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getPlayerLimit</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the maximum amount of players allowed on the server.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> The player limit.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getPlayerNames%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getPlayerNames</li>
-			<li class="method-info-desc"><strong>Description: </strong>Retrieves an array of the names of all the players currently on the server.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> The players' names.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getPlayerNames</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves an array of the names of all the players currently on the server.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The players' names.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getOnlinePlayers%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getPlayers</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets an array of |player| objects that represent all of the players on the server.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Player[]</strong> An array of |Player| objects</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getPlayers</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets an array of |player| objects that represent all of the players on the server.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Player[]</strong> An array of |Player| objects</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getPluginManager%28%29.getPlugin%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getPlugin</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the |plugin| object for the plugin with the given name.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the plugin to fetch</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Plugin</strong> The specified plugin.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getPlugin</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the |plugin| object for the plugin with the given name.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the plugin to fetch</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Plugin</strong> The specified plugin.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getPluginFiles%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getPluginFiles</li>
-			<li class="method-info-desc"><strong>Description: </strong>Retrives an array of files and directories that exist in the plugins data folder. Recursive.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The plugin that will have its files listed.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> The files in string format.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getPluginFiles</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrives an array of files and directories that exist in the plugins data folder. Recursive.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The plugin that will have its files listed.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The files in string format.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getPluginManager%28%29.getPlugin%280%29.getDescription%28%29.getVersion%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getPluginVersion</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets version of a plugin.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Plugin name</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> A string representing the version.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getPluginVersion</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets version of a plugin.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Plugin name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> A string representing the version.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getPluginManager%28%29.getPlugins%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getPlugins</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets an array of all loaded plugins.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Plugin[]</strong> An array of |plugin| objects.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getPlugins</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets an array of all loaded plugins.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Plugin[]</strong> An array of |plugin| objects.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getPropertiesFile%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getPropertiesFile</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets a key value set for the specified properties file. The file path is relative to the folder that the craftbukkit jar is in.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the properties file to read.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> A key value set for the specified properties file.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getPropertiesFile</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets a key value set for the specified properties file. The file path is relative to the folder that the craftbukkit jar is in.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the properties file to read.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> A key value set for the specified properties file.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getServer%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getServer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets server information: maxPlayers, players, port, name, serverName, version, worlds.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> Key value object with information about the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getServer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets server information: maxPlayers, players, port, name, serverName, version, worlds.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> Key value object with information about the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getIp%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getServerIp</li>
-			<li class="method-info-desc"><strong>Description: </strong>Get the IP that this server is bound to or empty string if not specified.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The IP</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getServerIp</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Get the IP that this server is bound to or empty string if not specified.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The IP</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getPort%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getServerPort</li>
-			<li class="method-info-desc"><strong>Description: </strong>Get the game port that the server runs on.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> The port</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getServerPort</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Get the game port that the server runs on.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> The port</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getVersion%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getServerVersion</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the version string of this server implementation.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> A string representing the version.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getServerVersion</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the version string of this server implementation.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> A string representing the version.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getSingleDirectory%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getSingleDirectory</li>
-			<li class="method-info-desc"><strong>Description: </strong>Retrieves an array of files and directories that are direct children of the specified directory.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The directory that will have its files listed, relative to the folder that contains the the plugins folder.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> The files in string format.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getSingleDirectory</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves an array of files and directories that are direct children of the specified directory.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The directory that will have its files listed, relative to the folder that contains the the plugins folder.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The files in string format.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getStream%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getStream</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns all the messages in a stream with the given name.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the stream to fetch messages from.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> An array of message objects which are different for each kind of stream.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getStream</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns all the messages in a stream with the given name.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the stream to fetch messages from.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> An array of message objects which are different for each kind of stream.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getStreamWithLimit%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getStreamWithLimit</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns all the messages in a stream with the given name.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the stream to fetch messages from.</li><li><strong>int</strong> The number of messages to limit the results to.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object[]</strong> An array of message objects which are different for each kind of stream.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getStreamWithLimit</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns all the messages in a stream with the given name.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the stream to fetch messages from.</dd>
+<dt>int</dt><dd>The number of messages to limit the results to.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> An array of message objects which are different for each kind of stream.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getWhitelist%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getWhitelist</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the players on the whitelist.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains a player's name.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getWhitelist</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the players on the whitelist.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains a player's name.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getWorld%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getWorld</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the |world| object with the given name.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Name of the world to get</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>World</strong> The world with the given name.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getWorld</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the |world| object with the given name.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Name of the world to get</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>World</strong> The world with the given name.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getWorlds%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>getWorlds</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets an array of all the |world| objects on the server.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>World[]</strong> All of the worlds on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">getWorlds</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets an array of all the |world| objects on the server.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>World[]</strong> All of the worlds on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.giveItem%280%2C%201%2C%202%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>givePlayerItem</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gives the specified player the specified quanity of the item id by placing it in the first empty slot.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Id of item to give</li><li><strong>int</strong> Quantity of item to give</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">givePlayerItem</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gives the specified player the specified quanity of the item id by placing it in the first empty slot.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Id of item to give</dd>
+<dt>int</dt><dd>Quantity of item to give</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.giveItemDrop%280%2C%201%2C%202%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>givePlayerItemDrop</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gives the specified player the specified quanity of the item id by dropping it in front of them.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Players' name</li><li><strong>int</strong> Id of item to drop</li><li><strong>int</strong> Quantity of item to drop</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">givePlayerItemDrop</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gives the specified player the specified quanity of the item id by dropping it in front of them.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Players' name</dd>
+<dt>int</dt><dd>Id of item to drop</dd>
+<dt>int</dt><dd>Quantity of item to drop</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.giveItemDrop%280%2C%201%2C%202%2C%203%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>givePlayerItemDropWithData</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gives the specified player the specified quanity of the item id with the specified data by dropping it in front of them.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Id of item to give</li><li><strong>int</strong> Quantity of item to give</li><li><strong>int</strong> Decimal representation of the data value.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server. An exception could be throw for invalid data (data < 0 or data > 15).</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">givePlayerItemDropWithData</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gives the specified player the specified quanity of the item id with the specified data by dropping it in front of them.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Id of item to give</dd>
+<dt>int</dt><dd>Quantity of item to give</dd>
+<dt>int</dt><dd>Decimal representation of the data value.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server. An exception could be throw for invalid data (data < 0 or data > 15).</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.giveItem%280%2C%201%2C%202%2C%203%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>givePlayerItemWithData</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gives the specified player the specified quanity of the item id with the specified data by placing it in the first empty slot.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Id of item to give</li><li><strong>int</strong> Quantity of item to give</li><li><strong>int</strong> Decimal representation of the data value.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server. An exception could be throw for invalid data (data < 0 or data > 15).</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">givePlayerItemWithData</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gives the specified player the specified quanity of the item id with the specified data by placing it in the first empty slot.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Id of item to give</dd>
+<dt>int</dt><dd>Quantity of item to give</dd>
+<dt>int</dt><dd>Decimal representation of the data value.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server. An exception could be throw for invalid data (data < 0 or data > 15).</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getPlayer%280%29.kickPlayer%281%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>kickPlayer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Kick a player with the specified name and the optional message.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Name of player to kick</li><li><strong>String</strong> Custom message to display to the player after they are kicked</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">kickPlayer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Kick a player with the specified name and the optional message.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Name of player to kick</dd>
+<dt>String</dt><dd>Custom message to display to the player after they are kicked</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.op%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>opPlayer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Ops the specified player.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be opped.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">opPlayer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Ops the specified player.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the player to be opped.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.reload%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>reloadServer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Reloads the server, refreshing settings and plugin information.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">reloadServer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Reloads the server, refreshing settings and plugin information.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.removeEnchantmentsFromPlayerInventorySlot%280%2C%201%2C%202%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>removeEnchantmentsFromPlayerInventorySlot</li>
-			<li class="method-info-desc"><strong>Description: </strong>Removes an enchantment to the specified slot in the specified player's inventory with the specified level.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>Object[]</strong> Array of EID-values from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the de-enchanting process was successful. False is usually the restult will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">removeEnchantmentsFromPlayerInventorySlot</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes an enchantment to the specified slot in the specified player's inventory with the specified level.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>Object[]</dt><dd>Array of EID-values from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the de-enchanting process was successful. False is usually the restult will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.unwhitelist%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>removeFromWhitelist</li>
-			<li class="method-info-desc"><strong>Description: </strong>Removes the specified player from the whitelist.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be removed from the whitelist</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">removeFromWhitelist</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes the specified player from the whitelist.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the player to be removed from the whitelist</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.removePlayerInventoryItem%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>removePlayerInventoryItem</li>
-			<li class="method-info-desc"><strong>Description: </strong>Removes all items of the given type from the given player's inventory.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Id of block type to remove</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>Object</strong> An object of all the things that couldn't be removed. This shouldn't happen though. Null will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">removePlayerInventoryItem</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes all items of the given type from the given player's inventory.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Id of block type to remove</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> An object of all the things that couldn't be removed. This shouldn't happen though. Null will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.runCommand%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>runConsoleCommand</li>
-			<li class="method-info-desc"><strong>Description: </strong>Runs a command in the console.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Command to send</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">runConsoleCommand</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Runs a command in the console.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Command to send</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.runCommand%28%22save-all%22%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>saveMap</li>
-			<li class="method-info-desc"><strong>Description: </strong>Saves the map to the filesystem.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">saveMap</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Saves the map to the filesystem.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.runCommand%28%22save-off%22%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>saveOff</li>
-			<li class="method-info-desc"><strong>Description: </strong>Disables automatic terrian saving.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">saveOff</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Disables automatic terrian saving.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.runCommand%28%22save-on%22%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>saveOn</li>
-			<li class="method-info-desc"><strong>Description: </strong>Enables automatic terrian saving.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">saveOn</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Enables automatic terrian saving.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getPlayer%280%29.sendMessage%281%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>sendMessage</li>
-			<li class="method-info-desc"><strong>Description: </strong>Send a private message to the specified player.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player to whom the message is sent</li><li><strong>String</strong> The message to send</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">sendMessage</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Send a private message to the specified player.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player to whom the message is sent</dd>
+<dt>String</dt><dd>The message to send</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setBlockData%280%2C1%2C2%2C3%2C4%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setBlockData</li>
-			<li class="method-info-desc"><strong>Description: </strong>Set the data value of the block in the specified world at the specified coordinate.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The world name.</li><li><strong>int</strong> The x-coord of the block.</li><li><strong>int</strong> The y-coord of the block.</li><li><strong>int</strong> The z-coord of the block.</li><li><strong>int</strong> The decimal representation of the data value to set on the block.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setBlockData</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Set the data value of the block in the specified world at the specified coordinate.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The world name.</dd>
+<dt>int</dt><dd>The x-coord of the block.</dd>
+<dt>int</dt><dd>The y-coord of the block.</dd>
+<dt>int</dt><dd>The z-coord of the block.</dd>
+<dt>int</dt><dd>The decimal representation of the data value to set on the block.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getWorld%280%29.getBlockAt%281%2C%202%2C%203%29.setTypeId%284%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setBlockType</li>
-			<li class="method-info-desc"><strong>Description: </strong>Set the type of the block in the specified world at the specified coordinate.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The world name.</li><li><strong>int</strong> The x-coord of the block.</li><li><strong>int</strong> The y-coord of the block.</li><li><strong>int</strong> The z-coord of the block.</li><li><strong>int</strong> The type ID to change the block to.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setBlockType</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Set the type of the block in the specified world at the specified coordinate.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The world name.</dd>
+<dt>int</dt><dd>The x-coord of the block.</dd>
+<dt>int</dt><dd>The y-coord of the block.</dd>
+<dt>int</dt><dd>The z-coord of the block.</dd>
+<dt>int</dt><dd>The type ID to change the block to.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setFileBinaryBase64%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setFileBinaryBase64</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets (not appends to) the contents of the specified binary file. The file path is relative to the folder that the craftbukkit jar is in. The second argument is base64 decoded and then set as the file's contents.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li><li><strong>String</strong> The base64 encoded content to put in the file.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setFileBinaryBase64</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets (not appends to) the contents of the specified binary file. The file path is relative to the folder that the craftbukkit jar is in. The second argument is base64 decoded and then set as the file's contents.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the file to read.</dd>
+<dt>String</dt><dd>The base64 encoded content to put in the file.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setFileContents%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setFileContents</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets (not appends to) the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the file to read.</li><li><strong>String</strong> The content to put in the file.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setFileContents</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets (not appends to) the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the file to read.</dd>
+<dt>String</dt><dd>The content to put in the file.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setPlayerExperience%280%2C1%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setPlayerExperience</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets a player's health on a scale of 0-4625 (level 50).</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player's name.</li><li><strong>int</strong> The amount of experience to set.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True on succes, false if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setPlayerExperience</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets a player's health on a scale of 0-4625 (level 50).</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The player's name.</dd>
+<dt>int</dt><dd>The amount of experience to set.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getPlayer%280%29.setFoodLevel%281%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setPlayerFoodLevel</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets a player's food level on a scale of 0-20.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player's name.</li><li><strong>int</strong> The amount of food to set.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True on succes, false if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setPlayerFoodLevel</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets a player's food level on a scale of 0-20.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The player's name.</dd>
+<dt>int</dt><dd>The amount of food to set.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setPlayerGameMode%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setPlayerGameMode</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets the game mode for a player. 0 is creative. 1 is survivial.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player's name.</li><li><strong>int</strong> The game mode.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True on succes, false if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setPlayerGameMode</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the game mode for a player. 0 is creative. 1 is survivial.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The player's name.</dd>
+<dt>int</dt><dd>The game mode.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.getPlayer%280%29.setHealth%281%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setPlayerHealth</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets a player's health on a scale of 0-20.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player's name.</li><li><strong>int</strong> The amount of health to set.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True on succes, false if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setPlayerHealth</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets a player's health on a scale of 0-20.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The player's name.</dd>
+<dt>int</dt><dd>The amount of health to set.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setPlayerInventorySlot%280%2C%201%2C%202%2C%203%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setPlayerInventorySlot</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets the specified slot in the specified player's inventory to the specified type with the specified quantity.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> Id of block type to set</li><li><strong>int</strong> Quantity to set</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setPlayerInventorySlot</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the specified slot in the specified player's inventory to the specified type with the specified quantity.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>int</dt><dd>Id of block type to set</dd>
+<dt>int</dt><dd>Quantity to set</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setPlayerInventorySlot%280%2C%201%2C%202%2C%203%2C%204%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setPlayerInventorySlotWithDamage</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets the specified slot in the specified player's inventory to the specified type with the specified quantity and damage.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> Id of block type to set</li><li><strong>int</strong> The damage of the item.</li><li><strong>int</strong> Quantity to set</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setPlayerInventorySlotWithDamage</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the specified slot in the specified player's inventory to the specified type with the specified quantity and damage.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>int</dt><dd>Id of block type to set</dd>
+<dt>int</dt><dd>The damage of the item.</dd>
+<dt>int</dt><dd>Quantity to set</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setPlayerInventorySlotWithData%280%2C%201%2C%202%2C%203%2C%204%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setPlayerInventorySlotWithData</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets the specified slot in the specified player's inventory to the specified type with the specified data and damage.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> Id of block type to set</li><li><strong>int</strong> The data of the item.</li><li><strong>int</strong> Quantity to set</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setPlayerInventorySlotWithData</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the specified slot in the specified player's inventory to the specified type with the specified data and damage.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>int</dt><dd>Id of block type to set</dd>
+<dt>int</dt><dd>The data of the item.</dd>
+<dt>int</dt><dd>Quantity to set</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setPlayerInventorySlotWithDataAndDamage%280%2C%201%2C%202%2C%203%2C%204%2C%205%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setPlayerInventorySlotWithDataAndDamage</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets the specified slot in the specified player's inventory to the specified type with the specified data, quantity and damage.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> Id of block type to set</li><li><strong>int</strong> The data of the item.</li><li><strong>int</strong> The damage of the item.</li><li><strong>int</strong> Quantity to set</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setPlayerInventorySlotWithDataAndDamage</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the specified slot in the specified player's inventory to the specified type with the specified data, quantity and damage.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>int</dt><dd>Id of block type to set</dd>
+<dt>int</dt><dd>The data of the item.</dd>
+<dt>int</dt><dd>The damage of the item.</dd>
+<dt>int</dt><dd>Quantity to set</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setPlayerInventorySlotWithDataDamageAndEnchantments%280%2C%201%2C%202%2C%203%2C%204%2C%205%2C%206%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setPlayerInventorySlotWithDataDamageAndEnchantments</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets the specified slot in the specified player's inventory to the specified type with the specified data, quantity and damage.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> Id of block type to set</li><li><strong>int</strong> The data of the item.</li><li><strong>int</strong> The damage of the item.</li><li><strong>int</strong> Quantity to set</li><li><strong>Object[]</strong> Array of {enchantment: 0, level: 1}-esque objects where enchantment is the EID-value from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setPlayerInventorySlotWithDataDamageAndEnchantments</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the specified slot in the specified player's inventory to the specified type with the specified data, quantity and damage.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>int</dt><dd>Id of block type to set</dd>
+<dt>int</dt><dd>The data of the item.</dd>
+<dt>int</dt><dd>The damage of the item.</dd>
+<dt>int</dt><dd>Quantity to set</dd>
+<dt>Object[]</dt><dd>Array of {enchantment: 0, level: 1}-esque objects where enchantment is the EID-value from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setPlayerLevel%280%2C1%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setPlayerLevel</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets a player's level on a scale of 0-50.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player's name.</li><li><strong>int</strong> The level to set.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True on succes, false if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setPlayerLevel</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets a player's level on a scale of 0-50.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The player's name.</dd>
+<dt>int</dt><dd>The level to set.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the player is not on the server.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.setWorldTime%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>setWorldTime</li>
-			<li class="method-info-desc"><strong>Description: </strong>Sets the time for a given world.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The world's name.</li><li><strong>int</strong> Time (from 0-24000), 6000 is dawn, 24000 is midnight.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True on succes, false if the world does not exist.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">setWorldTime</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the time for a given world.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The world's name.</dd>
+<dt>int</dt><dd>Time (from 0-24000), 6000 is dawn, 24000 is midnight.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the world does not exist.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.teleport%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>teleport</li>
-			<li class="method-info-desc"><strong>Description: </strong>Teleports the first specified player to the second specified player.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be teleported.</li><li><strong>String</strong> The name of the player to teleport to.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>R</strong> e</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">teleport</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Teleports the first specified player to the second specified player.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the player to be teleported.</dd>
+<dt>String</dt><dd>The name of the player to teleport to.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>R</strong> e</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.teleport%280%2C1%2C2%2C3%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>teleportPlayerToLocation</li>
-			<li class="method-info-desc"><strong>Description: </strong>Teleports the specified player to the specified x, y and z co-ordinates.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player name.</li><li><strong>int</strong> The x-coord of the block.</li><li><strong>int</strong> The y-coord of the block.</li><li><strong>int</strong> The z-coord of the block.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if successful, false otherwise.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">teleportPlayerToLocation</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Teleports the specified player to the specified x, y and z co-ordinates.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The player name.</dd>
+<dt>int</dt><dd>The x-coord of the block.</dd>
+<dt>int</dt><dd>The y-coord of the block.</dd>
+<dt>int</dt><dd>The z-coord of the block.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if successful, false otherwise.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.teleport%280%2C1%2C2%2C3%2C4%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>teleportPlayerToWorldLocation</li>
-			<li class="method-info-desc"><strong>Description: </strong>Teleports the specified player to the specified world and xyz co-ordinates.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The player name.</li><li><strong>String</strong> The world name.</li><li><strong>int</strong> The x-coord of the block.</li><li><strong>int</strong> The y-coord of the block.</li><li><strong>int</strong> The z-coord of the block.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if successful, false otherwise.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">teleportPlayerToWorldLocation</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Teleports the specified player to the specified world and xyz co-ordinates.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The player name.</dd>
+<dt>String</dt><dd>The world name.</dd>
+<dt>int</dt><dd>The x-coord of the block.</dd>
+<dt>int</dt><dd>The y-coord of the block.</dd>
+<dt>int</dt><dd>The z-coord of the block.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if successful, false otherwise.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.unban%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>unban</li>
-			<li class="method-info-desc"><strong>Description: </strong>Unbans the specified player.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The name of the player to be unbanned.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">unban</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Unbans the specified player.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The name of the player to be unbanned.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Server.unbanIP%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>unbanIP</li>
-			<li class="method-info-desc"><strong>Description: </strong>Bans the specified IP.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> The IP to be unbanned.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong>void</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">unbanIP</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Bans the specified IP.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The IP to be unbanned.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.updatePlayerInventorySlot%280%2C%201%2C%202%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>updatePlayerInventorySlot</li>
-			<li class="method-info-desc"><strong>Description: </strong>Changes the number of items in a player's inventory slot.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Player's name</li><li><strong>int</strong> Slot number</li><li><strong>int</strong> New amount</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if the slot was update. False will be returned if the player is not on the server.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">updatePlayerInventorySlot</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Changes the number of items in a player's inventory slot.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Player's name</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>int</dt><dd>New amount</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the slot was update. False will be returned if the player is not on the server.</dd>
+		</dl>
 	</div>
-</div><h2 id="package-Dynmap%20API%20methods">Dynmap API methods</h2><h3>Depends on the following plugins:</h3><ul><li>dynmap</li></ul><h3>Methods</h3><ul><li><a href='#Plugins.dynmap.core.configuration.getString%28%22webserver-bindaddress%22%2C%20%220.0.0.0%22%29'>void dynmap.getHost()</a></li><li><a href='#Plugins.dynmap.core.configuration.getString%28%22webserver-port%22%2C%20%228123%22%29'>void dynmap.getPort()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="Plugins.dynmap.core.configuration.getString%28%22webserver-bindaddress%22%2C%20%220.0.0.0%22%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>dynmap.getHost</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns the IP/hostname that the dynmap webserver is running on.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The dynmap port as a string.</li>
-		</ul>
+</div>
+	</section>	<section>
+		<div class="page-header">
+			<h1 id="package-Dynmap">Dynmap</h1>
+		</div>
+		<dl class="dl-horizontal">
+			<dt>Dependencies</dt>
+			<dd><ul><li>dynmap</li></ul></dd>
+			<dt>Methods</dt>
+			<dd><ul><li><a href='#Plugins.dynmap.core.configuration.getString%28%22webserver-bindaddress%22%2C%20%220.0.0.0%22%29'>void dynmap.getHost()</a></li><li><a href='#Plugins.dynmap.core.configuration.getString%28%22webserver-port%22%2C%20%228123%22%29'>void dynmap.getPort()</a></li></ul></dd>
+		</dl>
+		<div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="Plugins.dynmap.core.configuration.getString%28%22webserver-bindaddress%22%2C%20%220.0.0.0%22%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">dynmap.getHost</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the IP/hostname that the dynmap webserver is running on.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The dynmap port as a string.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="Plugins.dynmap.core.configuration.getString%28%22webserver-port%22%2C%20%228123%22%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>dynmap.getPort</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns the port that the dynmap webserver is running on.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> The dynmap port as an integer.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">dynmap.getPort</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the port that the dynmap webserver is running on.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The dynmap port as an integer.</dd>
+		</dl>
 	</div>
-</div><h2 id="package-Economy%20Methods">Economy Methods</h2><h3>Depends on the following plugins:</h3><ul><li>JSONAPI</li><li>Vault</li></ul><h3>Methods</h3><ul><li><a href='#this.econ.bankBalance%280%29'>void econ.bankBalance(String)</a></li><li><a href='#this.econ.bankDeposit%280%2C%201%29'>void econ.bankDeposit(String, double)</a></li><li><a href='#this.econ.bankHas%280%2C%201%29'>void econ.bankHas(String, double)</a></li><li><a href='#this.econ.bankWithdraw%280%2C%201%29'>void econ.bankWithdraw(String, double)</a></li><li><a href='#this.econ.createBank%280%2C%201%29'>void econ.createBank(String, String)</a></li><li><a href='#this.econ.createPlayerAccount%280%29'>void econ.createPlayerAccount(String)</a></li><li><a href='#this.econ.currencyNamePlural%28%29'>void econ.currencyNamePlural()</a></li><li><a href='#this.econ.currencyNameSingular%28%29'>void econ.currencyNameSingular()</a></li><li><a href='#this.econ.deleteBank%280%29'>void econ.deleteBank(String)</a></li><li><a href='#this.econ.depositPlayer%280%2C%201%29'>void econ.depositPlayer(String, double)</a></li><li><a href='#this.econ.format%280%29'>void econ.format(double)</a></li><li><a href='#this.econ.getBalance%280%29'>void econ.getBalance(String)</a></li><li><a href='#this.econ.getBanks%28%29'>void econ.getBanks()</a></li><li><a href='#this.econ.getName%28%29'>void econ.getName()</a></li><li><a href='#this.econ.has%280%2C%201%29'>void econ.has(String, double)</a></li><li><a href='#this.econ.hasAccount%280%29'>void econ.hasAccount(String)</a></li><li><a href='#this.econ.hasBankSupport%28%29'>void econ.hasBankSupport()</a></li><li><a href='#this.econ.isBankMember%280%2C%201%29'>void econ.isBankMember(String, String)</a></li><li><a href='#this.econ.isBankOwner%280%2C%201%29'>void econ.isBankOwner(String, String)</a></li><li><a href='#this.econ.isEnabled%28%29'>void econ.isEnabled()</a></li><li><a href='#this.econ.withdrawPlayer%280%2C%201%29'>void econ.withdrawPlayer(String, double)</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.econ.bankBalance%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.bankBalance</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns the amount the bank has</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> name -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>EconomyResponse</strong> </li>
-		</ul>
+</div>
+	</section>	<section>
+		<div class="page-header">
+			<h1 id="package-Economy">Economy</h1>
+		</div>
+		<dl class="dl-horizontal">
+			<dt>Dependencies</dt>
+			<dd><ul><li>JSONAPI</li><li>Vault</li></ul></dd>
+			<dt>Methods</dt>
+			<dd><ul><li><a href='#this.econ.bankBalance%280%29'>void econ.bankBalance(String)</a></li><li><a href='#this.econ.bankDeposit%280%2C%201%29'>void econ.bankDeposit(String, double)</a></li><li><a href='#this.econ.bankHas%280%2C%201%29'>void econ.bankHas(String, double)</a></li><li><a href='#this.econ.bankWithdraw%280%2C%201%29'>void econ.bankWithdraw(String, double)</a></li><li><a href='#this.econ.createBank%280%2C%201%29'>void econ.createBank(String, String)</a></li><li><a href='#this.econ.createPlayerAccount%280%29'>void econ.createPlayerAccount(String)</a></li><li><a href='#this.econ.currencyNamePlural%28%29'>void econ.currencyNamePlural()</a></li><li><a href='#this.econ.currencyNameSingular%28%29'>void econ.currencyNameSingular()</a></li><li><a href='#this.econ.deleteBank%280%29'>void econ.deleteBank(String)</a></li><li><a href='#this.econ.depositPlayer%280%2C%201%29'>void econ.depositPlayer(String, double)</a></li><li><a href='#this.econ.format%280%29'>void econ.format(double)</a></li><li><a href='#this.econ.getBalance%280%29'>void econ.getBalance(String)</a></li><li><a href='#this.econ.getBanks%28%29'>void econ.getBanks()</a></li><li><a href='#this.econ.getName%28%29'>void econ.getName()</a></li><li><a href='#this.econ.has%280%2C%201%29'>void econ.has(String, double)</a></li><li><a href='#this.econ.hasAccount%280%29'>void econ.hasAccount(String)</a></li><li><a href='#this.econ.hasBankSupport%28%29'>void econ.hasBankSupport()</a></li><li><a href='#this.econ.isBankMember%280%2C%201%29'>void econ.isBankMember(String, String)</a></li><li><a href='#this.econ.isBankOwner%280%2C%201%29'>void econ.isBankOwner(String, String)</a></li><li><a href='#this.econ.isEnabled%28%29'>void econ.isEnabled()</a></li><li><a href='#this.econ.withdrawPlayer%280%2C%201%29'>void econ.withdrawPlayer(String, double)</a></li></ul></dd>
+		</dl>
+		<div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.econ.bankBalance%280%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.bankBalance</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the amount the bank has</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>name -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.bankDeposit%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.bankDeposit</li>
-			<li class="method-info-desc"><strong>Description: </strong>Deposit an amount into a bank account</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> name -</li><li><strong>double</strong> amount -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>EconomyResponse</strong> </li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.bankDeposit</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Deposit an amount into a bank account</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>name -</dd>
+<dt>double</dt><dd>amount -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.bankHas%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.bankHas</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns true or false whether the bank has the amount specified</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> name -</li><li><strong>double</strong> amount -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>EconomyResponse</strong> </li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.bankHas</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns true or false whether the bank has the amount specified</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>name -</dd>
+<dt>double</dt><dd>amount -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.bankWithdraw%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.bankWithdraw</li>
-			<li class="method-info-desc"><strong>Description: </strong>Withdraw an amount from a bank account</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> name -</li><li><strong>double</strong> amount -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>EconomyResponse</strong> </li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.bankWithdraw</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Withdraw an amount from a bank account</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>name -</dd>
+<dt>double</dt><dd>amount -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.createBank%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.createBank</li>
-			<li class="method-info-desc"><strong>Description: </strong>Creates a bank account with the specified name and the player as the owner</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> name -</li><li><strong>String</strong> player -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>EconomyResponse</strong> </li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.createBank</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Creates a bank account with the specified name and the player as the owner</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>name -</dd>
+<dt>String</dt><dd>player -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.createPlayerAccount%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.createPlayerAccount</li>
-			<li class="method-info-desc"><strong>Description: </strong>Attempts to create a player account for the given player</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> </li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> if the account creation was successful</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.createPlayerAccount</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Attempts to create a player account for the given player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd></dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> if the account creation was successful</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.currencyNamePlural%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.currencyNamePlural</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns the name of the currency in plural form. If the economy being used does not support currency names then an empty string will be returned.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> name of the currency (plural)</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.currencyNamePlural</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the name of the currency in plural form. If the economy being used does not support currency names then an empty string will be returned.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> name of the currency (plural)</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.currencyNameSingular%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.currencyNameSingular</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns the name of the currency in singular form. If the economy being used does not support currency names then an empty string will be returned.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> name of the currency (singular)</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.currencyNameSingular</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the name of the currency in singular form. If the economy being used does not support currency names then an empty string will be returned.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> name of the currency (singular)</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.deleteBank%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.deleteBank</li>
-			<li class="method-info-desc"><strong>Description: </strong>Deletes a bank account with the specified name.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> name -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>EconomyResponse</strong> if the operation completed successfully</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.deleteBank</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Deletes a bank account with the specified name.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>name -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> if the operation completed successfully</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.depositPlayer%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.depositPlayer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Deposit an amount to a player</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> playerName - Name of player</li><li><strong>double</strong> amount - Amount to deposit</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>EconomyResponse</strong> Detailed response of transaction</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.depositPlayer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Deposit an amount to a player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>playerName - Name of player</dd>
+<dt>double</dt><dd>amount - Amount to deposit</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> Detailed response of transaction</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.format%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.format</li>
-			<li class="method-info-desc"><strong>Description: </strong>Format amount into a human readable String This provides translation into economy specific formatting to improve consistency between plugins.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>double</strong> amount -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> Human readable string describing amount</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.format</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Format amount into a human readable String This provides translation into economy specific formatting to improve consistency between plugins.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>double</dt><dd>amount -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Human readable string describing amount</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.getBalance%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.getBalance</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets balance of a player</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> playerName -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>double</strong> Amount currently held in players account</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.getBalance</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets balance of a player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>playerName -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>double</strong> Amount currently held in players account</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.getBanks%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.getBanks</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the list of banks</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String[]</strong> the List of Banks</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.getBanks</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the list of banks</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> the List of Banks</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.getName%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.getName</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets name of permission method</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>String</strong> Name of Permission Method</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.getName</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets name of permission method</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Name of Permission Method</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.has%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.has</li>
-			<li class="method-info-desc"><strong>Description: </strong>Checks if the player account has the amount</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> playerName -</li><li><strong>double</strong> amount -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> </li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.has</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Checks if the player account has the amount</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>playerName -</dd>
+<dt>double</dt><dd>amount -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> </dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.hasAccount%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.hasAccount</li>
-			<li class="method-info-desc"><strong>Description: </strong>Checks if this player has an account on the server yet This will always return true if the player has joined the server at least once as all major economy plugins auto-generate a player account when the player joins the server</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> playerName -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> if the player has an account</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.hasAccount</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Checks if this player has an account on the server yet This will always return true if the player has joined the server at least once as all major economy plugins auto-generate a player account when the player joins the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>playerName -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> if the player has an account</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.hasBankSupport%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.hasBankSupport</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns true if the given implementation supports banks.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> true if the implementation supports banks</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.hasBankSupport</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns true if the given implementation supports banks.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> true if the implementation supports banks</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.isBankMember%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.isBankMember</li>
-			<li class="method-info-desc"><strong>Description: </strong>Check if the player is a member of the bank account</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> name -</li><li><strong>String</strong> playerName -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>EconomyResponse</strong> </li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.isBankMember</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Check if the player is a member of the bank account</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>name -</dd>
+<dt>String</dt><dd>playerName -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.isBankOwner%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.isBankOwner</li>
-			<li class="method-info-desc"><strong>Description: </strong>Check if a player is the owner of a bank account</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> name -</li><li><strong>String</strong> playerName -</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>EconomyResponse</strong> </li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.isBankOwner</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Check if a player is the owner of a bank account</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>name -</dd>
+<dt>String</dt><dd>playerName -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.isEnabled%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.isEnabled</li>
-			<li class="method-info-desc"><strong>Description: </strong>Checks if economy method is enabled.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> Success or Failure</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.isEnabled</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Checks if economy method is enabled.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Success or Failure</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.econ.withdrawPlayer%280%2C%201%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>econ.withdrawPlayer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Withdraw an amount from a player</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> playerName - Name of player</li><li><strong>double</strong> amount - Amount to withdraw</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>EconomyResponse</strong> Detailed response of transaction</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">econ.withdrawPlayer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Withdraw an amount from a player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>playerName - Name of player</dd>
+<dt>double</dt><dd>amount - Amount to withdraw</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> Detailed response of transaction</dd>
+		</dl>
 	</div>
-</div><h2 id="package-Remote%20Toolkit%20methods">Remote Toolkit methods</h2><h3>Depends on the following plugins:</h3><ul><li>RemoteToolkitPlugin</li></ul><h3>Methods</h3><ul><li><a href='#this.rescheduleServerRestart%280%29'>void remotetoolkit.rescheduleServerRestart(String)</a></li><li><a href='#this.restartServer%28%29'>void remotetoolkit.restartServer()</a></li><li><a href='#this.runCommand%28%22null%22%29'>void remotetoolkit.startServer()</a></li><li><a href='#this.stopServer%28%29'>void remotetoolkit.stopServer()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.rescheduleServerRestart%280%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.rescheduleServerRestart</li>
-			<li class="method-info-desc"><strong>Description: </strong>Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format.</li>
-			<li class="method-info-args"><strong>Arguments: </strong><ul class='method-info-args-ul'><li><strong>String</strong> Time in either the #h #m #s format, or the HH:MM format.</li></ul></li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> False on error. Null otherwise.</li>
-		</ul>
+</div>
+	</section>	<section>
+		<div class="page-header">
+			<h1 id="package-Remote%20Toolkit">Remote Toolkit</h1>
+		</div>
+		<dl class="dl-horizontal">
+			<dt>Dependencies</dt>
+			<dd><ul><li>RemoteToolkitPlugin</li></ul></dd>
+			<dt>Methods</dt>
+			<dd><ul><li><a href='#this.rescheduleServerRestart%280%29'>void remotetoolkit.rescheduleServerRestart(String)</a></li><li><a href='#this.restartServer%28%29'>void remotetoolkit.restartServer()</a></li><li><a href='#this.runCommand%28%22null%22%29'>void remotetoolkit.startServer()</a></li><li><a href='#this.stopServer%28%29'>void remotetoolkit.stopServer()</a></li></ul></dd>
+		</dl>
+		<div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.rescheduleServerRestart%280%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">remotetoolkit.rescheduleServerRestart</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>Time in either the #h #m #s format, or the HH:MM format.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> False on error. Null otherwise.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.restartServer%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.restartServer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Restarts the Minecraft server. THIS WILL TAKE DOWN JSONAPI FOR A SHORT TIME.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> False on error. Null otherwise.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">remotetoolkit.restartServer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Restarts the Minecraft server. THIS WILL TAKE DOWN JSONAPI FOR A SHORT TIME.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> False on error. Null otherwise.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.runCommand%28%22null%22%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.startServer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Starts the Minecraft server. DO NOT CALL IF remotetookit.stopServer HAS NOT BEEN CALLED!</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> True if successful, false otherwise.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">remotetoolkit.startServer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Starts the Minecraft server. DO NOT CALL IF remotetookit.stopServer HAS NOT BEEN CALLED!</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if successful, false otherwise.</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.stopServer%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>remotetoolkit.stopServer</li>
-			<li class="method-info-desc"><strong>Description: </strong>Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>boolean</strong> False on error. Null otherwise.</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">remotetoolkit.stopServer</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> False on error. Null otherwise.</dd>
+		</dl>
 	</div>
-</div><h2 id="package-System%20Usage%20Methods">System Usage Methods</h2><h3>Depends on the following plugins:</h3><ul><li>JSONAPI</li></ul><h3>Methods</h3><ul><li><a href='#this.getDiskFreeSpace%28%29'>void system.getDiskFreeSpace()</a></li><li><a href='#this.getDiskSize%28%29'>void system.getDiskSize()</a></li><li><a href='#this.getDiskUsage%28%29'>void system.getDiskUsage()</a></li><li><a href='#this.getJavaMaxMemory%28%29'>void system.getJavaMemoryTotal()</a></li><li><a href='#this.getJavaMemoryUsage%28%29'>void system.getJavaMemoryUsage()</a></li></ul><div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.getDiskFreeSpace%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>system.getDiskFreeSpace</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns the number of free byte on the disk that Minecraft is located on.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> Disk free space in bytes</li>
-		</ul>
+</div>
+	</section>	<section>
+		<div class="page-header">
+			<h1 id="package-System%20Usage">System Usage</h1>
+		</div>
+		<dl class="dl-horizontal">
+			<dt>Dependencies</dt>
+			<dd><ul><li>JSONAPI</li></ul></dd>
+			<dt>Methods</dt>
+			<dd><ul><li><a href='#this.getDiskFreeSpace%28%29'>void system.getDiskFreeSpace()</a></li><li><a href='#this.getDiskSize%28%29'>void system.getDiskSize()</a></li><li><a href='#this.getDiskUsage%28%29'>void system.getDiskUsage()</a></li><li><a href='#this.getJavaMaxMemory%28%29'>void system.getJavaMemoryTotal()</a></li><li><a href='#this.getJavaMemoryUsage%28%29'>void system.getJavaMemoryUsage()</a></li></ul></dd>
+		</dl>
+		<div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.getDiskFreeSpace%28%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">system.getDiskFreeSpace</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the number of free byte on the disk that Minecraft is located on.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> Disk free space in bytes</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getDiskSize%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>system.getDiskSize</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the total size of the disk that Minecraft is located on.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> Disk size in bytes</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">system.getDiskSize</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the total size of the disk that Minecraft is located on.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> Disk size in bytes</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getDiskUsage%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>system.getDiskUsage</li>
-			<li class="method-info-desc"><strong>Description: </strong>Returns the number of bytes that have been used on the disk that Minecraft is located on.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> Disk usage in bytes</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">system.getDiskUsage</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the number of bytes that have been used on the disk that Minecraft is located on.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> Disk usage in bytes</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getJavaMaxMemory%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>system.getJavaMemoryTotal</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the amount of memory available to Java/Bukkit/Minecraft. Note that is not a measurement of all the memory in the machine. To find system wide information look at getSystemMemoryTotal.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> Java memory size in bytes</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">system.getJavaMemoryTotal</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the amount of memory available to Java/Bukkit/Minecraft. Note that is not a measurement of all the memory in the machine. To find system wide information look at getSystemMemoryTotal.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> Java memory size in bytes</dd>
+		</dl>
 	</div>
 	<div class="method-wrapper" id="this.getJavaMemoryUsage%28%29">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>system.getJavaMemoryUsage</li>
-			<li class="method-info-desc"><strong>Description: </strong>Gets the amount of memory used by Java/Bukkit/Minecraft. Note that is not a measurement of all the memory used in the machine. To find system wide information look at getSystemMemoryUsage.</li>
-			<li class="method-info-args"><strong>Arguments: </strong>None</li>
-			<li class="method-info-return"><strong>Returns: </strong><strong>int</strong> Java memory usage in bytes</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">system.getJavaMemoryUsage</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the amount of memory used by Java/Bukkit/Minecraft. Note that is not a measurement of all the memory used in the machine. To find system wide information look at getSystemMemoryUsage.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> Java memory usage in bytes</dd>
+		</dl>
 	</div>
-</div>	</body>
+</div>
+	</section>		</div>
+	</body>
 </html>

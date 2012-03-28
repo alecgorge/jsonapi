@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL ^ E_NOTICE);
+
 $input_files = array_merge(array(realpath("../test/plugins/JSONAPI/methods.json")), glob("../test/plugins/JSONAPI/methods/*.json"));
 foreach($input_files as $input_file) {
 	$docs .= jsonapi_docs(json_decode(file_get_contents($input_file), true));
@@ -9,27 +11,68 @@ foreach($input_files as $input_file) {
 <html>
 	<head>
 		<title>JSONAPI API Docs</title>
+		<link type="text/css" rel="stylesheet" name="stylesheet" href="bootstrap.min.css" />
 		<link type="text/css" rel="stylesheet" name="stylesheet" href="styles.css" />
 	</head>
 	<body>
-	<h1>API Documentation for JSONAPI</h1>
-	<p>This page documents all the methods that ship with JSONAPI. This includes the base method that work as long as JSONAPI is installed and enabled, along with the methods that require another plugin to be installed and enabled for them to work.
-	The methods that require another plugin to be installed simply do not work if that plugin is not installed and enabled.</p>
-	<h2>Available method packages</h2>
-	<ul>
-<?php
+	<div class="navbar navbar-fixed-top">
+	    <div class="navbar-inner">
+	      <div class="container">
+	        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	        </a>
+	        <a class="brand" href="#">JSONAPI Documentation</a>
+	        <div class="nav-collapse">
+	          <ul class="nav">
+	          	<?php
+	foreach($input_files as $input_file) {
+		$json = json_decode(file_get_contents($input_file), true);
+		printf('<li><a href="#package-%s">%s</a></li>'."\n", rawurlencode($json['name']), $json['name'], (empty($json['namespace']) ? "default" : $json['namespace']));
+	}
+	          	?>
+	          </ul>
+	        </div><!-- /.nav-collapse -->
+	      </div>
+	    </div><!-- /navbar-inner -->
+	  </div>
+	<div class="container">
+		<div class="jumbotron subhead">
+			<h1>API Documentation for JSONAPI</h1>
+			<p class="lead">This page documents all the methods that ship with JSONAPI. This includes the base method that work as long as JSONAPI is installed and enabled, along with the methods that require another plugin to be installed and enabled for them to work.
+			</p>
+			<p class="lead"><em>The methods that require another plugin to be installed simply do not work if that plugin is not installed and enabled.</em></p>
+			<h2>Available method packages</h2>
+		</div>
+		<ul>
+	<?php
 
-foreach($input_files as $input_file) {
-	$json = json_decode(file_get_contents($input_file), true);
-	printf('<li><a href="#package-%s">%s</a> (%s namespace)</li>'."\n", rawurlencode($json['name']), $json['name'], (empty($json['namespace']) ? "default" : $json['namespace']));
-}
-echo "</ul>".$docs; ?>
+	foreach($input_files as $input_file) {
+		$json = json_decode(file_get_contents($input_file), true);
+		printf('<li><a href="#package-%s">%s</a> (%s namespace)</li>'."\n", rawurlencode($json['name']), $json['name'], (empty($json['namespace']) ? "default" : $json['namespace']));
+	}
+	echo "</ul>".$docs; ?>
+		</div>
 	</body>
 </html>
 <?php
 
 function jsonapi_docs($input_json) {
-	$format = '<h2 id="package-%s">%s</h2><h3>Depends on the following plugins:</h3><ul>%s</ul><h3>Methods</h3><ul>%s</ul><div id="jsonapi-docs" class="doc-wrapper">%s</div>';
+	$format = <<<EOT
+	<section>
+		<div class="page-header">
+			<h1 id="package-%s">%s</h1>
+		</div>
+		<dl class="dl-horizontal">
+			<dt>Dependencies</dt>
+			<dd><ul>%s</ul></dd>
+			<dt>Methods</dt>
+			<dd><ul>%s</ul></dd>
+		</dl>
+		<div id="jsonapi-docs" class="doc-wrapper">%s</div>
+	</section>
+EOT;
 	
 	usort($input_json['methods'], function($one, $two) {
 		return strcmp($one['name'], $two['name']);
@@ -71,12 +114,19 @@ function generate_token($call) {
 function jsonapi_docs_method ($method, $namespace) {
 	$format = <<<EOT
 	<div class="method-wrapper" id="%s">
-		<ul class="method-info">
-			<li class="method-info-name"><strong>Name: </strong>%s</li>
-			<li class="method-info-desc"><strong>Description: </strong>%s</li>
-			<li class="method-info-args"><strong>Arguments: </strong>%s</li>
-			<li class="method-info-return"><strong>Returns: </strong>%s</li>
-		</ul>
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">%s</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">%s</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">%s</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">%s</dd>
+		</dl>
 	</div>
 
 EOT;
@@ -88,8 +138,8 @@ function jsonapi_docs_args ($args) {
 		return "None";
 	}
 	
-	$format = "<ul class='method-info-args-ul'>%s</ul>";
-	$format_i = "<li><strong>%s</strong> %s</li>";
+	$format = "<dl class='dl-horizontal clearfix method-info-args-ul'>%s</dl>";
+	$format_i = "\n<dt>%s</dt><dd>%s</dd>";
 	foreach($args as $arg) {
 		$r .= sprintf($format_i, $arg[0], $arg[1]);
 	}
