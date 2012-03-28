@@ -1,4 +1,4 @@
-body {
+/*body {
 	font:85%/180% "Helvetica Neue",Helvetica,Arial,sans-serif;
 	background:#e7e7e7;
 	padding:25px;
@@ -15,12 +15,29 @@ h2 {
 
 h3 {
 	font-size:1.2em;
+}*/
+
+.jumbotron {
+	margin-top:65px;
+}
+
+.jumbotron h1 {
+	font-size:40px;
+	margin-bottom:13px;
+}
+
+section {
+	padding-top:60px;
 }
 
 .method-wrapper {
 	background:white;
-	border:1px #bbb solid;
+	border:1px #ddd solid;
 	margin:15px 0 0 0;
+}
+
+.method-wrapper > dl > dt, .method-wrapper > dl > dd {
+	margin-bottom:6px;
 }
 
 .method-info, .method-info li {
@@ -40,6 +57,24 @@ h3 {
 }
 .method-info li strong {
 	padding-right:10px;
+}
+
+.method-info-args-ul {
+	margin:0;
+	float:left;
+}
+
+.method-info-args-ul dt {
+	clear:left;
+	text-align:left;
+	width:auto;
+}
+
+.method-info-args-ul dd {
+	clear:none;
+	margin-left:0;
+	float:left;
+	padding-left:5px;
 }
 
 .clear {
