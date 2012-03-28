@@ -15,7 +15,7 @@ foreach($input_files as $input_file) {
 		$methods[] = array(
 			"name" => (empty($namespace) ? "" : $namespace.".").$v['name'],
 			"desc" => $v['desc'],
-			"args" => $v['args'],
+			"args" => array_key_exists('args', $v) ? $v['args'] : array(),
 			"doclink" => rawurlencode($v['call'])
 		);
 	}

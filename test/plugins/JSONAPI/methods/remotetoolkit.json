@@ -1,5 +1,5 @@
 {
-	"name" : "Remote Toolkit methods",
+	"name" : "Remote Toolkit",
 	"namespace" : "remotetoolkit",
 	"depends" : [
 		"RemoteToolkitPlugin"
