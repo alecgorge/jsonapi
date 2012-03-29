@@ -46,6 +46,29 @@ public class Method {
 		
 		call = new Call(o.get("call").toString(), args, this.flags);
 	}
+	
+	public Method (Object o, java.lang.reflect.Method m, API_Method a) {
+		if(a.name().isEmpty()) {
+			setName(m.getName());
+		}
+		else {
+			setName(a.name());
+		}
+		
+		setDesc(a.description());
+		
+		setReturnValue(m.getReturnType());
+		setReturnDesc(a.returnDescription());
+		
+		int i = 0;
+		for(Class<?> c : m.getParameterTypes()) {
+			args.add(new Argument(c, a.argumentDescriptions().length > i ? a.argumentDescriptions()[i] : ""));
+			
+			i++;
+		}
+		
+		call = new Call(o, m, args);
+	}
 
 	public void setName(String name) {
 		this.name = name;

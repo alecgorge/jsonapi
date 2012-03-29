@@ -1,7 +1,6 @@
 package com.alecgorge.minecraft.jsonapi.dynamic;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,11 +21,22 @@ public class Call {
 	private HashMap<Integer, String> defaults = new HashMap<Integer, String>();
 	public static boolean debug = false;
 	private int expectedArgs = 0;
+	
+	private boolean useDirectMethod = false;
+	private Object object;
+	private java.lang.reflect.Method method;
 
 	public Call (String input, ArgumentList args, ArrayList<String> flags) {
 		signature = args.getTypes();
 		this.flags = flags;
 		parseString(input);
+	}
+	
+	public Call (Object o, java.lang.reflect.Method m, ArgumentList args) {
+		useDirectMethod = true;
+		signature = args.getTypes();
+		method = m;
+		object = o;
 	}
 	
 	private void debug(String in) {
@@ -40,6 +50,10 @@ public class Call {
 	}
 	
 	public Object call(Object[] params) throws Exception {
+		if(useDirectMethod) {
+			return method.invoke(object, params);
+		}
+		
 		int size = stack.size();
 		
 		ArrayList<Object> oParams = new ArrayList<Object>(Arrays.asList(params));

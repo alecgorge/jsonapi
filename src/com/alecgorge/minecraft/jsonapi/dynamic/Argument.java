@@ -38,6 +38,11 @@ public class Argument {
 		desc = (String)a.get(1); 
 	}
 	
+	public Argument(Class<?> a, String desc) {
+		type = a;
+		this.desc = desc;
+	}
+	
 	public Class<?> getType() {
 		return type;
 	}
