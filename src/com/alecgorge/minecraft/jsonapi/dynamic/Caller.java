@@ -20,7 +20,7 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.api.APIMethodName;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
 
-public class Caller {
+public class Caller implements JSONAPIMethodProvider {
 	public HashMap<String, HashMap<String, Method>> methods = new HashMap<String, HashMap<String, Method>>();
 	private JSONParser p = new JSONParser();
 	private JSONAPI inst;
@@ -28,9 +28,11 @@ public class Caller {
 	public int methodCount = 0;
 	
 	private List<JSONAPICallHandler> handlers = new ArrayList<JSONAPICallHandler>();
+	private List<JSONAPIMethodProvider> objectsToCheck = new ArrayList<JSONAPIMethodProvider>();
 	
 	public Caller (JSONAPI plugin) {
 		inst = plugin;
+		registerMethods(this);
 	}
 	
 	public Object call(String methodAndNamespace, final Object[] params) throws Exception {
@@ -42,6 +44,8 @@ public class Caller {
 				return c.handle(n, params);
 			}
 		}		
+		
+		checkObjects();
 		
 		final Call c;
 		if(methodParts.length == 1) {
@@ -56,6 +60,23 @@ public class Caller {
 		}
 		
 		return innerCall(c, params);
+	}
+	
+	private void checkObjects() {
+		for(JSONAPIMethodProvider o : objectsToCheck) {
+			for(java.lang.reflect.Method m : o.getClass().getMethods()) {
+				if(m.isAnnotationPresent(API_Method.class)) {
+					API_Method a = m.getAnnotation(API_Method.class);
+					
+					if(methods.get(a.namespace()) == null) {
+						methods.put(a.namespace(), new HashMap<String, Method>());
+					}
+					
+					methods.get(a.namespace()).put(a.name().isEmpty() ? m.getName() : a.name(), new Method(o, m, a));					
+				}
+			}
+		}
+		objectsToCheck = new ArrayList<JSONAPIMethodProvider>();
 	}
 	
 	private Object innerCall(final Call c, final Object[] params) {
@@ -76,6 +97,12 @@ public class Caller {
 		return null;
 	}
 	
+	@API_Method(
+		namespace = "jsonapi",
+		argumentDescriptions = {
+			"The name of the method to test. Should be a FQN. Ex: dynmap.getHost or getPlayers"
+		}
+	)
 	public boolean methodExists (String name) {
 		String[] methodParts = name.split("\\.", 2);
 		
@@ -86,12 +113,25 @@ public class Caller {
 			}
 		}
 		
+		checkObjects();
+		
 		if(methodParts.length == 1) {
 			return methods.get("").containsKey(methodParts[0]);
 		}
 		else {
 			return methods.containsKey(methodParts[0]) && methods.get(methodParts[0]).containsKey(methodParts[1]);
 		}
+	}
+	
+	@API_Method(namespace = "jsonapi")
+	public HashMap<String, List<String>> getMethods() {
+		HashMap<String, List<String>> r = new HashMap<String, List<String>>();
+		
+		for(String key : methods.keySet()) {
+			r.put(key, new ArrayList<String>(methods.get(key).keySet()));			
+		}
+		
+		return r;
 	}
 	
 	public void loadFile (File methodsFile) {
@@ -104,6 +144,10 @@ public class Caller {
 	
 	public void registerAPICallHandler(JSONAPICallHandler handler) {
 		handlers.add(handler);
+	}
+	
+	public void registerMethods(JSONAPIMethodProvider o) {
+		objectsToCheck.add(o);
 	}
 	
 	public void deregisterAPICallHandler(JSONAPICallHandler handler) {

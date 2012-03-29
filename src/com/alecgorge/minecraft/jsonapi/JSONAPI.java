@@ -43,7 +43,9 @@ import com.alecgorge.minecraft.jsonapi.adminium.PushNotificationDaemon;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStream;
 import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
+import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
+import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
@@ -54,7 +56,7 @@ import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
 *
 * @author alecgorge
 */
-public class JSONAPI extends JavaPlugin implements RTKListener {
+public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodProvider {
 	public PluginLoader pluginLoader;
 	// private Server server;
 	public JSONServer jsonServer;
@@ -123,8 +125,17 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 		return getJSONServer().getCaller();
 	}
 	
+	@API_Method(namespace = "jsonapi")
+	public List<String> getStreamSources() {
+		return new ArrayList<String>(getStreamManager().getStreams().keySet());
+	}
+	
 	public void registerAPICallHandler(JSONAPICallHandler handler) {
 		getCaller().registerAPICallHandler(handler);
+	}
+	
+	public void registerMethods(JSONAPIMethodProvider obj) {
+		getCaller().registerMethods(obj);
 	}
 	
 	public void deregisterAPICallHandler(JSONAPICallHandler handler) {
@@ -355,6 +366,8 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 			initialiseListeners();
 			
 			adminium = new PushNotificationDaemon(new File(getDataFolder(), "adminium.yml"), this);
+			
+			registerMethods(this);
 		}
 		catch( Exception ioe ) {
 			log.severe( "[JSONAPI] Couldn't start server!\n");
@@ -420,7 +433,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener {
 				jsonSocketServer.stop();
 				jsonWebSocketServer.stop();
 				APIWrapperMethods.getInstance().disconnectAllFauxPlayers();
-				rtkAPI.deregisterRTKListener(this);
+				if(rtkAPI != null) rtkAPI.deregisterRTKListener(this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
