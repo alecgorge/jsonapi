@@ -1,6 +1,6 @@
 name: JSONAPI
 main: com.alecgorge.minecraft.jsonapi.JSONAPI
-version: 3.5.0
+version: 3.5.5
 description: Control your server and fetch information from your server.
 website: http://alecgorge.com/minecraft/jsonapi/
 author: Alec Gorge
