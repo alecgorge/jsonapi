@@ -19,9 +19,10 @@
 	          <ul class="nav">
 	          	<li><a href="#package-JSONAPI%20standard">JSONAPI standard</a></li>
 <li><a href="#package-Dynmap">Dynmap</a></li>
-<li><a href="#package-Economy">Economy</a></li>
+<li><a href="#package-Permission%20methods">Permission methods</a></li>
 <li><a href="#package-Remote%20Toolkit">Remote Toolkit</a></li>
 <li><a href="#package-System%20Usage">System Usage</a></li>
+<li><a href="#package-World%20Editing">World Editing</a></li>
 	          </ul>
 	        </div><!-- /.nav-collapse -->
 	      </div>
@@ -38,9 +39,10 @@
 		<ul>
 	<li><a href="#package-JSONAPI%20standard">JSONAPI standard</a> (default namespace)</li>
 <li><a href="#package-Dynmap">Dynmap</a> (dynmap namespace)</li>
-<li><a href="#package-Economy">Economy</a> (econ namespace)</li>
+<li><a href="#package-Permission%20methods">Permission methods</a> (permissions namespace)</li>
 <li><a href="#package-Remote%20Toolkit">Remote Toolkit</a> (remotetoolkit namespace)</li>
 <li><a href="#package-System%20Usage">System Usage</a> (system namespace)</li>
+<li><a href="#package-World%20Editing">World Editing</a> (world namespace)</li>
 </ul>	<section>
 		<div class="page-header">
 			<h1 id="package-JSONAPI%20standard">JSONAPI standard</h1>
@@ -1542,351 +1544,143 @@
 </div>
 	</section>	<section>
 		<div class="page-header">
-			<h1 id="package-Economy">Economy</h1>
+			<h1 id="package-Permission%20methods">Permission methods</h1>
 		</div>
 		<dl class="dl-horizontal">
 			<dt>Dependencies</dt>
 			<dd><ul><li>JSONAPI</li><li>Vault</li></ul></dd>
 			<dt>Methods</dt>
-			<dd><ul><li><a href='#this.econ.bankBalance%280%29'>void econ.bankBalance(String)</a></li><li><a href='#this.econ.bankDeposit%280%2C%201%29'>void econ.bankDeposit(String, double)</a></li><li><a href='#this.econ.bankHas%280%2C%201%29'>void econ.bankHas(String, double)</a></li><li><a href='#this.econ.bankWithdraw%280%2C%201%29'>void econ.bankWithdraw(String, double)</a></li><li><a href='#this.econ.createBank%280%2C%201%29'>void econ.createBank(String, String)</a></li><li><a href='#this.econ.createPlayerAccount%280%29'>void econ.createPlayerAccount(String)</a></li><li><a href='#this.econ.currencyNamePlural%28%29'>void econ.currencyNamePlural()</a></li><li><a href='#this.econ.currencyNameSingular%28%29'>void econ.currencyNameSingular()</a></li><li><a href='#this.econ.deleteBank%280%29'>void econ.deleteBank(String)</a></li><li><a href='#this.econ.depositPlayer%280%2C%201%29'>void econ.depositPlayer(String, double)</a></li><li><a href='#this.econ.format%280%29'>void econ.format(double)</a></li><li><a href='#this.econ.getBalance%280%29'>void econ.getBalance(String)</a></li><li><a href='#this.econ.getBanks%28%29'>void econ.getBanks()</a></li><li><a href='#this.econ.getName%28%29'>void econ.getName()</a></li><li><a href='#this.econ.has%280%2C%201%29'>void econ.has(String, double)</a></li><li><a href='#this.econ.hasAccount%280%29'>void econ.hasAccount(String)</a></li><li><a href='#this.econ.hasBankSupport%28%29'>void econ.hasBankSupport()</a></li><li><a href='#this.econ.isBankMember%280%2C%201%29'>void econ.isBankMember(String, String)</a></li><li><a href='#this.econ.isBankOwner%280%2C%201%29'>void econ.isBankOwner(String, String)</a></li><li><a href='#this.econ.isEnabled%28%29'>void econ.isEnabled()</a></li><li><a href='#this.econ.withdrawPlayer%280%2C%201%29'>void econ.withdrawPlayer(String, double)</a></li></ul></dd>
+			<dd><ul><li><a href='#this.permissions.addPermission%280%2C1%2C2%29'>void permissions.addPermission(String, String, Boolean)</a></li><li><a href='#this.permissions.addGroup%280%2C1%29'>void permissions.addPlayerToGroup(String, String)</a></li><li><a href='#this.permissions.getAllGroups%28%29'>void permissions.getAllGroups()</a></li><li><a href='#this.permissions.getAllPermissions%28%29'>void permissions.getAllPermissions()</a></li><li><a href='#this.permissions.getGroups%280%29'>void permissions.getGroups(String)</a></li><li><a href='#this.permissions.getPermissions%280%29'>void permissions.getPermissions(String)</a></li><li><a href='#this.permissions.removePermission%280%2C1%29'>void permissions.removePermission(String, String)</a></li><li><a href='#this.permissions.removeGroup%280%2C1%29'>void permissions.removePlayerFromGroup(String, String)</a></li></ul></dd>
 		</dl>
-		<div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.econ.bankBalance%280%29">
+		<div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.permissions.addPermission%280%2C1%2C2%29">
 		<dl class="dl-horizontal method-info">
 			<dt>Name</dt>
-			<dd class="method-info-name">econ.bankBalance</dd>
+			<dd class="method-info-name">permissions.addPermission</dd>
 
 			<dt>Description</dt>
-			<dd class="method-info-desc">Returns the amount the bank has</dd>
+			<dd class="method-info-desc">Add a permission node for a player.</dd>
 
 			<dt>Arguments</dt>
 			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>name -</dd></dl></dd>
+<dt>String</dt><dd>The player's name.</dd>
+<dt>String</dt><dd>The permission node.</dd>
+<dt>Boolean</dt><dd>The value to assign to the node.</dd></dl></dd>
 
 			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+			<dd class="method-info-return"><strong>boolean</strong> Success?</dd>
 		</dl>
 	</div>
-	<div class="method-wrapper" id="this.econ.bankDeposit%280%2C%201%29">
+	<div class="method-wrapper" id="this.permissions.addGroup%280%2C1%29">
 		<dl class="dl-horizontal method-info">
 			<dt>Name</dt>
-			<dd class="method-info-name">econ.bankDeposit</dd>
+			<dd class="method-info-name">permissions.addPlayerToGroup</dd>
 
 			<dt>Description</dt>
-			<dd class="method-info-desc">Deposit an amount into a bank account</dd>
+			<dd class="method-info-desc">Add a group for a player.</dd>
 
 			<dt>Arguments</dt>
 			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>name -</dd>
-<dt>double</dt><dd>amount -</dd></dl></dd>
+<dt>String</dt><dd>The player's name.</dd>
+<dt>String</dt><dd>The group name.</dd></dl></dd>
 
 			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+			<dd class="method-info-return"><strong>boolean</strong> Success?</dd>
 		</dl>
 	</div>
-	<div class="method-wrapper" id="this.econ.bankHas%280%2C%201%29">
+	<div class="method-wrapper" id="this.permissions.getAllGroups%28%29">
 		<dl class="dl-horizontal method-info">
 			<dt>Name</dt>
-			<dd class="method-info-name">econ.bankHas</dd>
+			<dd class="method-info-name">permissions.getAllGroups</dd>
 
 			<dt>Description</dt>
-			<dd class="method-info-desc">Returns true or false whether the bank has the amount specified</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>name -</dd>
-<dt>double</dt><dd>amount -</dd></dl></dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.bankWithdraw%280%2C%201%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.bankWithdraw</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Withdraw an amount from a bank account</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>name -</dd>
-<dt>double</dt><dd>amount -</dd></dl></dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.createBank%280%2C%201%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.createBank</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Creates a bank account with the specified name and the player as the owner</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>name -</dd>
-<dt>String</dt><dd>player -</dd></dl></dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.createPlayerAccount%280%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.createPlayerAccount</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Attempts to create a player account for the given player</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd></dd></dl></dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>boolean</strong> if the account creation was successful</dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.currencyNamePlural%28%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.currencyNamePlural</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Returns the name of the currency in plural form. If the economy being used does not support currency names then an empty string will be returned.</dd>
+			<dd class="method-info-desc">Retrieves all groups.</dd>
 
 			<dt>Arguments</dt>
 			<dd class="method-info-args clearfix">None</dd>
 
 			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>String</strong> name of the currency (plural)</dd>
+			<dd class="method-info-return"><strong>String[]</strong> All the groups in use on the server.</dd>
 		</dl>
 	</div>
-	<div class="method-wrapper" id="this.econ.currencyNameSingular%28%29">
+	<div class="method-wrapper" id="this.permissions.getAllPermissions%28%29">
 		<dl class="dl-horizontal method-info">
 			<dt>Name</dt>
-			<dd class="method-info-name">econ.currencyNameSingular</dd>
+			<dd class="method-info-name">permissions.getAllPermissions</dd>
 
 			<dt>Description</dt>
-			<dd class="method-info-desc">Returns the name of the currency in singular form. If the economy being used does not support currency names then an empty string will be returned.</dd>
+			<dd class="method-info-desc">Retrieves all permissions for all players.</dd>
 
 			<dt>Arguments</dt>
 			<dd class="method-info-args clearfix">None</dd>
 
 			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>String</strong> name of the currency (singular)</dd>
+			<dd class="method-info-return"><strong>Object</strong> A map from player to a list of permission settings.</dd>
 		</dl>
 	</div>
-	<div class="method-wrapper" id="this.econ.deleteBank%280%29">
+	<div class="method-wrapper" id="this.permissions.getGroups%280%29">
 		<dl class="dl-horizontal method-info">
 			<dt>Name</dt>
-			<dd class="method-info-name">econ.deleteBank</dd>
+			<dd class="method-info-name">permissions.getGroups</dd>
 
 			<dt>Description</dt>
-			<dd class="method-info-desc">Deletes a bank account with the specified name.</dd>
+			<dd class="method-info-desc">Gets the groups for a specific player.</dd>
 
 			<dt>Arguments</dt>
 			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>name -</dd></dl></dd>
+<dt>String</dt><dd>The player's name.</dd></dl></dd>
 
 			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>EconomyResponse</strong> if the operation completed successfully</dd>
+			<dd class="method-info-return"><strong>String[]</strong> Gets all the groups for a player.</dd>
 		</dl>
 	</div>
-	<div class="method-wrapper" id="this.econ.depositPlayer%280%2C%201%29">
+	<div class="method-wrapper" id="this.permissions.getPermissions%280%29">
 		<dl class="dl-horizontal method-info">
 			<dt>Name</dt>
-			<dd class="method-info-name">econ.depositPlayer</dd>
+			<dd class="method-info-name">permissions.getPermissions</dd>
 
 			<dt>Description</dt>
-			<dd class="method-info-desc">Deposit an amount to a player</dd>
+			<dd class="method-info-desc">Gets the permissions for a specific player.</dd>
 
 			<dt>Arguments</dt>
 			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>playerName - Name of player</dd>
-<dt>double</dt><dd>amount - Amount to deposit</dd></dl></dd>
+<dt>String</dt><dd>The player's name.</dd></dl></dd>
 
 			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>EconomyResponse</strong> Detailed response of transaction</dd>
+			<dd class="method-info-return"><strong>Object[]</strong> Gets all the permissions and their values for a player.</dd>
 		</dl>
 	</div>
-	<div class="method-wrapper" id="this.econ.format%280%29">
+	<div class="method-wrapper" id="this.permissions.removePermission%280%2C1%29">
 		<dl class="dl-horizontal method-info">
 			<dt>Name</dt>
-			<dd class="method-info-name">econ.format</dd>
+			<dd class="method-info-name">permissions.removePermission</dd>
 
 			<dt>Description</dt>
-			<dd class="method-info-desc">Format amount into a human readable String This provides translation into economy specific formatting to improve consistency between plugins.</dd>
+			<dd class="method-info-desc">Removes a permission node for a player.</dd>
 
 			<dt>Arguments</dt>
 			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>double</dt><dd>amount -</dd></dl></dd>
+<dt>String</dt><dd>The player's name.</dd>
+<dt>String</dt><dd>The permission node.</dd></dl></dd>
 
 			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>String</strong> Human readable string describing amount</dd>
+			<dd class="method-info-return"><strong>boolean</strong> Success?</dd>
 		</dl>
 	</div>
-	<div class="method-wrapper" id="this.econ.getBalance%280%29">
+	<div class="method-wrapper" id="this.permissions.removeGroup%280%2C1%29">
 		<dl class="dl-horizontal method-info">
 			<dt>Name</dt>
-			<dd class="method-info-name">econ.getBalance</dd>
+			<dd class="method-info-name">permissions.removePlayerFromGroup</dd>
 
 			<dt>Description</dt>
-			<dd class="method-info-desc">Gets balance of a player</dd>
+			<dd class="method-info-desc">Remove a group from a player.</dd>
 
 			<dt>Arguments</dt>
 			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>playerName -</dd></dl></dd>
+<dt>String</dt><dd>The player's name.</dd>
+<dt>String</dt><dd>The group name.</dd></dl></dd>
 
 			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>double</strong> Amount currently held in players account</dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.getBanks%28%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.getBanks</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Gets the list of banks</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix">None</dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>String[]</strong> the List of Banks</dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.getName%28%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.getName</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Gets name of permission method</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix">None</dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>String</strong> Name of Permission Method</dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.has%280%2C%201%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.has</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Checks if the player account has the amount</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>playerName -</dd>
-<dt>double</dt><dd>amount -</dd></dl></dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>boolean</strong> </dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.hasAccount%280%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.hasAccount</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Checks if this player has an account on the server yet This will always return true if the player has joined the server at least once as all major economy plugins auto-generate a player account when the player joins the server</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>playerName -</dd></dl></dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>boolean</strong> if the player has an account</dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.hasBankSupport%28%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.hasBankSupport</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Returns true if the given implementation supports banks.</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix">None</dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>boolean</strong> true if the implementation supports banks</dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.isBankMember%280%2C%201%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.isBankMember</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Check if the player is a member of the bank account</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>name -</dd>
-<dt>String</dt><dd>playerName -</dd></dl></dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.isBankOwner%280%2C%201%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.isBankOwner</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Check if a player is the owner of a bank account</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>name -</dd>
-<dt>String</dt><dd>playerName -</dd></dl></dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.isEnabled%28%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.isEnabled</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Checks if economy method is enabled.</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix">None</dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>boolean</strong> Success or Failure</dd>
-		</dl>
-	</div>
-	<div class="method-wrapper" id="this.econ.withdrawPlayer%280%2C%201%29">
-		<dl class="dl-horizontal method-info">
-			<dt>Name</dt>
-			<dd class="method-info-name">econ.withdrawPlayer</dd>
-
-			<dt>Description</dt>
-			<dd class="method-info-desc">Withdraw an amount from a player</dd>
-
-			<dt>Arguments</dt>
-			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
-<dt>String</dt><dd>playerName - Name of player</dd>
-<dt>double</dt><dd>amount - Amount to withdraw</dd></dl></dd>
-
-			<dt>Returns</dt>
-			<dd class="method-info-return"><strong>EconomyResponse</strong> Detailed response of transaction</dd>
+			<dd class="method-info-return"><strong>boolean</strong> Success?</dd>
 		</dl>
 	</div>
 </div>
@@ -2045,6 +1839,141 @@
 
 			<dt>Returns</dt>
 			<dd class="method-info-return"><strong>int</strong> Java memory usage in bytes</dd>
+		</dl>
+	</div>
+</div>
+	</section>	<section>
+		<div class="page-header">
+			<h1 id="package-World%20Editing">World Editing</h1>
+		</div>
+		<dl class="dl-horizontal">
+			<dt>Dependencies</dt>
+			<dd><ul><li>JSONAPI</li></ul></dd>
+			<dt>Methods</dt>
+			<dd><ul><li><a href='#this.getChestContents%280%2C1%2C2%2C3%29'>void world.getChestContents(String, int, int, int)</a></li><li><a href='#this.getSignText%280%2C1%2C2%2C3%29'>void world.getSignText(String, int, int, int)</a></li><li><a href='#this.giveChestItem%280%2C%201%2C%202%2C%203%2C%204%2C%205%2C%206%29'>void world.setChestSlot(String, int, int, int, int, int, int)</a></li><li><a href='#this.giveChestItem%280%2C%201%2C%202%2C%203%2C%204%2C%205%2C%207%2C%206%29'>void world.setChestSlotWithData(String, int, int, int, int, int, int, int)</a></li><li><a href='#this.setSignText%280%2C1%2C2%2C3%2C4%29'>void world.setSignText(String, int, int, int, String[])</a></li><li><a href='#this.setSignText%280%2C1%2C2%2C3%2C4%2C5%29'>void world.setSignTextLine(String, int, int, int, int, String)</a></li></ul></dd>
+		</dl>
+		<div id="jsonapi-docs" class="doc-wrapper">	<div class="method-wrapper" id="this.getChestContents%280%2C1%2C2%2C3%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">world.getChestContents</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets all the items in a chest.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The world the sign is in.</dd>
+<dt>int</dt><dd>The x-pos of the sign.</dd>
+<dt>int</dt><dd>The y-pos of the sign.</dd>
+<dt>int</dt><dd>The z-pos of the sign.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The chest's inventory.</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="this.getSignText%280%2C1%2C2%2C3%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">world.getSignText</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets all the lines of text on a sign.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The world the sign is in.</dd>
+<dt>int</dt><dd>The x-pos of the sign.</dd>
+<dt>int</dt><dd>The y-pos of the sign.</dd>
+<dt>int</dt><dd>The z-pos of the sign.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The lines of text on a sign.</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="this.giveChestItem%280%2C%201%2C%202%2C%203%2C%204%2C%205%2C%206%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">world.setChestSlot</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gives the specified chest the specified quanity of the item id by placing it in the first empty slot.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The world the sign is in.</dd>
+<dt>int</dt><dd>The x-pos of the sign.</dd>
+<dt>int</dt><dd>The y-pos of the sign.</dd>
+<dt>int</dt><dd>The z-pos of the sign.</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>int</dt><dd>Id of item to give</dd>
+<dt>int</dt><dd>Quantity of item to give</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the chest is not on the server.</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="this.giveChestItem%280%2C%201%2C%202%2C%203%2C%204%2C%205%2C%207%2C%206%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">world.setChestSlotWithData</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gives the specified chest the specified quanity of the item id with the specified data by placing it in the first empty slot.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The world the sign is in.</dd>
+<dt>int</dt><dd>The x-pos of the sign.</dd>
+<dt>int</dt><dd>The y-pos of the sign.</dd>
+<dt>int</dt><dd>The z-pos of the sign.</dd>
+<dt>int</dt><dd>Slot number</dd>
+<dt>int</dt><dd>Id of item to give</dd>
+<dt>int</dt><dd>Quantity of item to give</dd>
+<dt>int</dt><dd>Decimal representation of the data value.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the chest is not on the server. An exception could be throw for invalid data (data < 0 or data > 15).</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="this.setSignText%280%2C1%2C2%2C3%2C4%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">world.setSignText</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets all the lines of text on a sign.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The world the sign is in.</dd>
+<dt>int</dt><dd>The x-pos of the sign.</dd>
+<dt>int</dt><dd>The y-pos of the sign.</dd>
+<dt>int</dt><dd>The z-pos of the sign.</dd>
+<dt>String[]</dt><dd>4 lines of text for the sign.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Success?</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="this.setSignText%280%2C1%2C2%2C3%2C4%2C5%29">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name">world.setSignTextLine</dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets a single line of text on a sign.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>String</dt><dd>The world the sign is in.</dd>
+<dt>int</dt><dd>The x-pos of the sign.</dd>
+<dt>int</dt><dd>The y-pos of the sign.</dd>
+<dt>int</dt><dd>The z-pos of the sign.</dd>
+<dt>int</dt><dd>The line of text to set.</dd>
+<dt>String</dt><dd>The line.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Success?</dd>
 		</dl>
 	</div>
 </div>
