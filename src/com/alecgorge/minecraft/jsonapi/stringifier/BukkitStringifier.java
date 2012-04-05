@@ -31,7 +31,7 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
 public class BukkitStringifier {
 	public static HashMap<String, Class<?>> handle = new HashMap<String, Class<?>>();
-	
+
 	static {
 		handle.put("Player", org.bukkit.entity.Player.class);
 		handle.put("Player[]", org.bukkit.entity.Player[].class);
@@ -53,42 +53,41 @@ public class BukkitStringifier {
 		handle.put("Enchantment", org.bukkit.enchantments.Enchantment.class);
 		handle.put("Block", org.bukkit.block.Block.class);
 		handle.put("Object[]", java.lang.Object[].class);
-		handle.put("EconomyResponse", net.milkbowl.vault.economy.EconomyResponse.class);
+
+		if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null) {
+			handle.put("EconomyResponse", net.milkbowl.vault.economy.EconomyResponse.class);
+		}
 	}
-	
+
 	public static boolean canHandle(Class<?> c) {
-		for(Class<?> cc : handle.values()) {
-			if(cc.isAssignableFrom(c)) {
+		for (Class<?> cc : handle.values()) {
+			if (cc.isAssignableFrom(c)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public static Object handle(Object obj) {
-		if(obj instanceof World.Environment) {
-			World.Environment e = (World.Environment)obj;
-			if(e == World.Environment.NETHER) {
+		if (obj instanceof World.Environment) {
+			World.Environment e = (World.Environment) obj;
+			if (e == World.Environment.NETHER) {
 				return "nether";
-			}
-			else {
+			} else {
 				return "normal";
 			}
-		}
-		else if(obj instanceof File) {
-			return ((File)obj).toString();
-		}
-		else if(obj instanceof Block) {
-			Block b = (Block)obj;
+		} else if (obj instanceof File) {
+			return ((File) obj).toString();
+		} else if (obj instanceof Block) {
+			Block b = (Block) obj;
 			JSONObject o = new JSONObject();
 
 			o.put("type", b.getTypeId());
 			o.put("data", b.getData());
-			
-			return o;			
-		}
-		else if(obj instanceof Player) {
-			Player p = (Player)obj;
+
+			return o;
+		} else if (obj instanceof Player) {
+			Player p = (Player) obj;
 			JSONObject o = new JSONObject();
 
 			o.put("name", p.getName());
@@ -107,29 +106,27 @@ public class BukkitStringifier {
 			o.put("world", p.getServer().getWorlds().indexOf(p.getWorld()));
 			o.put("worldInfo", p.getWorld());
 			o.put("gameMode", p.getGameMode());
-			
+
 			o.put("level", p.getLevel());
 			o.put("experience", p.getTotalExperience());
-			
-			return o;			
-		}
-		else if(obj instanceof OfflinePlayer) {
-			OfflinePlayer op = (OfflinePlayer)obj;
+
+			return o;
+		} else if (obj instanceof OfflinePlayer) {
+			OfflinePlayer op = (OfflinePlayer) obj;
 			JSONObject o = new JSONObject();
-			
-			o.put("firstPlayed", Math.round(op.getFirstPlayed()/1000.0));
-			o.put("lastPlayed", Math.round(op.getLastPlayed()/1000.0));
+
+			o.put("firstPlayed", Math.round(op.getFirstPlayed() / 1000.0));
+			o.put("lastPlayed", Math.round(op.getLastPlayed() / 1000.0));
 			o.put("banned", op.isBanned());
 			o.put("whitelisted", op.isWhitelisted());
 			o.put("name", op.getName());
-			
+
 			return o;
-		}
-		else if(obj instanceof Server) {
-			Server s = (Server)obj;
-			
+		} else if (obj instanceof Server) {
+			Server s = (Server) obj;
+
 			JSONObject o = new JSONObject();
-			
+
 			o.put("maxPlayers", s.getMaxPlayers());
 			o.put("players", Arrays.asList(s.getOnlinePlayers()));
 			o.put("port", s.getPort());
@@ -137,14 +134,13 @@ public class BukkitStringifier {
 			o.put("serverName", s.getServerName());
 			o.put("version", s.getVersion());
 			o.put("worlds", s.getWorlds());
-			
+
 			return o;
-		}
-		else if(obj instanceof World) {
-			World w = (World)obj;
-			
+		} else if (obj instanceof World) {
+			World w = (World) obj;
+
 			JSONObject o = new JSONObject();
-			
+
 			o.put("environment", w.getEnvironment());
 			o.put("fullTime", w.getFullTime());
 			o.put("time", w.getTime());
@@ -152,115 +148,105 @@ public class BukkitStringifier {
 			o.put("isThundering", w.isThundering());
 			o.put("hasStorm", w.hasStorm());
 			o.put("remainingWeatherTicks", w.getWeatherDuration());
-			
+
 			return o;
-		}
-		else if(obj instanceof Plugin) {
-			Plugin p = (Plugin)obj;
+		} else if (obj instanceof Plugin) {
+			Plugin p = (Plugin) obj;
 			PluginDescriptionFile d = p.getDescription();
-			
+
 			JSONObject o = new JSONObject();
-			
+
 			o.put("name", d.getName());
 			o.put("description", d.getDescription());
 			o.put("authors", d.getAuthors());
 			o.put("version", d.getVersion());
 			o.put("website", d.getWebsite());
 			o.put("enabled", JSONAPI.instance.getServer().getPluginManager().isPluginEnabled(p));
-			
+
 			return o;
-		}
-		else if(obj instanceof ItemStack) {
-			ItemStack i = (ItemStack)obj;
-			
+		} else if (obj instanceof ItemStack) {
+			ItemStack i = (ItemStack) obj;
+
 			JSONObject o = new JSONObject();
-			
+
 			o.put("type", i.getTypeId());
 			o.put("durability", i.getDurability());
-			o.put("dataValue", (int)i.getData().getData());
+			o.put("dataValue", (int) i.getData().getData());
 			o.put("amount", i.getAmount());
-			
+
 			JSONObject enchantments = new JSONObject();
-			for (Map.Entry<Enchantment,Integer> enchantment : i.getEnchantments().entrySet()) {
-			    enchantments.put(enchantment.getKey().getId(), enchantment.getValue());
+			for (Map.Entry<Enchantment, Integer> enchantment : i.getEnchantments().entrySet()) {
+				enchantments.put(enchantment.getKey().getId(), enchantment.getValue());
 			}
 
-			o.put("enchantments", enchantments);			
+			o.put("enchantments", enchantments);
 			return o;
-		}
-		else if(obj instanceof PlayerInventory) {
-			PlayerInventory p = (PlayerInventory)obj;
-			
+		} else if (obj instanceof PlayerInventory) {
+			PlayerInventory p = (PlayerInventory) obj;
+
 			JSONObject o = new JSONObject();
-			
+
 			JSONObject armor = new JSONObject();
 			armor.put("boots", p.getBoots());
 			armor.put("chestplate", p.getChestplate());
 			armor.put("helmet", p.getHelmet());
 			armor.put("leggings", p.getLeggings());
-			
+
 			o.put("armor", armor);
 			o.put("hand", p.getItemInHand());
 			o.put("inventory", Arrays.asList(p.getContents()));
-			
+
 			return o;
-		}
-		else if(obj instanceof Inventory) {
-			Inventory p = (Inventory)obj;
-			
+		} else if (obj instanceof Inventory) {
+			Inventory p = (Inventory) obj;
+
 			return Arrays.asList(p.getContents());
-		}
-		else if(obj instanceof Location) {
-			Location l = (Location)obj;
-			
+		} else if (obj instanceof Location) {
+			Location l = (Location) obj;
+
 			JSONObject o = new JSONObject();
-			
+
 			o.put("x", l.getX());
 			o.put("y", l.getY());
 			o.put("z", l.getZ());
 			o.put("pitch", l.getPitch());
 			o.put("yaw", l.getYaw());
-			
+
 			return o;
-		}
-		else if(obj instanceof Plugin[]) {
-			List<Plugin> l = Arrays.asList((Plugin[])obj);
-			
+		} else if (obj instanceof Plugin[]) {
+			List<Plugin> l = Arrays.asList((Plugin[]) obj);
+
 			Collections.sort(l, new PluginSorter());
-			
+
 			return l;
-		}
-		else if(obj instanceof GameMode) {
-			return ((GameMode)obj).getValue();
-		}
-		else if(obj instanceof Enchantment) {
-			return ((Enchantment)obj).getId();
-		}
-		else if(obj instanceof EconomyResponse) {
+		} else if (obj instanceof GameMode) {
+			return ((GameMode) obj).getValue();
+		} else if (obj instanceof Enchantment) {
+			return ((Enchantment) obj).getId();
+		} else if (obj instanceof EconomyResponse) {
 			JSONObject o = new JSONObject();
-			EconomyResponse r = (EconomyResponse)obj;
-			
+			EconomyResponse r = (EconomyResponse) obj;
+
 			o.put("amount", r.amount);
 			o.put("balance", r.balance);
 			o.put("errorMessage", r.errorMessage);
 			o.put("type", r.type.toString());
-			
+
 			return o;
-		}
-		else if(obj instanceof Object[]) {
-			int l = ((Object[])obj).length;
+		} else if (obj instanceof Object[]) {
+			int l = ((Object[]) obj).length;
 			JSONArray a = new JSONArray();
-			for(int i = 0; i < l; i++) {
-				a.add(((Object[])obj)[i]);
+			for (int i = 0; i < l; i++) {
+				a.add(((Object[]) obj)[i]);
 			}
-			
-			return a; 
+
+			return a;
 		}
 		Logger.getLogger("JSONAPI").warning("Uncaugh object! Value:");
 		Logger.getLogger("JSONAPI").warning(obj.toString());
 		Logger.getLogger("JSONAPI").warning("Type:");
 		Logger.getLogger("JSONAPI").warning(obj.getClass().getName());
-		
+
 		return new Object();
 	}
 
