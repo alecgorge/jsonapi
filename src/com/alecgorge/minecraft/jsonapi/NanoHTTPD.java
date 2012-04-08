@@ -415,7 +415,7 @@ public class NanoHTTPD
 					while ( line != null && line.trim().length() > 0 )
 					{
 						int p = line.indexOf( ':' );
-						header.put( line.substring(0,p).trim().toLowerCase(), line.substring(p+1).trim());
+						header.put( line.substring(0,p < 0 ? 0 : p).trim().toLowerCase(), line.substring(p+1).trim());
 						line = in.readLine();
 					}
 				}
