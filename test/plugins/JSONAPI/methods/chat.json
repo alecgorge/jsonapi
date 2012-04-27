@@ -120,7 +120,7 @@
                 ["String","Group name"]
             ],
             "desc":"Check if player is member of a group.",
-            "returns":["bool","Success or Failure"]
+            "returns":["boolean","Success or Failure"]
         },
         {
             "name":"getGroups",
