@@ -17,6 +17,17 @@ h3 {
 	font-size:1.2em;
 }*/
 
+.nav-right {
+	position:fixed;
+	left:15px;
+	top:15px;
+	padding:8px 0 !important;
+}
+
+section {
+	padding-top:40px;
+}
+
 .jumbotron {
 	margin-top:65px;
 }
@@ -24,10 +35,6 @@ h3 {
 .jumbotron h1 {
 	font-size:40px;
 	margin-bottom:13px;
-}
-
-section {
-	padding-top:60px;
 }
 
 .method-wrapper {
