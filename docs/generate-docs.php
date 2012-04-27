@@ -15,17 +15,9 @@ foreach($input_files as $input_file) {
 		<link type="text/css" rel="stylesheet" name="stylesheet" href="styles.css" />
 	</head>
 	<body>
-	<div class="navbar navbar-fixed-top">
-	    <div class="navbar-inner">
-	      <div class="container">
-	        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-	          <span class="icon-bar"></span>
-	          <span class="icon-bar"></span>
-	          <span class="icon-bar"></span>
-	        </a>
-	        <a class="brand" href="#">JSONAPI Documentation</a>
-	        <div class="nav-collapse">
-	          <ul class="nav">
+	        <div class="nav-right well">
+	          <ul class="nav nav-list">
+		        <li class="nav-header">JSONAPI Documentation</a>
 	          	<?php
 	foreach($input_files as $input_file) {
 		$json = json_decode(file_get_contents($input_file), true);
@@ -34,15 +26,12 @@ foreach($input_files as $input_file) {
 	          	?>
 	          </ul>
 	        </div><!-- /.nav-collapse -->
-	      </div>
-	    </div><!-- /navbar-inner -->
-	  </div>
 	<div class="container">
 		<div class="jumbotron subhead">
 			<h1>API Documentation for JSONAPI</h1>
 			<p class="lead">This page documents all the methods that ship with JSONAPI. This includes the base method that work as long as JSONAPI is installed and enabled, along with the methods that require another plugin to be installed and enabled for them to work.
 			</p>
-			<p class="lead"><em>The methods that require another plugin to be installed simply do not work if that plugin is not installed and enabled.</em></p>
+			<p class="lead well"><em>The methods that require another plugin to be installed simply do not work if that plugin is not installed and enabled.</em></p>
 			<h2>Available method packages</h2>
 		</div>
 		<ul>
