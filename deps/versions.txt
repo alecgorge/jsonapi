@@ -1,3 +1,2 @@
-CraftBukkit build 2034
-Remote Toolkit revision 10
-Vault 1.2.13
+CraftBukkit build 1.2.5-R1.0
+Vault 1.2.15
