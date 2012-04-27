@@ -44,6 +44,10 @@ public class Draft_75 extends Draft {
 	private boolean inframe = false;
 	protected List<Framedata> readyframes = new LinkedList<Framedata>();
 	protected ByteBuffer currentFrame;
+	
+	
+	private final Random reuseableRandom = new Random();
+	
 
 	@Override
 	public HandshakeState acceptHandshakeAsClient( ClientHandshake request, ServerHandshake response ) {
@@ -64,17 +68,19 @@ public class Draft_75 extends Draft {
 			throw new RuntimeException( "only text frames supported" );
 		}
 
-		byte[] pay = framedata.getPayloadData();
-		ByteBuffer b = ByteBuffer.allocate( pay.length + 2 );
+		ByteBuffer pay = framedata.getPayloadData();
+		ByteBuffer b = ByteBuffer.allocate( pay.remaining() + 2 );
 		b.put( START_OF_FRAME );
+		pay.mark();
 		b.put( pay );
+		pay.reset();
 		b.put( END_OF_FRAME );
 		b.flip();
 		return b;
 	}
 
 	@Override
-	public List<Framedata> createFrames( byte[] binary, boolean mask ) {
+	public List<Framedata> createFrames( ByteBuffer binary, boolean mask ) {
 		throw new RuntimeException( "not yet implemented" );
 	}
 
@@ -82,7 +88,7 @@ public class Draft_75 extends Draft {
 	public List<Framedata> createFrames( String text, boolean mask ) {
 		FrameBuilder frame = new FramedataImpl1();
 		try {
-			frame.setPayload( Charsetfunctions.utf8Bytes( text ) );
+			frame.setPayload( ByteBuffer.wrap( Charsetfunctions.utf8Bytes( text ) ) );
 		} catch ( InvalidDataException e ) {
 			throw new NotSendableException( e );
 		}
@@ -97,7 +103,7 @@ public class Draft_75 extends Draft {
 		request.put( "Upgrade", "WebSocket" );
 		request.put( "Connection", "Upgrade" );
 		if( !request.hasFieldValue( "Origin" ) ) {
-			request.put( "Origin", "random" + new Random().nextInt() );
+			request.put( "Origin", "random" + reuseableRandom.nextInt() );
 		}
 
 		return request;
@@ -128,8 +134,9 @@ public class Draft_75 extends Draft {
 				// currentFrame will be null if END_OF_FRAME was send directly after
 				// START_OF_FRAME, thus we will send 'null' as the sent message.
 				if( this.currentFrame != null ) {
+					currentFrame.flip();
 					FramedataImpl1 curframe = new FramedataImpl1();
-					curframe.setPayload( currentFrame.array() );
+					curframe.setPayload( currentFrame );
 					curframe.setFin( true );
 					curframe.setOptcode( inframe ? Opcode.CONTINIOUS : Opcode.TEXT );
 					readyframes.add( curframe );
@@ -139,20 +146,19 @@ public class Draft_75 extends Draft {
 				readingState = false;
 				inframe = false;
 			} else if( readingState ) { // Regular frame data, add to current frame buffer //TODO This code is very expensive and slow
-				ByteBuffer frame = ByteBuffer.allocate( checkAlloc( ( this.currentFrame != null ? this.currentFrame.capacity() : 0 ) + 1 ) );
-				if( this.currentFrame != null ) {
-					this.currentFrame.rewind();
-					frame.put( this.currentFrame );
+				if( currentFrame == null ) {
+					currentFrame = createBuffer();
+				} else if( !currentFrame.hasRemaining() ) {
+					currentFrame = increaseBuffer( currentFrame );
 				}
-				frame.put( newestByte );
-				this.currentFrame = frame;
+				currentFrame.put( newestByte );
 			} else {
 				return null;
 			}
 		}
 		if( readingState ) {
 			FramedataImpl1 curframe = new FramedataImpl1();
-			curframe.setPayload( currentFrame.array() );
+			curframe.setPayload( currentFrame );
 			curframe.setFin( false );
 			curframe.setOptcode( inframe ? Opcode.CONTINIOUS : Opcode.TEXT );
 			inframe = true;
@@ -185,4 +191,14 @@ public class Draft_75 extends Draft {
 		return CloseHandshakeType.NONE;
 	}
 
+	public ByteBuffer createBuffer() {
+		return ByteBuffer.allocate( INITIAL_FAMESIZE );
+	}
+
+	public ByteBuffer increaseBuffer( ByteBuffer full ) {
+		full.flip();
+		ByteBuffer newbuffer = ByteBuffer.allocate( full.capacity() * 2 );
+		newbuffer.put( full );
+		return newbuffer;
+	}
 }

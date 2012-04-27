@@ -31,6 +31,13 @@ import org.java_websocket.util.Charsetfunctions;
 public class Draft_10 extends Draft {
 
 	private class IncompleteException extends Throwable {
+		
+		/**
+		 * It's Serializable.
+		 */
+		private static final long serialVersionUID = 7330519489840500997L;
+		
+		
 		private int preferedsize;
 		public IncompleteException( int preferedsize ) {
 			this.preferedsize = preferedsize;
@@ -56,6 +63,8 @@ public class Draft_10 extends Draft {
 
 	private ByteBuffer incompleteframe;
 	private Framedata fragmentedframe = null;
+	
+	private final Random reuseableRandom = new Random();
 
 	@Override
 	public HandshakeState acceptHandshakeAsClient( ClientHandshake request, ServerHandshake response ) throws InvalidHandshakeException {
@@ -82,15 +91,15 @@ public class Draft_10 extends Draft {
 
 	@Override
 	public ByteBuffer createBinaryFrame( Framedata framedata ) {
-		byte[] mes = framedata.getPayloadData();
+		ByteBuffer mes = framedata.getPayloadData();
 		boolean mask = role == Role.CLIENT; // framedata.getTransfereMasked();
-		int sizebytes = mes.length <= 125 ? 1 : mes.length <= 65535 ? 2 : 8;
-		ByteBuffer buf = ByteBuffer.allocate( 1 + ( sizebytes > 1 ? sizebytes + 1 : sizebytes ) + ( mask ? 4 : 0 ) + mes.length );
+		int sizebytes = mes.remaining() <= 125 ? 1 : mes.remaining() <= 65535 ? 2 : 8;
+		ByteBuffer buf = ByteBuffer.allocate( 1 + ( sizebytes > 1 ? sizebytes + 1 : sizebytes ) + ( mask ? 4 : 0 ) + mes.remaining() );
 		byte optcode = fromOpcode( framedata.getOpcode() );
 		byte one = (byte) ( framedata.isFin() ? -128 : 0 );
 		one |= optcode;
 		buf.put( one );
-		byte[] payloadlengthbytes = toByteArray( mes.length, sizebytes );
+		byte[] payloadlengthbytes = toByteArray( mes.remaining(), sizebytes );
 		assert ( payloadlengthbytes.length == sizebytes );
 
 		if( sizebytes == 1 ) {
@@ -106,10 +115,10 @@ public class Draft_10 extends Draft {
 
 		if( mask ) {
 			ByteBuffer maskkey = ByteBuffer.allocate( 4 );
-			maskkey.putInt( new Random().nextInt() );
+			maskkey.putInt( reuseableRandom.nextInt() );
 			buf.put( maskkey.array() );
-			for( int i = 0 ; i < mes.length ; i++ ) {
-				buf.put( (byte) ( mes[ i ] ^ maskkey.get( i % 4 ) ) );
+			for( int i = 0 ; i < mes.limit() ; i++ ) {
+				buf.put( (byte) ( mes.get() ^ maskkey.get( i % 4 ) ) );
 			}
 		} else
 			buf.put( mes );
@@ -121,7 +130,7 @@ public class Draft_10 extends Draft {
 	}
 
 	@Override
-	public List<Framedata> createFrames( byte[] binary, boolean mask ) {
+	public List<Framedata> createFrames( ByteBuffer binary, boolean mask ) {
 		FrameBuilder curframe = new FramedataImpl1();
 		try {
 			curframe.setPayload( binary );
@@ -137,9 +146,8 @@ public class Draft_10 extends Draft {
 	@Override
 	public List<Framedata> createFrames( String text, boolean mask ) {
 		FrameBuilder curframe = new FramedataImpl1();
-		byte[] pay = Charsetfunctions.utf8Bytes( text );
 		try {
-			curframe.setPayload( pay );
+			curframe.setPayload( ByteBuffer.wrap( Charsetfunctions.utf8Bytes( text ) ) );
 		} catch ( InvalidDataException e ) {
 			throw new NotSendableException( e );
 		}
@@ -184,7 +192,7 @@ public class Draft_10 extends Draft {
 		request.put( "Sec-WebSocket-Version", "8" );
 
 		byte[] random = new byte[ 16 ];
-		new Random().nextBytes( random );
+		reuseableRandom.nextBytes( random );
 		request.put( "Sec-WebSocket-Key", Base64.encodeBytes( random ) );
 
 		return request;
@@ -282,8 +290,7 @@ public class Draft_10 extends Draft {
 				buffer.reset();
 				int pref = e.getPreferedSize();
 				incompleteframe = ByteBuffer.allocate( checkAlloc( pref ) );
-				incompleteframe.put( buffer.array(), buffer.position(), buffer.remaining() );
-				buffer.position( buffer.position() + buffer.remaining() );
+				incompleteframe.put( buffer );
 				break;
 			}
 		}
@@ -291,7 +298,7 @@ public class Draft_10 extends Draft {
 	}
 
 	public Framedata translateSingleFrame( ByteBuffer buffer ) throws IncompleteException , InvalidDataException {
-		int maxpacketsize = buffer.limit() - buffer.position();
+		int maxpacketsize = buffer.remaining();
 		int realpacketsize = 2;
 		if( maxpacketsize < realpacketsize )
 			throw new IncompleteException( realpacketsize );
@@ -369,7 +376,8 @@ public class Draft_10 extends Draft {
 			frame.setFin( FIN );
 			frame.setOptcode( optcode );
 		}
-		frame.setPayload( payload.array() );
+		payload.flip();
+		frame.setPayload( payload );
 		return frame;
 	}
 
