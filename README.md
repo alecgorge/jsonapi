@@ -37,7 +37,7 @@ SDKs allow for easy usage of all of JSONAPI's capabilities currently there are 4
 * JavaScript: [jsonapi.js](https://github.com/alecgorge/jsonapi/tree/master/sdk/js)
 * Python: [MinecraftApi.py](https://raw.github.com/alecgorge/jsonapi/master/sdk/py/MinecraftApi.py)
 
-### Easily integrate JSONAPI with other plugins
+### Easily integrate JSONAPI with other plugins.
 Using the API for JSONAPI, you can easily **add new methods** or **stream sources**. Check out the section "For plugin developers" at [the bottom of the wiki](https://github.com/alecgorge/jsonapi/wiki).
 
 ### There is an interactive test console.
