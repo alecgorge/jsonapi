@@ -37,10 +37,10 @@ SDKs allow for easy usage of all of JSONAPI's capabilities currently there are 4
 * JavaScript: [jsonapi.js](https://github.com/alecgorge/jsonapi/tree/master/sdk/js)
 * Python: [MinecraftApi.py](https://raw.github.com/alecgorge/jsonapi/master/sdk/py/MinecraftApi.py)
 
-### Easy integration with other plugins
+### Easily integrate JSONAPI with other plugins
 Using the API for JSONAPI, you can easily **add new methods** or **stream sources**. Check out the section "For plugin developers" at [the bottom of the wiki](https://github.com/alecgorge/jsonapi/wiki).
 
-### Interactive is an test console.
+### There is an interactive test console.
 
 Once you setup Adminium on your server, you can use [this test console](http://alecgorge.github.com/jsonapi/) to easily test all of the available API methods and view the JSON response.
 
