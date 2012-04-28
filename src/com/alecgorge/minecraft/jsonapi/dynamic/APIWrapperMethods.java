@@ -76,7 +76,7 @@ public class APIWrapperMethods {
 				econ = rsp.getProvider();
 			}
 			RegisteredServiceProvider<Chat> rsp2 = server.getServicesManager().getRegistration(Chat.class);
-			if (rsp != null) {
+			if (rsp2 != null) {
 				chat = rsp2.getProvider();
 			}
 		}
