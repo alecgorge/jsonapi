@@ -245,6 +245,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 				if (initialSetup) {
 					deviceConfig.set("devices", null);
+					deviceConfig.set("device-map", null);
 					deviceConfig.set("settings", "");
 					deviceConfig.set("settings.player_joined", false);
 					deviceConfig.set("settings.player_quit", false);
@@ -267,18 +268,22 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 				}
 
 				// load device specific overrides
-				Map<String, Object> tempOverrides = ((ConfigurationSection) deviceConfig.get("device-map")).getValues(false);
-				for (String device : tempOverrides.keySet()) {
-					Map<String, Boolean> map = new HashMap<String, Boolean>();
+				Object m = deviceConfig.get("device-map");
 
-					Map<String, Object> tempBools = ((ConfigurationSection) deviceConfig.get("device-map." + device)).getValues(false);
+				if (m != null) {
+					Map<String, Object> tempOverrides = ((ConfigurationSection) m).getValues(false);
+					for (String device : tempOverrides.keySet()) {
+						Map<String, Boolean> map = new HashMap<String, Boolean>();
 
-					for (String key : tempBools.keySet()) {
-						deviceOverrides.put(key, new HashMap<String, Boolean>());
+						Map<String, Object> tempBools = ((ConfigurationSection) deviceConfig.get("device-map." + device)).getValues(false);
 
-						map.put(key, Boolean.valueOf(tempDefaults.get(key).toString()));
+						for (String key : tempBools.keySet()) {
+							deviceOverrides.put(key, new HashMap<String, Boolean>());
+
+							map.put(key, Boolean.valueOf(tempDefaults.get(key).toString()));
+						}
+						deviceOverrides.put(device, map);
 					}
-					deviceOverrides.put(device, map);
 				}
 
 				if (settings != null && settings.get("player_joined") || settings.get("player_quit")) {
