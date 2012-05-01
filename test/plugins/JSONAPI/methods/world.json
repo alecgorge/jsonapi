@@ -58,7 +58,7 @@
 		},
 		{
 			"name": "setChestSlot",
-			"desc": "Gives the specified chest the specified quanity of the item id by placing it in the first empty slot.",
+			"desc": "Sets the specified quanity of the item id by placing it in the specified slot.",
 			"call": "this.giveChestItem(0, 1, 2, 3, 4, 5, 6)",
 			"returns": ["boolean", "True if the item was given. False will be returned if the chest is not on the server."],
 			"args": [
@@ -73,9 +73,9 @@
 		},
 		{
 			"name": "setChestSlotWithData",
-			"desc": "Gives the specified chest the specified quanity of the item id with the specified data by placing it in the first empty slot.",
+			"desc": "Sets the specified quanity of the item id with the specified data by placing it in the specified slot.",
 			"call": "this.giveChestItem(0, 1, 2, 3, 4, 5, 7, 6)",
-			"returns": ["boolean", "True if the item was given. False will be returned if the chest is not on the server. An exception could be throw for invalid data (data < 0 or data > 15)."],
+			"returns": ["boolean", "True if the item was set. False will be returned if the chest is not on the server. An exception could be thrown for invalid data (data < 0 or data > 15)."],
 			"args": [
 				["String", "The world the chest is in."],
 				["int", "The x-pos of the chest."],
