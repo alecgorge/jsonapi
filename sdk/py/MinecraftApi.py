@@ -22,7 +22,7 @@ class MinecraftStream(object):
 		
 	def readjson(self, *args, **kwargs):
 		ret = self._original_stream.readline(*args, **kwargs)
-		return json.loads(ret[2:])
+		return json.loads(ret)
 	
 class MinecraftJsonApi (object):
 	'''
