@@ -18,6 +18,7 @@ import org.json.simpleForBukkit.parser.JSONParser;
 import org.json.simpleForBukkit.parser.ParseException;
 
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
+import com.alecgorge.minecraft.jsonapi.event.JSONAPIAuthEvent;
 import com.alecgorge.minecraft.jsonapi.streams.ChatMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ChatStream;
 import com.alecgorge.minecraft.jsonapi.streams.ConnectionMessage;
@@ -124,7 +125,10 @@ public class JSONServer extends NanoHTTPD {
 				}
 			}
 
-			return valid;
+			JSONAPIAuthEvent e = new JSONAPIAuthEvent(valid, method, hash, logins);
+			inst.getServer().getPluginManager().callEvent(e);
+
+			return e.getValid();
 		} catch (Exception e) {
 			return false;
 		}
