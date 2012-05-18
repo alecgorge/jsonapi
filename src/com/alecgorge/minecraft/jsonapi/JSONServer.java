@@ -33,9 +33,9 @@ public class JSONServer extends NanoHTTPD {
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	private Caller caller;
 
-	public ChatStream chat = new ChatStream();
-	public ConsoleStream console = new ConsoleStream();
-	public ConnectionStream connections = new ConnectionStream();
+	public ChatStream chat = new ChatStream("chat");
+	public ConsoleStream console = new ConsoleStream("console");
+	public ConnectionStream connections = new ConnectionStream("connections");
 
 	private static boolean initted = false;
 
