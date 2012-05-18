@@ -76,7 +76,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 	public List<String> method_noauth_whitelist = new ArrayList<String>();
 	public boolean anyoneCanUseCallAdmin = true;
 	public String serverName = "default";
-	public StreamPusher streamPusher = new StreamPusher(streamManager);
+	public StreamPusher streamPusher;
 
 	private Logger log = Logger.getLogger("Minecraft");
 	public Logger outLog = Logger.getLogger("JSONAPI");
@@ -154,6 +154,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			if (!getDataFolder().exists()) {
 				getDataFolder().mkdir();
 			}
+			streamPusher = new StreamPusher(streamManager, new File(getDataFolder(), "push_locations.yml"));
 
 			outLog = Logger.getLogger("JSONAPI");
 
@@ -404,7 +405,11 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 
 			String subCommand = args[0];
 			if (subCommand.equals("list")) {
-				listMethods(sender);
+				if (args.length == 1) {
+					listMethods(sender);
+				} else {
+					listMethods(sender, args[1]);
+				}
 				return true;
 			} else if (subCommand.equals("reload")) {
 				log.info("Reloading JSONAPI");
@@ -418,11 +423,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				}
 
 				try {
-					String streamName = args[1];
-					URL url = new URL(args[2]);
-
-					streamPusher.subscribe(streamName, url);
-
+					streamPusher.subscribe(args[1], args[2], true);
 					sender.sendMessage(ChatColor.GREEN + "Subscription setup.");
 				} catch (MalformedURLException e) {
 					sender.sendMessage(ChatColor.RED + "Invalid URL: " + e.getMessage());
@@ -436,7 +437,15 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 	}
 
 	private void listMethods(CommandSender sender) {
+		listMethods(sender, "-1");
+	}
+
+	private void listMethods(CommandSender sender, String testKey) {
 		for (String key : jsonServer.getCaller().methods.keySet()) {
+			if (!testKey.equals("-1") && !testKey.equals(key)) {
+				continue;
+			}
+
 			StringBuilder sb = new StringBuilder((key.trim().equals("") ? "Default Namespace" : key.trim()) + ": ");
 			for (String m : jsonServer.getCaller().methods.get(key).keySet()) {
 				sb.append(jsonServer.getCaller().methods.get(key).get(m).getName()).append(", ");
