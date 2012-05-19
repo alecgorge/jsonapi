@@ -20,6 +20,7 @@
 			 <directory>src</directory>
 			 <includes>
 					 <include>plugin.yml</include>
+					 <include>adminium_group_defaults.yml</include>
 			 </includes>
 			</resource>
 		</resources>
