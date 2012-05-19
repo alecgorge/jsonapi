@@ -45,6 +45,9 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	List<String> calladmins = Collections.synchronizedList(new FixedSizeArrayList<String>(50));
 	List<String> severeLogs = Collections.synchronizedList(new FixedSizeArrayList<String>(50));
 
+	public Map<String, String> groupAssignments = new HashMap<String, String>();
+	public Map<String, Map<String, Boolean>> groupPerms = new HashMap<String, Map<String, Boolean>>();
+
 	private final String APNS_PUSH_ENDPOINT = "http://push.adminiumapp.com/push-message";
 
 	private JSONAPI api;
@@ -256,9 +259,44 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 					deviceConfig.load(configFile);
 				}
 
+				if (!deviceConfig.contains("group_assignments")) {
+					deviceConfig.set("group_assignments", null);
+					deviceConfig.save(configFile);
+				}
+
+				if (!deviceConfig.contains("group_permissions")) {
+					YamlConfiguration def = YamlConfiguration.loadConfiguration(api.getResource("adminium_group_defaults.yml"));
+
+					deviceConfig.set("group_permissions", def.get("group_permissions"));
+					deviceConfig.save(configFile);
+				}
+
 				devices = deviceConfig.getStringList("devices");
 				if (devices == null)
 					devices = new ArrayList<String>();
+
+				Object obj = deviceConfig.get("group_assignments");
+				if (obj != null && obj instanceof ConfigurationSection) {
+					ConfigurationSection group_assign = (ConfigurationSection) obj;
+					for (String user : group_assign.getKeys(false)) {
+						groupAssignments.put(user, group_assign.getString(user));
+					}
+				}
+
+				obj = deviceConfig.get("group_permissions");
+				if (obj != null && obj instanceof ConfigurationSection) {
+					ConfigurationSection group_perms = (ConfigurationSection) obj;
+					for (String groupName : group_perms.getKeys(false)) {
+						Map<String, Boolean> group_map = new HashMap<String, Boolean>();
+
+						ConfigurationSection group_sect = ((ConfigurationSection) group_perms.get("groupName"));
+						for (String perm_name : group_sect.getKeys(false)) {
+							group_map.put(perm_name, group_sect.getBoolean(perm_name));
+						}
+
+						groupPerms.put(groupName, group_map);
+					}
+				}
 
 				trace("Current Devices", devices);
 
@@ -299,6 +337,13 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 			this.init = true;
 		}
+	}
+
+	public void saveConfig() throws IOException {
+		deviceConfig.set("group_assignments", groupAssignments);
+		deviceConfig.set("group_permissions", groupPerms);
+
+		deviceConfig.save(configFile);
 	}
 
 	@Override

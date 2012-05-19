@@ -86,6 +86,10 @@ public class JSONServer extends NanoHTTPD {
 		this.logins = auth;
 	}
 
+	public HashMap<String, String> getLogins() {
+		return logins;
+	}
+
 	public Caller getCaller() {
 		return caller;
 	}

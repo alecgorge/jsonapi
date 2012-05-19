@@ -10,13 +10,14 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -146,6 +147,8 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 	}
 
 	private JSONAPIPlayerListener l = new JSONAPIPlayerListener(this);
+	YamlConfiguration yamlConfig;
+	File yamlFile;
 
 	public void onEnable() {
 		try {
@@ -154,14 +157,14 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			if (!getDataFolder().exists()) {
 				getDataFolder().mkdir();
 			}
-			streamPusher = new StreamPusher(streamManager, new File(getDataFolder(), "push_locations.yml"));
 
+			streamPusher = new StreamPusher(streamManager, new File(getDataFolder(), "push_locations.yml"));
+			yamlFile = new File(getDataFolder(), "config.yml");
 			outLog = Logger.getLogger("JSONAPI");
 
 			File mainConfig = new File(getDataFolder(), "JSONAPI.properties");
 			File authfile = new File(getDataFolder(), "JSONAPIAuthentication.txt");
 			File authfile2 = new File(getDataFolder(), "JSONAPIMethodNoAuthWhitelist.txt");
-			File yamlFile = new File(getDataFolder(), "config.yml");
 			File methods = new File(getDataFolder(), "methods.json");
 
 			if (!methods.exists()) {
@@ -190,7 +193,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			if (mainConfig.exists() && !yamlFile.exists()) {
 				// auto-migrate to yaml from properties and plain text files
 				yamlFile.createNewFile();
-				YamlConfiguration yamlConfig = new YamlConfiguration();
+				yamlConfig = new YamlConfiguration();
 
 				if (!ipWhitelist.trim().equals("false")) {
 					String[] ips = ipWhitelist.split(",");
@@ -430,10 +433,115 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				} catch (Exception e) {
 					sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
 				}
+				return true;
+			} else if (subCommand.equals("users")) {
+				if (args.length == 1 || args[1].equals("list")) {
+					sender.sendMessage("Usernames: " + join(new ArrayList<String>(getJSONServer().getLogins().keySet()), ", "));
+					return true;
+				} else if (args.length == 3 && args[2].equals("password")) {
+					Map<String, String> logins = getJSONServer().getLogins();
+
+					if (!logins.containsKey(args[1])) {
+						sender.sendMessage(ChatColor.RED + "No JSONAPI user named " + args[1]);
+						return true;
+					}
+
+					sender.sendMessage(args[1] + "'s password: " + logins.get(args[1]));
+					return true;
+				} else if (args.length == 4 && args[1].equals("add")) {
+					try {
+						String username = args[2];
+						String password = args[3];
+
+						getJSONServer().getLogins().put(username, password);
+
+						yamlConfig.set("logins", getJSONServer().getLogins());
+						yamlConfig.save(yamlFile);
+
+						sender.sendMessage(ChatColor.GREEN + "Created a new user with the username '" + username + "' and password '" + password + "'");
+					} catch (IOException e) {
+						sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
+						e.printStackTrace();
+					}
+					return true;
+				}
 			}
+		} else if (cmd.getName().equals("adminium")) {
+			if (!adminium.init) {
+				sender.sendMessage(ChatColor.RED + "You need Adminium for that.");
+				return true;
+			}
+
+			if (args.length == 0) {
+				sender.sendMessage(ChatColor.RED + "/adminium [user (username)|create-user (username) (group name)|set-group (username) (group name)|list-groups]");
+				return true;
+			}
+
+			String sub = args[0];
+			if (args.length == 2 && sub.equals("user")) {
+				String username = args[1];
+
+				if (!adminium.groupAssignments.containsKey(username)) {
+					sender.sendMessage(ChatColor.GREEN + username + " has access to everything and is not in a group.");
+					return true;
+				}
+
+				sender.sendMessage(ChatColor.GREEN + username + " is in the group " + adminium.groupAssignments.get(username));
+				return true;
+			} else if (args.length == 3 && (sub.equals("create-user") || sub.equals("set-group"))) {
+				try {
+					String username = args[1];
+					String groupName = args[2];
+
+					if (!adminium.groupPerms.containsKey(groupName)) {
+						sender.sendMessage(ChatColor.RED + groupName + " is a non-existant group!");
+						return true;
+					}
+
+					String pass = "";
+					if (!getJSONServer().getLogins().containsKey(username)) {
+						pass = genPassword();
+						getJSONServer().getLogins().put(username, pass);
+
+						yamlConfig.set("logins", getJSONServer().getLogins());
+						yamlConfig.save(yamlFile);
+					} else {
+						pass = getJSONServer().getLogins().get(username);
+					}
+
+					adminium.groupAssignments.put(username, groupName);
+					adminium.saveConfig();
+
+					sender.sendMessage(ChatColor.GREEN + "This user has the following information");
+					sender.sendMessage(ChatColor.GREEN + "Username: " + username);
+					sender.sendMessage(ChatColor.GREEN + "Password: " + pass);
+					sender.sendMessage(ChatColor.GREEN + "Group name: " + groupName);
+					sender.sendMessage(ChatColor.GREEN + "Salt: " + salt);
+				} catch (IOException e) {
+					sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
+					e.printStackTrace();
+				}
+				return true;
+			} else if (args.length == 1 && sub.equals("list-groups")) {
+				sender.sendMessage(ChatColor.GREEN + join(new ArrayList<String>(adminium.groupPerms.keySet()), ", "));
+				return true;
+			}
+
+			return true;
 		}
 
 		return false;
+	}
+
+	private String genPassword() {
+		Random random = new Random();
+
+		StringBuilder b = new StringBuilder((char) (random.nextInt('z' - 'A' + 1) + 'A'));
+		for (int i = 0; i < 12; i++) {
+			b.append((char) (random.nextInt('z' - 'A' + 1) + 'A'));
+		}
+
+		return b.toString();
 	}
 
 	private void listMethods(CommandSender sender) {
