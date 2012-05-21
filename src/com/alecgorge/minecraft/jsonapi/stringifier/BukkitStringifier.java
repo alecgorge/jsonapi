@@ -181,7 +181,7 @@ public class BukkitStringifier {
 
 			o.put("enchantments", enchantments);
 			return o;
-		} else if (obj instanceof PlayerInventory) {
+		} else if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null && obj instanceof PlayerInventory) {
 			PlayerInventory p = (PlayerInventory) obj;
 
 			JSONObject o = new JSONObject();
