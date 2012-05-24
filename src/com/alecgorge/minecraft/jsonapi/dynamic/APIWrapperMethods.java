@@ -100,6 +100,18 @@ public class APIWrapperMethods {
 		}
 	}
 
+	public List<OfflinePlayer> opList() {
+		List<OfflinePlayer> ops = new ArrayList<OfflinePlayer>();
+
+		for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
+			if (p.isOp()) {
+				ops.add(p);
+			}
+		}
+
+		return ops;
+	}
+
 	public boolean removeEnchantmentsFromPlayerInventorySlot(String playerName, int slot, List<Object> enchantments) {
 		try {
 			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
