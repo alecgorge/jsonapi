@@ -44,16 +44,16 @@ public class StreamPusher implements JSONAPIStreamListener {
 			config = YamlConfiguration.loadConfiguration(config_location);
 
 			@SuppressWarnings("unchecked")
-			List<ConfigurationSection> locs = (List<ConfigurationSection>) config.getList("locations");
+			List<Map<String, Object>> locs = (List<Map<String, Object>>) config.getList("locations");
 
-			for (ConfigurationSection s : locs) {
-				if (s.getBoolean("enabled")) {
+			for (Map<String, Object> s : locs) {
+				if ((Boolean) s.get("enabled")) {
 					try {
-						subscribe(s.getString("stream_name"), s.getString("url"), false);
+						subscribe(s.get("stream_name").toString(), s.get("url").toString(), false);
 					} catch (MalformedURLException e) {
-						log.severe("Malformed URL: " + s.getString("url"));
+						log.severe("Malformed URL: " + s.get("url"));
 					} catch (Exception e) {
-						log.severe("Non-exsistant stream: " + s.getString("stream_name"));
+						log.severe("Non-exsistant stream: " + s.get("stream_name"));
 					}
 				}
 			}
