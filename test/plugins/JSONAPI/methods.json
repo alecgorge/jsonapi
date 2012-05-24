@@ -511,6 +511,12 @@
 			"call": "this.getWhitelist()"
 		},
 		{
+			"name": "getOpList",
+			"desc": "Gets the players who are opped.",
+			"returns": ["String[]", "Returns an array of strings; where each item in the array is a string that contains a player's name."],
+			"call": "this.opList()"
+		},
+		{
 			"name": "getServerPort",
 			"desc": "Get the game port that the server runs on.",
 			"returns": ["int", "The port"],
