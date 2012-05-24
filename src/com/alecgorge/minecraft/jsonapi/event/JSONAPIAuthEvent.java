@@ -15,12 +15,18 @@ public class JSONAPIAuthEvent extends Event {
 	String hash;
 	HashMap<String, String> logins;
 	boolean valid;
+	String username;
 
-	public JSONAPIAuthEvent(boolean valid, String method, String hash, HashMap<String, String> logins) {
+	public JSONAPIAuthEvent(boolean valid, String method, String hash, HashMap<String, String> logins, String username) {
 		this.valid = valid;
 		this.method = method;
 		this.hash = hash;
 		this.logins = logins;
+		this.username = username;
+	}
+
+	public String getUsername() {
+		return username;
 	}
 
 	public String getMethod() {
