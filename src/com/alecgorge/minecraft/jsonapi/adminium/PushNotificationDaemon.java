@@ -216,7 +216,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 				try {
 					r = new HttpRequest(new URL(APNS_PUSH_ENDPOINT));
 					for (String d : devices) {
-						if (deviceOverrides.containsKey(d) && deviceOverrides.get(d).containsKey(type) && deviceOverrides.get(d).get(type))
+						if (deviceOverrides.containsKey(d) && deviceOverrides.get(d).containsKey(type) && deviceOverrides.get(d).get(type) || !deviceOverrides.containsKey(d))
 							r.addPostValue("devices[]", d);
 					}
 					r.addPostValue("message", message);

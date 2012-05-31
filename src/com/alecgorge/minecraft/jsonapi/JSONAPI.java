@@ -158,7 +158,6 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				getDataFolder().mkdir();
 			}
 
-			streamPusher = new StreamPusher(streamManager, new File(getDataFolder(), "push_locations.yml"));
 			yamlFile = new File(getDataFolder(), "config.yml");
 			outLog = Logger.getLogger("JSONAPI");
 
@@ -362,6 +361,8 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			registerStreamManager("chat", getJSONServer().chat);
 			registerStreamManager("console", getJSONServer().console);
 			registerStreamManager("connections", getJSONServer().connections);
+
+			streamPusher = new StreamPusher(streamManager, new File(getDataFolder(), "push_locations.yml"));
 
 			initialiseListeners();
 

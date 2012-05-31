@@ -51,9 +51,10 @@ public class StreamPusher implements JSONAPIStreamListener {
 					try {
 						subscribe(s.get("stream_name").toString(), s.get("url").toString(), false);
 					} catch (MalformedURLException e) {
-						log.severe("Malformed URL: " + s.get("url"));
+						log.severe("[JSONAPI] Malformed URL: " + s.get("url"));
 					} catch (Exception e) {
-						log.severe("Non-exsistant stream: " + s.get("stream_name"));
+						log.severe("[JSONAPI] Non-exsistant stream: " + s.get("stream_name"));
+						e.printStackTrace();
 					}
 				}
 			}
