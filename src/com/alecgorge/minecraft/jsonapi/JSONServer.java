@@ -117,7 +117,7 @@ public class JSONServer extends NanoHTTPD {
 	public boolean testLogin(String method, String hash) {
 		try {
 			boolean valid = false;
-
+			String validUser = null;
 			for (String user : logins.keySet()) {
 				String pass = logins.get(user);
 
@@ -125,11 +125,12 @@ public class JSONServer extends NanoHTTPD {
 
 				if (thishash.equals(hash)) {
 					valid = true;
+					validUser = user;
 					break;
 				}
 			}
 
-			JSONAPIAuthEvent e = new JSONAPIAuthEvent(valid, method, hash, logins);
+			JSONAPIAuthEvent e = new JSONAPIAuthEvent(valid, method, hash, logins, validUser);
 			inst.getServer().getPluginManager().callEvent(e);
 
 			return e.getValid();
