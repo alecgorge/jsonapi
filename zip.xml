@@ -18,6 +18,7 @@
 			<directory>${project.basedir}/test/plugins/JSONAPI/</directory>
 			<excludes>
 				<exclude>adminium.yml</exclude>
+				<exclude>push_locations.yml</exclude>
 			</excludes>
 		</fileSet>
 	</fileSets>
