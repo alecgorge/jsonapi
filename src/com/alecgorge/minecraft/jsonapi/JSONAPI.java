@@ -586,8 +586,8 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				APIWrapperMethods.getInstance().disconnectAllFauxPlayers();
 				if (rtkAPI != null)
 					rtkAPI.deregisterRTKListener(this);
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				// e.printStackTrace();
 			}
 			log.removeHandler(handler);
 		}
