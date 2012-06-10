@@ -109,7 +109,13 @@ public class StreamPusher implements JSONAPIStreamListener {
 			@Override
 			public void run() {
 				List<URL> urlsToPost = urls.get(streamName);
-				List<JSONAPIStreamMessage> messages = queuedMessages.get(streamName);
+
+				List<JSONAPIStreamMessage> messages = null;
+				synchronized (queuedMessages) {
+					List<JSONAPIStreamMessage> a = queuedMessages.get(streamName);
+					messages = new ArrayList<JSONAPIStreamMessage>(a);
+					a.clear();
+				}
 
 				for (URL u : urlsToPost) {
 					try {
