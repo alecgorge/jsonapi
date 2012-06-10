@@ -46,6 +46,10 @@ public class StreamPusher implements JSONAPIStreamListener {
 			@SuppressWarnings("unchecked")
 			List<Map<String, Object>> locs = (List<Map<String, Object>>) config.getList("locations");
 
+			if (locs == null) {
+				return;
+			}
+
 			for (Map<String, Object> s : locs) {
 				if ((Boolean) s.get("enabled")) {
 					try {
