@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
@@ -134,11 +135,13 @@ public class Call {
 						return null;
 					}
 				} else {
-					java.lang.reflect.Method thisMethod;
+					java.lang.reflect.Method thisMethod = null;
 					try {
 						thisMethod = lastResult.getClass().getMethod(obj.getName(), sig);
 					} catch (NoSuchMethodException e) {
 						thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);
+					} catch (NullPointerException e) {
+						Logger.getLogger("Minecraft").severe("this returned null: " + stack.get(i - 1));
 					}
 					thisMethod.setAccessible(true);
 					lastResult = thisMethod.invoke(lastResult, args);
@@ -262,6 +265,11 @@ public class Call {
 		public String getName() {
 			return name;
 		}
+
+		@Override
+		public String toString() {
+			return "." + name;
+		}
 	}
 
 	static class SubCall {
@@ -279,6 +287,16 @@ public class Call {
 
 		public String getName() {
 			return name;
+		}
+
+		@Override
+		public String toString() {
+			StringBuilder argList = new StringBuilder();
+			for (Integer i : argPos) {
+				argList.append(i).append(", ");
+			}
+
+			return "." + name + "(" + argList.toString() + ")";
 		}
 	}
 }
