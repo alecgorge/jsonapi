@@ -23,6 +23,11 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
+import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.ItemInWorldManager;
+import net.minecraft.server.MinecraftServer;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -30,7 +35,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -591,6 +598,40 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			}
 			log.removeHandler(handler);
 		}
+	}
+
+	public static Player loadOfflinePlayer(String exactPlayerName) {
+		// big thanks to
+		// https://github.com/lishd/OpenInv/blob/master/src/lishid/openinv/commands/OpenInvPluginCommand.java#L106
+		// Offline inv here...
+		try {
+			// See if the player has data files
+
+			// Find the player folder
+			File playerfolder = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "players");
+
+			// Find player name
+			for (File playerfile : playerfolder.listFiles()) {
+				String filename = playerfile.getName();
+				String playername = filename.substring(0, filename.length() - 4);
+
+				if (playername.trim().equalsIgnoreCase(exactPlayerName)) {
+					// Create an entity to load the player data
+					MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
+					EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), playername, new ItemInWorldManager(server.getWorldServer(0)));
+					Player target = (entity == null) ? null : (Player) entity.getBukkitEntity();
+					if (target != null) {
+						target.loadData();
+
+						return target;
+					}
+				}
+			}
+		} catch (Exception e) {
+
+		}
+
+		return null;
 	}
 
 	private void initialiseListeners() {
