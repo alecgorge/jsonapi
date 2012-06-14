@@ -195,7 +195,7 @@ public class BukkitStringifier {
 
 			o.put("enchantments", enchantments);
 			return o;
-		} else if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null && obj instanceof PlayerInventory) {
+		} else if (obj instanceof PlayerInventory) {
 			PlayerInventory p = (PlayerInventory) obj;
 
 			JSONObject o = new JSONObject();
@@ -237,7 +237,7 @@ public class BukkitStringifier {
 			return ((GameMode) obj).getValue();
 		} else if (obj instanceof Enchantment) {
 			return ((Enchantment) obj).getId();
-		} else if (obj instanceof EconomyResponse) {
+		} else if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null && obj instanceof EconomyResponse) {
 			JSONObject o = new JSONObject();
 			EconomyResponse r = (EconomyResponse) obj;
 
