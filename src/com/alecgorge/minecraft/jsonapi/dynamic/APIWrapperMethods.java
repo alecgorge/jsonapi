@@ -94,7 +94,11 @@ public class APIWrapperMethods {
 
 	public HashMap<Integer, ItemStack> removePlayerInventoryItem(String playerName, int itemID) {
 		try {
-			return Server.getPlayerExact(playerName).getInventory().removeItem(new ItemStack(itemID));
+			Player p = getPlayerExact(playerName);
+			HashMap<Integer, ItemStack> c = p.getInventory().removeItem(new ItemStack(itemID));
+			p.saveData();
+
+			return c;
 		} catch (NullPointerException e) {
 			return null;
 		}
@@ -114,7 +118,8 @@ public class APIWrapperMethods {
 
 	public boolean removeEnchantmentsFromPlayerInventorySlot(String playerName, int slot, List<Object> enchantments) {
 		try {
-			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
+			Player p = getPlayerExact(playerName);
+			PlayerInventory inv = p.getInventory();
 			ItemStack it;
 
 			if (slot == inv.getHeldItemSlot())
@@ -132,6 +137,8 @@ public class APIWrapperMethods {
 				it.removeEnchantment(Enchantment.getById(Integer.valueOf(o.toString())));
 			}
 
+			p.saveData();
+
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -140,7 +147,8 @@ public class APIWrapperMethods {
 
 	public boolean addEnchantmentToPlayerInventorySlot(String playerName, int slot, int enchantmentID, int level) {
 		try {
-			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
+			Player p = getPlayerExact(playerName);
+			PlayerInventory inv = p.getInventory();
 			ItemStack it;
 
 			if (slot == inv.getHeldItemSlot())
@@ -156,6 +164,8 @@ public class APIWrapperMethods {
 
 			it.addEnchantment(Enchantment.getById(enchantmentID), level);
 
+			p.saveData();
+
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -164,7 +174,8 @@ public class APIWrapperMethods {
 
 	public boolean addEnchantmentsToPlayerInventorySlot(String playerName, int slot, List<Object> enchantments) {
 		try {
-			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
+			Player p = getPlayerExact(playerName);
+			PlayerInventory inv = p.getInventory();
 			ItemStack it;
 
 			if (slot == inv.getHeldItemSlot())
@@ -183,6 +194,8 @@ public class APIWrapperMethods {
 				it.addEnchantment(Enchantment.getById(Integer.valueOf(o.get("enchantment").toString())), Integer.valueOf(o.get("level").toString()));
 			}
 
+			p.saveData();
+
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -195,7 +208,8 @@ public class APIWrapperMethods {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
 
-			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
+			Player p = getPlayerExact(playerName);
+			PlayerInventory inv = p.getInventory();
 			ItemStack it = new ItemStack(blockID, quantity);
 
 			if (slot == 103)
@@ -209,6 +223,8 @@ public class APIWrapperMethods {
 			else
 				inv.setItem(slot, it);
 
+			p.saveData();
+
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -221,7 +237,8 @@ public class APIWrapperMethods {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
 
-			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
+			Player p = getPlayerExact(playerName);
+			PlayerInventory inv = p.getInventory();
 			ItemStack it = (new MaterialData(blockID, (byte) data)).toItemStack(quantity);
 
 			if (slot == 103)
@@ -234,6 +251,8 @@ public class APIWrapperMethods {
 				inv.setBoots(it);
 			else
 				inv.setItem(slot, it);
+
+			p.saveData();
 
 			return true;
 		} catch (NullPointerException e) {
@@ -248,7 +267,8 @@ public class APIWrapperMethods {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
 
-			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
+			Player p = getPlayerExact(playerName);
+			PlayerInventory inv = p.getInventory();
 			ItemStack it = (new MaterialData(blockID, (byte) data)).toItemStack(quantity);
 			it.setDurability(Short.valueOf(String.valueOf(damage)).shortValue());
 
@@ -263,6 +283,8 @@ public class APIWrapperMethods {
 			else
 				inv.setItem(slot, it);
 
+			p.saveData();
+
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -276,7 +298,8 @@ public class APIWrapperMethods {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
 
-			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
+			Player p = getPlayerExact(playerName);
+			PlayerInventory inv = p.getInventory();
 			ItemStack it = (new MaterialData(blockID, (byte) data)).toItemStack(quantity);
 			it.setDurability(Short.valueOf(String.valueOf(damage)).shortValue());
 
@@ -296,6 +319,8 @@ public class APIWrapperMethods {
 			else
 				inv.setItem(slot, it);
 
+			p.saveData();
+
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -309,7 +334,8 @@ public class APIWrapperMethods {
 				return clearPlayerInventorySlot(playerName, slot);
 			}
 
-			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
+			Player p = getPlayerExact(playerName);
+			PlayerInventory inv = p.getInventory();
 			ItemStack it = new ItemStack(blockID, quantity, Short.valueOf(String.valueOf(damage)).shortValue());
 
 			if (slot == 103)
@@ -323,6 +349,8 @@ public class APIWrapperMethods {
 			else
 				inv.setItem(slot, it);
 
+			p.saveData();
+
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -330,12 +358,15 @@ public class APIWrapperMethods {
 	}
 
 	public void setPlayerGameMode(String playerName, int gameMode) throws Exception {
-		Server.getPlayerExact(playerName).setGameMode(GameMode.getByValue(gameMode));
+		Player p = getPlayerExact(playerName);
+		p.setGameMode(GameMode.getByValue(gameMode));
+		p.saveData();
 	}
 
 	public boolean clearPlayerInventorySlot(String playerName, int slot) {
 		try {
-			PlayerInventory inv = Server.getPlayerExact(playerName).getInventory();
+			Player p = getPlayerExact(playerName);
+			PlayerInventory inv = p.getInventory();
 			int cnt = inv.getSize();
 
 			if (slot == 103)
@@ -349,6 +380,8 @@ public class APIWrapperMethods {
 			else
 				inv.clear(slot);
 
+			p.saveData();
+
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -357,9 +390,12 @@ public class APIWrapperMethods {
 
 	public boolean updatePlayerInventorySlot(String playerName, int slot, int newAmount) {
 		try {
-			ItemStack s = Server.getPlayerExact(playerName).getInventory().getItem(slot);
+			Player p = getPlayerExact(playerName);
+			ItemStack s = p.getInventory().getItem(slot);
 			s.setAmount(newAmount);
-			Server.getPlayerExact(playerName).getInventory().setItem(slot, s);
+			p.getInventory().setItem(slot, s);
+
+			p.saveData();
 
 			return true;
 		} catch (NullPointerException e) {
@@ -581,7 +617,9 @@ public class APIWrapperMethods {
 
 	public boolean giveItem(String name, int id, int quant) {
 		try {
-			Server.getPlayerExact(name).getInventory().addItem(new ItemStack(id, quant));
+			Player p = getPlayerExact(name);
+			p.getInventory().addItem(new ItemStack(id, quant));
+			p.saveData();
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -593,7 +631,9 @@ public class APIWrapperMethods {
 			if (data < 0 || data > 15) {
 				throw new Exception("The given data needs to be in decimal form and between 0 and 15");
 			}
-			Server.getPlayerExact(name).getInventory().addItem(new ItemStack(id, quant, (short) 0, Byte.valueOf(String.valueOf(data)).byteValue()));
+			Player p = getPlayerExact(name);
+			p.getInventory().addItem(new ItemStack(id, quant, (short) 0, Byte.valueOf(String.valueOf(data)).byteValue()));
+			p.saveData();
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -602,7 +642,8 @@ public class APIWrapperMethods {
 
 	public boolean giveItemDrop(String name, int id, int quant) {
 		try {
-			Server.getPlayerExact(name).getWorld().dropItem(Server.getPlayerExact(name).getLocation(), new ItemStack(id, quant));
+			Player p = getPlayerExact(name);
+			p.getWorld().dropItem(p.getLocation(), new ItemStack(id, quant));
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -614,7 +655,9 @@ public class APIWrapperMethods {
 			if (data < 0 || data > 15) {
 				throw new Exception("The given data needs to be in decimal form and between 0 and 15");
 			}
-			Server.getPlayerExact(name).getWorld().dropItem(Server.getPlayerExact(name).getLocation(), new ItemStack(id, quant, (short) 0, Byte.valueOf(String.valueOf(data)).byteValue()));
+			Player p = getPlayerExact(name);
+			p.getWorld().dropItem(p.getLocation(), new ItemStack(id, quant, (short) 0, Byte.valueOf(String.valueOf(data)).byteValue()));
+			p.saveData();
 			return true;
 		} catch (NullPointerException e) {
 			return false;
@@ -816,12 +859,16 @@ public class APIWrapperMethods {
 	}
 
 	public boolean setPlayerLevel(String player, int level) {
-		Server.getPlayerExact(player).setLevel(level);
+		Player p = getPlayerExact(player);
+		p.setLevel(level);
+		p.saveData();
 		return true;
 	}
 
 	public boolean setPlayerExperience(String player, float level) {
-		Server.getPlayerExact(player).setExp(level);
+		Player p = getPlayerExact(player);
+		p.setExp(level);
+		p.saveData();
 		return true;
 	}
 
@@ -937,7 +984,9 @@ public class APIWrapperMethods {
 	}
 
 	public boolean teleport(String player1, String player2) {
-		Server.getPlayerExact(player1).teleport(Server.getPlayerExact(player2));
+		Player p = getPlayerExact(player1);
+		p.teleport(getPlayerExact(player2));
+		p.saveData();
 
 		return true;
 	}
@@ -1050,10 +1099,20 @@ public class APIWrapperMethods {
 		}
 	}
 
+	private Player getPlayerExact(String playerName) {
+		Player player = Server.getPlayerExact(playerName);
+		if (player == null) {
+			player = JSONAPI.loadOfflinePlayer(playerName);
+		}
+
+		return player;
+	}
+
 	public boolean teleport(String playername, int x, int y, int z) {
 		try {
-			Player player = Server.getPlayerExact(playername);
+			Player player = getPlayerExact(playername);
 			player.teleport(new Location(player.getWorld(), x, y, z));
+			player.saveData();
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1062,7 +1121,9 @@ public class APIWrapperMethods {
 
 	public boolean teleport(String playername, String world, int x, int y, int z) {
 		try {
-			Server.getPlayerExact(playername).teleport(new Location(Server.getWorld(world), x, y, z));
+			Player p = getPlayerExact(playername);
+			p.teleport(new Location(Server.getWorld(world), x, y, z));
+			p.saveData();
 			return true;
 		} catch (Exception e) {
 			return false;

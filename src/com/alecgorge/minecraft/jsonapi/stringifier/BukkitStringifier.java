@@ -10,13 +10,19 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.EconomyResponse;
+import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.ItemInWorldManager;
+import net.minecraft.server.MinecraftServer;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -106,14 +112,22 @@ public class BukkitStringifier {
 			o.put("world", p.getServer().getWorlds().indexOf(p.getWorld()));
 			o.put("worldInfo", p.getWorld());
 			o.put("gameMode", p.getGameMode());
+			o.put("banned", p.isBanned());
+			o.put("whitelisted", p.isWhitelisted());
 
 			o.put("level", p.getLevel());
 			o.put("experience", p.getTotalExperience());
+			o.put("firstPlayed", Math.round(p.getFirstPlayed() / 1000.0));
+			o.put("lastPlayed", Math.round(p.getLastPlayed() / 1000.0));
 
 			return o;
 		} else if (obj instanceof OfflinePlayer) {
 			OfflinePlayer op = (OfflinePlayer) obj;
 			JSONObject o = new JSONObject();
+
+			Player target = JSONAPI.loadOfflinePlayer(op.getName());
+			if (target != null)
+				return target;
 
 			o.put("firstPlayed", Math.round(op.getFirstPlayed() / 1000.0));
 			o.put("lastPlayed", Math.round(op.getLastPlayed() / 1000.0));

@@ -22,109 +22,117 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
 public class PermissionWrapper {
 	Server server;
 	boolean active = false;
-	
+
 	Permission perms;
-	
+
 	public PermissionWrapper(Server s) {
-        if (s.getPluginManager().getPlugin("Vault") == null) {
-            Logger.getLogger("Minecraft").info("[JSONAPI] You don't have Vault installed, you cannot use permission methods!");
-        }
-        else {
-        	active= true;
-        	server = s;
-        	RegisteredServiceProvider<Permission> rsp = server.getServicesManager().getRegistration(Permission.class);
-        	perms = rsp.getProvider();
-        }
-	}
-	
-	public List<String> getGroups (String player) {
-		if(active){ 
-			return Arrays.asList(perms.getPlayerGroups(server.getPlayerExact(player)));
+		if (s.getPluginManager().getPlugin("Vault") == null) {
+			Logger.getLogger("Minecraft").info("[JSONAPI] You don't have Vault installed, you cannot use permission methods!");
+		} else {
+			active = true;
+			server = s;
+			RegisteredServiceProvider<Permission> rsp = server.getServicesManager().getRegistration(Permission.class);
+			perms = rsp.getProvider();
 		}
-		
+	}
+
+	private Player getPlayerExact(String playerName) {
+		Player player = server.getPlayerExact(playerName);
+		if (player == null) {
+			player = JSONAPI.loadOfflinePlayer(playerName);
+		}
+
+		return player;
+	}
+
+	public List<String> getGroups(String playerName) {
+		if (active) {
+			return Arrays.asList(perms.getPlayerGroups(getPlayerExact(playerName)));
+		}
+
 		return new ArrayList<String>();
 	}
-	
-	public List<String> getAllGroups () {
-		if(active){ 
+
+	public List<String> getAllGroups() {
+		if (active) {
 			return Arrays.asList(perms.getGroups());
 		}
-		
+
 		return new ArrayList<String>();
 	}
-	
+
 	public boolean addGroup(String player, String group) {
-		return active ? perms.playerAddGroup(server.getPlayerExact(player), group) : false;
+		return active ? perms.playerAddGroup(getPlayerExact(player), group) : false;
 	}
-	
+
 	public boolean removeGroup(String player, String group) {
-		return active ? perms.playerRemoveGroup(server.getPlayerExact(player), group) : false;
+		return active ? perms.playerRemoveGroup(getPlayerExact(player), group) : false;
 	}
-	
+
 	public boolean addPermission(String playername, String key, boolean value) {
 		try {
-			server.getPlayerExact(playername).addAttachment(JSONAPI.instance, key, value);
+			Player p = getPlayerExact(playername);
+			p.addAttachment(JSONAPI.instance, key, value);
+			p.saveData();
 			return true;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
-	
+
 	public boolean removePermission(String playername, String key) {
 		try {
 			Player player = server.getPlayerExact(playername);
 			Set<PermissionAttachmentInfo> eps = player.getEffectivePermissions();
-			
+
 			PermissionAttachment a = null;
-			for(PermissionAttachmentInfo o : eps) {
-				if(o.getPermission().equals(key)) {
+			for (PermissionAttachmentInfo o : eps) {
+				if (o.getPermission().equals(key)) {
 					a = o.getAttachment();
 					break;
 				}
 			}
-			if(a != null) {
+			if (a != null) {
 				player.removeAttachment(a);
 				player.recalculatePermissions();
 			}
-			
+
+			player.saveData();
+
 			return true;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return false;
-		}		
+		}
 	}
-	
+
 	public List<JSONObject> getPermissions(String playername) {
 		List<JSONObject> perms = new ArrayList<JSONObject>();
 		try {
 			Player player = server.getPlayerExact(playername);
 			Set<PermissionAttachmentInfo> eps = player.getEffectivePermissions();
-			
-			for(PermissionAttachmentInfo o : eps) {
+
+			for (PermissionAttachmentInfo o : eps) {
 				JSONObject oo = new JSONObject();
-				
+
 				oo.put("key", o.getPermission());
 				oo.put("value", o.getValue());
-				
+
 				perms.add(oo);
 			}
-			
+
+			return perms;
+		} catch (Exception e) {
 			return perms;
 		}
-		catch (Exception e) {
-			return perms;
-		}		
 	}
-	
+
 	public Map<String, List<JSONObject>> getAllPermissions() {
 		Map<String, List<JSONObject>> l = new HashMap<String, List<JSONObject>>();
 		try {
-			for(Player p : server.getOnlinePlayers()) {
+			for (Player p : server.getOnlinePlayers()) {
 				l.put(p.getName(), getPermissions(p.getName()));
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 		}
 		return l;
 	}
