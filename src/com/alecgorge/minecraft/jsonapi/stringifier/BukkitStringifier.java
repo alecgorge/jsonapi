@@ -101,7 +101,7 @@ public class BukkitStringifier {
 			o.put("health", p.getHealth());
 			o.put("foodLevel", p.getFoodLevel());
 			o.put("exhaustion", p.getExhaustion());
-			o.put("ip", p.getAddress().toString());
+			o.put("ip", p.getAddress() != null ? p.getAddress().toString() : "offline");
 			o.put("itemInHand", p.getItemInHand());
 			o.put("location", p.getLocation());
 			o.put("inventory", p.getInventory());
