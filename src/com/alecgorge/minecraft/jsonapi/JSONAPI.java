@@ -283,7 +283,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				authfile.delete();
 				authfile2.delete();
 			} else if (yamlFile.exists()) {
-				YamlConfiguration yamlConfig = new YamlConfiguration();
+				yamlConfig = new YamlConfiguration();
 				yamlConfig.load(yamlFile); // VERY IMPORTANT
 
 				logging = yamlConfig.getBoolean("options.log-to-console", true);
@@ -462,7 +462,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 						String password = args[3];
 
 						getJSONServer().getLogins().put(username, password);
-
+						
 						yamlConfig.set("logins", getJSONServer().getLogins());
 						yamlConfig.save(yamlFile);
 
