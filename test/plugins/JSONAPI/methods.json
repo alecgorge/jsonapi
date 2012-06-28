@@ -39,7 +39,7 @@
 			"name": "getPlayer",
 			"desc": "Gets a |player| object representing the specified person.",
 			"returns": ["Player", "A player object respresenting the specified person."],
-			"call": "Server.getPlayer(0)",
+			"call": "this.getPlayerExact(0)",
 			"args": [
 				["String","Player name"]
 			]
