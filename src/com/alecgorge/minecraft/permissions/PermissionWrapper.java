@@ -47,7 +47,11 @@ public class PermissionWrapper {
 
 	public List<String> getGroups(String playerName) {
 		if (active) {
-			return Arrays.asList(perms.getPlayerGroups(getPlayerExact(playerName)));
+			try {
+				return Arrays.asList(perms.getPlayerGroups(getPlayerExact(playerName)));
+			} catch (Exception e) {
+				return new ArrayList<String>();
+			}
 		}
 
 		return new ArrayList<String>();
