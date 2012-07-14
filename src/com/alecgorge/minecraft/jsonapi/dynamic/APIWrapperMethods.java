@@ -745,6 +745,34 @@ public class APIWrapperMethods {
 		}
 	}
 
+	public boolean deleteFileOrFolder(String fileName) {
+		File f;
+		if ((f = new File(fileName)).exists()) {
+			try {
+				return f.delete();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public boolean renameFileOrFolder(String oldName, String newName) {
+		File f;
+		if ((f = new File(oldName)).exists()) {
+			try {
+				return f.renameTo(new File(newName));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
 	public String getFileBinaryBase64(String fileName) throws APIException {
 		if ((new File(fileName)).exists()) {
 			FileInputStream stream = null;

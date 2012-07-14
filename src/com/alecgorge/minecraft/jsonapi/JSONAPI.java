@@ -361,6 +361,8 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				outLog.addHandler(handler);
 			}
 
+			log.info("[JSONAPI] Attempting to use port " + port);
+
 			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
 			jsonWebSocketServer = new JSONWebSocketServer(port + 2, jsonServer);
 			jsonWebSocketServer.start();
@@ -462,7 +464,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 						String password = args[3];
 
 						getJSONServer().getLogins().put(username, password);
-						
+
 						yamlConfig.set("logins", getJSONServer().getLogins());
 						yamlConfig.save(yamlFile);
 
