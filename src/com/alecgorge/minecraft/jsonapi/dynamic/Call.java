@@ -141,7 +141,9 @@ public class Call {
 					} catch (NoSuchMethodException e) {
 						thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);
 					} catch (NullPointerException e) {
-						Logger.getLogger("Minecraft").severe("this returned null: " + stack.get(i - 1));
+						return null;
+						// Logger.getLogger("Minecraft").severe("this returned null: "
+						// + stack.get(i - 1));
 					}
 					thisMethod.setAccessible(true);
 					lastResult = thisMethod.invoke(lastResult, args);
