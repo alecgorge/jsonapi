@@ -445,6 +445,25 @@
 			]
 		},
 		{
+			"name": "deleteFileOrFolder",
+			"desc": "Deletes the specified file or folder.",
+			"returns": ["boolean", "True if successful, false otherwise."],
+			"call": "this.deleteFileOrFolder(0)",
+			"args": [
+				["String", "The path to the file or folder relative to the server root."]
+			]
+		},
+		{
+			"name": "renameFileOrFolder",
+			"desc": "Renames the specified file or folder.",
+			"returns": ["boolean", "True if successful, false otherwise."],
+			"call": "this.renameFileOrFolder(0,1)",
+			"args": [
+				["String", "The old path to the file or folder relative to the server root."],
+				["String", "The new path to the file or folder relative to the server root."]
+			]
+		},
+		{
 			"name": "getBinaryFileBase64",
 			"desc": "Gets the binary contents of the specified file encoded in base64. The file path is relative to the folder that the craftbukkit jar is in.",
 			"returns": ["String", "The file's contents."],
