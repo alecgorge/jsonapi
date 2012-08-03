@@ -62,6 +62,7 @@ import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
 import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
+import org.bukkit.event.EventPriority;
 
 /**
  * 
@@ -688,7 +689,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			p = plugin;
 		}
 
-		@EventHandler
+		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled=true)
 		public void onPlayerChat(PlayerChatEvent event) {
 			p.jsonServer.logChat(event.getPlayer().getName(), event.getMessage());
 		}
