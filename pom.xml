@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.ramblingwood.minecraft.jsonapi</groupId>
+	<groupId>com.alecgorge.minecraft.jsonapi</groupId>
 	<artifactId>JSONAPI</artifactId>
 	<packaging>jar</packaging>
 	<version>bleeding</version>
@@ -17,11 +17,14 @@
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
-			 <directory>src</directory>
-			 <includes>
-					 <include>plugin.yml</include>
-					 <include>adminium_group_defaults.yml</include>
-			 </includes>
+				<directory>src</directory>
+				<includes>
+					<include>plugin.yml</include>
+					<include>adminium_group_defaults.yml</include>
+					<include>config.yml</include>
+					<include>methods.json</include>
+					<include>methods/*</include>
+				</includes>
 			</resource>
 		</resources>
 		<plugins>
@@ -51,7 +54,58 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install-jar</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.alecgorge.minecraft.jsonapi</groupId>
+									<artifactId>JSONAPI</artifactId>
+									<version>bleeding</version>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>test/plugins</outputDirectory>
+							<stripVersion>true</stripVersion>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<id>copy-prod-resources</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<overwrite>true</overwrite>
+							<outputDirectory>${basedir}/test/plugins/JSONAPI</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src</directory>
+									<includes>
+										<include>config.yml</include>
+										<include>methods.json</include>
+										<include>methods/*</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
