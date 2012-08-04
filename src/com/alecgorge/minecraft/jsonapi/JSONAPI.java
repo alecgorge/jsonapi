@@ -65,7 +65,6 @@ import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
 import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
-import org.bukkit.event.EventPriority;
 
 /**
  * 
@@ -212,7 +211,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			}
 			if (!yamlFile.exists()) {
 				InputStream in = getResource("config.yml");
-				OutputStream out = new FileOutputStream(methods);
+				OutputStream out = new FileOutputStream(yamlFile);
 
 				byte[] buffer = new byte[1024];
 				int len;
@@ -639,7 +638,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			p = plugin;
 		}
 
-		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled=true)
+		@EventHandler
 		public void onPlayerChat(PlayerChatEvent event) {
 			p.jsonServer.logChat(event.getPlayer().getName(), event.getMessage());
 		}
