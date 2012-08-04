@@ -74,6 +74,8 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 	public JSONServer jsonServer;
 	public JSONSocketServer jsonSocketServer;
 	public JSONWebSocketServer jsonWebSocketServer;
+	public JSONAPIMessageListener jsonMessageListener = new JSONAPIMessageListener(this);
+
 	private StreamManager streamManager = new StreamManager();
 
 	public boolean logging = false;
@@ -361,6 +363,10 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			if (logging) {
 				outLog.addHandler(handler);
 			}
+
+			log.info("[JSONAPI] Hooking into Bukkit's plugin channels...");
+			Bukkit.getMessenger().registerOutgoingPluginChannel(this, "jsonapi");
+			Bukkit.getMessenger().registerIncomingPluginChannel(this, "jsonapi", jsonMessageListener);
 
 			log.info("[JSONAPI] Attempting to use port " + port);
 
@@ -696,7 +702,6 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 
 		@EventHandler
 		public void onPlayerJoin(PlayerJoinEvent event) {
-			APIWrapperMethods.getInstance().manager = ((CraftPlayer) event.getPlayer()).getHandle().netServerHandler.networkManager;
 			p.jsonServer.logConnected(event.getPlayer().getName());
 		}
 

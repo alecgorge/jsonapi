@@ -62,7 +62,6 @@ import com.alecgorge.minecraft.permissions.PermissionWrapper;
 public class APIWrapperMethods {
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	public PermissionWrapper permissions;
-	public NetworkManager manager;
 
 	public Economy econ;
 	public Chat chat;
@@ -461,11 +460,11 @@ public class APIWrapperMethods {
 			NetworkManager m = new NetworkManager(ss, "???", new NetHandler() {
 
 				@Override
-				public boolean c() {
+				public boolean a() {
 					// TODO Auto-generated method stub
 					return false;
 				}
-			});
+			}, null);
 
 			netServerHandler = new FauxNetServerHandler(((CraftServer) getServer()).getServer(), m, this);
 
@@ -524,10 +523,6 @@ public class APIWrapperMethods {
 				// "\u00A7e" + player.getName() + " joined the game.");
 				// Server.getPluginManager().callEvent(playerJoinEvent);
 			}
-
-			// for some reason this is need to prevent the chat event being
-			// processed before the join event
-			// Thread.sleep(500);
 
 			((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
 
