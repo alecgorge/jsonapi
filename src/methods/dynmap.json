@@ -1,0 +1,21 @@
+{
+	"name" : "Dynmap",
+	"namespace" : "dynmap",
+	"depends" : [
+		"dynmap"
+	],
+	"methods" : [
+		{
+			"name": "getPort",
+			"desc": "Returns the port that the dynmap webserver is running on.",
+			"returns": ["String", "The dynmap port as an integer."],
+			"call": "Plugins.dynmap.core.configuration.getString(\"webserver-port\", \"8123\")"
+		},
+		{
+			"name": "getHost",
+			"desc": "Returns the IP/hostname that the dynmap webserver is running on.",
+			"returns": ["String", "The dynmap port as a string."],
+			"call": "Plugins.dynmap.core.configuration.getString(\"webserver-bindaddress\", \"0.0.0.0\")"
+		}
+	]
+}
