@@ -5,8 +5,11 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -171,121 +174,62 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			yamlFile = new File(getDataFolder(), "config.yml");
 			outLog = Logger.getLogger("JSONAPI");
 
-			File mainConfig = new File(getDataFolder(), "JSONAPI.properties");
-			File authfile = new File(getDataFolder(), "JSONAPIAuthentication.txt");
-			File authfile2 = new File(getDataFolder(), "JSONAPIMethodNoAuthWhitelist.txt");
 			File methods = new File(getDataFolder(), "methods.json");
+			File methodsFolder = new File(getDataFolder(), "methods");
 
 			if (!methods.exists()) {
-				log.severe("[JSONAPI] plugins/JSONAPI/methods.json is missing!");
-				log.severe("[JSONAPI] JSONAPI not loaded!");
-				return;
+				InputStream in = getResource("methods.json");
+				OutputStream out = new FileOutputStream(methods);
+
+				byte[] buffer = new byte[1024];
+				int len;
+				while ((len = in.read(buffer)) != -1) {
+					out.write(buffer, 0, len);
+				}
+
+				in.close();
+				out.close();
+
+				log.info("[JSONAPI] methods.json has been copied from the jar");
 			}
-			if (!yamlFile.exists() && !mainConfig.exists()) {
-				log.severe("[JSONAPI] config.yml and JSONAPI.properties are both missing. You need at least one!");
-				log.severe("[JSONAPI] JSONAPI not loaded!");
-				return;
+			if (!methodsFolder.exists()) {
+				methodsFolder.mkdirs();
+				String[] methodsFiles = new String[] { "chat.json", "dynmap.json", "econ.json", "permissions.json", "readme.txt", "remotetoolkit.json", "system.json", "world.json" };
+
+				for (String f : methodsFiles) {
+					InputStream in = getResource("methods/" + f + ".json");
+					OutputStream out = new FileOutputStream(methods);
+
+					byte[] buffer = new byte[1024];
+					int len;
+					while ((len = in.read(buffer)) != -1) {
+						out.write(buffer, 0, len);
+					}
+
+					in.close();
+					out.close();
+				}
+			}
+			if (!yamlFile.exists()) {
+				InputStream in = getResource("config.yml");
+				OutputStream out = new FileOutputStream(methods);
+
+				byte[] buffer = new byte[1024];
+				int len;
+				while ((len = in.read(buffer)) != -1) {
+					out.write(buffer, 0, len);
+				}
+
+				in.close();
+				out.close();
+
+				log.info("[JSONAPI] config.yml has been copied from the jar");
 			}
 
 			PropertiesFile options = null;
 			String ipWhitelist = "";
 			String reconstituted = "";
-			if (mainConfig.exists()) {
-				options = new PropertiesFile(mainConfig.getAbsolutePath());
-				logging = options.getBoolean("log-to-console", true);
-				logFile = options.getString("log-to-file", "false");
-				ipWhitelist = options.getString("ip-whitelist", "false");
-				salt = options.getString("salt", "");
-				reconstituted = "";
-			}
-
-			if (mainConfig.exists() && !yamlFile.exists()) {
-				// auto-migrate to yaml from properties and plain text files
-				yamlFile.createNewFile();
-				yamlConfig = new YamlConfiguration();
-
-				if (!ipWhitelist.trim().equals("false")) {
-					String[] ips = ipWhitelist.split(",");
-					StringBuffer t = new StringBuffer();
-					for (String ip : ips) {
-						t.append(ip.trim() + ",");
-						whitelist.add(ip);
-					}
-					reconstituted = t.toString();
-				}
-
-				port = options.getInt("port", 20059);
-
-				try {
-					FileInputStream fstream;
-					try {
-						fstream = new FileInputStream(authfile);
-					} catch (FileNotFoundException e) {
-						authfile.createNewFile();
-						fstream = new FileInputStream(authfile);
-					}
-
-					DataInputStream in = new DataInputStream(fstream);
-					BufferedReader br = new BufferedReader(new InputStreamReader(in));
-					String line;
-
-					while ((line = br.readLine()) != null) {
-						if (!line.startsWith("#")) {
-							String[] parts = line.trim().split(":");
-							if (parts.length == 2) {
-								auth.put(parts[0], parts[1]);
-							}
-						}
-					}
-
-					br.close();
-					in.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				try {
-					FileInputStream fstream;
-					try {
-						fstream = new FileInputStream(authfile2);
-					} catch (FileNotFoundException e) {
-						authfile2.createNewFile();
-						fstream = new FileInputStream(authfile2);
-					}
-
-					DataInputStream in = new DataInputStream(fstream);
-					BufferedReader br = new BufferedReader(new InputStreamReader(in));
-					String line;
-
-					while ((line = br.readLine()) != null) {
-						if (!line.trim().startsWith("#")) {
-							method_noauth_whitelist.add(line.trim());
-						}
-					}
-
-					br.close();
-					in.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				yamlConfig.set("options.log-to-console", logging);
-				yamlConfig.set("options.log-to-file", logFile);
-				yamlConfig.set("options.ip-whitelist", whitelist);
-				yamlConfig.set("options.salt", salt);
-				yamlConfig.set("options.port", port);
-				yamlConfig.set("options.anyone-can-use-calladmin", false);
-
-				yamlConfig.set("method-whitelist", method_noauth_whitelist);
-
-				yamlConfig.set("logins", auth);
-
-				yamlConfig.save(yamlFile);
-
-				mainConfig.delete();
-				authfile.delete();
-				authfile2.delete();
-			} else if (yamlFile.exists()) {
+			if (yamlFile.exists()) {
 				yamlConfig = new YamlConfiguration();
 				yamlConfig.load(yamlFile); // VERY IMPORTANT
 

@@ -54,7 +54,7 @@ public class JSONAPIAuthEvent extends Event {
 			return JSONAPI.SHA256(input);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
-			return "abc";
+			return "abbBESTHASHEVER";
 		}
 	}
 
