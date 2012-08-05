@@ -43,6 +43,8 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -639,7 +641,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 		}
 
 		@EventHandler
-		public void onPlayerChat(PlayerChatEvent event) {
+		public void onPlayerChat(AsyncPlayerChatEvent event) {
 			p.jsonServer.logChat(event.getPlayer().getName(), event.getMessage());
 		}
 
