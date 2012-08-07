@@ -26,6 +26,7 @@ import net.minecraft.server.NetHandler;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.World;
+import net.minecraft.server.WorldServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -38,9 +39,10 @@ import org.bukkit.block.Sign;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.util.LazyPlayerSet;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -516,34 +518,35 @@ public class APIWrapperMethods {
 				// this is the biggest hack ever.
 				player = new FauxPlayer(name, new FauxEntityPlayer(((CraftServer) Server).getServer(), ((CraftWorld) Server.getWorlds().get(0)).getHandle(), name, new ItemInWorldManager(((CraftServer) Server).getServer().getWorldServer(0))));
 				joinedList.put(name, player);
-
-				// default join event from CraftBukkit / src / main / java / net
-				// / minecraft / server / ServerConfigurationManager.java
-				// PlayerJoinEvent playerJoinEvent = new PlayerJoinEvent(player,
-				// "\u00A7e" + player.getName() + " joined the game.");
-				// Server.getPluginManager().callEvent(playerJoinEvent);
 			}
 
 			((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
 
 			// copied from CraftBukkit / src / main / java / net / minecraft /
 			// server / NetServerHandler.java
-			PlayerChatEvent event = new PlayerChatEvent(player, message);
+			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(false, player, message, new LazyPlayerSet());
 			Server.getPluginManager().callEvent(event);
 
 			((CraftServer) Server).getServer().server.getHandle().players.remove(player.getHandle());
 
 			// NOTE: HeroChat always cancels
+			// default message from CraftBukkit / src / main / java / net /
+			// minecraft / server / NetServerHandler.java#chat(String s, boolean
+			// async)
 			if (event.isCancelled()) {
 				return true;
 			}
 
-			// default message from CraftBukkit / src / main / java / net /
-			// minecraft / server / NetServerHandler.java#chat(String s)
-			message = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
-			Logger.getLogger("Minecraft").info(message);
-			for (Player recipient : event.getRecipients()) {
-				recipient.sendMessage(message);
+			String s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
+			((CraftServer) Server).getServer().console.sendMessage(s);
+			if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
+				for (Object recipient : ((CraftServer) Server).getServer().getServerConfigurationManager().players) {
+					((EntityPlayer) recipient).sendMessage(s);
+				}
+			} else {
+				for (org.bukkit.entity.Player recipient : event.getRecipients()) {
+					recipient.sendMessage(s);
+				}
 			}
 
 			// end biggest hack ever
