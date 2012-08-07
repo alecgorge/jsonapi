@@ -177,6 +177,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 
 			File methods = new File(getDataFolder(), "methods.json");
 			File methodsFolder = new File(getDataFolder(), "methods");
+			File rtkConfig = new File(getDataFolder(), "config_rtk.yml");
 
 			if (!methods.exists()) {
 				InputStream in = getResource("methods.json");
@@ -198,20 +199,27 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				String[] methodsFiles = new String[] { "chat.json", "dynmap.json", "econ.json", "permissions.json", "readme.txt", "remotetoolkit.json", "system.json", "world.json" };
 
 				for (String f : methodsFiles) {
-					InputStream in = getResource("methods/" + f + ".json");
-					OutputStream out = new FileOutputStream(methods);
+					File outF = new File(methodsFolder, f);
+					if (!outF.exists()) {
+						outF.createNewFile();
 
-					byte[] buffer = new byte[1024];
-					int len;
-					while ((len = in.read(buffer)) != -1) {
-						out.write(buffer, 0, len);
+						InputStream in = getResource("methods/" + f);
+						OutputStream out = new FileOutputStream(outF);
+
+						byte[] buffer = new byte[1024];
+						int len;
+						while ((len = in.read(buffer)) != -1) {
+							out.write(buffer, 0, len);
+						}
+
+						in.close();
+						out.close();
 					}
-
-					in.close();
-					out.close();
 				}
 			}
 			if (!yamlFile.exists()) {
+				yamlFile.createNewFile();
+
 				InputStream in = getResource("config.yml");
 				OutputStream out = new FileOutputStream(yamlFile);
 
@@ -225,6 +233,23 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				out.close();
 
 				log.info("[JSONAPI] config.yml has been copied from the jar");
+			}
+			if (!rtkConfig.exists()) {
+				rtkConfig.createNewFile();
+
+				InputStream in = getResource("config_rtk.yml");
+				OutputStream out = new FileOutputStream(rtkConfig);
+
+				byte[] buffer = new byte[1024];
+				int len;
+				while ((len = in.read(buffer)) != -1) {
+					out.write(buffer, 0, len);
+				}
+
+				in.close();
+				out.close();
+
+				log.info("[JSONAPI] config_rtk.yml has been copied from the jar");
 			}
 
 			PropertiesFile options = null;
@@ -266,7 +291,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			YamlConfiguration yamlRTK = new YamlConfiguration();
 
 			try {
-				yamlRTK.load(new File(getDataFolder(), "config_rtk.yml"));
+				yamlRTK.load(rtkConfig);
 				rtkAPI = RTKInterface.createRTKInterface(yamlRTK.getInt("RTK.port", 25561), "localhost", yamlRTK.getString("RTK.username", "user"), yamlRTK.getString("RTK.password", "pass"));
 			} catch (RTKInterfaceException e) {
 
