@@ -1164,7 +1164,7 @@ public class APIWrapperMethods {
 			return ((Sign) d).getLines();
 		}
 
-		throw new Exception("That isn't a sign!");
+		return null;
 	}
 
 	public boolean setSignText(String world, int x, int y, int z, List<String> lines) {
@@ -1198,7 +1198,7 @@ public class APIWrapperMethods {
 			return ((Chest) d).getInventory();
 		}
 
-		throw new Exception("That isn't a chest!");
+		return null;
 	}
 
 	public boolean giveChestItem(String world, int x, int y, int z, int slot, int blockID, int quantity) {

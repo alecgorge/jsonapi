@@ -93,7 +93,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 	public String serverName = "default";
 	public StreamPusher streamPusher;
 
-	private Logger log = Logger.getLogger("Minecraft");
+	private Logger log = Bukkit.getLogger();
 	public Logger outLog = Logger.getLogger("JSONAPI");
 	private Handler handler;
 
@@ -333,10 +333,6 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			if (logging) {
 				outLog.addHandler(handler);
 			}
-
-			log.info("[JSONAPI] Hooking into Bukkit's plugin channels...");
-			Bukkit.getMessenger().registerOutgoingPluginChannel(this, "jsonapi");
-			Bukkit.getMessenger().registerIncomingPluginChannel(this, "jsonapi", jsonMessageListener);
 
 			log.info("[JSONAPI] Attempting to use port " + port);
 
