@@ -86,6 +86,19 @@
 				["int","Quantity of item to give"],
 				["int","Decimal representation of the data value."]
 			]
+		},
+		{
+			"name": "spawn",
+			"desc": "Spawn an entity at the given location in the give world.",
+			"call": "this.spawn(0, 1, 2, 3, 4)",
+			"returns": ["boolean", "True if the entity was successfully spawned. False otherwise."],
+			"args": [
+				["String", "The world to spawn the entity into."],
+				["double", "The x-pos for the entity"],
+				["double", "The y-pos for the entity"],
+				["double", "The z-pos for the entity"],
+				["String", "The name of the mob/entity to spawn. Comes from this list (case-sensitive): http://jd.bukkit.org/apidocs/org/bukkit/entity/EntityType.html#enum_constant_summary"]
+			]
 		}
 	]
 }
