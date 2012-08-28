@@ -205,7 +205,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			messager = (api.serverName.equals("default") ? api.getServer().getServerName() : api.serverName) + ": " + messager;
 		}
 
-		final String message = messager.length() > 210 ? messager.substring(0, 208) + "…" : messager;
+		final String message = messager.length() > 210 ? messager.substring(0, 208) + "ï¿½" : messager;
 
 		new Thread(new Runnable() {
 
@@ -387,9 +387,9 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	}
 
 	public List<String> methodsForPermission(String permission) {
-		String[] a = null;
+		String[] a = new String[] {};
 		if (permission.equals("view_plugins")) {
-			a = new String[] { "getPlugins" };
+			a = new String[] { "getPlugins", "getPluginVersion" };
 		} else if (permission.equals("enable_plugins")) {
 			a = new String[] { "enablePlugin" };
 		} else if (permission.equals("disable_plugins")) {
