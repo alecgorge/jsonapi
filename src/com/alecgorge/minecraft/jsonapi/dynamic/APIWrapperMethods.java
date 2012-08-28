@@ -41,6 +41,7 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.util.LazyPlayerSet;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -1242,5 +1243,9 @@ public class APIWrapperMethods {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	public boolean spawn(String world, double x, double y, double z, String mobName) {
+		return getServer().getWorld(world).spawnEntity(new Location(getServer().getWorld(world), x, y, z), EntityType.fromName(mobName)) != null;
 	}
 }
