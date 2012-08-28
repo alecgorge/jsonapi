@@ -22,6 +22,7 @@
 					<include>plugin.yml</include>
 					<include>adminium_group_defaults.yml</include>
 					<include>config.yml</include>
+					<include>config_rtk.yml</include>
 					<include>methods.json</include>
 					<include>methods/*</include>
 				</includes>
