@@ -43,7 +43,6 @@ abstract public class JSONAPIStreamMessage implements JSONAware {
 	 */
 	public void setTime() {
 		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MILLISECOND, -cal.get(Calendar.DST_OFFSET) - cal.get(Calendar.ZONE_OFFSET));
 		long lUTCtime = cal.getTimeInMillis();
 
 		time = lUTCtime/1000;
