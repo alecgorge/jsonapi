@@ -366,7 +366,7 @@ public class JSONServer extends NanoHTTPD {
 	public JSONObject serveAPICall(String calledMethod, String username, String key, Object args) {
 		try {
 			JSONAPIAuthResponse resp = new JSONAPIAuthResponse(false, false);
-			inst.getServer().getPluginManager().callEvent(new JSONAPIAuthEvent(resp, calledMethod, false));
+			inst.getServer().getPluginManager().callEvent(new JSONAPIAuthEvent(resp, false));
 
 			if ((!resp.isAuthenticated() || !resp.isAllowed()) && !inst.method_noauth_whitelist.contains(calledMethod)) {
 				info("[API Error] " + calledMethod + ": " + resp.getMessage());
