@@ -1,15 +1,18 @@
 package com.alecgorge.minecraft.jsonapi.permissions;
 
 import java.io.File;
+import java.io.FileReader;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.json.simpleForBukkit.JSONArray;
+import org.json.simpleForBukkit.JSONAware;
+import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
@@ -17,38 +20,59 @@ import com.alecgorge.minecraft.jsonapi.event.JSONAPIAuthEvent;
 
 
 public class GroupManager {
-	Map<String, Object> permissions;
-	Map<String, Object> groups;
-	Map<String, Object> users;
+	JSONObject permissions;
+	JSONObject groups;
+	JSONObject users;
 	
 	Map<AbstractMap.SimpleEntry<String, String>, Boolean> userCache = new ConcurrentHashMap<AbstractMap.SimpleEntry<String,String>, Boolean>();
 	
 	JSONParser parser = new JSONParser();
 	
+	File input;
+	
 	public GroupManager(JSONAPI api, File input) {
-		YamlConfiguration config = YamlConfiguration.loadConfiguration(input);
+		this.input = input;
 		
-		Map<String, Object> o = config.getValues(true);
-		permissions = getMap(o, "permissions");
-		groups 		= getMap(o, "groups");
-		users 		= getMap(o, "users");
-		
+		loadFromConfig();
 		api.getServer().getPluginManager().registerEvents(new JSONAPIPermissionsListener(), api);
 	}
 	
-	@SuppressWarnings("unchecked")
-	Map<String, Object> getMap(Object o, String key) {
-		return ((Map<String,Object>)((Map<String, Object>)o).get(key));
+	public void loadFromConfig() {
+		JSONObject o;
+		try {
+			o = (JSONObject) parser.parse(new FileReader(input));
+			
+			permissions = (JSONObject) o.get("permissions");
+			groups 		= (JSONObject) o.get("groups");
+			users 		= (JSONObject) o.get("users");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 	
-	@SuppressWarnings("unchecked")
+	JSONObject getMap(Object o, Object key) {
+		return (JSONObject)((JSONObject)o).get(key.toString());
+	}
+	
 	boolean getBool(Object o, String key) {
-		return ((Boolean)((Map<String, Object>)o).get(key)).booleanValue();
+		return Boolean.valueOf(((JSONObject)o).get(key).toString());
 	}
 	
-	@SuppressWarnings("unchecked")
-	List<Object> getList(Object o, String key) {
-		return ((List<Object>)((Map<String, Object>)o).get(key));
+	JSONArray getList(Object o, String key) {
+		return (JSONArray)((JSONObject)o).get(key);
+	}
+	
+	void trace(String s) {
+		if(true) {
+			System.out.print(s);
+		}
+	}
+	
+	void traceLine(Object o) {
+		if(true) {
+			if(o instanceof JSONAware) System.out.println(((JSONAware)o).toJSONString());
+			else System.out.println(o.toString());
+		}
 	}
 	
 	boolean effectivePermission(String username, String method, boolean stream) {
@@ -62,24 +86,28 @@ public class GroupManager {
 			return userCache.get(key);
 		}
 		
+		trace("Groups: "); traceLine(groups);
+		trace("Stream: "); traceLine(stream);
+		
 		boolean valid = false; // assume no.
 		String groupKey = stream ? "streams" : "methods";
 		List<Object> groups = getList(users, username);
 		for(Object o : groups) {
 			String group = o.toString();
-			Map<String, Object> groupMap = getMap(groups, group);
-			Map<String, Object> groupKeyMap = getMap(groupMap, groupKey);
+			JSONObject groupMap = getMap(groups, group);
+			JSONObject groupKeyMap = getMap(groupMap, groupKey);
 			
-			if(groupKeyMap.containsKey("ALLOW_ALL") && Boolean.valueOf(groupKeyMap.get("ALLOW_ALL").toString())) {
+			if(groupKeyMap.containsKey("ALLOW_ALL") && getBool(groupKeyMap, "ALLOW_ALL")) {
 				valid = true;
+				continue;
 			}
 			
 			if(groupMap.containsKey("permissions")) {
-				Map<String, Object> permissionMap = getMap(groupMap, "permissions");
-				if(permissionMap.containsKey("ALLOW_ALL") && Boolean.valueOf(permissionMap.get("ALLOW_ALL").toString())) {
+				JSONObject permissionMap = getMap(groupMap, "permissions");
+				if(permissionMap.containsKey("ALLOW_ALL") && getBool(groupKeyMap, "ALLOW_ALL")) {
 					valid = true;
 				}
-				for(String k : permissionMap.keySet()) {
+				for(Object k : permissionMap.keySet()) {
 					List<Object> methods = getList(getMap(permissions, k), groupKey);
 					if(methods == null) continue;
 					
@@ -103,12 +131,7 @@ public class GroupManager {
 	class JSONAPIPermissionsListener implements Listener {
 		@EventHandler
 		public void onJSONAPIAuthChallenge(JSONAPIAuthEvent e) {
-			// only change if it is false. if already false, leave it.
-			if (e.getAuthResponse().isAuthenticated() && e.getAuthResponse().isAllowed()) {
-				if (!effectivePermission(e.getUsername(), e.getMethod(), e.isStream())) {
-					e.getAuthResponse().setAllowed(false);
-				}
-			}
+			e.getAuthResponse().setAllowed(effectivePermission(e.getUsername(), e.getMethod(), e.isStream()));
 		}
 	}
 }

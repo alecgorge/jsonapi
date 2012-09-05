@@ -131,6 +131,8 @@ public class JSONServer extends NanoHTTPD {
 				if (thishash.equals(hash)) {
 					resp.setAllowed(true);
 					resp.setAuthenticated(true);
+					resp.setKey(hash);
+					resp.setUsername(user);
 					valid = true;
 					validUser = user;
 					break;
@@ -277,11 +279,7 @@ public class JSONServer extends NanoHTTPD {
 		}
 
 		String key = parms.getProperty("key");
-		if (!inst.method_noauth_whitelist.contains(calledMethod)) { // && !testLogin(calledMethod, key)) {
-			info("[API Call] " + header.get("X-REMOTE-ADDR") + ": Invalid API Key.");
-			return jsonRespone(returnAPIError(calledMethod, "Invalid API key."), callback, HTTP_FORBIDDEN);
-		}
-
+		
 		info("[API Call] " + header.get("X-REMOTE-ADDR") + ": method=" + parms.getProperty("method").concat("?args=").concat((String) args));
 
 		if (args == null || calledMethod == null) {
@@ -304,7 +302,7 @@ public class JSONServer extends NanoHTTPD {
 					int size = methods.size();
 					JSONArray arr = new JSONArray();
 					for (int i = 0; i < size; i++) {
-						arr.add(serveAPICall(methods.get(i), (arguments.size() - 1 >= i ? arguments.get(i) : new ArrayList<Object>())));
+						arr.add(serveAPICall(methods.get(i),  (arguments.size() - 1 >= i ? arguments.get(i) : new ArrayList<Object>())));
 					}
 
 					return jsonRespone(returnAPISuccess(o, arr), callback);
@@ -365,10 +363,12 @@ public class JSONServer extends NanoHTTPD {
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject serveAPICall(String calledMethod, Object args) {
+	public JSONObject serveAPICall(String calledMethod, String username, String key, Object args) {
 		try {
 			JSONAPIAuthResponse resp = new JSONAPIAuthResponse(false, false);
-			if (!resp.isAuthenticated() || !resp.isAllowed()) {
+			inst.getServer().getPluginManager().callEvent(new JSONAPIAuthEvent(resp, calledMethod, false));
+
+			if ((!resp.isAuthenticated() || !resp.isAllowed()) && !inst.method_noauth_whitelist.contains(calledMethod)) {
 				info("[API Error] " + calledMethod + ": " + resp.getMessage());
 				return returnAPIAuthError(calledMethod, resp.getMessage(), resp.isAuthenticated(), resp.isAllowed());
 			}
