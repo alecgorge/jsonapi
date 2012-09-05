@@ -4,6 +4,9 @@ public class JSONAPIAuthResponse {
 	private boolean authenticated;
 	private boolean allowed;
 	
+	private String key;
+	private String username;
+	
 	private String message = null;
 	
 	public JSONAPIAuthResponse(boolean al, boolean auth) {
@@ -41,5 +44,21 @@ public class JSONAPIAuthResponse {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

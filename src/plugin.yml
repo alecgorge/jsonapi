@@ -1,6 +1,6 @@
 name: JSONAPI
 main: com.alecgorge.minecraft.jsonapi.JSONAPI
-version: 3.9.9
+version: 4.0.0
 description: Control your server and fetch information from your server.
 website: http://mcjsonapi.com/
 author: Alec Gorge
@@ -16,7 +16,7 @@ commands:
     description: Sends a message to the admin of the server if they have Adminium installed on their iOS device.
     usage: /<command> <why>
   jsonapi:
-    usage: '/<command> [list|reload|subscribe <source name> <url>|users [list|<username> password|add <username> <password>]]'
+    usage: '/<command> [list|reload|reloadgroups|subscribe <source name> <url>|users [list|<username> password|add <username> <password>]]'
     description: 'Various commands to control JSONAPI. Check the docs for details: http://mcjsonapi.com/docs'
   adminium:
     usage: '/<command> [user (username)|create-user (username) (group name)|set-group (username) (group name)|list-groups]'

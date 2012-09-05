@@ -3,6 +3,7 @@ method-whitelist:
 - dynmap.getPort
 logins:
     usernameGoesHere: passwordGoesHere
+    test: test
 options:
     startup-delay: 2000
     port: 20059
