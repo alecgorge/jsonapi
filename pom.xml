@@ -20,7 +20,7 @@
 				<directory>src</directory>
 				<includes>
 					<include>plugin.yml</include>
-					<include>adminium_group_defaults.yml</include>
+					<include>groups.json</include>
 					<include>config.yml</include>
 					<include>config_rtk.yml</include>
 					<include>methods.json</include>
@@ -98,6 +98,7 @@
 									<directory>src</directory>
 									<includes>
 										<include>config.yml</include>
+										<include>groups.json</include>
 										<include>methods.json</include>
 										<include>methods/*</include>
 									</includes>

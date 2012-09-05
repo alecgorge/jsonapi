@@ -1,14 +1,9 @@
 package com.alecgorge.minecraft.jsonapi;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
@@ -39,13 +34,10 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.CraftServer;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -63,6 +55,7 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
+import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
@@ -104,6 +97,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 	public static JSONAPI instance;
 
 	PushNotificationDaemon adminium;
+	GroupManager groupManager;
 
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		this.pluginLoader = pluginLoader;
@@ -117,6 +111,10 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 
 	public JSONServer getJSONServer() {
 		return jsonServer;
+	}
+	
+	public GroupManager getGroupManager() {
+		return groupManager;
 	}
 
 	public synchronized StreamManager getStreamManager() {
@@ -178,7 +176,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			File methods = new File(getDataFolder(), "methods.json");
 			File methodsFolder = new File(getDataFolder(), "methods");
 			File rtkConfig = new File(getDataFolder(), "config_rtk.yml");
-			File groups = new File(getDataFolder(), "groups.yml");
+			File groups = new File(getDataFolder(), "groups.json");
 
 			if (!methods.exists()) {
 				InputStream in = getResource("methods.json");
@@ -255,7 +253,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			if (!groups.exists()) {
 				groups.createNewFile();
 
-				InputStream in = getResource("groups.yml");
+				InputStream in = getResource("groups.json");
 				OutputStream out = new FileOutputStream(groups);
 
 				byte[] buffer = new byte[1024];
@@ -267,7 +265,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				in.close();
 				out.close();
 
-				log.info("[JSONAPI] groups.yml has been copied from the jar");
+				log.info("[JSONAPI] groups.json has been copied from the jar");
 			}
 
 			PropertiesFile options = null;
@@ -363,6 +361,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			registerStreamManager("connections", getJSONServer().connections);
 
 			streamPusher = new StreamPusher(streamManager, new File(getDataFolder(), "push_locations.yml"));
+			groupManager = new GroupManager(this, groups);
 
 			initialiseListeners();
 
@@ -415,6 +414,9 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 					listMethods(sender, args[1]);
 				}
 				return true;
+			} else if(subCommand.equals("reloadgroups")) {
+				groupManager.loadFromConfig();
+				sender.sendMessage("Groups reloaded!");
 			} else if (subCommand.equals("reload")) {
 				log.info("Reloading JSONAPI");
 				onDisable();
