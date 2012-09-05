@@ -178,6 +178,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			File methods = new File(getDataFolder(), "methods.json");
 			File methodsFolder = new File(getDataFolder(), "methods");
 			File rtkConfig = new File(getDataFolder(), "config_rtk.yml");
+			File groups = new File(getDataFolder(), "groups.yml");
 
 			if (!methods.exists()) {
 				InputStream in = getResource("methods.json");
@@ -250,6 +251,23 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				out.close();
 
 				log.info("[JSONAPI] config_rtk.yml has been copied from the jar");
+			}
+			if (!groups.exists()) {
+				groups.createNewFile();
+
+				InputStream in = getResource("groups.yml");
+				OutputStream out = new FileOutputStream(groups);
+
+				byte[] buffer = new byte[1024];
+				int len;
+				while ((len = in.read(buffer)) != -1) {
+					out.write(buffer, 0, len);
+				}
+
+				in.close();
+				out.close();
+
+				log.info("[JSONAPI] groups.yml has been copied from the jar");
 			}
 
 			PropertiesFile options = null;
@@ -449,7 +467,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 					return true;
 				}
 			}
-		} else if (cmd.getName().equals("adminium")) {
+		} /*else if (cmd.getName().equals("adminium")) {
 			if (!adminium.init) {
 				sender.sendMessage(ChatColor.RED + "You need Adminium for that.");
 				return true;
@@ -511,7 +529,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 			}
 
 			return true;
-		}
+		}*/
 
 		return false;
 	}
