@@ -27,6 +27,15 @@ public class JSONAPIAuthEvent extends Event {
 		this.username = username;
 		this.stream = stream;
 	}
+
+	public JSONAPIAuthEvent(JSONAPIAuthResponse valid, String method, String username, boolean stream) {
+		this.valid = valid;
+		this.method = method;
+		this.hash = hash;
+		this.logins = logins;
+		this.username = username;
+		this.stream = stream;
+	}
 	
 	public boolean isStream() {
 		return stream;
