@@ -20,8 +20,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.json.simple.JSONObject;
 
 import com.alecgorge.java.http.HttpRequest;
@@ -31,7 +29,6 @@ import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStream;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamListener;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
-import com.alecgorge.minecraft.jsonapi.event.JSONAPIAuthEvent;
 import com.alecgorge.minecraft.jsonapi.streams.ConnectionMessage;
 import com.alecgorge.minecraft.jsonapi.util.FixedSizeArrayList;
 
@@ -47,9 +44,6 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	// log /calladmin & severes
 	List<String> calladmins = Collections.synchronizedList(new FixedSizeArrayList<String>(50));
 	List<String> severeLogs = Collections.synchronizedList(new FixedSizeArrayList<String>(50));
-
-	public Map<String, String> groupAssignments = new HashMap<String, String>();
-	public Map<String, Map<String, Boolean>> groupPerms = new HashMap<String, Map<String, Boolean>>();
 
 	private final String APNS_PUSH_ENDPOINT = "http://push.adminiumapp.com/push-message";
 
@@ -278,43 +272,6 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 				if (devices == null)
 					devices = new ArrayList<String>();
 
-				Object obj = deviceConfig.get("group_assignments");
-				if (obj != null && obj instanceof ConfigurationSection) {
-					ConfigurationSection group_assign = (ConfigurationSection) obj;
-					for (String user : group_assign.getKeys(false)) {
-						groupAssignments.put(user, group_assign.getString(user));
-					}
-				}
-
-				obj = deviceConfig.get("group_permissions");
-				if (obj != null && obj instanceof ConfigurationSection) {
-					ConfigurationSection group_perms = (ConfigurationSection) obj;
-					for (String groupName : group_perms.getKeys(false)) {
-						Map<String, Boolean> group_map = new HashMap<String, Boolean>();
-
-						ConfigurationSection group_sect = ((ConfigurationSection) group_perms.get(groupName));
-
-						boolean deny_all = false;
-						boolean allow_all = false;
-
-						for (String perm_name : group_sect.getKeys(false)) {
-							if (perm_name.equals("DENY_ALL") && group_sect.getBoolean(perm_name)) {
-								deny_all = true;
-							} else if (perm_name.equals("ALLOW_ALL") && group_sect.getBoolean(perm_name)) {
-								allow_all = true;
-							} else {
-								group_map.put(perm_name, group_sect.getBoolean(perm_name));
-							}
-						}
-
-						if (allow_all || deny_all)
-							for (String perm_name : ((ConfigurationSection) group_perms.get("_defaults_")).getKeys(false))
-								group_map.put(perm_name, allow_all);
-
-						groupPerms.put(groupName, group_map);
-					}
-				}
-
 				trace("Current Devices", devices);
 
 				Map<String, Object> tempDefaults = ((ConfigurationSection) deviceConfig.get("settings")).getValues(false);
@@ -352,123 +309,13 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			Collections.sort(pushTypes);
 			pushTypeDescriptions = Arrays.asList(new String[] { "On /calladmin", "On player join", "On player quit", "On SEVERE logs" });
 
-			api.getServer().getPluginManager().registerEvents(new AdminiumJSONAPIListener(), api);
-
 			this.init = true;
 		}
 	}
 
-	public List<String> getEffectiveAllowedPerms(String username) {
-		List<String> r = new ArrayList<String>();
-		Map<String, Boolean> x = groupPerms.get(groupAssignments.get(username));
-
-		for (String k : x.keySet()) {
-			if (x.get(k)) {
-				r.add(k);
-			}
-		}
-
-		return r;
-	}
-
-	public boolean hasPermission(String username, String methodName) {
-		if (!groupAssignments.containsKey(username)) {
-			return true;
-		}
-
-		List<String> effectivePerms = getEffectiveAllowedPerms(username);
-		for (String perm : effectivePerms) {
-			if (methodsForPermission(perm).contains(methodName)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	public List<String> methodsForPermission(String permission) {
-		String[] a = new String[] {};
-		if (permission.equals("view_plugins")) {
-			a = new String[] { "getPlugins", "getPluginVersion" };
-		} else if (permission.equals("enable_plugins")) {
-			a = new String[] { "enablePlugin" };
-		} else if (permission.equals("disable_plugins")) {
-			a = new String[] { "disablePlugin" };
-		} else if (permission.equals("recieve_push_notifications")) {
-			a = new String[] { "adminium.registerDevice" };
-		} else if (permission.equals("view_push_notification_settings")) {
-			a = new String[] { "adminium.listPushTypes" };
-		} else if (permission.equals("configure_push_notifications")) {
-			a = new String[] { "adminium.setPushTypeEnabled" };
-		} else if (permission.equals("view_calladmin_history")) {
-			a = new String[] { "adminium.getCallAdmins" };
-		} else if (permission.equals("view_severe_log_history")) {
-			a = new String[] { "adminium.getSeveres" };
-		} else if (permission.equals("power_management")) {
-			a = new String[] { "remotetoolkit.rescheduleServerRestart", "remotetoolkit.restartServer", "remotetoolkit.startServer", "remotetoolkit.stopServer" };
-		} else if (permission.equals("reload_server")) {
-			a = new String[] { "reloadServer" };
-		} else if (permission.equals("view_file")) {
-			a = new String[] { "getFileContents", "getBinaryFileBase64" };
-		} else if (permission.equals("edit_or_add_file")) {
-			a = new String[] { "setFileBinaryBase64", "setFileContents", "appendToFile" };
-		} else if (permission.equals("view_console")) {
-			a = new String[] { "console" };
-		} else if (permission.equals("view_chat")) {
-			a = new String[] { "chat", "[\"chat\",\"connections\"]", "[\"connections\",\"chat\"]" };
-		} else if (permission.equals("speak_in_chat")) {
-			a = new String[] { "broadcastWithName" };
-		} else if (permission.equals("view_map")) {
-			a = new String[] { "dynmap.getHost", "dynmap.getPort" };
-		} else if (permission.equals("view_online_players")) {
-			a = new String[] { "getPlayers" };
-		} else if (permission.equals("view_banned_players")) {
-			a = new String[] { "getBannedPlayers" };
-		} else if (permission.equals("view_whitelisted_players")) {
-			a = new String[] { "getWhitelistedPlayers" };
-		} else if (permission.equals("view_offline_players")) {
-			a = new String[] { "getOfflinePlayers" };
-		} else if (permission.equals("banned_player_actions")) {
-			a = new String[] { "unban" };
-		} else if (permission.equals("whitelisted_player_actions")) {
-			a = new String[] { "removeFromWhitelist" };
-		} else if (permission.equals("offline_player_actions")) {
-			a = new String[] { "unban", "ban", "addToWhitelist", "removeFromWhitelist" };
-		} else if (permission.equals("view_online_player_information")) {
-			a = new String[] { "getPlayer" };
-		} else if (permission.equals("modify_online_player_information")) {
-			a = new String[] { "opPlayer", "deopPlayer", "setPlayerLevel", "setPlayerFoodLevel", "setPlayerGameMode" };
-		} else if (permission.equals("use_online_player_actions")) {
-			a = new String[] { "sendMessage", "kickPlayer", "banWithReason", "teleport" };
-		} else if (permission.equals("view_online_player_world_info")) {
-			a = new String[] { "disablePlugin" };
-		} else if (permission.equals("view_online_player_inventory")) {
-			a = new String[] { "disablePlugin" };
-		} else if (permission.equals("modify_online_player_inventory")) {
-			a = new String[] { "disablePlugin" };
-		} else if (permission.equals("view_online_player_groups")) {
-			a = new String[] { "permissions.getGroups" };
-		} else if (permission.equals("modify_online_player_groups")) {
-			a = new String[] { "permissions.removePermission", "permissions.addPermission" };
-		}
-
-		return Arrays.asList(a);
-	}
-
-	class AdminiumJSONAPIListener implements Listener {
-		@EventHandler
-		public void onJSONAPIAuthChallenge(JSONAPIAuthEvent e) {
-			if (e.getValid()) {
-				if (hasPermission(e.getUsername(), e.getMethod())) {
-
-				}
-			}
-		}
-	}
-
 	public void saveConfig() throws IOException {
-		deviceConfig.set("group_assignments", groupAssignments);
-		deviceConfig.set("group_permissions", groupPerms);
+		/*deviceConfig.set("group_assignments", groupAssignments);
+		deviceConfig.set("group_permissions", groupPerms);*/
 
 		deviceConfig.save(configFile);
 	}
