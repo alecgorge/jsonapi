@@ -153,7 +153,7 @@ public class APIWrapperMethods {
 			PlayerInventory inv = p.getInventory();
 			ItemStack it;
 
-			if (slot == inv.getHeldItemSlot())
+			if (slot == 103)
 				it = inv.getHelmet();
 			else if (slot == 102)
 				it = inv.getChestplate();

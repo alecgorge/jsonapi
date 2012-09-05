@@ -7,6 +7,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
+import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
 
 public class JSONAPIAuthEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
@@ -14,15 +15,21 @@ public class JSONAPIAuthEvent extends Event {
 	String method;
 	String hash;
 	HashMap<String, String> logins;
-	boolean valid;
+	JSONAPIAuthResponse valid;
 	String username;
+	boolean stream;
 
-	public JSONAPIAuthEvent(boolean valid, String method, String hash, HashMap<String, String> logins, String username) {
+	public JSONAPIAuthEvent(JSONAPIAuthResponse valid, String method, String hash, HashMap<String, String> logins, String username, boolean stream) {
 		this.valid = valid;
 		this.method = method;
 		this.hash = hash;
 		this.logins = logins;
 		this.username = username;
+		this.stream = stream;
+	}
+	
+	public boolean isStream() {
+		return stream;
 	}
 
 	public String getUsername() {
@@ -41,12 +48,8 @@ public class JSONAPIAuthEvent extends Event {
 		return logins;
 	}
 
-	public boolean getValid() {
+	public JSONAPIAuthResponse getAuthResponse() {
 		return valid;
-	}
-
-	public void setValid(boolean valid) {
-		this.valid = valid;
 	}
 
 	public String calculateSHA256Hash(String input) {
