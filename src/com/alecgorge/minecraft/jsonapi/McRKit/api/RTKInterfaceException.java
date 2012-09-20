@@ -9,7 +9,6 @@ package com.alecgorge.minecraft.jsonapi.McRKit.api;
  * @author <a href="mailto:nick@drdanick.com">Nick Stones-Havas</a>
  * @version 1, 09/02/2011
  */
-@SuppressWarnings("serial")
 public class RTKInterfaceException extends Exception{
 	public RTKInterfaceException(String msg) {
 		super(msg);

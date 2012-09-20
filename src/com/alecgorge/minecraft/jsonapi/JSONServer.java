@@ -14,13 +14,11 @@ import java.util.logging.Logger;
 
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
-import org.json.simpleForBukkit.JSONValue;
 import org.json.simpleForBukkit.parser.JSONParser;
 import org.json.simpleForBukkit.parser.ParseException;
 
+import com.alecgorge.minecraft.jsonapi.api.v2.APIv2Handler;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
-import com.alecgorge.minecraft.jsonapi.event.JSONAPIAuthEvent;
-import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
 import com.alecgorge.minecraft.jsonapi.streams.ChatMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ChatStream;
 import com.alecgorge.minecraft.jsonapi.streams.ConnectionMessage;
@@ -30,12 +28,10 @@ import com.alecgorge.minecraft.jsonapi.streams.ConsoleStream;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 public class JSONServer extends NanoHTTPD {
-	HashMap<String, String> logins = new HashMap<String, String>();
+	public HashMap<String, String> logins = new HashMap<String, String>();
 	private JSONAPI inst;
 	private Logger outLog = Logger.getLogger("JSONAPI");
 	private Caller caller;
-	
-	JSONParser parser = new JSONParser();
 
 	public ChatStream chat = new ChatStream("chat");
 	public ConsoleStream console = new ConsoleStream("console");
@@ -118,54 +114,25 @@ public class JSONServer extends NanoHTTPD {
 		connections.addMessage(new ConnectionMessage(player, false));
 	}
 
-	public JSONAPIAuthResponse testLogin(String method, String hash, boolean stream) {
-		JSONAPIAuthResponse resp = new JSONAPIAuthResponse(false, false);
+	public boolean testLogin(String method, String hash) {
 		try {
-			String validUser = null;
 			boolean valid = false;
+			String validUser = null;
 			for (String user : logins.keySet()) {
 				String pass = logins.get(user);
 
 				String thishash = JSONAPI.SHA256(user + method + pass + inst.salt);
 
 				if (thishash.equals(hash)) {
-					resp.setAllowed(true);
-					resp.setAuthenticated(true);
-					resp.setKey(hash);
-					resp.setUsername(user);
 					valid = true;
 					validUser = user;
 					break;
 				}
 			}
-			
-			JSONAPIAuthResponse r = new JSONAPIAuthResponse(valid, valid);
-			
-			return r;/*
-			
-			// json array of methods. LET'S INSPECT
-			if(method.startsWith("[") && method.endsWith("]")) {
-				try {
-					JSONArray arr = (JSONArray) parser.parse(method);
-					for(Object o : arr) {
-						JSONAPIAuthEvent e = new JSONAPIAuthEvent(resp, o.toString(), hash, logins, validUser, stream);
-						inst.getServer().getPluginManager().callEvent(e);
-						valid = 
-					}
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-			else {
-				JSONAPIAuthEvent e = new JSONAPIAuthEvent(resp, method, hash, logins, validUser, stream);
-				inst.getServer().getPluginManager().callEvent(e);
-			}
 
-			return resp;*/
+			return valid;
 		} catch (Exception e) {
-			return resp;
+			return false;
 		}
 	}
 
@@ -204,6 +171,10 @@ public class JSONServer extends NanoHTTPD {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Response serve(String uri, String method, Properties header, Properties parms) {
+		if(uri.startsWith("/api/2/")) {
+			APIv2Handler handler = new APIv2Handler(uri, method, header, parms, this);
+			return handler.serve();
+		}
 		String callback = parms.getProperty("callback");
 		setLastRequestParms(parms);
 
@@ -231,28 +202,24 @@ public class JSONServer extends NanoHTTPD {
 
 			List<String> sourceList = new ArrayList<String>();
 			if (source != null) {
-				JSONAPIAuthResponse resp;
+				if (!testLogin(source, key)) {
+					info("[Streaming API] " + header.get("X-REMOTE-ADDR") + ": Invalid API Key.");
+					return jsonRespone(returnAPIError(source, "Invalid API key."), callback, HTTP_FORBIDDEN);
+				}
+
 				if (source.equals("all")) {
 					sourceList = new ArrayList<String>(JSONAPI.instance.getStreamManager().getStreams().keySet());
-					resp = testLogin(JSONValue.toJSONString(sourceList), key, true);
-				}
-				else {
+				} else {
 					sourceList.add(source);
-					resp = testLogin(source, key, true);
-				}
-				
-				if (!resp.isAuthenticated() || !resp.isAllowed()) {
-					info("[Streaming API] " + header.get("X-REMOTE-ADDR") + ": " + resp.getMessage());
-					return jsonRespone(returnAPIError(source, resp.getMessage()), callback, HTTP_FORBIDDEN);
 				}
 			} else if (sources != null) {
-				JSONAPIAuthResponse resp = testLogin(sources, key, true);
-				if (!resp.isAuthenticated() || !resp.isAllowed()) {
-					info("[Streaming API] " + header.get("X-REMOTE-ADDR") + ": " + resp.getMessage());
-					return jsonRespone(returnAPIError(source, resp.getMessage()), callback, HTTP_FORBIDDEN);
+				if (!testLogin(sources, key)) {
+					info("[Streaming API] " + header.get("X-REMOTE-ADDR") + ": Invalid API Key.");
+					return jsonRespone(returnAPIError(source, "Invalid API key."), callback, HTTP_FORBIDDEN);
 				}
+				JSONParser p = new JSONParser();
 				try {
-					for (Object o : (JSONArray) parser.parse(sources)) {
+					for (Object o : (JSONArray) p.parse(sources)) {
 						sourceList.add(o.toString());
 					}
 				} catch (ParseException e) {
@@ -279,19 +246,24 @@ public class JSONServer extends NanoHTTPD {
 		}
 
 		String key = parms.getProperty("key");
-		
+		if (!inst.method_noauth_whitelist.contains(calledMethod) && !testLogin(calledMethod, key)) {
+			info("[API Call] " + header.get("X-REMOTE-ADDR") + ": Invalid API Key.");
+			return jsonRespone(returnAPIError(calledMethod, "Invalid API key."), callback, HTTP_FORBIDDEN);
+		}
+
 		info("[API Call] " + header.get("X-REMOTE-ADDR") + ": method=" + parms.getProperty("method").concat("?args=").concat((String) args));
 
 		if (args == null || calledMethod == null) {
 			return jsonRespone(returnAPIError(calledMethod, "You need to pass a method and an array of arguments."), callback, HTTP_NOTFOUND);
 		} else {
 			try {
-				args = parser.parse((String) args);
+				JSONParser parse = new JSONParser();
+				args = parse.parse((String) args);
 
 				if (uri.equals("/api/call-multiple")) {
 					List<String> methods = new ArrayList<String>();
 					List<Object> arguments = new ArrayList<Object>();
-					Object o = parser.parse(calledMethod);
+					Object o = parse.parse(calledMethod);
 					if (o instanceof List<?> && args instanceof List<?>) {
 						methods = (List<String>) o;
 						arguments = (List<Object>) args;
@@ -302,7 +274,7 @@ public class JSONServer extends NanoHTTPD {
 					int size = methods.size();
 					JSONArray arr = new JSONArray();
 					for (int i = 0; i < size; i++) {
-						arr.add(serveAPICall(methods.get(i),  (arguments.size() - 1 >= i ? arguments.get(i) : new ArrayList<Object>())));
+						arr.add(serveAPICall(methods.get(i), (arguments.size() - 1 >= i ? arguments.get(i) : new ArrayList<Object>())));
 					}
 
 					return jsonRespone(returnAPISuccess(o, arr), callback);
@@ -333,13 +305,6 @@ public class JSONServer extends NanoHTTPD {
 		r.put("error", error);
 		return r;
 	}
-	
-	public JSONObject returnAPIAuthError(Object calledMethod, String error, boolean auth, boolean allow) {
-		JSONObject r = returnAPIError(calledMethod, error);
-		r.put("authenticated", auth);
-		r.put("allowed", allow);
-		return r;
-	}
 
 	public JSONObject returnAPISuccess(Object calledMethod, Object result) {
 		JSONObject r = new JSONObject();
@@ -363,16 +328,8 @@ public class JSONServer extends NanoHTTPD {
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject serveAPICall(String calledMethod, String username, String key, Object args) {
+	public JSONObject serveAPICall(String calledMethod, Object args) {
 		try {
-			JSONAPIAuthResponse resp = new JSONAPIAuthResponse(false, false);
-			inst.getServer().getPluginManager().callEvent(new JSONAPIAuthEvent(resp, false));
-
-			if ((!resp.isAuthenticated() || !resp.isAllowed()) && !inst.method_noauth_whitelist.contains(calledMethod)) {
-				info("[API Error] " + calledMethod + ": " + resp.getMessage());
-				return returnAPIAuthError(calledMethod, resp.getMessage(), resp.isAuthenticated(), resp.isAllowed());
-			}
-
 			if (caller.methodExists(calledMethod)) {
 				if (!(args instanceof JSONArray)) {
 					args = new JSONArray();
@@ -395,8 +352,5 @@ public class JSONServer extends NanoHTTPD {
 		} catch (Exception e) {
 			return returnAPIException(calledMethod, e);
 		}
-
-		// return returnAPIError(calledMethod,
-		// "You need to pass a method and an array of arguments.");
 	}
 }
