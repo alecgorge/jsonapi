@@ -1,6 +1,7 @@
 package com.alecgorge.minecraft.jsonapi;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.FileHandler;
@@ -45,8 +47,6 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface;
-import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
-import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKListener;
 import com.alecgorge.minecraft.jsonapi.adminium.PushNotificationDaemon;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStream;
@@ -65,7 +65,7 @@ import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
  * 
  * @author alecgorge
  */
-public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodProvider {
+public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public PluginLoader pluginLoader;
 	// private Server server;
 	public JSONServer jsonServer;
@@ -82,6 +82,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 	private long startupDelay = 2000;
 	public List<String> whitelist = new ArrayList<String>();
 	public List<String> method_noauth_whitelist = new ArrayList<String>();
+	HashMap<String, String> auth;
 	public boolean anyoneCanUseCallAdmin = true;
 	public String serverName = "default";
 	public StreamPusher streamPusher;
@@ -115,6 +116,10 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 	
 	public GroupManager getGroupManager() {
 		return groupManager;
+	}
+	
+	public HashMap<String, String> getAuthTable() {
+		return auth;
 	}
 
 	public synchronized StreamManager getStreamManager() {
@@ -164,7 +169,7 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 
 	public void onEnable() {
 		try {
-			HashMap<String, String> auth = new HashMap<String, String>();
+			auth = new HashMap<String, String>();
 
 			if (!getDataFolder().exists()) {
 				getDataFolder().mkdir();
@@ -308,15 +313,12 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 
 			try {
 				yamlRTK.load(rtkConfig);
-				rtkAPI = RTKInterface.createRTKInterface(yamlRTK.getInt("RTK.port", 25561), "localhost", yamlRTK.getString("RTK.username", "user"), yamlRTK.getString("RTK.password", "pass"));
-			} catch (RTKInterfaceException e) {
-
+				
+				Properties rtkProps = new Properties();
+				rtkProps.load(new FileInputStream("toolkit/remote.properties"));
+				
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				if (rtkAPI != null) {
-					rtkAPI.registerRTKListener(this);
-				}
 			}
 
 			if (!logging) {
@@ -586,8 +588,6 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 				jsonSocketServer.stop();
 				jsonWebSocketServer.stop();
 				APIWrapperMethods.getInstance().disconnectAllFauxPlayers();
-				if (rtkAPI != null)
-					rtkAPI.deregisterRTKListener(this);
 			} catch (Exception e) {
 				// e.printStackTrace();
 			}
@@ -695,10 +695,5 @@ public class JSONAPI extends JavaPlugin implements RTKListener, JSONAPIMethodPro
 		public void onPlayerQuit(PlayerQuitEvent event) {
 			p.jsonServer.logDisconnected(event.getPlayer().getName());
 		}
-	}
-
-	@Override
-	public void onRTKStringReceived(String message) {
-
 	}
 }
