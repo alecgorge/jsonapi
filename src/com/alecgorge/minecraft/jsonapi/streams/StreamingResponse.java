@@ -19,12 +19,40 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 	private LinkedBlockingQueue<JSONAPIStreamMessage> queue = new LinkedBlockingQueue<JSONAPIStreamMessage>();
 	private JSONAPI plugin;
 	private String callback;
-	private String tag;
+	private List<String> tag;
+	private List<String> streams;
 	
-	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, boolean showOlder, String tag) {
+	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, List<Boolean> showOlder, List<String> tag) {
 		plugin = _plugin;
 		this.tag = tag;
 		
+		this.streams = sourceLists;
+		for(String s : sourceLists) {
+			if(plugin.getStreamManager().streamExists(s)) {
+				stacks.add(plugin.getStreamManager().getStream(s));
+			}
+			else {
+				plugin.outLog.warning("The requested stream: '"+s+"' does not exist.");
+			}
+		}
+		
+		int i = 0;
+		for(JSONAPIStream s : stacks) {
+			s.registerListener(this, showOlder.get(i));
+			i++;
+		}
+	}
+	
+	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, boolean showOlder, String tag) {
+		plugin = _plugin;
+		
+		List<String> tags = new ArrayList<String>(sourceLists.size());
+		for(int i = 0; i < sourceLists.size(); i++) {
+			tags.add(tag);
+		}
+		this.tag = tags;
+		
+		this.streams = sourceLists;
 		for(String s : sourceLists) {
 			if(plugin.getStreamManager().streamExists(s)) {
 				stacks.add(plugin.getStreamManager().getStream(s));
@@ -38,8 +66,7 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 			s.registerListener(this, showOlder);
 		}
 	}
-	
-	
+		
 	public void onMessage(JSONAPIStreamMessage message, JSONAPIStream sender) {
 		try {
 			queue.put(message);
@@ -67,10 +94,13 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 		o.put("result", "success");
 		o.put("source", ja.streamName());
 		o.put("success", ja);
-		o.put("tag", tag);
 		
-		String ret = o.toJSONString();
-		return ret;
+		try {
+			o.put("tag", tag.get(streams.indexOf(ja.streamName())));
+		}
+		catch (Exception e) {}
+		
+		return o.toJSONString();
 	}
 	
 	public int read() throws IOException {

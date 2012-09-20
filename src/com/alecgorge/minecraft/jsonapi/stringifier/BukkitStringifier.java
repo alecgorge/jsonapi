@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -34,6 +35,7 @@ import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
+import com.alecgorge.minecraft.jsonapi.util.BookItem;
 
 public class BukkitStringifier {
 	public static HashMap<String, Class<?>> handle = new HashMap<String, Class<?>>();
@@ -194,6 +196,19 @@ public class BukkitStringifier {
 			}
 
 			o.put("enchantments", enchantments);
+			
+			if(((ItemStack) obj).getType().compareTo(Material.BOOK_AND_QUILL) == 0) {
+				JSONObject book = new JSONObject();
+				
+				BookItem bookObj = new BookItem((ItemStack) obj);
+				
+				book.put("pages", bookObj.getPages());
+				book.put("title", bookObj.getTitle());
+				book.put("author", bookObj.getAuthor());
+				
+				o.put("book", book);
+			}
+			
 			return o;
 		} else if (obj instanceof PlayerInventory) {
 			PlayerInventory p = (PlayerInventory) obj;

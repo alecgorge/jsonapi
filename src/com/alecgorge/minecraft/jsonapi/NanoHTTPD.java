@@ -435,14 +435,31 @@ public class NanoHTTPD
 					StringBuffer postLine = new StringBuffer();
 					char buf[] = new char[512];
 					int read = in.read(buf);
-					while ( read >= 0 && size > 0 && !postLine.toString().endsWith("\r\n") )
-					{
-						size -= read;
-						postLine.append(String.valueOf(buf, 0, read));
-						if ( size > 0 )
-							read = in.read(buf);
+					
+					String contentType = header.getProperty("content-type");
+					if(contentType != null && !contentType.equals("x-www-form-urlencoded")) {
+						parms = new Properties();
+						
+						while ( read >= 0 && size > 0)
+						{
+							size -= read;
+							postLine.append(String.valueOf(buf, 0, read));
+							if ( size > 0 )
+								read = in.read(buf);
+						}
+						
+						parms.put("json", postLine);
 					}
-					decodeParms( postLine.toString().trim(), parms );
+					else {
+						while ( read >= 0 && size > 0 && !postLine.toString().endsWith("\r\n") )
+						{
+							size -= read;
+							postLine.append(String.valueOf(buf, 0, read));
+							if ( size > 0 )
+								read = in.read(buf);
+						}
+						decodeParms( postLine.toString().trim(), parms );
+					}
 				}
 
 				// Ok, now do the serve()

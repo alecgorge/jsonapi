@@ -26,7 +26,6 @@ import net.minecraft.server.NetHandler;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.World;
-import net.minecraft.server.WorldServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
