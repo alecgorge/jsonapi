@@ -60,6 +60,7 @@ import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
 import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
+import com.alecgorge.minecraft.jsonapi.util.TickRateCounter;
 
 /**
  * 
@@ -86,6 +87,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public boolean anyoneCanUseCallAdmin = true;
 	public String serverName = "default";
 	public StreamPusher streamPusher;
+	TickRateCounter tickRateCounter;
 
 	private Logger log = Bukkit.getLogger();
 	public Logger outLog = Logger.getLogger("JSONAPI");
@@ -161,6 +163,10 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 	public void deregisterAPICallHandler(JSONAPICallHandler handler) {
 		getCaller().deregisterAPICallHandler(handler);
+	}
+	
+	public TickRateCounter getTickRateCounter() {
+		return tickRateCounter;
 	}
 
 	private JSONAPIPlayerListener l = new JSONAPIPlayerListener(this);
@@ -368,6 +374,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			initialiseListeners();
 
 			adminium = new PushNotificationDaemon(new File(getDataFolder(), "adminium.yml"), this);
+			tickRateCounter = new TickRateCounter(this);
 
 			registerMethods(this);
 		} catch (Exception ioe) {
@@ -588,6 +595,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				jsonSocketServer.stop();
 				jsonWebSocketServer.stop();
 				APIWrapperMethods.getInstance().disconnectAllFauxPlayers();
+				getTickRateCounter().cancel();
 			} catch (Exception e) {
 				// e.printStackTrace();
 			}

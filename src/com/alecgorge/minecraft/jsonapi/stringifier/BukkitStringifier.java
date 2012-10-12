@@ -10,12 +10,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.ItemInWorldManager;
-import net.minecraft.server.MinecraftServer;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,8 +18,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -107,6 +102,7 @@ public class BukkitStringifier {
 			o.put("itemInHand", p.getItemInHand());
 			o.put("location", p.getLocation());
 			o.put("inventory", p.getInventory());
+			// o.put("enderchest", p.getEnderChest());
 			o.put("sneaking", p.isSneaking());
 			o.put("sprinting", p.isSprinting());
 			o.put("inVehicle", p.isInsideVehicle());
