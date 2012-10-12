@@ -43,6 +43,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -459,14 +460,20 @@ public class APIWrapperMethods {
 			} catch (UnknownHostException e) {
 			} catch (IOException e) {
 			}
-			NetworkManager m = new NetworkManager(ss, "???", new NetHandler() {
+			NetworkManager m = null;
+			try {
+				m = new NetworkManager(ss, "???", new NetHandler() {
 
-				@Override
-				public boolean a() {
-					// TODO Auto-generated method stub
-					return false;
-				}
-			}, null);
+					@Override
+					public boolean a() {
+						// TODO Auto-generated method stub
+						return false;
+					}
+				}, null);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			netServerHandler = new FauxNetServerHandler(((CraftServer) getServer()).getServer(), m, this);
 
@@ -523,34 +530,37 @@ public class APIWrapperMethods {
 			((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
 
 			// copied from CraftBukkit / src / main / java / net / minecraft /
-			// server / NetServerHandler.java
+			// server / NetServerHandler.java#chat(2)
 			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(false, player, message, new LazyPlayerSet());
 			Server.getPluginManager().callEvent(event);
+			
+            if (PlayerChatEvent.getHandlerList().getRegisteredListeners().length != 0) {
+                // Evil plugins still listening to deprecated event
+                PlayerChatEvent queueEvent = new PlayerChatEvent(player, event.getMessage(), event.getFormat(), event.getRecipients());
+                queueEvent.setCancelled(event.isCancelled());
+                ((CraftServer) getServer()).getServer().chatQueue.add(queueEvent);
+    			((CraftServer) Server).getServer().server.getHandle().players.remove(player.getHandle());
+            } else {
+    			((CraftServer) Server).getServer().server.getHandle().players.remove(player.getHandle());
+    			
+                if (event.isCancelled()) {
+                    return true;
+                }
 
-			((CraftServer) Server).getServer().server.getHandle().players.remove(player.getHandle());
+    			String s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
+    			((CraftServer) Server).getServer().console.sendMessage(s);
+    			if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
+    				for (Object recipient : ((CraftServer) Server).getServer().getServerConfigurationManager().players) {
+    					((EntityPlayer) recipient).sendMessage(s);
+    				}
+    			} else {
+    				for (org.bukkit.entity.Player recipient : event.getRecipients()) {
+    					recipient.sendMessage(s);
+    				}
+    			}
+            }
 
-			// NOTE: HeroChat always cancels
-			// default message from CraftBukkit / src / main / java / net /
-			// minecraft / server / NetServerHandler.java#chat(String s, boolean
-			// async)
-			if (event.isCancelled()) {
-				return true;
-			}
-
-			String s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
-			((CraftServer) Server).getServer().console.sendMessage(s);
-			if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
-				for (Object recipient : ((CraftServer) Server).getServer().getServerConfigurationManager().players) {
-					((EntityPlayer) recipient).sendMessage(s);
-				}
-			} else {
-				for (org.bukkit.entity.Player recipient : event.getRecipients()) {
-					recipient.sendMessage(s);
-				}
-			}
-
-			// end biggest hack ever
-			return true;
+            return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -917,6 +927,11 @@ public class APIWrapperMethods {
 	public long getDiskFreeSpace() {
 		return (new File(".")).getFreeSpace();
 	}
+	
+    public JSONObject testClock() {
+        return JSONAPI.instance.getTickRateCounter().getJSONObject();
+    }
+
 
 	public List<JSONObject> getStreamWithLimit(String streamName, int count) {
 		List<JSONAPIStreamMessage> stack = JSONAPI.instance.getStreamManager().getStream(streamName).getStack();
