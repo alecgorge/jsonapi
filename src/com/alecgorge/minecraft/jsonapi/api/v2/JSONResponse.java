@@ -135,6 +135,11 @@ public class JSONResponse {
 		err_obj.put("code", errorCode);
 
 		r.put("error", err_obj);
+		
+		if(!tag.equals("")) {
+			r.put("tag", tag);
+		}
+		
 		return r;
 	}
 
@@ -148,6 +153,11 @@ public class JSONResponse {
 		err_obj.put("code", errorCode);
 		
 		r.put("error", err_obj);
+		
+		if(!tag.equals("")) {
+			r.put("tag", tag);
+		}
+
 		return r;
 	}
 
@@ -156,6 +166,11 @@ public class JSONResponse {
 		r.put("result", "success");
 		if(methodName != null) r.put("method_name", methodName);
 		r.put("success", result);
+		
+		if(!tag.equals("")) {
+			r.put("tag", tag);
+		}
+
 		return r;
 	}
 

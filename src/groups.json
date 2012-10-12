@@ -131,7 +131,8 @@
     }, 
     "view_online_players": {
       "methods": [
-        "getPlayers"
+        "getPlayers",
+        "getPlayerNames"
       ]
     }, 
     "view_file": {
