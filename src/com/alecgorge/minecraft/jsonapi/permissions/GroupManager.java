@@ -55,6 +55,7 @@ public class GroupManager {
 	}
 	
 	boolean getBool(Object o, String key) {
+		if(o == null) return false;
 		return Boolean.valueOf(((JSONObject)o).get(key).toString());
 	}
 	
@@ -62,16 +63,13 @@ public class GroupManager {
 		return (JSONArray)((JSONObject)o).get(key);
 	}
 	
-	void trace(String s) {
-		if(true) {
-			System.out.print(s);
-		}
-	}
-	
-	void traceLine(Object o) {
-		if(true) {
-			if(o instanceof JSONAware) System.out.println(((JSONAware)o).toJSONString());
-			else System.out.println(o.toString());
+	void trace(Object... s) {
+		if(false) {
+			StringBuilder ss = new StringBuilder();
+			for(Object o : s) {
+				ss.append(o);
+			}
+			System.out.println(ss.toString());
 		}
 	}
 	
@@ -86,18 +84,22 @@ public class GroupManager {
 			return userCache.get(key);
 		}
 		
-		trace("Groups: "); traceLine(groups);
-		trace("Stream: "); traceLine(stream);
+		trace("Groups: ", groups);
+		trace("Stream: ", stream);
 		
 		boolean valid = false; // assume no.
 		String groupKey = stream ? "streams" : "methods";
-		List<Object> groups = getList(users, username);
-		for(Object o : groups) {
+		List<Object> userGroups = getList(users, username);
+		for(Object o : userGroups) {
 			String group = o.toString();
 			JSONObject groupMap = getMap(groups, group);
 			JSONObject groupKeyMap = getMap(groupMap, groupKey);
 			
-			if(groupKeyMap.containsKey("ALLOW_ALL") && getBool(groupKeyMap, "ALLOW_ALL")) {
+			trace("Group Map: ", groupMap.toJSONString());
+			trace("Group Key: ", groupKey);
+			trace("Group Key Map: ", groupKeyMap == null ? null : groupKeyMap.toJSONString());
+			
+			if(getBool(groupKeyMap, "ALLOW_ALL")) {
 				valid = true;
 				continue;
 			}
@@ -117,9 +119,11 @@ public class GroupManager {
 				}
 			}
 			
-			Object ob = groupKeyMap.get(method);
-			if(ob != null) {
-				valid = Boolean.valueOf(ob.toString());
+			if(groupKeyMap != null) {
+				Object ob = groupKeyMap.get(method);
+				if(ob != null) {
+					valid = Boolean.valueOf(ob.toString());
+				}
 			}
 		}
 		

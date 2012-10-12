@@ -24,7 +24,7 @@ public class APIv2Handler {
 	
 	NanoHTTPD httpd;
 	
-	List<JSONResponse> requests;
+	List<JSONResponse> requests = new ArrayList<JSONResponse>();
 	
 	JSONParser parser = new JSONParser();
 	
@@ -91,8 +91,7 @@ public class APIv2Handler {
 	
 	public void readPayload(boolean stream) throws ParseException {
 		if(params.containsKey("json")) {
-			JSONArray requests = new JSONArray();
-			Object o = parser.parse(params.get(params).toString());
+			Object o = parser.parse(params.get("json").toString());
 			
 			if(o instanceof JSONObject) {
 				requests.add(new JSONResponse((JSONObject)o, httpd, stream));

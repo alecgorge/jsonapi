@@ -34,6 +34,12 @@
 			"desc": "Returns the number of free byte on the disk that Minecraft is located on.",
 			"returns": ["int", "Disk free space in bytes"],
 			"call": "this.getDiskFreeSpace()"
+		},
+		{
+			"name": "getServerClockDebug",
+			"desc": "Returns expectedTicks, elapsedTicks, clockRate, expectedClockRate, expectedTime, elapsedTime and % error",
+			"returns": ["Object", "key value pairs with all the values in the descriptions"],
+			"call": "this.testClock()"
 		}
 	]
 }

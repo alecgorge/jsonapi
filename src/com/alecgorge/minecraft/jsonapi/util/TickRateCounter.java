@@ -28,7 +28,7 @@ public class TickRateCounter {
         world = plugin.getServer().getWorlds().get(0);
         setBaseline();
         
-		task = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new TickRateRepeater(), 5000, 5000);
+		task = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new TickRateRepeater(), expectedTicks, expectedTicks);
 	}
 	
 	public void cancel() {
