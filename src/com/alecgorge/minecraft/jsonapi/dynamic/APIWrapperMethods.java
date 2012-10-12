@@ -93,6 +93,14 @@ public class APIWrapperMethods {
 		}
 		return instance;
 	}
+	
+	public List<String> getWorldNames() {
+		List<String> names = new ArrayList<String>();
+		for(org.bukkit.World world : getServer().getWorlds()) {
+			names.add(world.getName());
+		}
+		return names;
+	}
 
 	public HashMap<Integer, ItemStack> removePlayerInventoryItem(String playerName, int itemID) {
 		try {
@@ -908,24 +916,24 @@ public class APIWrapperMethods {
 		return true;
 	}
 
-	public long getJavaMaxMemory() {
-		return Runtime.getRuntime().maxMemory();
+	public double getJavaMaxMemory() {
+		return Runtime.getRuntime().maxMemory() / 1024.0 / 1024.0;
 	}
 
-	public long getJavaMemoryUsage() {
-		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+	public double getJavaMemoryUsage() {
+		return (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024.0 / 1024.0;
 	}
 
-	public long getDiskUsage() {
-		return (new File(".")).getTotalSpace() - (new File(".")).getFreeSpace();
+	public double getDiskUsage() {
+		return ((new File(".")).getTotalSpace() - (new File(".")).getFreeSpace()) / 1024.0 / 1024.0;
 	}
 
-	public long getDiskSize() {
-		return (new File(".")).getTotalSpace();
+	public double getDiskSize() {
+		return (new File(".")).getTotalSpace() / 1024.0 / 1024.0;
 	}
 
-	public long getDiskFreeSpace() {
-		return (new File(".")).getFreeSpace();
+	public double getDiskFreeSpace() {
+		return (new File(".")).getFreeSpace() / 1024.0 / 1024.0;
 	}
 	
     public JSONObject testClock() {

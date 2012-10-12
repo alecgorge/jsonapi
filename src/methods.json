@@ -368,6 +368,12 @@
 			"call": "Server.getWorlds()"
 		},
 		{
+			"name": "getWorldNames",
+			"desc": "Gets an array of all the world names on the server.",
+			"returns": ["String[]", "All of the names of the worlds on the server."],
+			"call": "this.getWorldNames()"
+		},
+		{
 			"name": "kickPlayer",
 			"desc": "Kick a player with the specified name and the optional message.",
 			"call": "Server.getPlayer(0).kickPlayer(1)",
@@ -794,6 +800,15 @@
 			"desc":"Retrieves an array of the names of all the players currently on the server.",
 			"returns":["String[]", "The players' names."],
 			"call":"this.getPlayerNames()"
+		},
+		{
+			"name":"getOnlinePlayerNamesInWorld",
+			"desc":"Retrieves an array of the names of all the players currently in the given world.",
+			"returns":["String[]", "The players' names."],
+			"args": [
+				["String", "The world name"]
+			],
+			"call":"Server.getWorld(0).getPlayers()"
 		},
 		{
 			"name":"getOfflinePlayers",
