@@ -737,6 +737,22 @@ public class APIWrapperMethods {
 			throw new FileNotFoundException(fileName + ".properties was not found");
 		}
 	}
+	
+	public String createFile(String path) throws IOException {
+		File f = new File(path);
+		if(!f.exists()) {
+			f.createNewFile();
+		}
+		return path;
+	}
+	
+	public String createFolder(String path) throws IOException {
+		File f = new File(path);
+		if(!f.exists()) {
+			f.mkdirs();
+		}
+		return path;
+	}
 
 	public String getFileContents(String fileName) throws APIException {
 		if ((new File(fileName)).exists()) {

@@ -171,7 +171,7 @@ public class JSONServer extends NanoHTTPD {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Response serve(String uri, String method, Properties header, Properties parms) {
-		if(uri.startsWith("/api/2/")) {
+		if(uri.startsWith("/api/2/") || inst.useGroups) {
 			APIv2Handler handler = new APIv2Handler(uri, method, header, parms, this);
 			return handler.serve();
 		}

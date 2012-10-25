@@ -152,7 +152,10 @@
       ]
     }, 
     "view_chat": {
-      "streams": "chat connections"
+      "streams": [
+        "chat",
+        "connections"
+      ]
     }, 
     "whitelisted_player_actions": {
       "methods": [
