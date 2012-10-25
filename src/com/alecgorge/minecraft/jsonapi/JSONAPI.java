@@ -87,6 +87,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public boolean anyoneCanUseCallAdmin = true;
 	public String serverName = "default";
 	public StreamPusher streamPusher;
+	public boolean useGroups = false;
 	TickRateCounter tickRateCounter;
 
 	private Logger log = Bukkit.getLogger();
@@ -299,6 +300,13 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				startupDelay = yamlConfig.getInt("options.startup-delay", 2000);
 				anyoneCanUseCallAdmin = yamlConfig.getBoolean("options.anyone-can-use-calladmin", false);
 				serverName = yamlConfig.getString("options.server-name", "default");
+				if(yamlConfig.contains("options.use-new-api")) {
+					useGroups = yamlConfig.getBoolean("options.use-new-api", false);
+				}
+				else {
+					yamlConfig.set("options.use-new-api", false);
+					yamlConfig.save(yamlFile);
+				}
 
 				String host = yamlConfig.getString("options.bind-address", "");
 				if (host.equals("")) {

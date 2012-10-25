@@ -22,7 +22,7 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 	private List<String> tag;
 	private List<String> streams;
 	
-	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, List<Boolean> showOlder, List<String> tag) {
+	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, List<Boolean> showOlder, List<String> tag, List<JSONObject> seed) {
 		plugin = _plugin;
 		this.tag = tag;
 		
@@ -40,6 +40,12 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 		for(JSONAPIStream s : stacks) {
 			s.registerListener(this, showOlder.get(i));
 			i++;
+		}
+		
+		if(seed != null) {
+			for(JSONObject o : seed) {
+				onMessage(new JSONObjectMessage(o), null);
+			}
 		}
 	}
 	
@@ -90,6 +96,10 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 	}
 	
 	private String makeResponseObj (JSONAPIStreamMessage ja) {
+		if(ja instanceof JSONObjectMessage) {
+			return ja.toJSONObject().toJSONString();
+		}
+		
 		JSONObject o = new JSONObject();
 		o.put("result", "success");
 		o.put("source", ja.streamName());
