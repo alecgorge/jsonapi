@@ -261,13 +261,6 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 					deviceConfig.save(configFile);
 				}
 
-				if (!deviceConfig.contains("group_permissions")) {
-					YamlConfiguration def = YamlConfiguration.loadConfiguration(api.getResource("adminium_group_defaults.yml"));
-
-					deviceConfig.set("group_permissions", def.get("group_permissions"));
-					deviceConfig.save(configFile);
-				}
-
 				devices = deviceConfig.getStringList("devices");
 				if (devices == null)
 					devices = new ArrayList<String>();

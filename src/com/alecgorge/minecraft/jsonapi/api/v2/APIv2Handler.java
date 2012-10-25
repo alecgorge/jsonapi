@@ -14,6 +14,7 @@ import org.json.simpleForBukkit.parser.ParseException;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD.Response;
+import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 public class APIv2Handler {
@@ -77,14 +78,21 @@ public class APIv2Handler {
 		List<String> 	sourceLists = new ArrayList<String>();
 		List<Boolean> 	showOlder 	= new ArrayList<Boolean>();
 		List<String> 	tag 		= new ArrayList<String>();
+		List<JSONObject>defaults	= new ArrayList<JSONObject>();
 		
 		for(JSONResponse resp : requests) {
-			sourceLists.add(resp.getMethodName());
-			showOlder.add(resp.isShowOlder());
-			tag.add(resp.getTag());
+			JSONAPIAuthResponse auth = resp.testLogin(true);
+			if(auth.isAllowed() && auth.isAuthenticated()) {
+				sourceLists.add(resp.getMethodName());
+				showOlder.add(resp.isShowOlder());
+				tag.add(resp.getTag());				
+			}
+			else {
+				defaults.add(resp.getJSONObject());
+			}
 		}
 		
-		StreamingResponse streams = new StreamingResponse(JSONAPI.instance, sourceLists, params.getProperty("callback"), showOlder, tag);
+		StreamingResponse streams = new StreamingResponse(JSONAPI.instance, sourceLists, params.getProperty("callback"), showOlder, tag, defaults);
 		
 		return httpd.new Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_PLAINTEXT, streams);
 	}

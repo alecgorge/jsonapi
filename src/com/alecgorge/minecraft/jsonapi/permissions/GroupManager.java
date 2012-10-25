@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.json.simpleForBukkit.JSONArray;
-import org.json.simpleForBukkit.JSONAware;
 import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
 
@@ -114,7 +113,7 @@ public class GroupManager {
 					if(methods == null) continue;
 					
 					if(methods.contains(method)) {
-						valid = true;
+						valid = Boolean.valueOf(permissionMap.get(k).toString());
 					}
 				}
 			}

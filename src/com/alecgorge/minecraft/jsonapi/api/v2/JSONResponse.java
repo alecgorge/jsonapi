@@ -23,11 +23,14 @@ public class JSONResponse {
 	String username;
 	String key;
 	JSONArray arguments;
+	JSONAPIAuthResponse auth;
 	boolean stream = false;
 	boolean showOlder = false;
 	
 	NanoHTTPD httpd;
 	Caller caller = JSONAPI.instance.jsonServer.getCaller();
+	
+	JSONObject error = null;
 	
 	public JSONResponse(JSONObject req, NanoHTTPD httpd, boolean stream) {
 		this.httpd = httpd;
@@ -37,6 +40,12 @@ public class JSONResponse {
 		}
 		
 		methodName = req.get("name").toString();
+		
+		if(!req.containsKey("username")) {
+			error = APIError("Missing username from payload", 10);
+			return;
+		}
+		
 		username = req.get("username").toString();
 		key = req.get("key").toString();
 		
@@ -51,6 +60,10 @@ public class JSONResponse {
 	}
 	
 	public JSONObject getJSONObject() {
+		if(error != null) {
+			return error;
+		}
+		
 		JSONAPIAuthResponse auth = testLogin(stream);
 		if(!auth.isAuthenticated()) {
 			return APIError(auth.getMessage(), 8);
@@ -62,7 +75,10 @@ public class JSONResponse {
 		return serveAPICall(arguments);
 	}
 	
-	JSONAPIAuthResponse testLogin(boolean stream) {
+	public JSONAPIAuthResponse testLogin(boolean stream) {
+		if(this.auth != null) {
+			return this.auth;
+		}
 		JSONAPIAuthEvent auth = new JSONAPIAuthEvent(new JSONAPIAuthResponse(true, false), methodName, username, stream);
 		try {
 			HashMap<String, String> logins = JSONAPI.instance.getAuthTable();
@@ -78,7 +94,7 @@ public class JSONResponse {
 			Bukkit.getPluginManager().callEvent(auth);
 		} catch (Exception e) {
 		}
-		return auth.getAuthResponse();
+		return this.auth = auth.getAuthResponse();
 	}
 	
 	/*
@@ -93,6 +109,7 @@ public class JSONResponse {
 	 * 7	Method does not exist
 	 * 8	The API key is wrong
 	 * 9	Not allowed, but correct API key
+	 * 10	Missing username from payload
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
@@ -128,7 +145,7 @@ public class JSONResponse {
 		StringWriter pw = new StringWriter();
 		e.printStackTrace(new PrintWriter(pw));
 		e.printStackTrace();
-		r.put("method_name", methodName);
+		r.put("source", methodName);
 		
 		JSONObject err_obj = new JSONObject();
 		err_obj.put("message", "Caught exception: " + pw.toString().replaceAll("\\n", "\n").replaceAll("\\r", "\r"));
@@ -146,7 +163,7 @@ public class JSONResponse {
 	public JSONObject APIError(String error, int errorCode) {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
-		r.put("method_name", methodName);
+		r.put("source", methodName);
 		
 		JSONObject err_obj = new JSONObject();
 		err_obj.put("message", error);
@@ -164,7 +181,7 @@ public class JSONResponse {
 	public JSONObject APISuccess(Object result) {
 		JSONObject r = new JSONObject();
 		r.put("result", "success");
-		if(methodName != null) r.put("method_name", methodName);
+		if(methodName != null) r.put("source", methodName);
 		r.put("success", result);
 		
 		if(!tag.equals("")) {
@@ -200,5 +217,9 @@ public class JSONResponse {
 
 	public boolean isShowOlder() {
 		return showOlder;
+	}
+	
+	public JSONAPIAuthResponse auth() {
+		return this.auth;
 	}
 }
