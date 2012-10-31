@@ -97,7 +97,7 @@
 			"args": [
 				["String", "Path to file"]
 			],
-			"call": "this.createFolder()"
+			"call": "this.createFolder(0)"
 		}
 	]
 }
