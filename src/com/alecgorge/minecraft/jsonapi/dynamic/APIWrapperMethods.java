@@ -574,6 +574,11 @@ public class APIWrapperMethods {
 			return false;
 		}
 	}
+	
+	public int broadcast(String message) {
+		JSONAPI.instance.jsonServer.logChat("", message);
+		return Server.broadcastMessage(message);
+	}
 
 	public void disconnectAllFauxPlayers() {
 		for (String name : joinedList.keySet()) {
