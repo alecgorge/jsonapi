@@ -417,7 +417,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			return adminium.calladmin(sender, join(Arrays.asList(args), " "));
 		}
 
-		if (cmd.getName().equals("jsonapi")) {
+		if (cmd.getName().equals("jsonapi") && sender.hasPermission("jsonapi.command")) {
 			if (args.length == 0) {
 				sender.sendMessage("If you don't know how to use this, you should probably use /help jsonapi");
 				return true;

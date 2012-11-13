@@ -37,7 +37,7 @@
 		},
 		{
 			"name": "getServerClockDebug",
-			"desc": "Returns expectedTicks, elapsedTicks, clockRate, expectedClockRate, expectedTime, elapsedTime and % error",
+			"desc": "Returns expectedTicks, elapsedTicks, C, expectedClockRate, expectedTime, elapsedTime and % error",
 			"returns": ["Object", "key value pairs with all the values in the descriptions"],
 			"call": "this.testClock()"
 		}
