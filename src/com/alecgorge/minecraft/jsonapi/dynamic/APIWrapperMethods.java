@@ -39,6 +39,7 @@ import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.util.LazyPlayerSet;
+import org.bukkit.craftbukkit.util.Waitable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -536,38 +537,72 @@ public class APIWrapperMethods {
 			}
 
 			((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
+			
+			final MinecraftServer minecraftServer = ((CraftServer) Server).getServer().server.getServer();
+			String s = message;
+			boolean async = true;
 
 			// copied from CraftBukkit / src / main / java / net / minecraft /
 			// server / NetServerHandler.java#chat(2)
-			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(false, player, message, new LazyPlayerSet());
-			Server.getPluginManager().callEvent(event);
-			
+            AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(async, player, s, new LazyPlayerSet());
+            Server.getPluginManager().callEvent(event);
+
             if (PlayerChatEvent.getHandlerList().getRegisteredListeners().length != 0) {
                 // Evil plugins still listening to deprecated event
-                PlayerChatEvent queueEvent = new PlayerChatEvent(player, event.getMessage(), event.getFormat(), event.getRecipients());
+                final PlayerChatEvent queueEvent = new PlayerChatEvent(player, event.getMessage(), event.getFormat(), event.getRecipients());
                 queueEvent.setCancelled(event.isCancelled());
-                ((CraftServer) getServer()).getServer().chatQueue.add(queueEvent);
-    			((CraftServer) Server).getServer().server.getHandle().players.remove(player.getHandle());
+                Waitable waitable = new Waitable() {
+                    @Override
+                    protected Object evaluate() {
+                        Bukkit.getPluginManager().callEvent(queueEvent);
+
+                        if (queueEvent.isCancelled()) {
+                            return null;
+                        }
+
+                        String message = String.format(queueEvent.getFormat(), queueEvent.getPlayer().getDisplayName(), queueEvent.getMessage());
+                        minecraftServer.console.sendMessage(message);
+                        if (((LazyPlayerSet) queueEvent.getRecipients()).isLazy()) {
+                            for (Object player : minecraftServer.getServerConfigurationManager().players) {
+                                ((EntityPlayer) player).sendMessage(message);
+                            }
+                        } else {
+                            for (Player player : queueEvent.getRecipients()) {
+                                player.sendMessage(message);
+                            }
+                        }
+                        return null;
+                    }};
+                if (async) {
+                    minecraftServer.processQueue.add(waitable);
+                } else {
+                    waitable.run();
+                }
+                try {
+                    waitable.get();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); // This is proper habit for java. If we aren't handling it, pass it on!
+                } catch (java.util.concurrent.ExecutionException e) {
+                    throw new RuntimeException("Exception processing chat event", e.getCause());
+                }
             } else {
-    			((CraftServer) Server).getServer().server.getHandle().players.remove(player.getHandle());
-    			
                 if (event.isCancelled()) {
                     return true;
                 }
 
-    			String s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
-    			((CraftServer) Server).getServer().console.sendMessage(s);
-    			if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
-    				for (Object recipient : ((CraftServer) Server).getServer().getServerConfigurationManager().players) {
-    					((EntityPlayer) recipient).sendMessage(s);
-    				}
-    			} else {
-    				for (org.bukkit.entity.Player recipient : event.getRecipients()) {
-    					recipient.sendMessage(s);
-    				}
-    			}
+                s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
+                minecraftServer.console.sendMessage(s);
+                if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
+                    for (Object recipient : minecraftServer.getServerConfigurationManager().players) {
+                        ((EntityPlayer) recipient).sendMessage(s);
+                    }
+                } else {
+                    for (Player recipient : event.getRecipients()) {
+                        recipient.sendMessage(s);
+                    }
+                }
             }
-
+            
             return true;
 		} catch (Exception e) {
 			e.printStackTrace();
