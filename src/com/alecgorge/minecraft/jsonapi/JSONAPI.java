@@ -175,6 +175,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	File yamlFile;
 
 	public void onEnable() {
+		boolean rtkInstalled = Bukkit.getPluginManager().getPlugin("RemoteToolkitPlugin") != null;
+		
 		try {
 			auth = new HashMap<String, String>();
 
@@ -245,7 +247,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 				log.info("[JSONAPI] config.yml has been copied from the jar");
 			}
-			if (!rtkConfig.exists()) {
+			if (rtkInstalled && !rtkConfig.exists()) {
 				rtkConfig.createNewFile();
 
 				InputStream in = getResource("config_rtk.yml");
@@ -322,17 +324,19 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					auth.put(k, yamlConfig.getString("logins." + k));
 				}
 			}
-
-			YamlConfiguration yamlRTK = new YamlConfiguration();
-
-			try {
-				yamlRTK.load(rtkConfig);
-				
-				Properties rtkProps = new Properties();
-				rtkProps.load(new FileInputStream("toolkit/remote.properties"));
-				
-			} catch (Exception e) {
-				e.printStackTrace();
+			
+			if (rtkInstalled) {
+				YamlConfiguration yamlRTK = new YamlConfiguration();
+	
+				try {
+					yamlRTK.load(rtkConfig);
+					
+					Properties rtkProps = new Properties();
+					rtkProps.load(new FileInputStream("toolkit/remote.properties"));
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 
 			if (!logging) {
