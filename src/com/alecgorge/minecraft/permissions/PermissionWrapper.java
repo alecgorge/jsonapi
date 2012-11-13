@@ -66,11 +66,17 @@ public class PermissionWrapper {
 	}
 
 	public boolean addGroup(String player, String group) {
-		return active ? perms.playerAddGroup(getPlayerExact(player), group) : false;
+		Player p = getPlayerExact(player);
+		boolean r = active ? perms.playerAddGroup(p, group) : false;
+		p.saveData();
+		return r;
 	}
 
 	public boolean removeGroup(String player, String group) {
-		return active ? perms.playerRemoveGroup(getPlayerExact(player), group) : false;
+		Player p = getPlayerExact(player);
+		boolean r = active ? perms.playerRemoveGroup(p, group) : false;
+		p.saveData();
+		return r;
 	}
 
 	public boolean addPermission(String playername, String key, boolean value) {
