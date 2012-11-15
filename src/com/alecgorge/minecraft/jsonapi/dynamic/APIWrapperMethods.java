@@ -617,6 +617,11 @@ public class APIWrapperMethods {
 			Server.getPluginManager().callEvent(playerQuitEvent);
 		}
 	}
+	
+	public int broadcast(String message) {
+		JSONAPI.instance.jsonServer.logChat("", message);
+		return Server.broadcastMessage(message);
+	}
 
 	public List<String> getWhitelist() throws APIException {
 		List<String> a = new ArrayList<String>();
