@@ -335,7 +335,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					rtkProps.load(new FileInputStream("toolkit/remote.properties"));
 					
 				} catch (Exception e) {
-					e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 
