@@ -375,6 +375,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
 			jsonWebSocketServer = new JSONWebSocketServer(port + 2, jsonServer);
 			jsonWebSocketServer.start();
+			
+			new PortMapper(this); // map dem ports
 
 			registerStreamManager("chat", getJSONServer().chat);
 			registerStreamManager("console", getJSONServer().console);
