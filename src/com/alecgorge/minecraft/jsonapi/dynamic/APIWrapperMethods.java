@@ -45,6 +45,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -538,6 +539,9 @@ public class APIWrapperMethods {
 
 			((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
 			
+			PlayerJoinEvent joinE = new PlayerJoinEvent(player, "jsonapi fauxplayer join");
+			Server.getPluginManager().callEvent(joinE);
+			
 			final MinecraftServer minecraftServer = ((CraftServer) Server).getServer().server.getServer();
 			String s = message;
 			boolean async = true;
@@ -602,6 +606,9 @@ public class APIWrapperMethods {
                     }
                 }
             }
+            
+            PlayerQuitEvent quitE = new PlayerQuitEvent(player, "jsonapi fauplayer quit");
+            Server.getPluginManager().callEvent(quitE);
             
             return true;
 		} catch (Exception e) {

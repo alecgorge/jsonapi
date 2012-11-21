@@ -398,7 +398,7 @@
 			"name": "broadcast",
 			"desc": "Send a message to every player on the server.",
 			"returns": ["int", "The number of players the message was broadcast to."],
-			"call": "Server.broadcastMessage(0)",
+			"call": "this.broadcastMessage(0)",
 			"args": [
 				["String", "The message to broadcast"]
 			]
