@@ -132,19 +132,5 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/Vault.jar</systemPath>
 		</dependency>
-		<dependency>
-			<groupId>jNAT-PMPlib</groupId>
-			<artifactId>jNAT-PMPlib</artifactId>
-			<version>0.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/jNAT-PMPlib.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>weupnp</groupId>
-			<artifactId>weupnp</artifactId>
-			<version>0.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/weupnp.jar</systemPath>
-		</dependency>
 	</dependencies>	
 </project>
