@@ -80,6 +80,8 @@ public abstract class JSONAPIStream {
 	public void addMessage(JSONAPIStreamMessage m) {
 		pushMessage(m);
 	}
+	
+	private int drainTask = -1;
 
 	/**
 	 * Push out a message to all subscribers.
@@ -89,19 +91,19 @@ public abstract class JSONAPIStream {
 	 */
 	public void pushMessage(final JSONAPIStreamMessage m) {
 		final JSONAPIStream that = this;
-		JSONAPI.instance.getServer().getScheduler().scheduleSyncDelayedTask(JSONAPI.instance, new Runnable() {
-			public void run() {
-				try {
-					messages.put(m);
-					last50.add(m);
+		messages.offer(m);
+		last50.add(m);
 
-					if (last50.size() > 50) {
-						last50.remove(0);
-					}
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		if (last50.size() > 50) {
+			last50.remove(0);
+		}
+		
+		if(drainTask > 0) {
+			JSONAPI.instance.getServer().getScheduler().cancelTask(drainTask);
+		}
+		
+		drainTask = JSONAPI.instance.getServer().getScheduler().scheduleAsyncDelayedTask(JSONAPI.instance, new Runnable() {
+			public void run() {
 				ArrayList<JSONAPIStreamMessage> stack = new ArrayList<JSONAPIStreamMessage>();
 				messages.drainTo(stack);
 
@@ -113,6 +115,6 @@ public abstract class JSONAPIStream {
 					}
 				}
 			}
-		});
+		}, 5 /* 1/4 second/5 ticks */);
 	}
 }

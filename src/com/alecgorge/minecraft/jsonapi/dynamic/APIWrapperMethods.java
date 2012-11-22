@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
@@ -45,6 +46,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -427,6 +429,10 @@ public class APIWrapperMethods {
 		}
 	}
 
+	public String get345version(String name) {
+		return "3.6.7"; // needed because of faulty Adminium 2.2.1 version checking
+	}
+	
 	class FauxPlayer extends CraftPlayer {
 		String name;
 
@@ -455,7 +461,9 @@ public class APIWrapperMethods {
 
 		@Override
 		public void sendMessage(String message) {
-			System.out.println("message:" + message);
+			if(message.isEmpty()) return;
+			
+			JSONAPI.instance.jsonServer.logChat("", message);
 		}
 	}
 
@@ -514,8 +522,32 @@ public class APIWrapperMethods {
 	private HashMap<String, FauxPlayer> joinedList = new HashMap<String, FauxPlayer>();
 	private ServerSocket fauxServer = null;
 	private int fauxPort = 0;
+	
+	// https://github.com/Bukkit/CraftBukkit/blob/master/src/main/java/net/minecraft/server/NetServerHandler.java#L972
+	// private void handleCommand(String s)
+	private boolean handleCommand(String s, Player player) {
+        PlayerCommandPreprocessEvent event = new PlayerCommandPreprocessEvent(player, s, new LazyPlayerSet());
+        Server.getPluginManager().callEvent(event);
 
-	@SuppressWarnings("unchecked")
+        if (event.isCancelled()) {
+            return false;
+        }
+
+        try {
+        	Logger.getLogger("Minecraft").info(event.getPlayer().getName() + " issued server command: " + event.getMessage()); // CraftBukkit
+            if (Server.dispatchCommand(event.getPlayer(), event.getMessage().substring(1))) {
+                return true;
+            }
+        } catch (org.bukkit.command.CommandException ex) {
+            player.sendMessage(org.bukkit.ChatColor.RED + "An internal error occurred while attempting to perform this command");
+            Logger.getLogger(NetServerHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+		
+        return false;
+	}
+
+	@SuppressWarnings({ "deprecation", "rawtypes" })
 	public boolean chatWithName(String message, String name) {
 		if (fauxServer == null) {
 			try {
@@ -535,16 +567,22 @@ public class APIWrapperMethods {
 				// this is the biggest hack ever.
 				player = new FauxPlayer(name, new FauxEntityPlayer(((CraftServer) Server).getServer(), ((CraftWorld) Server.getWorlds().get(0)).getHandle(), name, new ItemInWorldManager(((CraftServer) Server).getServer().getWorldServer(0))));
 				joinedList.put(name, player);
+				
+				if(Server.getPlayerExact(name) == null) {
+					PlayerJoinEvent joinE = new PlayerJoinEvent(player, "jsonapi fauxplayer join");
+					Server.getPluginManager().callEvent(joinE);
+				}
 			}
 
-			((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
-			
-			PlayerJoinEvent joinE = new PlayerJoinEvent(player, "jsonapi fauxplayer join");
-			Server.getPluginManager().callEvent(joinE);
+			// ((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
 			
 			final MinecraftServer minecraftServer = ((CraftServer) Server).getServer().server.getServer();
 			String s = message;
-			boolean async = true;
+			boolean async = false;
+			
+			if(s.startsWith("/")) {
+				return handleCommand(s, player);
+			}
 
 			// copied from CraftBukkit / src / main / java / net / minecraft /
 			// server / NetServerHandler.java#chat(2)
@@ -607,8 +645,8 @@ public class APIWrapperMethods {
                 }
             }
             
-            PlayerQuitEvent quitE = new PlayerQuitEvent(player, "jsonapi fauplayer quit");
-            Server.getPluginManager().callEvent(quitE);
+            // PlayerQuitEvent quitE = new PlayerQuitEvent(player, "jsonapi fauplayer quit");
+            // Server.getPluginManager().callEvent(quitE);
             
             return true;
 		} catch (Exception e) {

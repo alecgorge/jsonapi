@@ -279,6 +279,15 @@ public class JSONServer extends NanoHTTPD {
 
 					return jsonRespone(returnAPISuccess(o, arr), callback);
 				} else {
+					// work around because Adminium 2.1.1 doesn't parse the version correctly
+					// it says that 4.0.1 < 3.4.5. Always return 3.6.7 for that.
+					// :sadface:
+					if(calledMethod.equals("getPluginVersion")
+					&& args instanceof List<?>
+					&& ((List<Object>) args).get(0).toString().equals("JSONAPI")
+					&& header.getProperty("user-agent").startsWith("Adminium 2.1.1")) {
+						calledMethod = "polyfill_getPluginVersion";
+					}
 					return jsonRespone(serveAPICall(calledMethod, args), callback);
 				}
 			} catch (Exception e) {
