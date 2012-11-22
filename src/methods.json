@@ -36,6 +36,15 @@
 			]			
 		},
 		{
+			"name": "polyfill_getPluginVersion",
+			"desc": "Gets version of a plugin.",
+			"returns": ["String", "A string representing the version."],
+			"call": "this.get345version(0)",
+			"args": [
+				["String","Plugin name"]
+			]			
+		},
+		{
 			"name": "getPlayer",
 			"desc": "Gets a |player| object representing the specified person.",
 			"returns": ["Player", "A player object respresenting the specified person."],
