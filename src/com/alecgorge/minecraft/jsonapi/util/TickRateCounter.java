@@ -13,7 +13,7 @@ public class TickRateCounter {
 	volatile long elapsedTime;
 	volatile double error;
 	
-	int expectedSecs = 5;
+	int expectedSecs = 30;
 	
 	long start;
 	long startTicks;
