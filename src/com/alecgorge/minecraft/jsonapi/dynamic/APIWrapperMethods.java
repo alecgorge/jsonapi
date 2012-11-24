@@ -36,6 +36,7 @@ import org.bukkit.Server;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -458,13 +459,23 @@ public class APIWrapperMethods {
 		public boolean isOp() {
 			return true;
 		}
-
+		
 		@Override
-		public void sendMessage(String message) {
+		public void sendRawMessage(String message) {
 			if(message.isEmpty()) return;
 			
 			JSONAPI.instance.jsonServer.logChat("", message);
 		}
+
+		/*
+		@Override
+		public void sendMessage(String message) {
+			if(message.isEmpty()) return;
+			
+			System.out.println("message: " + message);
+			
+			JSONAPI.instance.jsonServer.logChat("", message);
+		}*/
 	}
 
 	class FauxEntityPlayer extends EntityPlayer {
@@ -1301,6 +1312,12 @@ public class APIWrapperMethods {
 		}
 
 		return false;
+	}
+	
+	public boolean setSignText(String world, int x, int y, int z, List<String> lines) {
+		String[] a = null;
+		lines.toArray(a);
+		return setSignText(world, x, y, z, a);
 	}
 
 	public boolean setSignTextLine(String world, int x, int y, int z, int line, String txt) {

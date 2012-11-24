@@ -1,6 +1,6 @@
 name: JSONAPI
 main: com.alecgorge.minecraft.jsonapi.JSONAPI
-version: 4.0.1
+version: 4.0.2
 description: Control your server and fetch information from your server.
 website: http://mcjsonapi.com/
 author: Alec Gorge
@@ -18,9 +18,6 @@ commands:
   jsonapi:
     usage: '/<command> [list|reload|reloadgroups|subscribe <source name> <url>|users [list|<username> password|add <username> <password>]]'
     description: 'Various commands to control JSONAPI. Check the docs for details: http://mcjsonapi.com/docs'
-  adminium:
-    usage: '/<command> [user (username)|create-user (username) (group name)|set-group (username) (group name)|list-groups]'
-    description: 'Various commands to control Adminium''s permissions. Check http://mcjsonapi.com/docs/adminium for details.'
 permissions:
   jsonapi.command:
     description: The ability to use the /jsonapi and /adminium commands
