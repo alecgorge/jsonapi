@@ -1315,7 +1315,7 @@ public class APIWrapperMethods {
 	}
 	
 	public boolean setSignText(String world, int x, int y, int z, List<String> lines) {
-		String[] a = null;
+		String[] a = new String[lines.size()];
 		lines.toArray(a);
 		return setSignText(world, x, y, z, a);
 	}
