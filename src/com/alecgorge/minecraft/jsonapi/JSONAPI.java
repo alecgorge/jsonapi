@@ -209,27 +209,29 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			}
 			if (!methodsFolder.exists()) {
 				methodsFolder.mkdirs();
-				String[] methodsFiles = new String[] { "chat.json", "dynmap.json", "econ.json", "permissions.json", "readme.txt", "remotetoolkit.json", "system.json", "world.json" };
+			}
+			
+			String[] methodsFiles = new String[] { "chat.json", "dynmap.json", "econ.json", "permissions.json", "readme.txt", "remotetoolkit.json", "system.json", "world.json" };
 
-				for (String f : methodsFiles) {
-					File outF = new File(methodsFolder, f);
-					if (!outF.exists()) {
-						outF.createNewFile();
+			for (String f : methodsFiles) {
+				File outF = new File(methodsFolder, f);
+				if (!outF.exists()) {
+					outF.createNewFile();
 
-						InputStream in = getResource("methods/" + f);
-						OutputStream out = new FileOutputStream(outF);
+					InputStream in = getResource("methods/" + f);
+					OutputStream out = new FileOutputStream(outF);
 
-						byte[] buffer = new byte[1024];
-						int len;
-						while ((len = in.read(buffer)) != -1) {
-							out.write(buffer, 0, len);
-						}
-
-						in.close();
-						out.close();
+					byte[] buffer = new byte[1024];
+					int len;
+					while ((len = in.read(buffer)) != -1) {
+						out.write(buffer, 0, len);
 					}
+
+					in.close();
+					out.close();
 				}
 			}
+				
 			if (!yamlFile.exists()) {
 				yamlFile.createNewFile();
 
