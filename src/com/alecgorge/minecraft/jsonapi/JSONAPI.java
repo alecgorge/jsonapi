@@ -211,7 +211,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				methodsFolder.mkdirs();
 			}
 			
-			String[] methodsFiles = new String[] { "chat.json", "dynmap.json", "econ.json", "permissions.json", "readme.txt", "remotetoolkit.json", "system.json", "world.json" };
+			String[] methodsFiles = new String[] { "chat.json", "dynmap.json", "econ.json", "permissions.json", "fs.json", "readme.txt", "remotetoolkit.json", "system.json", "world.json" };
 
 			for (String f : methodsFiles) {
 				File outF = new File(methodsFolder, f);
