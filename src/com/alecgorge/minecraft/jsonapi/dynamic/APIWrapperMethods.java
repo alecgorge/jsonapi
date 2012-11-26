@@ -36,7 +36,6 @@ import org.bukkit.Server;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -462,9 +461,9 @@ public class APIWrapperMethods {
 		
 		@Override
 		public void sendRawMessage(String message) {
-			if(message.isEmpty()) return;
+			/*if(message.isEmpty()) return;
 			
-			JSONAPI.instance.jsonServer.logChat("", message);
+			JSONAPI.instance.jsonServer.logChat("", message);*/
 		}
 
 		/*
@@ -591,9 +590,9 @@ public class APIWrapperMethods {
 			String s = message;
 			boolean async = false;
 			
-			if(s.startsWith("/")) {
+			/*if(s.startsWith("/")) {
 				return handleCommand(s, player);
-			}
+			}*/
 
 			// copied from CraftBukkit / src / main / java / net / minecraft /
 			// server / NetServerHandler.java#chat(2)
