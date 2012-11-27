@@ -1307,6 +1307,8 @@ public class APIWrapperMethods {
 			for (int i = 0; i < lines.length; i++) {
 				((Sign) d).setLine(i, lines[i]);
 			}
+			((Sign) d).update();
+			
 			return true;
 		}
 
@@ -1319,7 +1321,7 @@ public class APIWrapperMethods {
 		return setSignText(world, x, y, z, a);
 	}
 
-	public boolean setSignTextLine(String world, int x, int y, int z, int line, String txt) {
+	public boolean setSignText(String world, int x, int y, int z, int line, String txt) {
 		BlockState d = Server.getWorld(world).getBlockAt(x, y, z).getState();
 
 		if (d instanceof Sign) {

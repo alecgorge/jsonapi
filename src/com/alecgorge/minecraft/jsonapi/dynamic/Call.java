@@ -86,6 +86,10 @@ public class Call {
 						field = lastResult.getClass().getField(obj.getName());
 					} catch (NoSuchFieldException e) {
 						field = lastResult.getClass().getDeclaredField(obj.getName());
+					} catch (NoClassDefFoundError e) {
+						lastResult = null;
+						
+						return lastResult;
 					}
 					field.setAccessible(true);
 
