@@ -18,6 +18,7 @@ import org.json.simpleForBukkit.parser.JSONParser;
 import org.json.simpleForBukkit.parser.ParseException;
 
 import com.alecgorge.minecraft.jsonapi.api.v2.APIv2Handler;
+import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.streams.ChatMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ChatStream;
@@ -75,6 +76,9 @@ public class JSONServer extends NanoHTTPD {
 						caller.loadFile(f);
 					}
 				}
+				
+				caller.registerMethods(APIWrapperMethods.getInstance());
+				
 				outLog.info("[JSONAPI] " + caller.methodCount + " methods loaded in " + caller.methods.size() + " namespaces.");
 				outLog.info("[JSONAPI] JSON Server listening on " + plugin.port);
 				outLog.info("[JSONAPI] JSON Stream Server listening on " + (plugin.port + 1));
