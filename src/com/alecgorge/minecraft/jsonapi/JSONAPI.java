@@ -336,6 +336,11 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					Properties rtkProps = new Properties();
 					rtkProps.load(new FileInputStream("toolkit/remote.properties"));
 					
+					int port = Integer.parseInt(rtkProps.getProperty("remote-control-port"));
+					String salt = rtkProps.getProperty("auth-salt");
+					
+					rtkAPI = new RTKInterface(port, "localhost", yamlRTK.getString("RTK.username"), yamlRTK.getString("RTK.password"), salt);
+					
 				} catch (Exception e) {
 					// e.printStackTrace();
 				}
