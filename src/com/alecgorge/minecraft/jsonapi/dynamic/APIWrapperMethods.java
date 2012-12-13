@@ -578,11 +578,6 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 				// this is the biggest hack ever.
 				player = new FauxPlayer(name, new FauxEntityPlayer(((CraftServer) Server).getServer(), ((CraftWorld) Server.getWorlds().get(0)).getHandle(), name, new ItemInWorldManager(((CraftServer) Server).getServer().getWorldServer(0))));
 				joinedList.put(name, player);
-				
-				if(Server.getPlayerExact(name) == null) {
-					PlayerJoinEvent joinE = new PlayerJoinEvent(player, "jsonapi fauxplayer join");
-					Server.getPluginManager().callEvent(joinE);
-				}
 			}
 
 			// ((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
