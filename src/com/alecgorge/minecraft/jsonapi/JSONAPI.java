@@ -303,7 +303,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				port = yamlConfig.getInt("options.port", 20059);
 				startupDelay = yamlConfig.getInt("options.startup-delay", 2000);
 				anyoneCanUseCallAdmin = yamlConfig.getBoolean("options.anyone-can-use-calladmin", false);
-				serverName = yamlConfig.getString("options.server-name", "default");
+				serverName = getServer().getServerName();
 				if(yamlConfig.contains("options.use-new-api")) {
 					useGroups = yamlConfig.getBoolean("options.use-new-api", false);
 				}
