@@ -12,5 +12,4 @@ options:
     log-to-file: 'false'
     salt: 'salt goes here'
     anyone-can-use-calladmin: true
-    server-name: 'default'
     use-new-api: false
