@@ -125,10 +125,10 @@ class JSONAPI {
 	 * @return array An associative array representing the JSON that was returned.
 	 */
 	function __call($method, $params) {
-		if(is_array($params)){
-			return $this->call($method, $params);
-		}else{
-			return $this->call($method, array($params));	
-		}
+                if(is_array($params)) {
+                    return $this->call($method, $params);
+                } else {
+                    return $this->call($method, array($params));	
+                }
 	}
 }
