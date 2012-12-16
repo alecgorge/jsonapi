@@ -117,4 +117,18 @@ class JSONAPI {
 
 		return json_decode($this->curl($url), true);
 	}
+	/**
+	 * The default function called if no one matched for JSONAPI.
+	 * 
+	 * @param string $method The name of the JSONAPI API method to call.
+	 * @param array $params An array of arguments that are to be passed.
+	 * @return array An associative array representing the JSON that was returned.
+	 */
+	function __call($method, $params) {
+                if(is_array($params)) {
+                    return $this->call($method, $params);
+                } else {
+                    return $this->call($method, array($params));	
+                }
+	}
 }
