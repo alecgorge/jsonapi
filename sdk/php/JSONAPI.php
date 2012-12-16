@@ -126,9 +126,9 @@ class JSONAPI {
 	 */
 	function __call($method, $params) {
 		if(is_array($params)){
-			return call($method, $params);
+			return $this->call($method, $params);
 		}else{
-			return call($method, array($params));	
+			return $this->call($method, array($params));	
 		}
 	}
 }
