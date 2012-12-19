@@ -1,0 +1,15 @@
+method-whitelist:
+- getPlayerLimit
+- dynmap.getPort
+logins:
+    usernameGoesHere: passwordGoesHere
+    test: test
+options:
+    startup-delay: 2000
+    port: 20059
+    ip-whitelist: []
+    log-to-console: true
+    log-to-file: 'false'
+    salt: 'salt goes here'
+    anyone-can-use-calladmin: true
+    use-new-api: false

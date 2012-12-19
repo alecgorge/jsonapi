@@ -14,10 +14,10 @@
 	</scm>
 	<build>
 		<finalName>JSONAPI</finalName>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
-				<directory>src</directory>
+				<directory>src/main/resources</directory>
 				<includes>
 					<include>plugin.yml</include>
 					<include>groups.json</include>
@@ -29,6 +29,17 @@
 			</resource>
 		</resources>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.gmaven</groupId>
+				<artifactId>gmaven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -95,7 +106,7 @@
 							<outputDirectory>${basedir}/test/plugins/JSONAPI</outputDirectory>
 							<resources>
 								<resource>
-									<directory>src</directory>
+									<directory>src/main/resources</directory>
 									<includes>
 										<include>config.yml</include>
 										<include>groups.json</include>

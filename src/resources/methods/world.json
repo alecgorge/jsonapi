@@ -1,0 +1,104 @@
+{
+	"name" : "World Editing",
+	"namespace" : "world",
+	"depends" : [
+		"JSONAPI"
+	],
+	"methods" : [
+		{
+			"name": "getSignText",
+			"desc": "Gets all the lines of text on a sign.",
+			"returns": ["String[]", "The lines of text on a sign."],
+			"call": "this.getSignText(0,1,2,3)",
+			"args": [
+				["String", "The world the sign is in."],
+				["int", "The x-pos of the sign."],
+				["int", "The y-pos of the sign."],
+				["int", "The z-pos of the sign."]
+			]
+		},
+        	{
+			"name": "getChestContents",
+			"desc": "Gets all the items in a chest.",
+			"returns": ["Object[]", "The chest's inventory."],
+			"call": "this.getChestContents(0,1,2,3)",
+			"args": [
+				["String", "The world the chest is in."],
+				["int", "The x-pos of the chest."],
+				["int", "The y-pos of the chest."],
+				["int", "The z-pos of the chest."]
+			]
+		},
+		{
+			"name": "setSignText",
+			"desc": "Sets all the lines of text on a sign.",
+			"returns": ["boolean", "Success?"],
+			"call": "this.setSignText(0,1,2,3,4)",
+			"args": [
+				["String", "The world the sign is in."],
+				["int", "The x-pos of the sign."],
+				["int", "The y-pos of the sign."],
+				["int", "The z-pos of the sign."],
+				["String[]", "4 lines of text for the sign."]
+			]
+		},
+		{
+			"name": "setSignTextLine",
+			"desc": "Sets a single line of text on a sign.",
+			"returns": ["boolean", "Success?"],
+			"call": "this.setSignText(0,1,2,3,4,5)",
+			"args": [
+				["String", "The world the sign is in."],
+				["int", "The x-pos of the sign."],
+				["int", "The y-pos of the sign."],
+				["int", "The z-pos of the sign."],
+				["int", "The line of text to set."],
+				["String", "The line."]
+			]
+		},
+		{
+			"name": "setChestSlot",
+			"desc": "Sets the specified quanity of the item id by placing it in the specified slot.",
+			"call": "this.giveChestItem(0, 1, 2, 3, 4, 5, 6)",
+			"returns": ["boolean", "True if the item was given. False will be returned if the chest is not on the server."],
+			"args": [
+				["String", "The world the chest is in."],
+				["int", "The x-pos of the chest."],
+				["int", "The y-pos of the chest."],
+				["int", "The z-pos of the chest."],
+				["int","Slot number"],
+				["int","Id of item to give"],
+				["int","Quantity of item to give"]
+			]
+		},
+		{
+			"name": "setChestSlotWithData",
+			"desc": "Sets the specified quanity of the item id with the specified data by placing it in the specified slot.",
+			"call": "this.giveChestItem(0, 1, 2, 3, 4, 5, 7, 6)",
+			"returns": ["boolean", "True if the item was set. False will be returned if the chest is not on the server. An exception could be thrown for invalid data (data < 0 or data > 15)."],
+			"args": [
+				["String", "The world the chest is in."],
+				["int", "The x-pos of the chest."],
+				["int", "The y-pos of the chest."],
+				["int", "The z-pos of the chest."],
+				["int","Slot number"],
+				["int","Id of item to give"],
+				["int","Quantity of item to give"],
+				["int","Decimal representation of the data value."]
+			]
+		},
+		{
+			"name": "spawn",
+			"desc": "Spawn an entity at the given location in the give world.",
+			"call": "this.spawn(0, 1, 2, 3, 4)",
+			"returns": ["boolean", "True if the entity was successfully spawned. False otherwise."],
+			"args": [
+				["String", "The world to spawn the entity into."],
+				["double", "The x-pos for the entity"],
+				["double", "The y-pos for the entity"],
+				["double", "The z-pos for the entity"],
+				["String", "The name of the mob/entity to spawn. Comes from this list (case-sensitive): http://jd.bukkit.org/apidocs/org/bukkit/entity/EntityType.html#enum_constant_summary"]
+			]
+		}
+	]
+}
