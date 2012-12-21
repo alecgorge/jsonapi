@@ -1,37 +1,30 @@
 package com.alecgorge.minecraft.jsonapi;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
-
-import javax.xml.bind.DatatypeConverter;
+import java.net.Socket;
+import java.util.Properties;
 
 import net.minecraft.server.v1_4_5.NetHandler;
+import net.minecraft.server.v1_4_5.NetLoginHandler;
 import net.minecraft.server.v1_4_5.Packet;
-import net.minecraft.server.v1_4_5.Packet250CustomPayload;
+import net.minecraft.server.v1_4_5.Packet254GetInfo;
 
-public class Packet251JSONAPI extends Packet {
+import org.bukkit.craftbukkit.libs.jline.internal.InputStreamReader;
+
+import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
+
+public class Packet251JSONAPI extends Packet254GetInfo {
 	public String tag;
 	public int length;
-	public byte[] data;
+	public String data;
 
 	static JSONAPI api;
 
-	public Packet251JSONAPI() {
-	}
-
-	public Packet251JSONAPI(String paramString, byte[] paramArrayOfByte) {
-		this.tag = paramString;
-		this.data = paramArrayOfByte;
-
-		if (paramArrayOfByte != null) {
-			this.length = paramArrayOfByte.length;
-
-			if (this.length > 32767)
-				throw new IllegalArgumentException("Payload may not be larger than 32k");
-		}
-	}
+	public Packet251JSONAPI() {}
 
 	public static void register(JSONAPI _api) {
 		try {
@@ -55,16 +48,13 @@ public class Packet251JSONAPI extends Packet {
 	 */
 	public void a(DataInputStream paramDataInputStream) {
 		try {
-			// this.tag = a(paramDataInputStream, 20);
 			this.length = paramDataInputStream.readShort();
 
-			System.out.println(this.length);
-
 			if ((this.length > 0) && (this.length < Short.MAX_VALUE)) {
-				this.data = new byte[this.length];
-				paramDataInputStream.readFully(this.data);
+				byte[] b = new byte[this.length];
+				paramDataInputStream.readFully(b);
 
-				System.out.println(DatatypeConverter.printHexBinary(this.data));
+				this.data = new String(b);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -75,31 +65,91 @@ public class Packet251JSONAPI extends Packet {
 	/**
 	 * Abstract. Writes the raw packet data to the data stream.
 	 */
-	public void a(DataOutputStream paramDataOutputStream) {
+	public void a(DataOutputStream paramDataOutputStream) {}
+
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
+	public void handle(NetHandler paramNetHandler) {
+		System.out.println("handlin': " + data);
 		try {
-			a(this.tag, paramDataOutputStream);
-			paramDataOutputStream.writeShort((short) this.length);
-			if (this.data != null)
-				paramDataOutputStream.write(this.data);
-		} catch (IOException e) {
+			NetLoginHandler h = (NetLoginHandler) paramNetHandler;
+			final Socket s = h.networkManager.getSocket();
+			s.setSoTimeout(0); // INFINITE TIME
+			
+			final JSONServer jsonServer = api.getJSONServer();
+
+			final DataOutputStream output = new DataOutputStream(s.getOutputStream());
+			
+			Thread t = new Thread(new Runnable() {
+				public void run() {
+					String[] split = data.split("\\?", 2);
+					
+					NanoHTTPD.Response r = null;
+					if(split.length < 2) {
+						r = jsonServer.new Response( NanoHTTPD.HTTP_NOTFOUND, NanoHTTPD.MIME_JSON, jsonServer.returnAPIError("", "Incorrect. Socket requests are in the format PAGE?ARGUMENTS. For example, /api/subscribe?source=....").toJSONString());
+					}
+					else {
+						Properties header = new Properties();
+						NanoHTTPD.decodeParms(split[1], header);
+						Properties p = new Properties();
+						p.put("X-REMOTE-ADDR", s.getInetAddress().getHostAddress());
+						r = jsonServer.serve(split[0], "GET", p, header);
+					}
+
+					if (r.data instanceof StreamingResponse) {
+						final StreamingResponse stream = (StreamingResponse) r.data;
+						String line = "";
+						boolean continueSending = true;
+
+						while ((line = stream.nextLine()) != null && continueSending) {
+							try {
+								if (s.isConnected() && !s.isClosed()) {
+									output.write((line.trim() + "\r\n").getBytes("UTF-8"));
+								} else {
+									continueSending = false;
+								}
+							} catch (IOException e) {
+								// e.printStackTrace();
+								continueSending = false;
+								try {
+									s.close();
+									output.close();
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							}
+						}
+					} else {
+						BufferedReader data = new BufferedReader(new InputStreamReader(r.data));
+
+						try {
+							String line = "";
+
+							while ((line = data.readLine()) != null) {
+								output.write((line + "\r\n").getBytes("UTF-8"));
+							}
+
+							data.close();
+							output.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+
+				}
+			});
+			t.start();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Passes this Packet on to the NetHandler for processing.
-	 */
-	public void handle(NetHandler paramNetHandler) {
-		// this doesn't seem to do anything?
-		// the body of a(Packet250CustomPayload) is empty
-		paramNetHandler.a((Packet250CustomPayload) null);
-	}
-
-	/**
 	 * Abstract. Return the size of the packet (not counting the header).
 	 */
 	public int a() {
-		return 2 + this.tag.length() * 2 + 2 + this.length;
+		return 2 + 2 + this.length;
 	}
 }
