@@ -533,30 +533,6 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	private ServerSocket fauxServer = null;
 	private int fauxPort = 0;
 	
-	// https://github.com/Bukkit/CraftBukkit/blob/master/src/main/java/net/minecraft/server/NetServerHandler.java#L972
-	// private void handleCommand(String s)
-	private boolean handleCommand(String s, Player player) {
-		PlayerCommandPreprocessEvent event = new PlayerCommandPreprocessEvent(player, s, new LazyPlayerSet());
-		Server.getPluginManager().callEvent(event);
-
-		if (event.isCancelled()) {
-			return false;
-		}
-
-		try {
-			Logger.getLogger("Minecraft").info(event.getPlayer().getName() + " issued server command: " + event.getMessage()); // CraftBukkit
-			if (Server.dispatchCommand(event.getPlayer(), event.getMessage().substring(1))) {
-				return true;
-			}
-		} catch (org.bukkit.command.CommandException ex) {
-			player.sendMessage(org.bukkit.ChatColor.RED + "An internal error occurred while attempting to perform this command");
-			Logger.getLogger(PlayerConnection.class.getName()).log(Level.SEVERE, null, ex);
-			return false;
-		}
-		
-		return false;
-	}
-
 	@SuppressWarnings({ "deprecation", "rawtypes" })
 	public boolean chatWithName(String message, String name) {
 		if (fauxServer == null) {
