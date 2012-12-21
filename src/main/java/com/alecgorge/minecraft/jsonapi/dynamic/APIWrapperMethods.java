@@ -20,13 +20,13 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_4_5.EntityPlayer;
-import net.minecraft.server.v1_4_5.ItemInWorldManager;
-import net.minecraft.server.v1_4_5.MinecraftServer;
-import net.minecraft.server.v1_4_5.NetHandler;
-import net.minecraft.server.v1_4_5.NetServerHandler;
-import net.minecraft.server.v1_4_5.NetworkManager;
-import net.minecraft.server.v1_4_5.World;
+import net.minecraft.server.v1_4_6.Connection;
+import net.minecraft.server.v1_4_6.EntityPlayer;
+import net.minecraft.server.v1_4_6.MinecraftServer;
+import net.minecraft.server.v1_4_6.NetworkManager;
+import net.minecraft.server.v1_4_6.PlayerConnection;
+import net.minecraft.server.v1_4_6.PlayerInteractManager;
+import net.minecraft.server.v1_4_6.World;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -36,11 +36,11 @@ import org.bukkit.Server;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
-import org.bukkit.craftbukkit.v1_4_5.CraftServer;
-import org.bukkit.craftbukkit.v1_4_5.CraftWorld;
-import org.bukkit.craftbukkit.v1_4_5.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_4_5.util.LazyPlayerSet;
-import org.bukkit.craftbukkit.v1_4_5.util.Waitable;
+import org.bukkit.craftbukkit.v1_4_6.CraftServer;
+import org.bukkit.craftbukkit.v1_4_6.CraftWorld;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_6.util.LazyPlayerSet;
+import org.bukkit.craftbukkit.v1_4_6.util.Waitable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -441,7 +441,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 			this.name = name;
 
-			((FauxNetServerHandler) getHandle().netServerHandler).setPlayer(this);
+			((FauxPlayerConnection) getHandle().playerConnection).setPlayer(this);
 		}
 
 		@Override
@@ -479,7 +479,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	class FauxEntityPlayer extends EntityPlayer {
 
-		public FauxEntityPlayer(MinecraftServer minecraftserver, World world, String s, ItemInWorldManager iteminworldmanager) {
+		public FauxEntityPlayer(MinecraftServer minecraftserver, World world, String s, PlayerInteractManager iteminworldmanager) {
 			super(minecraftserver, world, s, iteminworldmanager);
 
 			Socket ss = null;
@@ -490,7 +490,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			}
 			NetworkManager m = null;
 			try {
-				m = new NetworkManager(ss, "???", new NetHandler() {
+				m = new NetworkManager(ss, "???", new Connection() {
 
 					@Override
 					public boolean a() {
@@ -503,7 +503,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 				e1.printStackTrace();
 			}
 
-			netServerHandler = new FauxNetServerHandler(((CraftServer) getServer()).getServer(), m, this);
+			playerConnection = new FauxPlayerConnection(((CraftServer) getServer()).getServer(), m, this);
 
 			try {
 				ss.close();
@@ -513,10 +513,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	}
 
-	class FauxNetServerHandler extends NetServerHandler {
+	class FauxPlayerConnection extends PlayerConnection {
 		private CraftPlayer _player;
 
-		public FauxNetServerHandler(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer) {
+		public FauxPlayerConnection(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer) {
 			super(minecraftserver, networkmanager, entityplayer);
 		}
 
@@ -550,7 +550,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			}
 		} catch (org.bukkit.command.CommandException ex) {
 			player.sendMessage(org.bukkit.ChatColor.RED + "An internal error occurred while attempting to perform this command");
-			Logger.getLogger(NetServerHandler.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(PlayerConnection.class.getName()).log(Level.SEVERE, null, ex);
 			return false;
 		}
 		
@@ -575,7 +575,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 				player = joinedList.get(name);
 			} else {
 				// this is the biggest hack ever.
-				player = new FauxPlayer(name, new FauxEntityPlayer(((CraftServer) Server).getServer(), ((CraftWorld) Server.getWorlds().get(0)).getHandle(), name, new ItemInWorldManager(((CraftServer) Server).getServer().getWorldServer(0))));
+				player = new FauxPlayer(name, new FauxEntityPlayer(((CraftServer) Server).getServer(), ((CraftWorld) Server.getWorlds().get(0)).getHandle(), name, new PlayerInteractManager(((CraftServer) Server).getServer().getWorldServer(0))));
 				joinedList.put(name, player);
 				
 //				if(Server.getPlayerExact(name) == null) {
@@ -596,82 +596,63 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 			// copied from CraftBukkit / src / main / java / net / minecraft /
 			// server / NetServerHandler.java#chat(2)
-			try {
-				Class.forName("org.bukkit.event.player.AsyncPlayerChatEvent");
+			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(async, player, s, new LazyPlayerSet());
+			Server.getPluginManager().callEvent(event);
 
-				AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(async, player, s, new LazyPlayerSet());
-				Server.getPluginManager().callEvent(event);
+			if (PlayerChatEvent.getHandlerList().getRegisteredListeners().length != 0) {
+				// Evil plugins still listening to deprecated event
+				final PlayerChatEvent queueEvent = new PlayerChatEvent(player, event.getMessage(), event.getFormat(), event.getRecipients());
+				queueEvent.setCancelled(event.isCancelled());
+				Waitable waitable = new Waitable() {
+					@Override
+					protected Object evaluate() {
+						Bukkit.getPluginManager().callEvent(queueEvent);
 
-				if (PlayerChatEvent.getHandlerList().getRegisteredListeners().length != 0) {
-					// Evil plugins still listening to deprecated event
-					final PlayerChatEvent queueEvent = new PlayerChatEvent(player, event.getMessage(), event.getFormat(), event.getRecipients());
-					queueEvent.setCancelled(event.isCancelled());
-					Waitable waitable = new Waitable() {
-						@Override
-						protected Object evaluate() {
-							Bukkit.getPluginManager().callEvent(queueEvent);
-
-							if (queueEvent.isCancelled()) {
-								return null;
-							}
-
-							String message = String.format(queueEvent.getFormat(), queueEvent.getPlayer().getDisplayName(), queueEvent.getMessage());
-							minecraftServer.console.sendMessage(message);
-							if (((LazyPlayerSet) queueEvent.getRecipients()).isLazy()) {
-								for (Object player : minecraftServer.getServerConfigurationManager().players) {
-									((EntityPlayer) player).sendMessage(message);
-								}
-							} else {
-								for (Player player : queueEvent.getRecipients()) {
-									player.sendMessage(message);
-								}
-							}
+						if (queueEvent.isCancelled()) {
 							return null;
-						}};
-					if (async) {
-						minecraftServer.processQueue.add(waitable);
-					} else {
-						waitable.run();
-					}
-					try {
-						waitable.get();
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt(); // This is proper habit for java. If we aren't handling it, pass it on!
-					} catch (java.util.concurrent.ExecutionException e) {
-						throw new RuntimeException("Exception processing chat event", e.getCause());
+						}
+
+						String message = String.format(queueEvent.getFormat(), queueEvent.getPlayer().getDisplayName(), queueEvent.getMessage());
+						minecraftServer.console.sendMessage(message);
+						if (((LazyPlayerSet) queueEvent.getRecipients()).isLazy()) {
+							for (Object player : minecraftServer.getPlayerList().players) {
+								((EntityPlayer) player).sendMessage(message);
+							}
+						} else {
+							for (Player player : queueEvent.getRecipients()) {
+								player.sendMessage(message);
+							}
+						}
+						return null;
+					}};
+				if (async) {
+					minecraftServer.processQueue.add(waitable);
+				} else {
+					waitable.run();
+				}
+				try {
+					waitable.get();
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt(); // This is proper habit for java. If we aren't handling it, pass it on!
+				} catch (java.util.concurrent.ExecutionException e) {
+					throw new RuntimeException("Exception processing chat event", e.getCause());
+				}
+			} else {
+				if (event.isCancelled()) {
+					return true;
+				}
+
+				s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
+				minecraftServer.console.sendMessage(s);
+				if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
+					for (Object recipient : minecraftServer.getPlayerList().players) {
+						((EntityPlayer) recipient).sendMessage(s);
 					}
 				} else {
-					if (event.isCancelled()) {
-						return true;
-					}
-
-					s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
-					minecraftServer.console.sendMessage(s);
-					if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
-						for (Object recipient : minecraftServer.getServerConfigurationManager().players) {
-							((EntityPlayer) recipient).sendMessage(s);
-						}
-					} else {
-						for (Player recipient : event.getRecipients()) {
-							recipient.sendMessage(s);
-						}
+					for (Player recipient : event.getRecipients()) {
+						recipient.sendMessage(s);
 					}
 				}
-			}
-			catch(ClassNotFoundException e) {
-//				rockin it old school. 1.2.5/tekkit. i hate tekkit.
-                PlayerChatEvent event = new PlayerChatEvent(player, s);
-                Server.getPluginManager().callEvent(event);
-
-                if (event.isCancelled()) {
-                    return true;
-                }
-
-                s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
-                minecraftServer.console.sendMessage(s);
-                for (Player recipient : event.getRecipients()) {
-                    recipient.sendMessage(s);
-                }
 			}
 			
 			

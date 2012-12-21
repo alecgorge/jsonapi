@@ -23,9 +23,9 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-import net.minecraft.server.v1_4_5.EntityPlayer;
-import net.minecraft.server.v1_4_5.ItemInWorldManager;
-import net.minecraft.server.v1_4_5.MinecraftServer;
+import net.minecraft.server.v1_4_6.EntityPlayer;
+import net.minecraft.server.v1_4_6.MinecraftServer;
+import net.minecraft.server.v1_4_6.PlayerInteractManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,7 +35,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_4_5.CraftServer;
+import org.bukkit.craftbukkit.v1_4_6.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -55,7 +55,6 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
-import com.alecgorge.minecraft.jsonapi.packets.Packet251JSONAPI;
 import com.alecgorge.minecraft.jsonapi.packets.Packet71WeatherProxy;
 import com.alecgorge.minecraft.jsonapi.packets.PacketRegistrar;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
@@ -178,7 +177,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	File yamlFile;
 
 	public void onEnable() {
-		PacketRegistrar.register(251, Packet251JSONAPI.class);
 		PacketRegistrar.register(71, Packet71WeatherProxy.class);
 
 		boolean rtkInstalled = Bukkit.getPluginManager().getPlugin("RemoteToolkitPlugin") != null;
@@ -632,33 +630,32 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 	public static Player loadOfflinePlayer(String exactPlayerName) {
 		// big thanks to
-		// https://github.com/lishd/OpenInv/blob/master/src/lishid/openinv/commands/OpenInvPluginCommand.java#L106
+		// https://github.com/lishd/OpenInv/blob/master/src/com/lishid/openinv/internal/craftbukkit/PlayerDataManager.java
 		// Offline inv here...
 		try {
 			// See if the player has data files
 
 			// Find the player folder
 			File playerfolder = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "players");
+			if (!playerfolder.exists()) {
+				return null;
+			}
 
-			// Find player name
-			for (File playerfile : playerfolder.listFiles()) {
-				String filename = playerfile.getName();
-				String playername = filename.substring(0, filename.length() - 4);
+			MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
 
-				if (playername.trim().equalsIgnoreCase(exactPlayerName)) {
-					// Create an entity to load the player data
-					MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
-					EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), playername, new ItemInWorldManager(server.getWorldServer(0)));
-					Player target = (entity == null) ? null : (Player) entity.getBukkitEntity();
-					if (target != null) {
-						target.loadData();
+			// Create an entity to load the player data
+			EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), exactPlayerName, new PlayerInteractManager(server.getWorldServer(0)));
 
-						return target;
-					}
-				}
+			// Get the bukkit entity
+			Player target = (entity == null) ? null : entity.getBukkitEntity();
+			if (target != null) {
+				// Load data
+				target.loadData();
+				// Return the entity
+				return target;
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 
 		return null;
