@@ -1,20 +1,17 @@
 package com.alecgorge.minecraft.jsonapi.packets;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.SocketException;
+
+import net.minecraft.server.v1_4_6.Connection;
+import net.minecraft.server.v1_4_6.Packet71Weather;
+import net.minecraft.server.v1_4_6.PendingConnection;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
-import com.alecgorge.minecraft.jsonapi.NanoHTTPD;
-
-import net.minecraft.server.v1_4_5.NetHandler;
-import net.minecraft.server.v1_4_5.NetLoginHandler;
-import net.minecraft.server.v1_4_5.Packet71Weather;
 
 public class Packet71WeatherProxy extends Packet71Weather {
 	boolean isGetRequest = true;
@@ -82,12 +79,12 @@ public class Packet71WeatherProxy extends Packet71Weather {
 		}
 	}
 
-	public void handle(NetHandler net) {
+	public void handle(Connection net) {
 		if (!isGetRequest) {
 			super.handle(net);
 		}
 
-		final NetLoginHandler loginHandler = (NetLoginHandler) net;
+		final PendingConnection loginHandler = (PendingConnection) net;
 		
 		try {
 			loginHandler.getSocket().shutdownInput();
