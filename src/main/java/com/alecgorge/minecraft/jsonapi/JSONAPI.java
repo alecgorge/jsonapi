@@ -55,6 +55,9 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
+import com.alecgorge.minecraft.jsonapi.packets.Packet251JSONAPI;
+import com.alecgorge.minecraft.jsonapi.packets.Packet71WeatherProxy;
+import com.alecgorge.minecraft.jsonapi.packets.PacketRegistrar;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
@@ -175,7 +178,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	File yamlFile;
 
 	public void onEnable() {
-		Packet251JSONAPI.register(this);
+		PacketRegistrar.register(251, Packet251JSONAPI.class);
+		PacketRegistrar.register(71, Packet71WeatherProxy.class);
 
 		boolean rtkInstalled = Bukkit.getPluginManager().getPlugin("RemoteToolkitPlugin") != null;
 		
