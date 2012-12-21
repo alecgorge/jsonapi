@@ -7,8 +7,8 @@ $endpoint = "api/2/call";
 
 $username = "usernameGoesHere";
 $password = "passwordGoesHere";
-$username = "test";
-$password = "test";
+// $username = "test";
+// $password = "test";
 $salt = "salt goes here";
 
 function gen_key($name) {
@@ -71,7 +71,7 @@ if(!(php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR']))) {
 	echo "<pre>";
 }
 
-$stream = true;
+$stream = false;
 if($stream) {
 	$url = sprintf("http://%s:%d/api/2/subscribe?json=%s", $host, $port, rawurlencode(json_encode($streamPayload)));
 	echo $url ."\n";

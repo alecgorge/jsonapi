@@ -193,7 +193,7 @@ public class BukkitStringifier {
 
 			o.put("enchantments", enchantments);
 			
-			if(((ItemStack) obj).getType().compareTo(Material.BOOK_AND_QUILL) == 0) {
+			if (((ItemStack) obj).getType().equals(Material.BOOK_AND_QUILL) || ((ItemStack) obj).getType().equals(Material.WRITTEN_BOOK)) {
 				JSONObject book = new JSONObject();
 				
 				BookItem bookObj = new BookItem((ItemStack) obj);
