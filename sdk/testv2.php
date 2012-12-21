@@ -2,7 +2,7 @@
 <?php
 
 $host = "localhost";
-$port = 20059;
+$port = 25565;
 $endpoint = "api/2/call";
 
 $username = "usernameGoesHere";
@@ -79,7 +79,7 @@ if($stream) {
 }
 
 $url = sprintf("http://%s:%d/%s?json=%s", $host, $port, $endpoint, rawurlencode(json_encode($payload)));
-echo $url ."\n\n\n";
+echo $url . "\n"; // "\n\n\n";
 
 $c = curl_init($url);
 curl_setopt($c, CURLOPT_PORT, $port);

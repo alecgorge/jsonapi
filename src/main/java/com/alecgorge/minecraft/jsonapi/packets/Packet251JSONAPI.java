@@ -1,4 +1,4 @@
-package com.alecgorge.minecraft.jsonapi;
+package com.alecgorge.minecraft.jsonapi.packets;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -15,6 +15,9 @@ import net.minecraft.server.v1_4_5.Packet254GetInfo;
 
 import org.bukkit.craftbukkit.libs.jline.internal.InputStreamReader;
 
+import com.alecgorge.minecraft.jsonapi.JSONAPI;
+import com.alecgorge.minecraft.jsonapi.JSONServer;
+import com.alecgorge.minecraft.jsonapi.NanoHTTPD;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 public class Packet251JSONAPI extends Packet254GetInfo {
