@@ -100,7 +100,10 @@ public class Packet71WeatherProxy extends Packet71Weather {
 						server.setAccessible(true);
 						
 						MinecraftServer conn = (MinecraftServer) server.get(loginHandler);
-						((DedicatedServerConnection)conn.ae()).a(loginHandler.getSocket().getInetAddress());
+						
+						if(conn.ae() != null && loginHandler.getSocket() != null) {
+							((DedicatedServerConnection)conn.ae()).a(loginHandler.getSocket().getInetAddress());
+						}
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
