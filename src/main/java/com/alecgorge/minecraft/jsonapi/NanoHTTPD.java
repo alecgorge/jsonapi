@@ -26,6 +26,7 @@ import java.util.TimeZone;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
 
+import com.alecgorge.minecraft.jsonapi.packets.Lambda;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 /**
@@ -332,11 +333,15 @@ public class NanoHTTPD {
 		private InputStream in;
 		private OutputStream out;
 		private InetAddress addr;
+		private Lambda<Void, Void> callback = null;
+		
+		public boolean closeOnCompletion = false;
 
-		public HTTPSession(InputStream in, OutputStream out, InetAddress addr) {
+		public HTTPSession(InputStream in, OutputStream s, InetAddress a, Lambda<Void, Void> callback) {
 			this.in = in;
-			this.out = out;
-			this.addr = addr;
+			this.out = s;
+			this.addr = a;
+			this.callback = callback;
 
 			Thread t = new Thread(this);
 			t.setDaemon(true);
@@ -432,6 +437,10 @@ public class NanoHTTPD {
 					sendResponse(r.status, r.mimeType, r.header, r.data);
 
 				in.close();
+				
+				if(callback != null) {
+					callback.execute(null);
+				}
 			} catch (IOException ioe) {
 				try {
 					sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage());

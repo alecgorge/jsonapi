@@ -650,7 +650,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		}
 	}
 	
-	public int broadcast(String message) {
+	public int broadcastMessage(String message) {
 		JSONAPI.instance.jsonServer.logChat("", message);
 		return Server.broadcastMessage(message);
 	}
