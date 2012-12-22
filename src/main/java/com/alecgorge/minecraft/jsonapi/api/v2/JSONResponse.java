@@ -87,7 +87,7 @@ public class JSONResponse {
 				String thishash = JSONAPI.SHA256(username + methodName + logins.get(username) + JSONAPI.instance.salt);
 				String saltless = JSONAPI.SHA256(username + methodName + logins.get(username));
 
-				if (thishash.equals(key) || thishash.equals(saltless)) {
+				if (thishash.equals(key) || saltless.equals(key)) {
 					auth.getAuthResponse().setAuthenticated(true);
 				}
 			}
