@@ -7,6 +7,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.Socket;
 
 import net.minecraft.server.v1_4_6.Connection;
 import net.minecraft.server.v1_4_6.DedicatedServerConnection;
@@ -20,11 +21,16 @@ public class Packet71WeatherProxy extends Packet71Weather {
 	boolean isGetRequest = true;
 	BufferedInputStream inputStream;
 	ByteArrayInputStream payload = null;
+	Socket lastSocket = null;
 
 	public Packet71WeatherProxy() {	}
 
 	public void a(DataInputStream inp) {
 		try {
+			if(lastSocket != null) {
+				lastSocket.setSoTimeout(0);
+			}
+			
 			inputStream = new BufferedInputStream(inp);
 			inputStream.mark(100000);
 
@@ -85,9 +91,16 @@ public class Packet71WeatherProxy extends Packet71Weather {
 		final PendingConnection loginHandler = (PendingConnection) net;
 
 		try {
+			lastSocket = loginHandler.getSocket();
+			
 			loginHandler.getSocket().shutdownInput();
 			loginHandler.getSocket().setSoTimeout(0);
 			loginHandler.getSocket().setTcpNoDelay(true);
+			
+			Field g = PendingConnection.class.getDeclaredField("g");
+			g.setAccessible(true);
+			
+			g.set(loginHandler, 601); // it checks if g++ == 600. 
 
 			JSONAPI.instance.getJSONServer().new HTTPSession(payload, loginHandler.getSocket().getOutputStream(), loginHandler.getSocket().getInetAddress(), new Lambda<Void, Void>() {
 				public Void execute(Void x) {					
