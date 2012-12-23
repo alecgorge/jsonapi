@@ -13,7 +13,7 @@ $salt = ""; // salt goes here";
 
 function gen_key($name) {
 	global $username, $password, $salt;
-	return hash('sha256', $username . $name . $password . $salt);
+	return hash('sha256', $username . $name . $password);
 }
 
 
@@ -54,6 +54,16 @@ $payload = array(
 		'name' => 'system.getDiskSize',
 		'key' => gen_key('system.getDiskSize'),
 		'username' => $username,
+	)
+);
+$payload = array(
+	array(
+		'name' => 'getPluginVersion',
+		'key' => gen_key('getPluginVersion'),
+		'username' => $username,
+		'arguments' => array(
+			'JSONAPI'
+		)
 	)
 );
 
