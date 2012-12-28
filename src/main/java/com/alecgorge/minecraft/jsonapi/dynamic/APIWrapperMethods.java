@@ -560,7 +560,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 //				}
 			}
 
-			 ((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
+			// ((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
 			
 			final MinecraftServer minecraftServer = ((CraftServer) Server).getServer().server.getServer();
 			String s = message;
