@@ -1,6 +1,6 @@
 package org.java_websocket.drafts;
 
-import org.java_websocket.exeptions.InvalidHandshakeException;
+import org.java_websocket.exceptions.InvalidHandshakeException;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.handshake.ClientHandshakeBuilder;
 
@@ -18,6 +18,11 @@ public class Draft_17 extends Draft_10 {
 		super.postProcessHandshakeRequestAsClient( request );
 		request.put( "Sec-WebSocket-Version", "13" );// overwriting the previous
 		return request;
+	}
+
+	@Override
+	public Draft copyInstance() {
+		return new Draft_17();
 	}
 
 }

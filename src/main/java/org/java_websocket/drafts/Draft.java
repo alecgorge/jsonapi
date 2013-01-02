@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 import org.java_websocket.WebSocket.Role;
-import org.java_websocket.exeptions.InvalidDataException;
-import org.java_websocket.exeptions.InvalidHandshakeException;
-import org.java_websocket.exeptions.LimitExedeedException;
+import org.java_websocket.exceptions.IncompleteHandshakeException;
+import org.java_websocket.exceptions.InvalidDataException;
+import org.java_websocket.exceptions.InvalidHandshakeException;
+import org.java_websocket.exceptions.LimitExedeedException;
 import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.framing.Framedata;
 import org.java_websocket.handshake.ClientHandshake;
@@ -32,9 +32,7 @@ public abstract class Draft {
 		/** Handshake matched this Draft successfully */
 		MATCHED,
 		/** Handshake is does not match this Draft */
-		NOT_MATCHED,
-		/** Handshake matches this Draft but is not complete */
-		MATCHING
+		NOT_MATCHED
 	}
 	public enum CloseHandshakeType {
 		NONE, ONEWAY, TWOWAY
@@ -44,8 +42,6 @@ public abstract class Draft {
 	public static int INITIAL_FAMESIZE = 64;
 
 	public static final byte[] FLASH_POLICY_REQUEST = Charsetfunctions.utf8Bytes( "<policy-file-request/>\0" );
-	private static Pattern getpattern = Pattern.compile( "" ); // GET / HTTP/1.1
-	private static Pattern statuspattern = Pattern.compile( "" ); // HTTP/1.1 101 Switching Protocols
 
 	/** In some cases the handshake will be parsed different depending on whether */
 	protected Role role = null;
@@ -75,12 +71,12 @@ public abstract class Draft {
 		return b == null ? null : Charsetfunctions.stringAscii( b.array(), 0, b.limit() );
 	}
 
-	public static HandshakeBuilder translateHandshakeHttp( ByteBuffer buf, Role role ) throws InvalidHandshakeException {
+	public static HandshakeBuilder translateHandshakeHttp( ByteBuffer buf, Role role ) throws InvalidHandshakeException , IncompleteHandshakeException {
 		HandshakeBuilder handshake;
 
 		String line = readStringLine( buf );
 		if( line == null )
-			throw new InvalidHandshakeException( "could not match http status line" );
+			throw new IncompleteHandshakeException( buf.capacity() + 128 );
 
 		String[] firstLineTokens = line.split( " ", 3 );// eg. HTTP/1.1 101 Switching the Protocols
 		if( firstLineTokens.length != 3 ) {
@@ -88,13 +84,13 @@ public abstract class Draft {
 		}
 
 		if( role == Role.CLIENT ) {
-		    // translating/parsing the response from the SERVER
+			// translating/parsing the response from the SERVER
 			handshake = new HandshakeImpl1Server();
 			ServerHandshakeBuilder serverhandshake = (ServerHandshakeBuilder) handshake;
 			serverhandshake.setHttpStatus( Short.parseShort( firstLineTokens[ 1 ] ) );
 			serverhandshake.setHttpStatusMessage( firstLineTokens[ 2 ] );
 		} else {
-		    // translating/parsing the request from the CLIENT
+			// translating/parsing the request from the CLIENT
 			ClientHandshakeBuilder clienthandshake = new HandshakeImpl1Client();
 			clienthandshake.setResourceDescriptor( firstLineTokens[ 1 ] );
 			handshake = clienthandshake;
@@ -108,6 +104,8 @@ public abstract class Draft {
 			handshake.put( pair[ 0 ], pair[ 1 ].replaceFirst( "^ +", "" ) );
 			line = readStringLine( buf );
 		}
+		if( line == null )
+			throw new IncompleteHandshakeException();
 		return handshake;
 	}
 
@@ -171,6 +169,12 @@ public abstract class Draft {
 	public abstract List<Framedata> translateFrame( ByteBuffer buffer ) throws InvalidDataException;
 
 	public abstract CloseHandshakeType getCloseHandshakeType();
+
+	/**
+	 * Drafts must only be by one websocket at all. To prevent drafts to be used more than once the Websocket implementation should call this method in order to create a new usable version of a given draft instance.<br>
+	 * The copy can be safely used in conjunction with a new websocket connection.
+	 * */
+	public abstract Draft copyInstance();
 
 	public Handshakedata translateHandshake( ByteBuffer buf ) throws InvalidHandshakeException {
 		return translateHandshakeHttp( buf, role );
