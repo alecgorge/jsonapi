@@ -8,8 +8,8 @@ import java.nio.channels.NotYetConnectedException;
 import java.util.Properties;
 
 import org.java_websocket.WebSocket;
-import org.java_websocket.WebSocketServer;
 import org.java_websocket.handshake.ClientHandshake;
+import org.java_websocket.server.WebSocketServer;
 
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
@@ -72,9 +72,6 @@ public class JSONWebSocketServer extends WebSocketServer {
 						} catch (IllegalArgumentException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
 						}
 					}
 				}
@@ -96,9 +93,6 @@ public class JSONWebSocketServer extends WebSocketServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
