@@ -1,11 +1,14 @@
 package com.alecgorge.minecraft.jsonapi;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +20,7 @@ import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
 import org.json.simpleForBukkit.parser.ParseException;
 
+import com.alecgorge.java.http.HttpRequest;
 import com.alecgorge.minecraft.jsonapi.api.v2.APIv2Handler;
 import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
@@ -80,16 +84,51 @@ public class JSONServer extends NanoHTTPD {
 				caller.registerMethods(APIWrapperMethods.getInstance());
 				
 				outLog.info("[JSONAPI] " + caller.methodCount + " methods loaded in " + caller.methods.size() + " namespaces.");
+	            outLog.info("[JSONAPI] ------[Connection information]-------");
 				outLog.info("[JSONAPI] JSON Server listening on " + plugin.port);
 				outLog.info("[JSONAPI] JSON Stream Server listening on " + (plugin.port + 1));
 				outLog.info("[JSONAPI] JSON WebSocket Stream Server listening on " + (plugin.port + 2));
 				outLog.info("[JSONAPI] Active and listening for requests.");
+				
+				connectionInfo();
 			}
 		})).start();
 
 		this.logins = auth;
 	}
 
+	
+	void connectionInfo() {
+		try {
+			URL whatismyip = new URL("http://tools.alecgorge.com/ip.php");
+            BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+
+            String ip = in.readLine();
+            
+            URL checkURL = new URL("http://tools.alecgorge.com/port_check.php");
+            
+            outLog.info("[JSONAPI] External IP: " + ip);
+
+            for(int i : new int[] { inst.port, inst.port + 1, inst.port + 2 }) {
+	            HttpRequest reqReg = new HttpRequest(checkURL);
+	            reqReg.addGetValue("host", ip);
+	            reqReg.addGetValue("port", String.valueOf(i));
+	            
+	            if(reqReg.get().getStatusCode() == 200) {
+	            	outLog.info("[JSONAPI] Port " + i + " is properly forwarded and is externally accessible.");
+	            }
+	            else {
+	            	outLog.info("[JSONAPI] Port " + i + " is not properly forwarded.");
+	            }
+            }
+            
+            outLog.info("[JSONAPI] -------------------------------------");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public HashMap<String, String> getLogins() {
 		return logins;
 	}

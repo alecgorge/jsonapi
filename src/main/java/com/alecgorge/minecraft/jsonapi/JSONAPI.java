@@ -1,14 +1,17 @@
 package com.alecgorge.minecraft.jsonapi;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -46,6 +49,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.alecgorge.java.http.HttpRequest;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface;
 import com.alecgorge.minecraft.jsonapi.adminium.PushNotificationDaemon;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
@@ -366,7 +370,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				log.severe("[JSONAPI] No valid logins for JSONAPI. Check config.yml");
 				return;
 			}
-
+			
 			log.info("[JSONAPI] Logging to file: " + logFile);
 			log.info("[JSONAPI] Logging to console: " + String.valueOf(logging));
 			log.info("[JSONAPI] IP Whitelist = " + (reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
