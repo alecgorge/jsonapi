@@ -3,7 +3,7 @@ package org.java_websocket;
 import java.nio.ByteBuffer;
 
 import org.java_websocket.drafts.Draft;
-import org.java_websocket.exeptions.InvalidDataException;
+import org.java_websocket.exceptions.InvalidDataException;
 import org.java_websocket.framing.Framedata;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.handshake.Handshakedata;
@@ -19,7 +19,8 @@ public interface WebSocketListener {
 
 	/**
 	 * Called on the server side when the socket connection is first established, and the WebSocket
-	 * handshake has been received.
+	 * handshake has been received. This method allows to deny connections based on the received handshake.<br>
+	 * By default this method only requires protocol compliance.
 	 * 
 	 * @param conn
 	 *            The WebSocket related to this event
@@ -34,7 +35,7 @@ public interface WebSocketListener {
 	public ServerHandshakeBuilder onWebsocketHandshakeReceivedAsServer( WebSocket conn, Draft draft, ClientHandshake request ) throws InvalidDataException;
 
 	/**
-	 * Called on the client side when the socket connection is first established, and the WebSocket
+	 * Called on the client side when the socket connection is first established, and the WebSocketImpl
 	 * handshake response has been received.
 	 * 
 	 * @param conn
@@ -49,7 +50,7 @@ public interface WebSocketListener {
 	public void onWebsocketHandshakeReceivedAsClient( WebSocket conn, ClientHandshake request, ServerHandshake response ) throws InvalidDataException;
 
 	/**
-	 * Called on the client side when the socket connection is first established, and the WebSocket
+	 * Called on the client side when the socket connection is first established, and the WebSocketImpl
 	 * handshake has just been sent.
 	 * 
 	 * @param conn
@@ -83,6 +84,8 @@ public interface WebSocketListener {
 	 */
 	public void onWebsocketMessage( WebSocket conn, ByteBuffer blob );
 
+	public void onWebsocketMessageFragment( WebSocket conn, Framedata frame );
+
 	/**
 	 * Called after <var>onHandshakeReceived</var> returns <var>true</var>.
 	 * Indicates that a complete WebSocket connection has been established,
@@ -100,7 +103,13 @@ public interface WebSocketListener {
 	 * @param conn
 	 *            The <tt>WebSocket</tt> instance this event is occuring on.
 	 */
-	public void onWebsocketClose( WebSocket conn, int code, String reason, boolean remote );
+	public void onWebsocketClose( WebSocket ws, int code, String reason, boolean remote );
+
+	/** called as soon as no further frames are accepted */
+	public void onWebsocketClosing( WebSocket ws, int code, String reason, boolean remote );
+
+	/** send when this peer sends a close handshake */
+	public void onWebsocketCloseInitiated( WebSocket ws, int code, String reason );
 
 	/**
 	 * Called if an exception worth noting occurred.

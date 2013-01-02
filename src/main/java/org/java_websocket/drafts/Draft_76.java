@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Random;
 
 import org.java_websocket.WebSocket.Role;
-import org.java_websocket.exeptions.IncompleteHandshakeException;
-import org.java_websocket.exeptions.InvalidDataException;
-import org.java_websocket.exeptions.InvalidFrameException;
-import org.java_websocket.exeptions.InvalidHandshakeException;
+import org.java_websocket.exceptions.IncompleteHandshakeException;
+import org.java_websocket.exceptions.InvalidDataException;
+import org.java_websocket.exceptions.InvalidFrameException;
+import org.java_websocket.exceptions.InvalidHandshakeException;
 import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.framing.CloseFrameBuilder;
 import org.java_websocket.framing.Framedata;
@@ -116,7 +116,7 @@ public class Draft_76 extends Draft_75 {
 			}
 			byte[] content = response.getContent();
 			if( content == null || content.length == 0 ) {
-				return HandshakeState.MATCHING;
+				throw new IncompleteHandshakeException();
 			}
 			if( Arrays.equals( content, createChallenge( request.getFieldValue( "Sec-WebSocket-Key1" ), request.getFieldValue( "Sec-WebSocket-Key2" ), request.getContent() ) ) ) {
 				return HandshakeState.MATCHED;
@@ -130,8 +130,7 @@ public class Draft_76 extends Draft_75 {
 
 	@Override
 	public HandshakeState acceptHandshakeAsServer( ClientHandshake handshakedata ) {
-		if( handshakedata.getFieldValue( "Upgrade" ).equals( "WebSocket" ) && handshakedata.getFieldValue( "Connection" ).contains( "Upgrade" ) && handshakedata.getFieldValue( "Sec-WebSocket-Key1" ).length() > 0 && !handshakedata.getFieldValue( "Sec-WebSocket-Key2" ).isEmpty() && handshakedata.hasFieldValue( "Origin" )
-		/*new String ( handshakedata.getContent () ).endsWith ( "\r\n\r\n" )*/)
+		if( handshakedata.getFieldValue( "Upgrade" ).equals( "WebSocket" ) && handshakedata.getFieldValue( "Connection" ).contains( "Upgrade" ) && handshakedata.getFieldValue( "Sec-WebSocket-Key1" ).length() > 0 && !handshakedata.getFieldValue( "Sec-WebSocket-Key2" ).isEmpty() && handshakedata.hasFieldValue( "Origin" ) )
 			return HandshakeState.MATCHED;
 		return HandshakeState.NOT_MATCHED;
 	}
@@ -182,7 +181,7 @@ public class Draft_76 extends Draft_75 {
 			try {
 				buf.get( key3 );
 			} catch ( BufferUnderflowException e ) {
-				throw new IncompleteHandshakeException();
+				throw new IncompleteHandshakeException( buf.capacity() + 16 );
 			}
 			bui.setContent( key3 );
 
@@ -234,5 +233,10 @@ public class Draft_76 extends Draft_75 {
 	@Override
 	public CloseHandshakeType getCloseHandshakeType() {
 		return CloseHandshakeType.ONEWAY;
+	}
+
+	@Override
+	public Draft copyInstance() {
+		return new Draft_76();
 	}
 }

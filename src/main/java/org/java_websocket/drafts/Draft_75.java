@@ -6,9 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import org.java_websocket.exeptions.InvalidDataException;
-import org.java_websocket.exeptions.InvalidHandshakeException;
-import org.java_websocket.exeptions.NotSendableException;
+import org.java_websocket.exceptions.InvalidDataException;
+import org.java_websocket.exceptions.InvalidHandshakeException;
+import org.java_websocket.exceptions.NotSendableException;
 import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.framing.FrameBuilder;
 import org.java_websocket.framing.Framedata;
@@ -138,7 +138,7 @@ public class Draft_75 extends Draft {
 					FramedataImpl1 curframe = new FramedataImpl1();
 					curframe.setPayload( currentFrame );
 					curframe.setFin( true );
-					curframe.setOptcode( inframe ? Opcode.CONTINIOUS : Opcode.TEXT );
+					curframe.setOptcode( inframe ? Opcode.CONTINUOUS : Opcode.TEXT );
 					readyframes.add( curframe );
 					this.currentFrame = null;
 					buffer.mark();
@@ -158,9 +158,10 @@ public class Draft_75 extends Draft {
 		}
 		if( readingState ) {
 			FramedataImpl1 curframe = new FramedataImpl1();
+			currentFrame.flip();
 			curframe.setPayload( currentFrame );
 			curframe.setFin( false );
-			curframe.setOptcode( inframe ? Opcode.CONTINIOUS : Opcode.TEXT );
+			curframe.setOptcode( inframe ? Opcode.CONTINUOUS : Opcode.TEXT );
 			inframe = true;
 			readyframes.add( curframe );
 		}
@@ -200,5 +201,10 @@ public class Draft_75 extends Draft {
 		ByteBuffer newbuffer = ByteBuffer.allocate( full.capacity() * 2 );
 		newbuffer.put( full );
 		return newbuffer;
+	}
+
+	@Override
+	public Draft copyInstance() {
+		return new Draft_75();
 	}
 }

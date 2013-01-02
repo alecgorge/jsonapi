@@ -2,11 +2,11 @@ package org.java_websocket.framing;
 
 import java.nio.ByteBuffer;
 
-import org.java_websocket.exeptions.InvalidFrameException;
+import org.java_websocket.exceptions.InvalidFrameException;
 
 public interface Framedata {
 	public enum Opcode {
-		CONTINIOUS , TEXT , BINARY , PING , PONG , CLOSING
+		CONTINUOUS, TEXT, BINARY, PING, PONG, CLOSING
 		// more to come
 	}
 	public boolean isFin();
