@@ -3,7 +3,6 @@ method-whitelist:
 - dynmap.getPort
 logins:
     usernameGoesHere: passwordGoesHere
-    test: test
 options:
     startup-delay: 2000
     port: 20059
@@ -13,3 +12,7 @@ options:
     salt: 'salt goes here'
     anyone-can-use-calladmin: true
     use-new-api: false
+    stream_pusher:
+        max_queue_age: 30
+        max_queue_length: 500
+        

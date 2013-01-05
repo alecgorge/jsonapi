@@ -37,6 +37,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_4_6.CraftServer;
 import org.bukkit.entity.Player;
@@ -295,10 +296,22 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			PropertiesFile options = null;
 			String ipWhitelist = "";
 			String reconstituted = "";
+			int max_queue_age = 30;
+			int max_queue_length = 500;
 			if (yamlFile.exists()) {
 				yamlConfig = new YamlConfiguration();
 				yamlConfig.load(yamlFile); // VERY IMPORTANT
-
+				
+				yamlConfig.addDefault("method-whitelist", new String[]{ "getPlayerLimit", "dynmap.getPort"} );
+				
+				MemoryConfiguration stream_pusher_config = new MemoryConfiguration();
+				stream_pusher_config.addDefault("max_queue_age", 30);
+				stream_pusher_config.addDefault("max_queue_length", 500);
+				
+				yamlConfig.addDefault("options.stream_pusher", stream_pusher_config);
+				yamlConfig.options().copyDefaults(true);
+				yamlConfig.save(yamlFile);
+				
 				logging = yamlConfig.getBoolean("options.log-to-console", true);
 				logFile = yamlConfig.getString("options.log-to-file", "false");
 
@@ -306,6 +319,9 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				for (String ip : whitelist) {
 					reconstituted += ip + ",";
 				}
+				
+				max_queue_age = yamlConfig.getInt("max_queue_age", 30);
+				max_queue_length = yamlConfig.getInt("max_queue_length", 500);
 
 				salt = yamlConfig.getString("options.salt", "");
 				port = yamlConfig.getInt("options.port", 20059);
@@ -397,7 +413,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			registerStreamManager("console", getJSONServer().console);
 			registerStreamManager("connections", getJSONServer().connections);
 
-			streamPusher = new StreamPusher(streamManager, new File(getDataFolder(), "push_locations.yml"));
+			streamPusher = new StreamPusher(streamManager, new File(getDataFolder(), "push_locations.yml"), max_queue_age, max_queue_length);
 			groupManager = new GroupManager(this, groups);
 
 			initialiseListeners();

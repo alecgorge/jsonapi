@@ -16,6 +16,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.alecgorge.java.http.HttpRequest;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
@@ -25,17 +26,23 @@ public class StreamPusher implements JSONAPIStreamListener {
 	private Map<String, List<URL>> urls = Collections.synchronizedMap(new HashMap<String, List<URL>>());
 	private StreamManager manager;
 
-	private List<Integer> scheduledTasks = Collections.synchronizedList(new ArrayList<Integer>());
+	private List<BukkitTask> scheduledTasks = Collections.synchronizedList(new ArrayList<BukkitTask>());
 	private Map<String, List<JSONAPIStreamMessage>> queuedMessages = Collections.synchronizedMap(new HashMap<String, List<JSONAPIStreamMessage>>());
 
 	private File config_location;
 	private YamlConfiguration config;
 
 	private Logger log = Logger.getLogger("JSONAPI");
+	
+	int maxQueueAge = 30;
+	int maxQueueLength = 500;
+	String pushTag = null;
 
-	public StreamPusher(StreamManager m, File file) {
+	public StreamPusher(StreamManager m, File file, int max_queue_age, int max_queue_length) {
 		manager = m;
 		config_location = file;
+		maxQueueAge = max_queue_age;
+		maxQueueLength = max_queue_length;
 
 		try {
 			if (!config_location.exists()) {
@@ -127,6 +134,12 @@ public class StreamPusher implements JSONAPIStreamListener {
 
 						r.addPostValue("source", streamName);
 						r.addPostValue("count", messages.size());
+						r.addPostValue("server-name", JSONAPI.instance.getServer().getServerName());
+						
+						if(getPushTag() != null) {
+							r.addPostValue("tag", getPushTag());
+						}
+						
 						for (JSONAPIStreamMessage m : messages) {
 							r.addPostValue("messages[]", m.toJSONString());
 						}
@@ -148,8 +161,8 @@ public class StreamPusher implements JSONAPIStreamListener {
 		synchronized (scheduledTasks) {
 			BukkitScheduler scheduler = Bukkit.getScheduler();
 
-			for (Integer i : scheduledTasks) {
-				scheduler.cancelTask(i);
+			for (BukkitTask i : scheduledTasks) {
+				i.cancel();
 			}
 
 			if (urls.containsKey(streamName)) {
@@ -158,9 +171,38 @@ public class StreamPusher implements JSONAPIStreamListener {
 				}
 				queuedMessages.get(streamName).add(message);
 
-				// 200 ticks is 10 seconds
-				scheduledTasks.add(scheduler.scheduleAsyncDelayedTask(JSONAPI.instance, delayedPush(streamName), 200));
+				// schedule it for later if the queue isn't too long.
+				if(queuedMessages.size() <= maxQueueLength) {
+					scheduledTasks.add(scheduler.runTaskLaterAsynchronously(JSONAPI.instance, delayedPush(streamName), 20 * maxQueueAge));
+				}
+				else {
+					(new Thread(delayedPush(streamName))).start();
+				}
 			}
 		}
+	}
+
+	public int getMaxQueueAge() {
+		return maxQueueAge;
+	}
+
+	public void setMaxQueueAge(int maxQueueAge) {
+		this.maxQueueAge = maxQueueAge;
+	}
+
+	public int getMaxQueueLength() {
+		return maxQueueLength;
+	}
+
+	public void setMaxQueueLength(int maxQueueLength) {
+		this.maxQueueLength = maxQueueLength;
+	}
+	
+	public String getPushTag() {
+		return pushTag;
+	}
+
+	public void setPushTag(String pushTag) {
+		this.pushTag = pushTag;
 	}
 }
