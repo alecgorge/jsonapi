@@ -39,12 +39,17 @@
     }, 
     "modify_online_player_inventory": {
       "methods": [
-        "disablePlugin"
+        "setPlayerInventorySlot",
+        "setPlayerInventorySlotWithDamage",
+        "setPlayerInventorySlotWithData",
+        "setPlayerInventorySlotWithDataAndDamage",
+        "setPlayerInventorySlotWithDataDamageAndEnchantments"
       ]
     }, 
     "view_online_player_world_info": {
       "methods": [
-        "disablePlugin"
+        "getPlayer",
+        "getPlayers"
       ]
     }, 
     "view_severe_log_history": {
@@ -148,7 +153,8 @@
     }, 
     "view_online_player_inventory": {
       "methods": [
-        "disablePlugin"
+        "getPlayer",
+        "getPlayers"
       ]
     }, 
     "view_chat": {
