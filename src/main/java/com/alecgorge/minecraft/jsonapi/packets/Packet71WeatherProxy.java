@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.Socket;
 
-import net.minecraft.server.v1_4_R1.Connection;
-import net.minecraft.server.v1_4_R1.DedicatedServerConnection;
-import net.minecraft.server.v1_4_R1.MinecraftServer;
-import net.minecraft.server.v1_4_R1.Packet71Weather;
-import net.minecraft.server.v1_4_R1.PendingConnection;
+import net.minecraft.server.v1_4_6.Connection;
+import net.minecraft.server.v1_4_6.DedicatedServerConnection;
+import net.minecraft.server.v1_4_6.MinecraftServer;
+import net.minecraft.server.v1_4_6.Packet71Weather;
+import net.minecraft.server.v1_4_6.PendingConnection;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
