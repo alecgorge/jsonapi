@@ -1,0 +1,4 @@
+By @Fustrate
+
+https://rubygems.org/gems/minecraft-jsonapi
+Docs: http://rubydoc.info/gems/minecraft-jsonapi/0.0.7/frames
