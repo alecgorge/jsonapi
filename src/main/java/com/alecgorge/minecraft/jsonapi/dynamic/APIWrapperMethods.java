@@ -720,11 +720,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public boolean giveItem(String name, int id, int quant, int data) throws Exception {
 		try {
-			if (data < 0 || data > 15) {
-				throw new Exception("The given data needs to be in decimal form and between 0 and 15");
-			}
 			Player p = getPlayerExact(name);
-			p.getInventory().addItem(new ItemStack(id, quant, (short) 0, Byte.valueOf(String.valueOf(data)).byteValue()));
+			ItemStack stack = new ItemStack(id, quant);
+			stack.setData(new MaterialData(id, Byte.valueOf(String.valueOf(data)).byteValue()));
+			p.getInventory().addItem(stack);
 			p.saveData();
 			return true;
 		} catch (NullPointerException e) {
@@ -744,11 +743,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public boolean giveItemDrop(String name, int id, int quant, int data) throws Exception {
 		try {
-			if (data < 0 || data > 15) {
-				throw new Exception("The given data needs to be in decimal form and between 0 and 15");
-			}
 			Player p = getPlayerExact(name);
-			p.getWorld().dropItem(p.getLocation(), new ItemStack(id, quant, (short) 0, Byte.valueOf(String.valueOf(data)).byteValue()));
+			ItemStack stack = new ItemStack(id, quant);
+			stack.setData(new MaterialData(id, Byte.valueOf(String.valueOf(data)).byteValue()));
+			p.getWorld().dropItem(p.getLocation(), stack);
 			p.saveData();
 			return true;
 		} catch (NullPointerException e) {
