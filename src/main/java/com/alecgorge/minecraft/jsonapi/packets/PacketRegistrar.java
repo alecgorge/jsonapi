@@ -25,7 +25,7 @@ public class PacketRegistrar {
 
 				registrationMethod.invoke(null, new Object[] { packetID, isClientPacket, isServerPacket, packetClass });				
 			} catch (Exception e) {
-				e.printStackTrace();
+				// just smoosh the error, we are probably reloading
 			}
 		}
 	}
