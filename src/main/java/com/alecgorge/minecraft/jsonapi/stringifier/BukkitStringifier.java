@@ -116,6 +116,7 @@ public class BukkitStringifier {
 			o.put("experience", p.getTotalExperience());
 			o.put("firstPlayed", Math.round(p.getFirstPlayed() / 1000.0));
 			o.put("lastPlayed", Math.round(p.getLastPlayed() / 1000.0));
+			o.put("enderchest", p.getEnderChest());
 
 			return o;
 		} else if (obj instanceof OfflinePlayer) {
