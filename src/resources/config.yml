@@ -15,4 +15,3 @@ options:
     stream_pusher:
         max_queue_age: 30
         max_queue_length: 500
-        
