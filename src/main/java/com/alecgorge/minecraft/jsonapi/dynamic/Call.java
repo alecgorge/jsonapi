@@ -13,7 +13,6 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
 public class Call {
 	private static Server Server = JSONAPI.instance.getServer();
-	private static APIWrapperMethods APIInstance = APIWrapperMethods.getInstance();
 
 	private Class<?>[] signature = new Class<?>[] {};
 	private ArrayList<Object> stack = new ArrayList<Object>();
@@ -194,7 +193,7 @@ public class Call {
 			if (v.equals("Server")) {
 				stack.add(Server);
 			} else if (v.equals("this")) {
-				stack.add(APIInstance);
+				stack.add(APIWrapperMethods.getInstance());
 			} else if (v.equals("Plugins")) { // handles
 												// Plugins.PLUGINNAME.pluginMethod(0,1,2)
 				String v2 = parts[i + 1];

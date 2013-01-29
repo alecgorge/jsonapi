@@ -50,6 +50,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.java_websocket.util.Base64;
 import org.json.simpleForBukkit.JSONObject;
@@ -59,6 +60,7 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
+import com.alecgorge.minecraft.jsonapi.util.HerochatFauxPlayerInjector;
 import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
 import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
 import com.alecgorge.minecraft.permissions.PermissionWrapper;
@@ -458,21 +460,13 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		}
 		
 		@Override
-		public void sendRawMessage(String message) {
-			/*if(message.isEmpty()) return;
-			
-			JSONAPI.instance.jsonServer.logChat("", message);*/
-		}
-
-		/*
-		@Override
 		public void sendMessage(String message) {
 			if(message.isEmpty()) return;
 			
-			System.out.println("message: " + message);
+			JSONAPI.instance.getLogger().info("[FauxPlayer] " + message);
 			
-			JSONAPI.instance.jsonServer.logChat("", message);
-		}*/
+			// JSONAPI.instance.jsonServer.logChat("", message);
+		}
 	}
 
 	class FauxEntityPlayer extends EntityPlayer {
@@ -530,6 +524,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	private HashMap<String, FauxPlayer> joinedList = new HashMap<String, FauxPlayer>();
 	private ServerSocket fauxServer = null;
 	private int fauxPort = 0;
+	private Plugin herochat = null;
 	
 	@SuppressWarnings({ "deprecation", "rawtypes" })
 	public boolean chatWithName(String message, String name) {
@@ -540,6 +535,13 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+		}
+		
+		if(herochat == null) {
+			Plugin p = getServer().getPluginManager().getPlugin("Herochat");
+			if(p != null) {
+				herochat = p;
 			}
 		}
 
@@ -556,6 +558,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 //					PlayerJoinEvent joinE = new PlayerJoinEvent(player, "jsonapi fauxplayer join");
 //					Server.getPluginManager().callEvent(joinE);
 //				}
+				
+				if(herochat != null) {
+					HerochatFauxPlayerInjector.inject(player);
+				}
 			}
 
 			// ((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
