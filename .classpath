@@ -5,6 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="deps/Minecraft_RKit.jar"/>
 	<classpathentry kind="lib" path="deps/Vault.jar"/>
+	<classpathentry kind="lib" path="deps/Herochat.jar" />
 	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

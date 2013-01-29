@@ -133,5 +133,12 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/Vault.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>com.dthielke.herochat</groupId>
+			<artifactId>Herochat</artifactId>
+			<version>1.2.5</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/deps/Herochat.jar</systemPath>
+		</dependency>
 	</dependencies>	
 </project>
