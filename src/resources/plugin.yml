@@ -17,7 +17,7 @@ commands:
     usage: /<command> <why>
   jsonapi:
     usage: '/<command> [list|reload|reloadgroups|subscribe <source name> <url>|users [list|<username> password|add <username> <password>]]'
-    description: 'Various commands to control JSONAPI. Check the docs for details: http://mcjsonapi.com/docs'
+    description: '/jsonapi [list|reload|reloadgroups|subscribe <source name> <url>|users [list|<username> password|add <username> <password>]]'
 permissions:
   jsonapi.command:
     description: The ability to use the /jsonapi and /adminium commands
