@@ -579,66 +579,22 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(async, player, s, new LazyPlayerSet());
 			Server.getPluginManager().callEvent(event);
 
-			if (PlayerChatEvent.getHandlerList().getRegisteredListeners().length != 0) {
-				// Evil plugins still listening to deprecated event
-				final PlayerChatEvent queueEvent = new PlayerChatEvent(player, event.getMessage(), event.getFormat(), event.getRecipients());
-				queueEvent.setCancelled(event.isCancelled());
-				Waitable waitable = new Waitable() {
-					@Override
-					protected Object evaluate() {
-						Bukkit.getPluginManager().callEvent(queueEvent);
+			if (event.isCancelled()) {
+				return true;
+			}
 
-						if (queueEvent.isCancelled()) {
-							return null;
-						}
-
-						String message = String.format(queueEvent.getFormat(), queueEvent.getPlayer().getDisplayName(), queueEvent.getMessage());
-						minecraftServer.console.sendMessage(message);
-						if (((LazyPlayerSet) queueEvent.getRecipients()).isLazy()) {
-							for (Object player : minecraftServer.getPlayerList().players) {
-								((EntityPlayer) player).sendMessage(message);
-							}
-						} else {
-							for (Player player : queueEvent.getRecipients()) {
-								player.sendMessage(message);
-							}
-						}
-						return null;
-					}};
-				if (async) {
-					minecraftServer.processQueue.add(waitable);
-				} else {
-					waitable.run();
-				}
-				try {
-					waitable.get();
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt(); // This is proper habit for java. If we aren't handling it, pass it on!
-				} catch (java.util.concurrent.ExecutionException e) {
-					throw new RuntimeException("Exception processing chat event", e.getCause());
+			s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
+			minecraftServer.console.sendMessage(s);
+			if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
+				for (Object recipient : minecraftServer.getPlayerList().players) {
+					((EntityPlayer) recipient).sendMessage(s);
 				}
 			} else {
-				if (event.isCancelled()) {
-					return true;
-				}
-
-				s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
-				minecraftServer.console.sendMessage(s);
-				if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
-					for (Object recipient : minecraftServer.getPlayerList().players) {
-						((EntityPlayer) recipient).sendMessage(s);
-					}
-				} else {
-					for (Player recipient : event.getRecipients()) {
-						recipient.sendMessage(s);
-					}
+				for (Player recipient : event.getRecipients()) {
+					recipient.sendMessage(s);
 				}
 			}
-			
-			
-//			 PlayerQuitEvent quitE = new PlayerQuitEvent(player, "jsonapi fauplayer quit");
-//			 Server.getPluginManager().callEvent(quitE);
-			
+
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

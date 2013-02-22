@@ -438,6 +438,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			} else if (cmd.getName().equals("jsonapi-list")) {
 				listMethods(sender);
 				return true;
+			} else if (cmd.getName().equals("jsonapi") && args.length > 0 && args[0].equals("status")) {
+				jsonServer.connectionInfo();
 			}
 			/*
 			 * else if(!adminium.init && args.length > 1 &&

@@ -84,11 +84,6 @@ public class JSONServer extends NanoHTTPD {
 				caller.registerMethods(APIWrapperMethods.getInstance());
 				
 				outLog.info("[JSONAPI] " + caller.methodCount + " methods loaded in " + caller.methods.size() + " namespaces.");
-	            outLog.info("[JSONAPI] ------[Connection information]-------");
-				outLog.info("[JSONAPI] JSON Server listening on " + plugin.port);
-				outLog.info("[JSONAPI] JSON Stream Server listening on " + (plugin.port + 1));
-				outLog.info("[JSONAPI] JSON WebSocket Stream Server listening on " + (plugin.port + 2));
-				outLog.info("[JSONAPI] Active and listening for requests.");
 				
 				connectionInfo();
 			}
@@ -99,6 +94,12 @@ public class JSONServer extends NanoHTTPD {
 
 	
 	void connectionInfo() {
+        outLog.info("[JSONAPI] ------[Connection information]-------");
+		outLog.info("[JSONAPI] JSON Server listening on " + inst.port);
+		outLog.info("[JSONAPI] JSON Stream Server listening on " + (inst.port + 1));
+		outLog.info("[JSONAPI] JSON WebSocket Stream Server listening on " + (inst.port + 2));
+		outLog.info("[JSONAPI] Active and listening for requests.");
+
 		try {
 			URL whatismyip = new URL("http://tools.alecgorge.com/ip.php");
             BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
@@ -122,10 +123,11 @@ public class JSONServer extends NanoHTTPD {
 	            }
             }
             
-            outLog.info("[JSONAPI] -------------------------------------");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+        outLog.info("[JSONAPI] -------------------------------------");
 	}
 	
 	
