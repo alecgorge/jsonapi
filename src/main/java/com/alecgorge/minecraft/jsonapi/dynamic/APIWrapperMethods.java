@@ -39,12 +39,10 @@ import org.bukkit.craftbukkit.v1_4_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_4_R1.util.LazyPlayerSet;
-import org.bukkit.craftbukkit.v1_4_R1.util.Waitable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -903,6 +901,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			throw new APIException(fileName + " could not have its files extracte!");
 		} finally {
 			try {
+				stream.flush();
 				stream.close();
 			} catch (Exception e) {
 				throw new APIException(fileName + " could not be closed!");
@@ -921,6 +920,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			stream = new FileOutputStream(f);
 			stream.write(contents.getBytes(Charset.forName("UTF-8")));
 			try {
+				stream.flush();
 				stream.close();
 			} catch (IOException e) {
 				throw new APIException(fileName + " could not be closed!");
@@ -941,6 +941,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			stream = new FileOutputStream(f, true);
 			stream.write(contents.getBytes(Charset.forName("UTF-8")));
 			try {
+				stream.flush();
 				stream.close();
 			} catch (IOException e) {
 				throw new APIException(fileName + " could not be closed!");
