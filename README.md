@@ -59,3 +59,7 @@ Once you setup Adminium on your server, you can use [this test console](http://a
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/alecgorge/jsonapi/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/alecgorge/JSONAPI/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
