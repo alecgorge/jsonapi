@@ -12,6 +12,12 @@
 		<connection>scm:git:git://github.com/alecgorge/jsonapi.git</connection>
 		<url>https://github.com/alecgorge/jsonapi/tree/master/</url>
 	</scm>
+	<repositories>
+		<repository>
+            		<id>bukkit-repo</id>
+            		<url>http://repo.bukkit.org/content/groups/public</url>
+        	</repository>
+    	</repositories>
 	<build>
 		<finalName>JSONAPI</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -113,11 +119,9 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.bukkit.craftbukkit</groupId>
+			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1956</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/craftbukkit.jar</systemPath>
+			<version>1.4.7-R1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.drdanick.McRKit</groupId>
