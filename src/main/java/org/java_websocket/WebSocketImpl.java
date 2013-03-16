@@ -42,7 +42,11 @@ import org.java_websocket.util.Charsetfunctions;
  * text frames, and receiving frames through an event-based model.
  * 
  */
-public class WebSocketImpl extends WebSocket {
+public class WebSocketImpl implements WebSocket {
+
+	public static int RCVBUF = 16384;
+
+	public static/*final*/boolean DEBUG = false; // must be final in the future in order to take advantage of VM optimization
 
 	public static final List<Draft> defaultdraftlist = new ArrayList<Draft>( 4 );
 	static {
@@ -54,8 +58,8 @@ public class WebSocketImpl extends WebSocket {
 
 	public SelectionKey key;
 
-	/* only used to obtain the socket addresses*/
-	public final Socket socket;
+	private final Socket socket;
+
 	/** the possibly wrapped channel object whose selection is controlled by {@link #key} */
 	public ByteChannel channel;
 	/**
@@ -116,15 +120,21 @@ public class WebSocketImpl extends WebSocket {
 
 	/**
 	 * crates a websocket with client role
+	 * 
+	 * @param sock
+	 *            may be unbound
 	 */
 	public WebSocketImpl( WebSocketListener listener , Draft draft , Socket sock ) {
+		if( listener == null || sock == null || ( draft == null && role == Role.SERVER ) )
+			throw new IllegalArgumentException( "parameters must not be null" );
 		this.outQueue = new LinkedBlockingQueue<ByteBuffer>();
 		inQueue = new LinkedBlockingQueue<ByteBuffer>();
 		this.wsl = listener;
 		this.role = Role.CLIENT;
 		if( draft != null )
 			this.draft = draft.copyInstance();
-		this.socket = sock;
+
+		socket = sock;
 	}
 
 	/**
@@ -431,11 +441,11 @@ public class WebSocketImpl extends WebSocket {
 		if( key != null ) {
 			// key.attach( null ); //see issue #114
 			key.cancel();
-			try {
-				channel.close();
-			} catch ( IOException e ) {
-				wsl.onWebsocketError( this, e );
-			}
+		}
+		try {
+			channel.close();
+		} catch ( IOException e ) {
+			wsl.onWebsocketError( this, e );
 		}
 		try {
 			this.wsl.onWebsocketClose( this, code, message, remote );
@@ -489,9 +499,8 @@ public class WebSocketImpl extends WebSocket {
 	public void eot() {
 		if( getReadyState() == READYSTATE.NOT_YET_CONNECTED ) {
 			closeConnection( CloseFrame.NEVER_CONNECTED, true );
-		}
-		if( draft == null ) {
-			closeConnection( CloseFrame.ABNORMAL_CLOSE, true );
+		} else if( flushandclosestate ) {
+			closeConnection( closecode, closemessage, closedremotely );
 		} else if( draft.getCloseHandshakeType() == CloseHandshakeType.NONE ) {
 			closeConnection( CloseFrame.NORMAL, true );
 		} else if( draft.getCloseHandshakeType() == CloseHandshakeType.ONEWAY ) {
@@ -509,7 +518,6 @@ public class WebSocketImpl extends WebSocket {
 		close( code, "", false );
 	}
 
-	@Override
 	public void close( InvalidDataException e ) {
 		close( e.getCloseCode(), e.getMessage(), false );
 	}
@@ -691,6 +699,11 @@ public class WebSocketImpl extends WebSocket {
 	@Override
 	public Draft getDraft() {
 		return draft;
+	}
+
+	@Override
+	public void close() {
+		close( CloseFrame.NORMAL );
 	}
 
 }

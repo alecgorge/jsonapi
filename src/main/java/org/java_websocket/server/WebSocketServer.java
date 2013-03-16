@@ -76,7 +76,6 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 
 	private List<WebSocketWorker> decoders;
 
-	private BlockingQueue<WebSocketImpl> oqueue;
 	private List<WebSocketImpl> iqueue;
 	private BlockingQueue<ByteBuffer> buffers;
 	private int queueinvokes = 0;
@@ -157,7 +156,6 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 		this.address = address;
 		this.connections = connectionscontainer;
 
-		oqueue = new LinkedBlockingQueue<WebSocketImpl>();
 		iqueue = new LinkedList<WebSocketImpl>();
 
 		decoders = new ArrayList<WebSocketWorker>( decodercount );
@@ -213,8 +211,10 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 				if( Thread.currentThread() != selectorthread ) {
 
 				}
-				selectorthread.interrupt();
-				selectorthread.join();
+				if( selectorthread != Thread.currentThread() ) {
+					selectorthread.interrupt();
+					selectorthread.join();
+				}
 			}
 			if( decoders != null ) {
 				for( WebSocketWorker w : decoders ) {
@@ -278,12 +278,12 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 			server = ServerSocketChannel.open();
 			server.configureBlocking( false );
 			ServerSocket socket = server.socket();
-			socket.setReceiveBufferSize( WebSocket.RCVBUF );
+			socket.setReceiveBufferSize( WebSocketImpl.RCVBUF );
 			socket.bind( address );
 			selector = Selector.open();
 			server.register( selector, server.validOps() );
 		} catch ( IOException ex ) {
-			onWebsocketError( null, ex );
+			handleFatal( null, ex );
 			return;
 		}
 		try {
@@ -292,8 +292,6 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 				WebSocketImpl conn = null;
 				try {
 					selector.select();
-					registerWrite();
-
 					Set<SelectionKey> keys = selector.selectedKeys();
 					Iterator<SelectionKey> i = keys.iterator();
 
@@ -315,7 +313,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 							channel.configureBlocking( false );
 							WebSocketImpl w = wsf.createWebSocket( this, drafts, channel.socket() );
 							w.key = channel.register( selector, SelectionKey.OP_READ, w );
-							w.channel = wsf.wrapChannel( w.key );
+							w.channel = wsf.wrapChannel( channel, w.key );
 							i.remove();
 							allocateBuffers( w );
 							continue;
@@ -357,10 +355,14 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 						conn = iqueue.remove( 0 );
 						WrappedByteChannel c = ( (WrappedByteChannel) conn.channel );
 						ByteBuffer buf = takeBuffer();
-						if( SocketChannelIOHelper.readMore( buf, conn, c ) )
-							iqueue.add( conn );
-						conn.inQueue.put( buf );
-						queue( conn );
+						try {
+							if( SocketChannelIOHelper.readMore( buf, conn, c ) )
+								iqueue.add( conn );
+							conn.inQueue.put( buf );
+							queue( conn );
+						} finally {
+							pushBuffer( buf );
+						}
 
 					}
 				} catch ( CancelledKeyException e ) {
@@ -379,7 +381,6 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 			handleFatal( null, e );
 		}
 	}
-
 	protected void allocateBuffers( WebSocket c ) throws InterruptedException {
 		if( queuesize.get() >= 2 * decoders.size() + 1 ) {
 			return;
@@ -394,7 +395,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 	}
 
 	public ByteBuffer createBuffer() {
-		return ByteBuffer.allocate( WebSocket.RCVBUF );
+		return ByteBuffer.allocate( WebSocketImpl.RCVBUF );
 	}
 
 	private void queue( WebSocketImpl ws ) throws InterruptedException {
@@ -415,14 +416,6 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 		buffers.put( buf );
 	}
 
-	private void registerWrite() throws CancelledKeyException {
-		int size = oqueue.size();
-		for( int i = 0 ; i < size ; i++ ) {
-			WebSocketImpl conn = oqueue.remove();
-			conn.key.interestOps( SelectionKey.OP_READ | SelectionKey.OP_WRITE );
-		}
-	}
-
 	private void handleIOException( WebSocket conn, IOException ex ) {
 		onWebsocketError( conn, ex );// conn may be null here
 		if( conn != null ) {
@@ -430,7 +423,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 		}
 	}
 
-	private void handleFatal( WebSocket conn, RuntimeException e ) {
+	private void handleFatal( WebSocket conn, Exception e ) {
 		onError( conn, e );
 		try {
 			stop();
@@ -478,7 +471,6 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 
 	@Override
 	public final void onWebsocketClose( WebSocket conn, int code, String reason, boolean remote ) {
-		oqueue.add( (WebSocketImpl) conn );// because the ostream will close the channel
 		selector.wakeup();
 		try {
 			if( removeConnection( conn ) ) {
@@ -525,7 +517,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 	@Override
 	public final void onWriteDemand( WebSocket w ) {
 		WebSocketImpl conn = (WebSocketImpl) w;
-		oqueue.add( conn );
+		conn.key.interestOps( SelectionKey.OP_READ | SelectionKey.OP_WRITE );
 		selector.wakeup();
 	}
 
@@ -655,6 +647,6 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 		 *            a SelectionKey of an open SocketChannel.
 		 * @return The channel on which the read and write operations will be performed.<br>
 		 */
-		public ByteChannel wrapChannel( SelectionKey key ) throws IOException;
+		public ByteChannel wrapChannel( SocketChannel channel, SelectionKey key ) throws IOException;
 	}
 }
