@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.Socket;
 
-import net.minecraft.server.v1_4_R1.Connection;
-import net.minecraft.server.v1_4_R1.DedicatedServerConnection;
-import net.minecraft.server.v1_4_R1.MinecraftServer;
-import net.minecraft.server.v1_4_R1.Packet71Weather;
-import net.minecraft.server.v1_4_R1.PendingConnection;
+import net.minecraft.server.v1_5_R1.Connection;
+import net.minecraft.server.v1_5_R1.DedicatedServerConnection;
+import net.minecraft.server.v1_5_R1.MinecraftServer;
+import net.minecraft.server.v1_5_R1.Packet71Weather;
+import net.minecraft.server.v1_5_R1.PendingConnection;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
@@ -122,7 +122,7 @@ public class Packet71WeatherProxy extends Packet71Weather {
 						e.printStackTrace();
 					}
 					
-					loginHandler.c = true;
+					loginHandler.b = true;
 					
 					return null;
 				}
