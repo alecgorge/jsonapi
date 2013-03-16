@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="deps/Minecraft_RKit.jar"/>
-	<classpathentry kind="lib" path="deps/Vault.jar"/>
-	<classpathentry kind="lib" path="deps/Herochat.jar"/>
-	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
-	<classpathentry kind="lib" path="/Users/alecgorge/Documents/java/jsonapi/deps/craftbukkit.jar"/>
-	<classpathentry kind="output" path="bin"/>
+  <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
+  <classpathentry kind="src" path="src/resources" including="plugin.yml|groups.json|config.yml|config_rtk.yml|methods.json|methods/*" excluding="**/*.java"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+  <classpathentry kind="var" path="M2_REPO/org/bukkit/craftbukkit/1.5-R0.1-SNAPSHOT/craftbukkit-1.5-R0.1-SNAPSHOT.jar"/>
+  <classpathentry kind="lib" path="deps/Minecraft_RKit.jar"/>
+  <classpathentry kind="lib" path="deps/Vault.jar"/>
+  <classpathentry kind="lib" path="deps/Herochat.jar"/>
 </classpath>
