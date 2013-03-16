@@ -20,7 +20,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.json.simple.JSONObject;
+import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.java.http.HttpRequest;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;

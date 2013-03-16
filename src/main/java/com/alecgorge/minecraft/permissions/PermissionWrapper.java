@@ -31,7 +31,7 @@ public class PermissionWrapper {
 		} else {
 			active = true;
 			server = s;
-			RegisteredServiceProvider<Permission> rsp = server.getServicesManager().getRegistration(Permission.class);
+			RegisteredServiceProvider<Permission> rsp = (RegisteredServiceProvider<Permission>)server.getServicesManager().getRegistration(Permission.class);
 			perms = rsp.getProvider();
 		}
 	}

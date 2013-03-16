@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.logging.Formatter;
-import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 final public class ConsoleLogFormatter extends Formatter {
@@ -17,23 +16,9 @@ final public class ConsoleLogFormatter extends Formatter {
         StringBuilder stringbuilder = new StringBuilder();
 
         stringbuilder.append(this.a.format(Long.valueOf(logrecord.getMillis())));
-        Level level = logrecord.getLevel();
-
-        if (level == Level.FINEST) {
-            stringbuilder.append(" [FINEST] ");
-        } else if (level == Level.FINER) {
-            stringbuilder.append(" [FINER] ");
-        } else if (level == Level.FINE) {
-            stringbuilder.append(" [FINE] ");
-        } else if (level == Level.INFO) {
-            stringbuilder.append(" [INFO] ");
-        } else if (level == Level.WARNING) {
-            stringbuilder.append(" [WARNING] ");
-        } else if (level == Level.SEVERE) {
-            stringbuilder.append(" [SEVERE] ");
-        } else if (level == Level.SEVERE) {
-            stringbuilder.append(" [" + level.getLocalizedName() + "] ");
-        }
+        stringbuilder.append(" [");
+        stringbuilder.append(logrecord.getLevel().getLocalizedName().toUpperCase());
+        stringbuilder.append("] ");
 
         stringbuilder.append(logrecord.getMessage());
         stringbuilder.append('\n');
@@ -43,7 +28,7 @@ final public class ConsoleLogFormatter extends Formatter {
             StringWriter stringwriter = new StringWriter();
 
             throwable.printStackTrace(new PrintWriter(stringwriter));
-            stringbuilder.append(stringwriter.toString());
+            stringbuilder.append(stringwriter);
         }
 
         return stringbuilder.toString();

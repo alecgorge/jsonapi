@@ -10,7 +10,12 @@ public class BookItem {
 	}
 	
 	public String[] getPages() {
-		return stack.getPages().toArray(new String[] {});
+		String[] pages = new String[stack.getPageCount()];
+		for(int i = 0; i < pages.length; i++) {
+			pages[i] = stack.getPage(i);
+		}
+		
+		return pages;
 	}
 	
 	public String getAuthor() {

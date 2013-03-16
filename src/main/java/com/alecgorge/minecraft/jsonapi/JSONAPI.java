@@ -13,14 +13,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Random;
 import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.minecraft.server.v1_4_R1.EntityPlayer;
@@ -30,6 +31,7 @@ import net.minecraft.server.v1_4_R1.PlayerInteractManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -388,14 +390,11 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			log.info("[JSONAPI] IP Whitelist = " + (reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
 
 			jsonServer = new JSONServer(auth, this, startupDelay);
-
+						
 			// add console stream support
 			handler = new ConsoleHandler(jsonServer);
 			log.addHandler(handler);
-
-			if (logging) {
-				outLog.addHandler(handler);
-			}
+			Logger.getLogger("").addHandler(handler);
 
 			log.info("[JSONAPI] Attempting to use port " + port);
 
@@ -589,17 +588,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		return false;
 	}
 
-	private String genPassword() {
-		Random random = new Random();
-
-		StringBuilder b = new StringBuilder((char) (random.nextInt('z' - 'A' + 1) + 'A'));
-		for (int i = 0; i < 12; i++) {
-			b.append((char) (random.nextInt('z' - 'A' + 1) + 'A'));
-		}
-
-		return b.toString();
-	}
-
 	private void listMethods(CommandSender sender) {
 		listMethods(sender, "-1");
 	}
@@ -655,18 +643,30 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			// See if the player has data files
 
 			// Find the player folder
-			File playerfolder = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "players");
+			File playerfolder = new File(((World)Bukkit.getWorlds().get(0)).getWorldFolder(), "players");
 			if (!playerfolder.exists()) {
 				return null;
 			}
 
-			MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
-
-			// Create an entity to load the player data
-			EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), exactPlayerName, new PlayerInteractManager(server.getWorldServer(0)));
-
-			// Get the bukkit entity
-			Player target = (entity == null) ? null : entity.getBukkitEntity();
+			Player target = null;
+			try {
+				MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
+				
+				// Create an entity to load the player data
+				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), exactPlayerName, new PlayerInteractManager(server.getWorldServer(0)));
+	
+				// Get the bukkit entity
+				target = (entity == null) ? null : entity.getBukkitEntity();
+			} catch (Exception e) {
+				MinecraftServer server = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
+				
+				// Create an entity to load the player data
+				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), exactPlayerName, new PlayerInteractManager(server.getWorldServer(0)));
+	
+				// Get the bukkit entity
+				target = (entity == null) ? null : entity.getBukkitEntity();				
+			}
+			
 			if (target != null) {
 				// Load data
 				target.loadData();
