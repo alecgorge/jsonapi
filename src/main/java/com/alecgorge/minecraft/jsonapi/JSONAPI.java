@@ -19,24 +19,19 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.FileHandler;
+import java.util.logging.Filter;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
-
-import net.minecraft.server.v1_5_R1.EntityPlayer;
-import net.minecraft.server.v1_5_R1.MinecraftServer;
-import net.minecraft.server.v1_5_R1.PlayerInteractManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_5_R1.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -56,12 +51,14 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
+import com.alecgorge.minecraft.jsonapi.packets.LostConnectionFilter;
 import com.alecgorge.minecraft.jsonapi.packets.Packet71WeatherProxy;
 import com.alecgorge.minecraft.jsonapi.packets.PacketRegistrar;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
+import com.alecgorge.minecraft.jsonapi.util.OfflinePlayerLoader;
 import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
 import com.alecgorge.minecraft.jsonapi.util.TickRateCounter;
 
@@ -375,6 +372,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			if (!logFile.equals("false") && !logFile.isEmpty()) {
 				FileHandler fh = new FileHandler(logFile, true);
 				fh.setFormatter(new ConsoleLogFormatter());
+				fh.setFilter(new LostConnectionFilter());
 				outLog.addHandler(fh);
 			}
 
@@ -393,6 +391,14 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			handler = new ConsoleHandler(jsonServer);
 			log.addHandler(handler);
 			Logger.getLogger("").addHandler(handler);
+			
+			// this is quite hacky but it hides the mess from HTTP requests on the join port
+			for(Handler h : log.getHandlers()) {
+				h.setFilter(new LostConnectionFilter(h.getFilter()));
+			}
+			for(Handler h : Logger.getLogger("").getHandlers()) {
+				h.setFilter(new LostConnectionFilter(h.getFilter()));
+			}
 
 			log.info("[JSONAPI] Attempting to use port " + port);
 
@@ -634,48 +640,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	}
 
 	public static Player loadOfflinePlayer(String exactPlayerName) {
-		// big thanks to
-		// https://github.com/lishd/OpenInv/blob/master/src/com/lishid/openinv/internal/craftbukkit/PlayerDataManager.java
-		// Offline inv here...
-		try {
-			// See if the player has data files
-
-			// Find the player folder
-			File playerfolder = new File(((World)Bukkit.getWorlds().get(0)).getWorldFolder(), "players");
-			if (!playerfolder.exists()) {
-				return null;
-			}
-
-			Player target = null;
-			try {
-				MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
-				
-				// Create an entity to load the player data
-				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), exactPlayerName, new PlayerInteractManager(server.getWorldServer(0)));
-	
-				// Get the bukkit entity
-				target = (entity == null) ? null : entity.getBukkitEntity();
-			} catch (Exception e) {
-				MinecraftServer server = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
-				
-				// Create an entity to load the player data
-				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), exactPlayerName, new PlayerInteractManager(server.getWorldServer(0)));
-	
-				// Get the bukkit entity
-				target = (entity == null) ? null : entity.getBukkitEntity();				
-			}
-			
-			if (target != null) {
-				// Load data
-				target.loadData();
-				// Return the entity
-				return target;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		return OfflinePlayerLoader.load(exactPlayerName);
 	}
 
 	private void initialiseListeners() {

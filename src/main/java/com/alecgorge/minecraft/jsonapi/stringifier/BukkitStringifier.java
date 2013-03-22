@@ -23,13 +23,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
-import com.alecgorge.minecraft.jsonapi.util.BookItem;
 
 public class BukkitStringifier {
 	public static HashMap<String, Class<?>> handle = new HashMap<String, Class<?>>();
@@ -196,7 +196,7 @@ public class BukkitStringifier {
 			if (((ItemStack) obj).getType().equals(Material.BOOK_AND_QUILL) || ((ItemStack) obj).getType().equals(Material.WRITTEN_BOOK)) {
 				JSONObject book = new JSONObject();
 				
-				BookItem bookObj = new BookItem((ItemStack) obj);
+				BookMeta bookObj = (BookMeta)((ItemStack)obj).getItemMeta();
 				
 				book.put("pages", bookObj.getPages());
 				book.put("title", bookObj.getTitle());

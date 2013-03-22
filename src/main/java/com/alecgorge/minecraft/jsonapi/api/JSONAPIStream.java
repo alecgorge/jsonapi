@@ -17,7 +17,7 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
 public abstract class JSONAPIStream {
 	protected List<JSONAPIStreamListener> listeners = Collections.synchronizedList(new ArrayList<JSONAPIStreamListener>());
 	protected LinkedBlockingQueue<JSONAPIStreamMessage> messages = new LinkedBlockingQueue<JSONAPIStreamMessage>();
-	protected List<JSONAPIStreamMessage> last50 = Collections.synchronizedList(new ArrayList<JSONAPIStreamMessage>(50));
+	protected List<JSONAPIStreamMessage> last50 = Collections.synchronizedList(new ArrayList<JSONAPIStreamMessage>(150));
 
 	protected String name;
 
@@ -41,7 +41,7 @@ public abstract class JSONAPIStream {
 	 * @param l
 	 *            The listener to push to.
 	 * @param feedOld
-	 *            Do you want to receive up to 50 previous messages immediately
+	 *            Do you want to receive up to 150 previous messages immediately
 	 *            after registering?
 	 */
 	public void registerListener(JSONAPIStreamListener l, boolean feedOld) {
@@ -55,7 +55,7 @@ public abstract class JSONAPIStream {
 	}
 
 	/**
-	 * Returns up to the last 50 messages in syncronized ArrayList.
+	 * Returns up to the last 150 messages in syncronized ArrayList.
 	 * 
 	 * @return
 	 */
@@ -94,7 +94,7 @@ public abstract class JSONAPIStream {
 		messages.offer(m);
 		last50.add(m);
 
-		if (last50.size() > 50) {
+		if (last50.size() > 150) {
 			last50.remove(0);
 		}
 		

@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
@@ -18,6 +19,8 @@ import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 public class APIv2Handler {
+	static Logger jsonapiLog = Logger.getLogger("JSONAPI");
+	
 	String uri;
 	String method;
 	Properties header;
@@ -111,6 +114,16 @@ public class APIv2Handler {
 					}
 				}
 			}
+			
+			// logging
+			StringBuilder b = new StringBuilder("[JSONAPI] ");
+			b.append(stream ? "[Stream Request] " : "[API Request] ");
+			
+			for(JSONResponse r : requests) {
+				b.append(r.getMethodName()).append("(").append(r.getArguments()).append(") ");
+			}
+			
+			jsonapiLog.info(b.toString());
 		}
 	}	
 }
