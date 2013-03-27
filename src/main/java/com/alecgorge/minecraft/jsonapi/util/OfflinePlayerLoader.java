@@ -30,7 +30,7 @@ public class OfflinePlayerLoader {
 				MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
 				
 				// Create an entity to load the player data
-				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), exactPlayerName, new PlayerInteractManager(server.getWorldServer(0)));
+				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), exactPlayerName, new PlayerInteractManager(server.getWorldServer(0).getWorld()));
 	
 				// Get the bukkit entity
 				target = (entity == null) ? null : entity.getBukkitEntity();

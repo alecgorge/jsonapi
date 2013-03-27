@@ -4,12 +4,15 @@
 $host = "localhost";
 $port = 25565;
 $endpoint = "api/2/call";
+$host = "sneakattackcraft.com";
+$port = 44445;
+$endpoint = "api/2/call";
 
-$username = "usernameGoesHere";
-$password = "passwordGoesHere";
+$username = "alec";
+$password = "alec13579";
 // $username = "test";
 // $password = "test";
-$salt = ""; // salt goes here";
+$salt = "ba92e"; // salt goes here";
 
 function gen_key($name) {
 	global $username, $password, $salt;
@@ -81,7 +84,7 @@ if(!(php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR']))) {
 	echo "<pre>";
 }
 
-$stream = false;
+$stream = true;
 if($stream) {
 	$url = sprintf("http://%s:%d/api/2/subscribe?json=%s", $host, $port, rawurlencode(json_encode($streamPayload)));
 	echo $url ."\n";

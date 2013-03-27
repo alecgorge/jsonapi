@@ -391,6 +391,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			handler = new ConsoleHandler(jsonServer);
 			log.addHandler(handler);
 			Logger.getLogger("").addHandler(handler);
+			Logger.getLogger("ForgeModLoader").addHandler(handler);
 			
 			// this is quite hacky but it hides the mess from HTTP requests on the join port
 			for(Handler h : log.getHandlers()) {
@@ -398,6 +399,9 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			}
 			for(Handler h : Logger.getLogger("").getHandlers()) {
 				h.setFilter(new LostConnectionFilter(h.getFilter()));
+			}
+			for(Handler h : Logger.getLogger("ForgeModLoader").getHandlers()) {
+				h.setFilter(new LostConnectionFilter(h.getFilter()));				
 			}
 
 			log.info("[JSONAPI] Attempting to use port " + port);

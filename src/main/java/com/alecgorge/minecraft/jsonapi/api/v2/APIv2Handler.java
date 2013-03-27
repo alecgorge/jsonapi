@@ -63,11 +63,16 @@ public class APIv2Handler {
 	
 	public NanoHTTPD.Response call() {
 		JSONArray a = new JSONArray();
+		
+		boolean allAreAuth = true;
 		for(JSONResponse resp : requests) {
+			if(!resp.auth.isAuthenticated()) {
+				allAreAuth = false;
+			}
 			a.add(resp.getJSONObject());
 		}
 		
-		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, a.toJSONString());
+		return resp(allAreAuth ? NanoHTTPD.HTTP_OK : NanoHTTPD.HTTP_FORBIDDEN, NanoHTTPD.MIME_JSON, a.toJSONString());
 	}
 	
 	public NanoHTTPD.Response resp(String resp, String type, String body) {
@@ -82,6 +87,7 @@ public class APIv2Handler {
 		List<Boolean> 	showOlder 	= new ArrayList<Boolean>();
 		List<String> 	tag 		= new ArrayList<String>();
 		List<JSONObject>defaults	= new ArrayList<JSONObject>();
+		
 		
 		for(JSONResponse resp : requests) {
 			JSONAPIAuthResponse auth = resp.testLogin(true);
