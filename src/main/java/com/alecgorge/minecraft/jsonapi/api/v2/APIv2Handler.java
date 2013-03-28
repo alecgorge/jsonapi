@@ -66,7 +66,7 @@ public class APIv2Handler {
 		
 		boolean allAreAuth = true;
 		for(JSONResponse resp : requests) {
-			if(!resp.auth.isAuthenticated()) {
+			if(!resp.testLogin(false).isAuthenticated()) {
 				allAreAuth = false;
 			}
 			a.add(resp.getJSONObject());
