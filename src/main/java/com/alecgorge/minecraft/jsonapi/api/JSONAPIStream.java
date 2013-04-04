@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
 /**
@@ -102,7 +105,9 @@ public abstract class JSONAPIStream {
 			JSONAPI.instance.getServer().getScheduler().cancelTask(drainTask);
 		}
 		
-		drainTask = JSONAPI.instance.getServer().getScheduler().scheduleAsyncDelayedTask(JSONAPI.instance, new Runnable() {
+		(new BukkitRunnable() {
+
+			@Override
 			public void run() {
 				ArrayList<JSONAPIStreamMessage> stack = new ArrayList<JSONAPIStreamMessage>();
 				messages.drainTo(stack);
@@ -115,6 +120,6 @@ public abstract class JSONAPIStream {
 					}
 				}
 			}
-		}, 5 /* 1/4 second/5 ticks */);
+		}).runTaskLaterAsynchronously(JSONAPI.instance, 5);
 	}
 }

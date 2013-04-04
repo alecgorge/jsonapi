@@ -144,25 +144,32 @@ public class JSONServer extends NanoHTTPD {
 	}
 
 	public void logChat(String player, String message) {
-		chat.addMessage(new ChatMessage(player, message));
+		if(inst.isEnabled()) {
+			chat.addMessage(new ChatMessage(player, message));
+		}
 	}
 
 	public void logConsole(String line) {
-		console.addMessage(new ConsoleMessage(line));
+		if(inst.isEnabled()) {
+			console.addMessage(new ConsoleMessage(line));
+		}
 	}
 
 	public void logConnected(String player) {
-		connections.addMessage(new ConnectionMessage(player, true));
+		if(inst.isEnabled()) {
+			connections.addMessage(new ConnectionMessage(player, true));
+		}
 	}
 
 	public void logDisconnected(String player) {
-		connections.addMessage(new ConnectionMessage(player, false));
+		if(inst.isEnabled()) {
+			connections.addMessage(new ConnectionMessage(player, false));
+		}
 	}
 
 	public boolean testLogin(String method, String hash) {
 		try {
 			boolean valid = false;
-			String validUser = null;
 			for (String user : logins.keySet()) {
 				String pass = logins.get(user);
 
@@ -170,7 +177,6 @@ public class JSONServer extends NanoHTTPD {
 
 				if (thishash.equals(hash)) {
 					valid = true;
-					validUser = user;
 					break;
 				}
 			}
