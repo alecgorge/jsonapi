@@ -35,7 +35,7 @@ import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 public class JSONServer extends NanoHTTPD {
 	public HashMap<String, String> logins = new HashMap<String, String>();
 	private JSONAPI inst;
-	private Logger outLog = Logger.getLogger("JSONAPI");
+	private Logger outLog = JSONAPI.instance.outLog;
 	private Caller caller;
 
 	public ChatStream chat = new ChatStream("chat");
@@ -50,6 +50,8 @@ public class JSONServer extends NanoHTTPD {
 
 		caller = new Caller(inst);
 		caller.loadFile(new File(inst.getDataFolder() + File.separator + "methods.json"));
+		
+		outLog.info("[JSONAPI] Loaded methods.json.");
 
 		(new Thread(new Runnable() {
 			@Override

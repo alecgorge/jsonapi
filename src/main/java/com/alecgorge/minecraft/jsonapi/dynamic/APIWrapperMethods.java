@@ -5,9 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -19,13 +16,6 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_5_R2.Connection;
-import net.minecraft.server.v1_5_R2.EntityPlayer;
-import net.minecraft.server.v1_5_R2.MinecraftServer;
-import net.minecraft.server.v1_5_R2.NetworkManager;
-import net.minecraft.server.v1_5_R2.PlayerConnection;
-import net.minecraft.server.v1_5_R2.PlayerInteractManager;
-import net.minecraft.server.v1_5_R2.World;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -35,20 +25,13 @@ import org.bukkit.Server;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
-import org.bukkit.craftbukkit.v1_5_R2.CraftServer;
-import org.bukkit.craftbukkit.v1_5_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_5_R2.util.LazyPlayerSet;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.java_websocket.util.Base64;
 import org.json.simpleForBukkit.JSONObject;
@@ -58,13 +41,15 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
-import com.alecgorge.minecraft.jsonapi.util.HerochatFauxPlayerInjector;
+import com.alecgorge.minecraft.jsonapi.chat.BukkitForgeRealisticChat;
+import com.alecgorge.minecraft.jsonapi.chat.BukkitRealisticChat;
+import com.alecgorge.minecraft.jsonapi.chat.IRealisticChat;
 import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
 import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
 import com.alecgorge.minecraft.permissions.PermissionWrapper;
 
 public class APIWrapperMethods implements JSONAPIMethodProvider {
-	private Logger outLog = Logger.getLogger("JSONAPI");
+	private Logger outLog = JSONAPI.instance.outLog;
 	public PermissionWrapper permissions;
 
 	public Economy econ;
@@ -431,183 +416,60 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		return "3.6.7"; // needed because of faulty Adminium 2.2.1 version checking
 	}
 	
-	class FauxPlayer extends CraftPlayer {
-		String name;
-
-		public FauxPlayer(String name, FauxEntityPlayer ent) {
-			super((CraftServer) JSONAPI.instance.getServer(), ent);
-
-			this.name = name;
-
-			((FauxPlayerConnection) getHandle().playerConnection).setPlayer(this);
-		}
-
-		@Override
-		public String getName() {
-			return name;
-		}
-
-		@Override
-		public boolean isOnline() {
-			return true;
-		}
-
-		@Override
-		public boolean isOp() {
-			return true;
+	private IRealisticChat chatUtility = null;
+		
+	public IRealisticChat getRealisticChatProvider() {
+		if(chatUtility != null) {
+			return chatUtility;
 		}
 		
-		@Override
-		public void sendMessage(String message) {
-			if(message.isEmpty()) return;
-			
-			JSONAPI.instance.getLogger().info("[FauxPlayer] " + message);
-			
-			// JSONAPI.instance.jsonServer.logChat("", message);
-		}
-	}
-
-	class FauxEntityPlayer extends EntityPlayer {
-
-		public FauxEntityPlayer(MinecraftServer minecraftserver, World world, String s, PlayerInteractManager iteminworldmanager) {
-			super(minecraftserver, world, s, iteminworldmanager);
-
-			Socket ss = null;
-			try {
-				ss = new Socket("localhost", fauxPort);
-			} catch (UnknownHostException e) {
-			} catch (IOException e) {
-			}
-			NetworkManager m = null;
-			try {
-				m = new NetworkManager(null, ss, "???", new Connection() {
-
-					@Override
-					public boolean a() {
-						// TODO Auto-generated method stub
-						return false;
-					}
-				}, null);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-			playerConnection = new FauxPlayerConnection(((CraftServer) getServer()).getServer(), m, this);
-
-			try {
-				ss.close();
-			} catch (IOException e) {
-			}
-		}
-
-	}
-
-	class FauxPlayerConnection extends PlayerConnection {
-		private CraftPlayer _player;
-
-		public FauxPlayerConnection(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer) {
-			super(minecraftserver, networkmanager, entityplayer);
-		}
-
-		public void setPlayer(CraftPlayer p) {
-			_player = p;
-		}
-
-		public CraftPlayer getPlayerExact() {
-			return _player;
-		}
-	}
-
-	private HashMap<String, FauxPlayer> joinedList = new HashMap<String, FauxPlayer>();
-	private ServerSocket fauxServer = null;
-	private int fauxPort = 0;
-	private Plugin herochat = null;
-	
-	@SuppressWarnings({ "deprecation", "rawtypes" })
-	public boolean chatWithName(String message, String name) {
-		if (fauxServer == null) {
-			try {
-				fauxServer = new ServerSocket(0);
-				fauxPort = fauxServer.getLocalPort();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		if(herochat == null) {
-			Plugin p = getServer().getPluginManager().getPlugin("Herochat");
-			if(p != null) {
-				herochat = p;
-			}
-		}
-
 		try {
-			FauxPlayer player;
-			if (joinedList.containsKey(name)) {
-				player = joinedList.get(name);
-			} else {
-				// this is the biggest hack ever.
-				player = new FauxPlayer(name, new FauxEntityPlayer(((CraftServer) Server).getServer(), ((CraftWorld) Server.getWorlds().get(0)).getHandle(), name, new PlayerInteractManager(((CraftServer) Server).getServer().getWorldServer(0))));
-				joinedList.put(name, player);
-				
-//				if(Server.getPlayerExact(name) == null) {
-//					PlayerJoinEvent joinE = new PlayerJoinEvent(player, "jsonapi fauxplayer join");
-//					Server.getPluginManager().callEvent(joinE);
-//				}
-				
-				if(herochat != null) {
-					HerochatFauxPlayerInjector.inject(player);
-				}
-			}
-
-			// ((CraftServer) Server).getServer().server.getHandle().players.add(player.getHandle());
-			
-			final MinecraftServer minecraftServer = ((CraftServer) Server).getServer().server.getServer();
-			String s = message;
-			boolean async = false;
-			
-			/*if(s.startsWith("/")) {
-				return handleCommand(s, player);
-			}*/
-
-			// copied from CraftBukkit / src / main / java / net / minecraft /
-			// server / NetServerHandler.java#chat(2)
-			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(async, player, s, new LazyPlayerSet());
-			Server.getPluginManager().callEvent(event);
-
-			if (event.isCancelled()) {
-				return true;
-			}
-
-			s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
-			minecraftServer.console.sendMessage(s);
-			if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
-				for (Object recipient : minecraftServer.getPlayerList().players) {
-					((EntityPlayer) recipient).sendMessage(s);
-				}
-			} else {
-				for (Player recipient : event.getRecipients()) {
-					recipient.sendMessage(s);
-				}
-			}
-
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			chatUtility = new BukkitForgeRealisticChat();
 		}
-	}
-
-	public void disconnectAllFauxPlayers() {
-		for (String name : joinedList.keySet()) {
-			Player player = joinedList.get(name);
-			PlayerQuitEvent playerQuitEvent = new PlayerQuitEvent(player, "\u00A7e" + player.getName() + " left the game.");
-			Server.getPluginManager().callEvent(playerQuitEvent);
+		catch(Error e) {
+			try {
+				chatUtility = new BukkitRealisticChat();
+			}
+			catch(Error sube) {
+				
+			}
 		}
+		
+		if(chatUtility == null) {
+			chatUtility = new IRealisticChat() {
+				
+				@Override
+				public void pluginDisable() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public boolean chatWithName(String message, String name) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean canHandleChats() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			};
+		}
+		
+		return chatUtility;
 	}
 	
+	public boolean chatWithName(String message, String name) {
+		getRealisticChatProvider().chatWithName(message, name);
+		return true;
+	}
+	
+	public void pluginDisable() {
+		getRealisticChatProvider().pluginDisable();
+	}
+
 	public int broadcastMessage(String message) {
 		JSONAPI.instance.jsonServer.logChat("", message);
 		return Server.broadcastMessage(message);

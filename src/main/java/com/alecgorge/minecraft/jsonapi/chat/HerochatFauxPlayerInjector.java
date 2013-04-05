@@ -1,4 +1,4 @@
-package com.alecgorge.minecraft.jsonapi.util;
+package com.alecgorge.minecraft.jsonapi.chat;
 
 import java.lang.reflect.Field;
 import java.util.Map;

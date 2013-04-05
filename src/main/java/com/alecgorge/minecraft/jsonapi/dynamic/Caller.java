@@ -24,7 +24,7 @@ public class Caller implements JSONAPIMethodProvider {
 	public HashMap<String, HashMap<String, Method>> methods = new HashMap<String, HashMap<String, Method>>();
 	private JSONParser p = new JSONParser();
 	private JSONAPI inst;
-	private Logger outLog = Logger.getLogger("JSONAPI");
+	private Logger outLog = JSONAPI.instance.outLog;
 	public int methodCount = 0;
 
 	private List<JSONAPICallHandler> handlers = new ArrayList<JSONAPICallHandler>();

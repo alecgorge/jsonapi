@@ -52,6 +52,8 @@ public class OfflinePlayerLoader {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} catch (Error e) {
+			
 		}
 
 		return null;

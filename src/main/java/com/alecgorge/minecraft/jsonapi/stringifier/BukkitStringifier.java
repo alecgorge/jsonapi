@@ -267,10 +267,10 @@ public class BukkitStringifier {
 
 			return a;
 		}
-		Logger.getLogger("JSONAPI").warning("Uncaugh object! Value:");
-		Logger.getLogger("JSONAPI").warning(obj.toString());
-		Logger.getLogger("JSONAPI").warning("Type:");
-		Logger.getLogger("JSONAPI").warning(obj.getClass().getName());
+		JSONAPI.instance.outLog.warning("Uncaugh object! Value:");
+		JSONAPI.instance.outLog.warning(obj.toString());
+		JSONAPI.instance.outLog.warning("Type:");
+		JSONAPI.instance.outLog.warning(obj.getClass().getName());
 
 		return new Object();
 	}

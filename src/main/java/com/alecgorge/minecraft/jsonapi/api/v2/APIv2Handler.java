@@ -19,7 +19,7 @@ import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 public class APIv2Handler {
-	static Logger jsonapiLog = Logger.getLogger("JSONAPI");
+	static Logger jsonapiLog = JSONAPI.instance.outLog;
 	
 	String uri;
 	String method;

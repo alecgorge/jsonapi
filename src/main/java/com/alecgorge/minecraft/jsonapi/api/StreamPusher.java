@@ -32,7 +32,7 @@ public class StreamPusher implements JSONAPIStreamListener {
 	private File config_location;
 	private YamlConfiguration config;
 
-	private Logger log = Logger.getLogger("JSONAPI");
+	private Logger log = JSONAPI.instance.outLog;
 	
 	int maxQueueAge = 30;
 	int maxQueueLength = 500;

@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.FileHandler;
-import java.util.logging.Filter;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
@@ -175,7 +174,21 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	File yamlFile;
 
 	public void onEnable() {
-		PacketRegistrar.register(71, Packet71WeatherProxy.class);
+		// for minecraft forge, Logger.getLogger("JSONAPI"); doesn't output anything...
+		try {
+			Class.forName("net.minecraftforge.common.MinecraftForge");
+			outLog = log;
+		}
+		catch (Error e) {}
+		catch (Exception e) {}
+
+		try {
+			PacketRegistrar.register(71, Packet71WeatherProxy.class);
+		}
+		catch (NoClassDefFoundError e) {
+			outLog.severe("Couldn't register my Packet71WeatherProxy! Is BukkitForge/Bukkit up to date with JSONAPI?");
+		}
+		
 
 		boolean rtkInstalled = Bukkit.getPluginManager().getPlugin("RemoteToolkitPlugin") != null;
 		
@@ -187,7 +200,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			}
 
 			yamlFile = new File(getDataFolder(), "config.yml");
-			outLog = Logger.getLogger("JSONAPI");
 
 			File methods = new File(getDataFolder(), "methods.json");
 			File methodsFolder = new File(getDataFolder(), "methods");
@@ -389,19 +401,20 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 						
 			// add console stream support
 			handler = new ConsoleHandler(jsonServer);
-			log.addHandler(handler);
-			Logger.getLogger("").addHandler(handler);
-			Logger.getLogger("ForgeModLoader").addHandler(handler);
-			
+
 			// this is quite hacky but it hides the mess from HTTP requests on the join port
-			for(Handler h : log.getHandlers()) {
-				h.setFilter(new LostConnectionFilter(h.getFilter()));
-			}
-			for(Handler h : Logger.getLogger("").getHandlers()) {
-				h.setFilter(new LostConnectionFilter(h.getFilter()));
-			}
-			for(Handler h : Logger.getLogger("ForgeModLoader").getHandlers()) {
-				h.setFilter(new LostConnectionFilter(h.getFilter()));				
+
+			for(Logger olog : new Logger[] {
+					log,
+					Logger.getLogger(""),
+					Logger.getLogger("Minecraft"),
+					Logger.getLogger("ForgeModLoader"),
+					Logger.getLogger("org.bukkit.craftbukkit.Main")				
+			}) {
+				olog.addHandler(handler);
+				for(Handler h : olog.getHandlers()) {
+					h.setFilter(new LostConnectionFilter(h.getFilter()));
+				}				
 			}
 
 			log.info("[JSONAPI] Attempting to use port " + port);
@@ -634,7 +647,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				jsonServer.stop();
 				jsonSocketServer.stop();
 				jsonWebSocketServer.stop();
-				APIWrapperMethods.getInstance().disconnectAllFauxPlayers();
+				APIWrapperMethods.getInstance().pluginDisable();
 				getTickRateCounter().cancel();
 			} catch (Exception e) {
 				// e.printStackTrace();
