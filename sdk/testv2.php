@@ -4,15 +4,13 @@
 $host = "localhost";
 $port = 25565;
 $endpoint = "api/2/call";
-$host = "sneakattackcraft.com";
+$host = "localhost";
 $port = 44445;
 $endpoint = "api/2/call";
 
-$username = "alec";
-$password = "alec13579";
-// $username = "test";
-// $password = "test";
-$salt = "ba92e"; // salt goes here";
+$username = "test";
+$password = "test";
+$salt = "salt goes here";
 
 function gen_key($name) {
 	global $username, $password, $salt;
