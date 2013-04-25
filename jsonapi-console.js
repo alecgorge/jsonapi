@@ -54,7 +54,7 @@ $(function () {
 			var url = api.makeURL(activeMethod, args);
 			$res.html("URL: "+url.substring(0, url.length - 11)+"\n\n\n");
 			api.call(activeMethod, args, function (data) {
-				$res.append(js_beautify(JSON.stringify(data)).replace(/\\r/g, "\r").replace(/\\n/g, "\n").replace(/\\t/g, "\t"));
+				$res.append(JSON.stringify(data, null, 4).replace(/\\r/g, "\r").replace(/\\n/g, "\n").replace(/\\t/g, "\t"));
 				set_status("Ready...");
 			});
 			
