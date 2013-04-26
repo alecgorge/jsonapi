@@ -3,11 +3,12 @@
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" including="plugin.yml|groups.json|config.yml|config_rtk.yml|methods.json|methods/*" kind="src" path="src/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="var" path="M2_REPO/org/bukkit/craftbukkit/1.5.1-R0.1-SNAPSHOT/craftbukkit-1.5.1-R0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/bukkit/craftbukkit/1.5.1-R0.2/craftbukkit-1.5.1-R0.2.jar"/>
 	<classpathentry kind="lib" path="deps/Minecraft_RKit.jar"/>
 	<classpathentry kind="lib" path="deps/Vault.jar"/>
-	<classpathentry kind="lib" path="deps/Herochat.jar"/>
 	<classpathentry kind="lib" path="deps/BukkitForge.jar"/>
 	<classpathentry kind="lib" path="deps/ftbserver.jar"/>
+	<classpathentry kind="lib" path="deps/Herochat.jar"/>
+	<classpathentry kind="lib" path="/Users/alecgorge/Documents/java/jsonapi/test/mcpc-plus-1.5.1-R0.3-SNAPSHOT-f667-365.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

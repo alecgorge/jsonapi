@@ -4,10 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 public class JSONAPIMessageListener implements PluginMessageListener {
-	private JSONAPI api;
-
 	public JSONAPIMessageListener(JSONAPI jsonapi) {
-		api = jsonapi;
 	}
 
 	@Override

@@ -176,7 +176,7 @@ public class BukkitRealisticChat implements IRealisticChat {
 			}
 
 			s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
-			minecraftServer.console.sendMessage(s);
+			// minecraftServer.console.sendMessage(s);
 			if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
 				for (Object recipient : minecraftServer.getPlayerList().players) {
 					((EntityPlayer) recipient).sendMessage(s);
@@ -201,10 +201,10 @@ public class BukkitRealisticChat implements IRealisticChat {
 	@Override
 	public boolean canHandleChats() {
 		try {
-			Class<?> c = MinecraftServer.class;
-			return c != null;
-		}
-		catch(Error e) {
+			return PlayerInteractManager.class != null;
+		} catch (Exception e) {
+			return false;
+		} catch (Error e) {
 			return false;
 		}
 	}

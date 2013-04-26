@@ -14,10 +14,10 @@
 	</scm>
 	<repositories>
 		<repository>
-            		<id>bukkit-repo</id>
-            		<url>http://repo.bukkit.org/content/groups/public</url>
-        	</repository>
-    	</repositories>
+        		<id>bukkit-repo</id>
+        		<url>http://repo.bukkit.org/content/groups/public</url>
+    	</repository>
+	</repositories>
 	<build>
 		<finalName>JSONAPI</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -105,7 +105,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.5.1-R0.1-SNAPSHOT</version>
+			<version>1.5.1-R0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.drdanick.McRKit</groupId>
@@ -141,6 +141,13 @@
 			<version>1.2.5</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/Herochat.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.comphenix.protocol</groupId>
+			<artifactId>ProtocolLib</artifactId>
+			<version>2.2.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/deps/ProtocolLib.jar</systemPath>
 		</dependency>
 	</dependencies>	
 </project>

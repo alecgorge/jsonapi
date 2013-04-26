@@ -23,27 +23,52 @@ public class PacketRegistrar {
 					Packet.l.d(packetID); // remove the current packet registration if it exists
 				}
 
-				registrationMethod.invoke(null, new Object[] { packetID, isClientPacket, isServerPacket, packetClass });				
+				registrationMethod.invoke(null, new Object[] { packetID, isClientPacket, isServerPacket, packetClass });
+				System.out.println("[JSONAPI] Injected packet: " + packetID);
 			} catch (Exception e) {
+				e.printStackTrace();
 				// just smoosh the error, we are probably reloading
 			}
 		}
 	}
 	
 	static Method findRegistrationMethod() {
+		Class<Packet> p = Packet.class;
+		Method m = null;
+		Class<?> validTypes[] = new Class<?>[] { Integer.TYPE, Boolean.TYPE, Boolean.TYPE, Class.class };
+
 		try {
-			Class<Packet> p = Packet.class;
-			Method m = p.getDeclaredMethod("a", new Class<?>[] { Integer.TYPE, Boolean.TYPE, Boolean.TYPE, Class.class });
-			
+			m = p.getDeclaredMethod("a", validTypes);
 			m.setAccessible(true);
 			
 			return m;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				for(Method mm : p.getDeclaredMethods()) {
+					boolean valid = mm.getParameterTypes().length == 4;
+					
+					if(!valid) continue;
+					
+					for(int i = 0; i < mm.getParameterTypes().length; i++) {
+						if(!validTypes[i].equals(mm.getParameterTypes()[i])) {
+							valid = false;
+							break;
+						}
+					}
+					
+					if(valid) {
+						System.out.println("[JSONAPI] Found packet registration method through heuristics: " + mm.getName());
+						mm.setAccessible(true);
+						return mm;
+					}
+				}
+			}
+			catch(Exception sube) {
+				sube.printStackTrace();
+			}
 		}
 		
-		return null;
+		return m;
 	}
 	
 	public static void register(int packetID, Class<? extends Packet> packetClass) {

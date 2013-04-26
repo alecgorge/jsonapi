@@ -5,11 +5,10 @@ $host = "localhost";
 $port = 25565;
 $endpoint = "api/2/call";
 $host = "localhost";
-$port = 44445;
 $endpoint = "api/2/call";
 
-$username = "test";
-$password = "test";
+$username = "usernameGoesHere";
+$password = "passwordGoesHere";
 $salt = "salt goes here";
 
 function gen_key($name) {
@@ -59,11 +58,11 @@ $payload = array(
 );
 $payload = array(
 	array(
-		'name' => 'getPluginVersion',
-		'key' => gen_key('getPluginVersion'),
+		'name' => 'getOfflinePlayer',
+		'key' => gen_key('getOfflinePlayer'),
 		'username' => $username,
 		'arguments' => array(
-			'JSONAPI'
+			'alecgorge'
 		)
 	)
 );
@@ -82,7 +81,7 @@ if(!(php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR']))) {
 	echo "<pre>";
 }
 
-$stream = true;
+$stream = false;
 if($stream) {
 	$url = sprintf("http://%s:%d/api/2/subscribe?json=%s", $host, $port, rawurlencode(json_encode($streamPayload)));
 	echo $url ."\n";
@@ -91,6 +90,7 @@ if($stream) {
 
 $url = sprintf("http://%s:%d/%s?json=%s", $host, $port, $endpoint, rawurlencode(json_encode($payload)));
 echo $url . "\n"; // "\n\n\n";
+exit();
 
 $c = curl_init($url);
 curl_setopt($c, CURLOPT_PORT, $port);

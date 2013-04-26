@@ -51,14 +51,14 @@ import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
 import com.alecgorge.minecraft.jsonapi.packets.LostConnectionFilter;
-import com.alecgorge.minecraft.jsonapi.packets.Packet71WeatherProxy;
+import com.alecgorge.minecraft.jsonapi.packets.Packet48HTTPResponse;
+import com.alecgorge.minecraft.jsonapi.packets.Packet50PostPacket;
 import com.alecgorge.minecraft.jsonapi.packets.PacketRegistrar;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
 import com.alecgorge.minecraft.jsonapi.util.OfflinePlayerLoader;
-import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
 import com.alecgorge.minecraft.jsonapi.util.TickRateCounter;
 
 /**
@@ -173,7 +173,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	YamlConfiguration yamlConfig;
 	File yamlFile;
 
-	public void onEnable() {
+	public void onEnable() {		
 		// for minecraft forge, Logger.getLogger("JSONAPI"); doesn't output anything...
 		try {
 			Class.forName("net.minecraftforge.common.MinecraftForge");
@@ -183,9 +183,11 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		catch (Exception e) {}
 
 		try {
-			PacketRegistrar.register(71, Packet71WeatherProxy.class);
+			PacketRegistrar.register(0x50, Packet50PostPacket.class);
+			PacketRegistrar.register(0x48, Packet48HTTPResponse.class);
 		}
 		catch (NoClassDefFoundError e) {
+			e.printStackTrace();
 			outLog.severe("Couldn't register my Packet71WeatherProxy! Is BukkitForge/Bukkit up to date with JSONAPI?");
 		}
 		
@@ -298,8 +300,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				log.info("[JSONAPI] groups.json has been copied from the jar");
 			}
 
-			PropertiesFile options = null;
-			String ipWhitelist = "";
 			String reconstituted = "";
 			int max_queue_age = 30;
 			int max_queue_length = 500;
@@ -412,9 +412,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					Logger.getLogger("org.bukkit.craftbukkit.Main")				
 			}) {
 				olog.addHandler(handler);
-				for(Handler h : olog.getHandlers()) {
-					h.setFilter(new LostConnectionFilter(h.getFilter()));
-				}				
+				olog.setFilter(new LostConnectionFilter());
 			}
 
 			log.info("[JSONAPI] Attempting to use port " + port);

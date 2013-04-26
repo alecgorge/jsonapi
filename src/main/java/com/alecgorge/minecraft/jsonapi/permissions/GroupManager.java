@@ -62,6 +62,7 @@ public class GroupManager {
 		return (JSONArray)((JSONObject)o).get(key);
 	}
 	
+	@SuppressWarnings("unused")
 	void trace(Object... s) {
 		if(false) {
 			StringBuilder ss = new StringBuilder();

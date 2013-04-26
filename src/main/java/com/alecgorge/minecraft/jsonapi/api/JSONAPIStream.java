@@ -7,7 +7,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 

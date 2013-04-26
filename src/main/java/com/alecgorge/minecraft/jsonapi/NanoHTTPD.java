@@ -16,7 +16,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -335,11 +334,11 @@ public class NanoHTTPD {
 		private InputStream in;
 		private OutputStream out;
 		private InetAddress addr;
-		private Lambda<Void, Void> callback = null;
+		private Lambda<Void, OutputStream> callback = null;
 		
 		public boolean closeOnCompletion = false;
 
-		public HTTPSession(InputStream in, OutputStream s, InetAddress a, Lambda<Void, Void> callback) {
+		public HTTPSession(InputStream in, OutputStream s, InetAddress a, Lambda<Void, OutputStream> callback) {
 			this.in = in;
 			this.out = s;
 			this.addr = a;
@@ -441,7 +440,7 @@ public class NanoHTTPD {
 				in.close();
 				
 				if(callback != null) {
-					callback.execute(null);
+					callback.execute(this.out);
 				}
 			} catch (IOException ioe) {
 				try {

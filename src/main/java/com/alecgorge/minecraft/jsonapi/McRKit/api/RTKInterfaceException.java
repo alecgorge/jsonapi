@@ -10,6 +10,8 @@ package com.alecgorge.minecraft.jsonapi.McRKit.api;
  * @version 1, 09/02/2011
  */
 public class RTKInterfaceException extends Exception{
+	private static final long serialVersionUID = 8941405622025839196L;
+
 	public RTKInterfaceException(String msg) {
 		super(msg);
 	}

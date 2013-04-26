@@ -423,16 +423,9 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			return chatUtility;
 		}
 		
-		try {
+		chatUtility = new BukkitRealisticChat();
+		if(!chatUtility.canHandleChats()) {
 			chatUtility = new BukkitForgeRealisticChat();
-		}
-		catch(Error e) {
-			try {
-				chatUtility = new BukkitRealisticChat();
-			}
-			catch(Error sube) {
-				
-			}
 		}
 		
 		if(chatUtility == null) {
