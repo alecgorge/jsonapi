@@ -79,7 +79,10 @@ public class APIv2Handler {
 		if(params != null && type.equals(NanoHTTPD.MIME_JSON) && params.containsKey("callback")) {
 			body = params.getProperty("callback") + "(" + body + ");";
 		}
-		return httpd.new Response(resp, type, body);
+		Response r = httpd.new Response(resp, type, body);
+		r.addHeader("Access-Control-Allow-Origin", "*");
+
+		return r;
 	}
 	
 	public NanoHTTPD.Response subscribe() {
@@ -103,7 +106,10 @@ public class APIv2Handler {
 		
 		StreamingResponse streams = new StreamingResponse(JSONAPI.instance, sourceLists, params.getProperty("callback"), showOlder, tag, defaults);
 		
-		return httpd.new Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_PLAINTEXT, streams);
+		Response r = httpd.new Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_PLAINTEXT, streams);
+		r.addHeader("Access-Control-Allow-Origin", "*");
+
+		return r;
 	}
 	
 	public void readPayload(boolean stream) throws ParseException {

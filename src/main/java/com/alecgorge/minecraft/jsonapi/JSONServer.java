@@ -224,6 +224,15 @@ public class JSONServer extends NanoHTTPD {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Response serve(String uri, String method, Properties header, Properties parms) {
+		if(method.equals("OPTIONS")) {
+			Response r = new NanoHTTPD.Response(HTTP_OK, MIME_HTML, "");
+			
+			r.addHeader("Access-Control-Allow-Origin", "*");
+			r.addHeader("Access-Control-Allow-Methods", "GET, POST");
+			
+			return r;
+		}
+		
 		if(uri.startsWith("/api/2/") || inst.useGroups) {
 			APIv2Handler handler = new APIv2Handler(uri, method, header, parms, this);
 			return handler.serve();
@@ -285,9 +294,13 @@ public class JSONServer extends NanoHTTPD {
 			info("[Streaming API] " + header.get("X-REMOTE-ADDR") + ": source=" + sourceList.toString());
 			StreamingResponse out = new StreamingResponse(inst, sourceList, callback, showOlder, parms.containsKey("tag") ? parms.getProperty("tag") : null);
 
-			return new NanoHTTPD.Response(HTTP_OK, MIME_PLAINTEXT, out);
+			Response r = new NanoHTTPD.Response(HTTP_OK, MIME_PLAINTEXT, out);
+			r.addHeader("Access-Control-Allow-Origin", "*");
+			return r;
 		} else if (!uri.equals("/api/call") && !uri.equals("/api/call-multiple")) {
-			return new NanoHTTPD.Response(HTTP_NOTFOUND, MIME_PLAINTEXT, "File not found.");
+			Response r = new NanoHTTPD.Response(HTTP_NOTFOUND, MIME_PLAINTEXT, "File not found.");
+			r.addHeader("Access-Control-Allow-Origin", "*");
+			return r;
 		}
 
 		Object args = parms.getProperty("args", "[]");
@@ -382,7 +395,9 @@ public class JSONServer extends NanoHTTPD {
 			o.put("tag", p.get("tag"));
 		}
 
-		return new NanoHTTPD.Response(code, MIME_JSON, callback(callback, o.toJSONString()));
+		NanoHTTPD.Response r = new NanoHTTPD.Response(code, MIME_JSON, callback(callback, o.toJSONString()));
+		r.addHeader("Access-Control-Allow-Origin", "*");
+		return r;
 	}
 
 	public NanoHTTPD.Response jsonRespone(JSONObject o, String callback) {
