@@ -199,7 +199,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			messager = (api.serverName.equals("default") ? api.getServer().getServerName() : api.serverName) + ": " + messager;
 		}
 
-		final String message = messager.length() > 210 ? messager.substring(0, 208) + "�" : messager;
+		final String message = messager.length() > 210 ? messager.substring(0, 208) + "\u2026" : messager;
 
 		new Thread(new Runnable() {
 

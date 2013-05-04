@@ -1,6 +1,6 @@
 name: JSONAPI
 main: com.alecgorge.minecraft.jsonapi.JSONAPI
-version: 4.3.5
+version: 4.3.6
 description: Control your server and fetch information from your server.
 website: http://mcjsonapi.com/
 author: Alec Gorge
@@ -21,7 +21,7 @@ commands:
 permissions:
   jsonapi.command:
     description: The ability to use the /jsonapi and /adminium commands
-    default: false
+    default: op
   jsonapi.calladmin:
     description: 'NOTE If you want to use this, make sure you set `anyone-can-use-calladmin` to false in config.yml. Allows users to send a push notification to the devices connected with Adminium.'
     default: op

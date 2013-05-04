@@ -7,10 +7,10 @@ import java.io.DataOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 
-import net.minecraft.server.v1_5_R2.Connection;
-import net.minecraft.server.v1_5_R2.NetworkManager;
-import net.minecraft.server.v1_5_R2.Packet;
-import net.minecraft.server.v1_5_R2.PendingConnection;
+import net.minecraft.server.v1_5_R3.Connection;
+import net.minecraft.server.v1_5_R3.NetworkManager;
+import net.minecraft.server.v1_5_R3.Packet;
+import net.minecraft.server.v1_5_R3.PendingConnection;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
@@ -20,9 +20,11 @@ public class Packet50PostPacket extends Packet {
 	@SuppressWarnings("deprecation")
 	public void a(DataInputStream inp) {
 		try {
+			//System.out.println("attempting to read packet");
 			String thisLine = "";
 			StringBuilder builder = new StringBuilder("P");
 			while((thisLine = inp.readLine()) != null) {
+				//System.out.println("got: "+thisLine);
 				builder.append(thisLine).append("\r\n");
 				
 				if(thisLine.isEmpty()) {
@@ -31,6 +33,7 @@ public class Packet50PostPacket extends Packet {
 			}
 			
 			builder.append("\r\n");
+			//System.out.println("got " + builder.toString());
 			
 			payload = new ByteArrayInputStream(builder.toString().getBytes());
 		}
@@ -67,6 +70,7 @@ public class Packet50PostPacket extends Packet {
 				public Void execute(OutputStream x) {
 					try {
 						ByteArrayOutputStream o = (ByteArrayOutputStream)x;
+						//System.out.println("got " + o.toString("UTF-8"));
 						
 						Field networkManagerField = null;
 						for(Field f : loginHandler.getClass().getDeclaredFields()) {

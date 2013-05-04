@@ -58,12 +58,10 @@ $payload = array(
 );
 $payload = array(
 	array(
-		'name' => 'getOfflinePlayer',
-		'key' => gen_key('getOfflinePlayer'),
+		'name' => 'getLatestConsoleLogs',
+		'key' => gen_key('getLatestConsoleLogs'),
 		'username' => $username,
-		'arguments' => array(
-			'alecgorge'
-		)
+		'arguments' => []
 	)
 );
 

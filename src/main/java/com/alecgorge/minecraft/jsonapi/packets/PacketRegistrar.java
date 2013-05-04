@@ -3,7 +3,7 @@ package com.alecgorge.minecraft.jsonapi.packets;
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
-import net.minecraft.server.v1_5_R2.Packet;
+import net.minecraft.server.v1_5_R3.Packet;
 
 public class PacketRegistrar {
 	static Method registrationMethod = null;
@@ -24,7 +24,7 @@ public class PacketRegistrar {
 				}
 
 				registrationMethod.invoke(null, new Object[] { packetID, isClientPacket, isServerPacket, packetClass });
-				System.out.println("[JSONAPI] Injected packet: " + packetID);
+				System.out.println(String.format("[JSONAPI] Injected packet: 0x%X", packetID));
 			} catch (Exception e) {
 				e.printStackTrace();
 				// just smoosh the error, we are probably reloading
