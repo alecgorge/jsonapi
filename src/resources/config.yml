@@ -1,17 +1,21 @@
 method-whitelist:
 - getPlayerLimit
-- dynmap.getPort
-logins:
-    usernameGoesHere: passwordGoesHere
 options:
     startup-delay: 2000
     port: 20059
-    ip-whitelist: []
-    log-to-console: true
-    log-to-file: 'false'
-    salt: 'salt goes here'
-    anyone-can-use-calladmin: true
+   #ip-whitelist: [] 		# <<Uncomment out the first "#" to leave the whitelist blank.
+    ip-whitelist:			# <<Comment out this and next line b4 u use things above.
+    - 127.0.0.1
+    log-to-console: false
+    log-to-file: 'true'
+    salt: 'write your salt here'
+    anyone-can-use-calladmin: false
     use-new-api: false
     stream_pusher:
-        max_queue_age: 30
-        max_queue_length: 500
+        max_queue_age: 50
+        max_queue_length: 250
+logins:
+   #Example
+   #Notch: 'Notch\'s password'
+   #This will make notch's password into>> Notch's password.
+    your-username: your-password

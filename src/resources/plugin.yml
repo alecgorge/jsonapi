@@ -1,6 +1,6 @@
 name: JSONAPI
 main: com.alecgorge.minecraft.jsonapi.JSONAPI
-version: 4.3.5
+version: 4.3.6-SNAPSHOT
 description: Control your server and fetch information from your server.
 website: http://mcjsonapi.com/
 author: Alec Gorge
@@ -10,18 +10,18 @@ commands:
     description: Reloads the API methods for JSONAPI.
     usage: /<command>
   jsonapi-list:
-    description: Lists all the methods and namespaces currently loaded for JSONAPI
+    description: Lists all the methods and namespaces currently loaded for JSONAPI.
     usage: /<command>
   calladmin:
     description: Sends a message to the admin of the server if they have Adminium installed on their iOS device.
-    usage: /<command> <why>
+    usage: /<command> <reason>
   jsonapi:
+  	description: The core command to call-out the jsonapi functions ingame.
     usage: '/<command> [status|list|reload|reloadgroups|subscribe <source name> <url>|users [list|<username> password|add <username> <password>]]'
-    description: '/jsonapi [status|list|reload|reloadgroups|subscribe <source name> <url>|users [list|<username> password|add <username> <password>]]'
 permissions:
   jsonapi.command:
     description: The ability to use the /jsonapi and /adminium commands
-    default: false
+    default: op
   jsonapi.calladmin:
     description: 'NOTE If you want to use this, make sure you set `anyone-can-use-calladmin` to false in config.yml. Allows users to send a push notification to the devices connected with Adminium.'
     default: op
