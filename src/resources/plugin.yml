@@ -16,7 +16,7 @@ commands:
     description: Sends a message to the admin of the server if they have Adminium installed on their iOS device.
     usage: /<command> <reason>
   jsonapi:
-  	description: The core command to call-out the jsonapi functions ingame.
+    description: The core command to call-out the jsonapi functions ingame.
     usage: '/<command> [status|list|reload|reloadgroups|subscribe <source name> <url>|users [list|<username> password|add <username> <password>]]'
 permissions:
   jsonapi.command:
