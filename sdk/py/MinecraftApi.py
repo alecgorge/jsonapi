@@ -214,7 +214,7 @@ class MinecraftJsonApi (object):
 		self.host = host
 		self.username = username
 		self.password = password
-		self.port = port
+		self.port = int(port)
 		self.salt = salt
 		self.__methods = []
 				
