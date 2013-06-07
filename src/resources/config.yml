@@ -1,17 +1,59 @@
+# API methods on the method-whitelist will be
+# able to called without any sort of authentication
 method-whitelist:
 - getPlayerLimit
 - dynmap.getPort
+
+# all valid usernames and passwords are stored
+# under the login key. they are in the format username: password
 logins:
     usernameGoesHere: passwordGoesHere
 options:
+    # this is how long JSONAPI will wait after starting up
+    # before it attempts to load any API methods and thus how
+    # long it waits before it attempts to check if the 3rd
+    # party plugins the API methods depend on are loaded
     startup-delay: 2000
+
+    # this is the port that JSONAPI uses for communication.
+    # The 2 ports above the setting are used for the socket
+    # server and the WebSocket server.
+    # if you set the port to be 4822, then you could access
+    # the HTTP API on 4822, the Socket Streaming API on 4823
+    # and the WebSocket API on 4824
     port: 20059
+
+    # if you put values in the IP whitelist, only those IPs
+    # will be able to make API calls. values should be strings.
     ip-whitelist: []
+
+    # should API log information to the server console
     log-to-console: true
+
+    # should JSONAPI write all the information it writes to the
+    # screen to a file. set to 'false' to disable
     log-to-file: 'false'
+
+    # this is a salt use in the authentication hash. it is like
+    # a second password for security
     salt: 'salt goes here'
+
+    # when set to false, users have to have the jsonapi.calladmin
+    # permission to use the /calladmin command
     anyone-can-use-calladmin: true
+
+    # whether or not you want to only allow using the v2 api
+    # that supports granular permissions
     use-new-api: false
+
+    # configuration for the feature that gathers up data from
+    # streams and POSTs it to a URL every once and a while
+    # once one of the following conditions is exceeded, data is posted
+    # in the default case, data is sent every 30 seconds
+    # or every 500 items, whichever one comes first
     stream_pusher:
+        # measured in seconds
         max_queue_age: 30
+
+        # duh
         max_queue_length: 500
