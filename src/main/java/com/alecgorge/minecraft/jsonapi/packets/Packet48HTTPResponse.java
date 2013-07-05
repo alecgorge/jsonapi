@@ -1,12 +1,12 @@
 package com.alecgorge.minecraft.jsonapi.packets;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.minecraft.server.v1_5_R3.Connection;
-import net.minecraft.server.v1_5_R3.Packet;
+import net.minecraft.server.v1_6_R1.Connection;
+import net.minecraft.server.v1_6_R1.Packet;
 
 public class Packet48HTTPResponse extends Packet {
 	InputStream payload = null;
@@ -22,19 +22,19 @@ public class Packet48HTTPResponse extends Packet {
 	}
 
 	@Override
-	public void a(DataInputStream arg0) throws IOException {
+	public void a(DataInput arg0) throws IOException {
 		return;
 	}
 
 	@Override
-	public void a(DataOutputStream output) throws IOException {
+	public void a(DataOutput output) throws IOException {
 		byte[] buf = new byte[8196];
 		payload.read(); // read off the first H.
 		while(payload.read(buf) >= 0) {
 			output.write(buf, 0, buf.length);
 		}
 	}
-
+	
 	@Override
 	public void handle(Connection arg0) {
 	}

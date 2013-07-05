@@ -2,13 +2,13 @@ package com.alecgorge.minecraft.jsonapi.util;
 
 import java.io.File;
 
-import net.minecraft.server.v1_5_R3.EntityPlayer;
-import net.minecraft.server.v1_5_R3.MinecraftServer;
-import net.minecraft.server.v1_5_R3.PlayerInteractManager;
+import net.minecraft.server.v1_6_R1.EntityPlayer;
+import net.minecraft.server.v1_6_R1.MinecraftServer;
+import net.minecraft.server.v1_6_R1.PlayerInteractManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_5_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_6_R1.CraftServer;
 import org.bukkit.entity.Player;
 
 public class OfflinePlayerLoader {

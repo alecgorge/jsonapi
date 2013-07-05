@@ -93,7 +93,7 @@ public class BukkitStringifier {
 
 			o.put("name", p.getName());
 			o.put("op", p.isOp());
-			o.put("health", p.getHealth());
+			o.put("health", 0); // TEMP FIX BECAUSE CB IS BROKEN
 			o.put("foodLevel", p.getFoodLevel());
 			o.put("exhaustion", p.getExhaustion());
 			o.put("ip", p.getAddress() != null ? p.getAddress().toString() : "offline");

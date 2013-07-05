@@ -2,23 +2,23 @@ package com.alecgorge.minecraft.jsonapi.packets;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 
-import net.minecraft.server.v1_5_R3.Connection;
-import net.minecraft.server.v1_5_R3.NetworkManager;
-import net.minecraft.server.v1_5_R3.Packet;
-import net.minecraft.server.v1_5_R3.PendingConnection;
+import net.minecraft.server.v1_6_R1.Connection;
+import net.minecraft.server.v1_6_R1.NetworkManager;
+import net.minecraft.server.v1_6_R1.Packet;
+import net.minecraft.server.v1_6_R1.PendingConnection;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
 public class Packet50PostPacket extends Packet {
 	ByteArrayInputStream payload = null;
 
-	@SuppressWarnings("deprecation")
-	public void a(DataInputStream inp) {
+	@Override
+	public void a(DataInput inp) {
 		try {
 			//System.out.println("attempting to read packet");
 			String thisLine = "";
@@ -44,7 +44,8 @@ public class Packet50PostPacket extends Packet {
 
 	private static Field weirdIterator = null;
 
-	public void a(DataOutputStream out) {
+	@Override
+	public void a(DataOutput out) {
 	}
 
 	public void handle(Connection net) {
