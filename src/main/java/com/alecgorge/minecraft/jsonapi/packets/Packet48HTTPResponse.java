@@ -5,8 +5,8 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.minecraft.server.v1_6_R1.Connection;
-import net.minecraft.server.v1_6_R1.Packet;
+import net.minecraft.server.v1_6_R2.Connection;
+import net.minecraft.server.v1_6_R2.Packet;
 
 public class Packet48HTTPResponse extends Packet {
 	InputStream payload = null;

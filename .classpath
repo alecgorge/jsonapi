@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
-	<classpathentry excluding="**/*.java" including="plugin.yml|groups.json|config.yml|config_rtk.yml|methods.json|methods/*" kind="src" path="src/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="deps/Minecraft_RKit.jar"/>
-	<classpathentry kind="lib" path="deps/Vault.jar"/>
-	<classpathentry kind="lib" path="F:/java/workspace/jsonapi/deps/craftbukkit-1.6.1-R0.1-20130705.004223-11.jar"/>
-	<classpathentry kind="lib" path="F:/java/workspace/jsonapi/deps/Herochat (1).jar"/>
-	<classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
+  <classpathentry kind="src" path="src/resources" including="plugin.yml|groups.json|config.yml|config_rtk.yml|methods.json|methods/*" excluding="**/*.java"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+  <classpathentry kind="var" path="M2_REPO/org/bukkit/craftbukkit/1.6.2-R0.1-SNAPSHOT/craftbukkit-1.6.2-R0.1-SNAPSHOT.jar"/>
+  <classpathentry kind="lib" path="deps/Minecraft_RKit.jar"/>
+  <classpathentry kind="lib" path="deps/Vault.jar"/>
+  <classpathentry kind="lib" path="deps/Herochat (1).jar"/>
 </classpath>

@@ -7,10 +7,10 @@ import java.io.DataOutput;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 
-import net.minecraft.server.v1_6_R1.Connection;
-import net.minecraft.server.v1_6_R1.NetworkManager;
-import net.minecraft.server.v1_6_R1.Packet;
-import net.minecraft.server.v1_6_R1.PendingConnection;
+import net.minecraft.server.v1_6_R2.Connection;
+import net.minecraft.server.v1_6_R2.NetworkManager;
+import net.minecraft.server.v1_6_R2.Packet;
+import net.minecraft.server.v1_6_R2.PendingConnection;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
