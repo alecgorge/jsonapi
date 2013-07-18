@@ -13,6 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -443,8 +444,15 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					for (String k : logins) {
 						String password = yamlConfig.getString("logins." + k);
 						
-//						auth.getUsers().add(new JSONAPIUser(k, password, fullgroups));
+						HashMap<String, Object> map = new HashMap<String, Object>();
+						map.put("username", k);
+						map.put("password", password);
+						map.put("groups", fullgroups);
+						auth.users.add(map);
 					}
+					
+					yamlConfig.set("logins", null);
+					yamlConfig.save(yamlFile);
 					
 					auth.save();
 				}
