@@ -1,0 +1,688 @@
+{
+    "name": "Player methods",
+    "depends": [
+        "JSONAPI"
+    ],
+    "methods": [
+        {
+            "desc": "Gets the maximum amount of players allowed on the server",
+            "returns": [
+                "int",
+                "The player limit"
+            ],
+            "call": "Server.getMaxPlayers()",
+            "name": "players.online.limit"
+        },
+        {
+            "desc": "Gets a |player| object representing the specified person. Works for online and offline players",
+            "returns": [
+                "Player",
+                "A player object respresenting the specified person"
+            ],
+            "call": "this.getPlayerExact(0)",
+            "name": "players.name",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Gets an offlinePlayer object representing the specified person",
+            "returns": [
+                "OfflinePlayer",
+                "A offlinePlayer object respresenting the specified person"
+            ],
+            "call": "Server.getOfflinePlayer(0)",
+            "name": "players.offline.name",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Gives the specified player the specified quanity of the item id by placing it in the first empty slot",
+            "call": "this.giveItem(0, 1, 2, 3)",
+            "returns": [
+                "boolean",
+                "True if the item was given. False will be returned if the player is not on the server"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "id",
+                    "int",
+                    "Id of item to give"
+                ],
+                [
+                    "quantity",
+                    "int",
+                    "Quantity of item to give",
+                    1
+                ],
+                [
+                    "data",
+                    "int",
+                    "Decimal representation of the data value",
+                    0
+                ]
+            ],
+            "name": "players.name.inventory.give_item"
+        },
+        {
+            "desc": "Gives the specified player the specified quanity of the item id by dropping it in front of them",
+            "returns": [
+                "boolean",
+                "True if the item was given. False will be returned if the player is not on the server"
+            ],
+            "call": "this.giveItemDrop(0, 1, 2)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "id",
+                    "int",
+                    "Id of item to drop"
+                ],
+                [
+                    "quantity",
+                    "int",
+                    "Quantity of item to drop",
+                    1
+                ],
+                [
+                    "data",
+                    "int",
+                    "Decimal representation of the data value",
+                    0
+                ]
+            ],
+            "name": "players.name.drop_item"
+        },
+        {
+            "desc": "Gets an array of |player| objects that represent all of the players on the server",
+            "returns": [
+                "Player[]",
+                "An array of |Player| objects"
+            ],
+            "call": "Server.getOnlinePlayers()",
+            "name": "players.online"
+        },
+        {
+            "desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified quantity, data and damage",
+            "call": "this.setPlayerInventorySlotWithDataAndDamage(0, 1, 2, 3, 4, 5)",
+            "returns": [
+                "boolean",
+                "True if the item was given. False will be returned if the player is not on the server"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "slot",
+                    "String",
+                    "slot"
+                ],
+                [
+                    "id",
+                    "int",
+                    "Id of block type to set"
+                ],
+                [
+                    "data",
+                    "int",
+                    "The data value of the item",
+                    0
+                ],
+                [
+                    "damage",
+                    "int",
+                    "The damage of the item",
+                    0
+                ],
+                [
+                    "quantity",
+                    "int",
+                    "Quantity to set",
+                    1
+                ]
+            ],
+            "name": "players.name.inventory.slots.slot.set"
+        },
+        {
+            "desc": "Adds an enchantment to the specified slot in the specified player's inventory with the specified level",
+            "call": "this.addEnchantmentToPlayerInventorySlot(0, 1, 2, 3)",
+            "returns": [
+                "boolean",
+                "True if the enchanting process was successful. False is usually the restult will be returned if the player is not on the server"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "slot",
+                    "String",
+                    "slot"
+                ],
+                [
+                    "enchantment_id",
+                    "int",
+                    "The enchantment ID (EID): http:..www.minecraftwiki.net.wiki.Enchanting#Enchantment_Types"
+                ],
+                [
+                    "level",
+                    "int",
+                    "The enchantment level",
+                    1
+                ]
+            ],
+            "name": "players.name.inventory.slots.slot.enchant"
+        },
+        {
+            "desc": "Removes an enchantment to the specified slot in the specified player's inventory with the specified enchantment id",
+            "call": "this.removeEnchantmentsFromPlayerInventorySlot(0, 1, 2)",
+            "returns": [
+                "boolean",
+                "True if the de-enchanting process was successful. False is usually the restult will be returned if the player is not on the server"
+            ],
+            "name": "players.name.inventory.slots.slot.enchantments.enchantment_id.remove",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "slot",
+                    "String",
+                    "slot"
+                ],
+                [
+                    "enchantment_id",
+                    "String",
+                    "enchantment_id"
+                ]
+            ]
+        },
+        {
+            "desc": "Removes everything from the specified slot in the player's inventory",
+            "call": "this.clearPlayerInventorySlot(0, 1)",
+            "returns": [
+                "boolean",
+                "True if the slot was cleared. False will be returned if the player is not on the server"
+            ],
+            "name": "players.name.inventory.slots.slot.clear",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "slot",
+                    "String",
+                    "slot"
+                ]
+            ]
+        },
+        {
+            "desc": "Removes all items of the given type from the given player's inventory",
+            "returns": [
+                "Object",
+                "An object of all the things that couldn't be removed. This shouldn't happen though. Null will be returned if the player is not on the server"
+            ],
+            "call": "this.removePlayerInventoryItem(0, 1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "id",
+                    "int",
+                    "Id of block type to remove"
+                ]
+            ],
+            "name": "players.name.inventory.remove_item"
+        },
+        {
+            "desc": "Adds the specified player to the whitelist",
+            "call": "this.whitelist(0)",
+            "name": "players.name.whitelist",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Removes the specified player from the whitelist",
+            "call": "this.unwhitelist(0)",
+            "name": "players.name.unwhitelist",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Ops the specified player",
+            "call": "this.op(0)",
+            "name": "players.name.op",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Deops the specified player",
+            "call": "this.deop(0)",
+            "name": "players.name.deop",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Bans the specified player",
+            "call": "this.ban(0)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "reason",
+                    "String",
+                    "The reason this player is being banned",
+                    "Banned by admin"
+                ]
+            ],
+            "name": "players.name.ban"
+        },
+        {
+            "desc": "Unbans the specified player",
+            "call": "this.unban(0)",
+            "name": "players.name.pardon",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Bans the specified IP",
+            "call": "Server.banIP(0)",
+            "args": [
+                [
+                    "ip",
+                    "String",
+                    "The IP to be banned"
+                ]
+            ],
+            "name": "players.ban_ip"
+        },
+        {
+            "desc": "Bans the specified IP",
+            "call": "Server.unbanIP(0)",
+            "args": [
+                [
+                    "ip",
+                    "String",
+                    "The IP to be pardoned"
+                ]
+            ],
+            "name": "players.pardon_ip"
+        },
+        {
+            "desc": "Teleports the first specified player to the second specified player",
+            "call": "this.teleport(0, 1)",
+            "returns": "Returns true if player one was successfully teleported. False if one or more players is offline",
+            "flags": [
+                "FALSE_ON_EXCEPTION"
+            ],
+            "name": "players.name.teleport_to.to_name",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "to_name",
+                    "String",
+                    "to_name"
+                ]
+            ]
+        },
+        {
+            "desc": "Kick a player with the specified name and the optional message",
+            "call": "Server.getPlayer(0).kickPlayer(1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "reason",
+                    "String",
+                    "Custom message to display to the player after they are kicked",
+                    "Kicked by admin"
+                ]
+            ],
+            "name": "players.name.kick"
+        },
+        {
+            "desc": "Send a private message to the specified player",
+            "call": "Server.getPlayer(0).sendMessage(1)",
+            "flags": [
+                "NO_EXCEPTIONS"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "message",
+                    "String",
+                    "The message to send"
+                ]
+            ],
+            "name": "players.name.send_message"
+        },
+        {
+            "desc": "Gets the players on the whitelist",
+            "returns": [
+                "String[]",
+                "Returns an array of strings; where each item in the array is a string that contains a player's name"
+            ],
+            "call": "this.getWhitelist()",
+            "name": "players.whitelisted.names"
+        },
+        {
+            "desc": "Gets the players who are opped",
+            "returns": [
+                "String[]",
+                "Returns an array of strings; where each item in the array is a string that contains a player's name"
+            ],
+            "call": "this.opList()",
+            "name": "players.ops.names"
+        },
+        {
+            "desc": "Gets the players on the ban list",
+            "returns": [
+                "String[]",
+                "Returns an array of strings; where each item in the array is a string that contains a player's name"
+            ],
+            "call": "this.getBannedPlayers()",
+            "name": "players.banned.names"
+        },
+        {
+            "desc": "Gets the IPs on the ban list",
+            "returns": [
+                "String[]",
+                "Returns an array of strings; where each item in the array is a string that contains an IP address"
+            ],
+            "call": "this.getBannedIPs()",
+            "name": "players.banned_ips"
+        },
+        {
+            "desc": "Sets a player's health on a scale of 0-20",
+            "returns": [
+                "boolean",
+                "True on succes, false if the player is not on the server"
+            ],
+            "call": "this.setPlayerHealth(0, 1)",
+            "flags": [
+                "FALSE_ON_EXCEPTION"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "health",
+                    "int",
+                    "The amount of health to set"
+                ]
+            ],
+            "name": "players.name.set_health"
+        },
+        {
+            "desc": "Sets a player's level on a scale of 0-50",
+            "returns": [
+                "boolean",
+                "True on succes, false if something went wrong."
+            ],
+            "call": "this.setPlayerLevel(0,1)",
+            "flags": [
+                "FALSE_ON_EXCEPTION"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "level",
+                    "int",
+                    "The level to set"
+                ]
+            ],
+            "name": "players.name.set_level"
+        },
+        {
+            "desc": "Sets a player's experience on a scale of 0-4625 (level 50)",
+            "returns": [
+                "boolean",
+                "True on succes, false if the player is not on the server"
+            ],
+            "call": "this.setPlayerExperience(0,1)",
+            "flags": [
+                "FALSE_ON_EXCEPTION"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "experience",
+                    "int",
+                    "The amount of experience to set"
+                ]
+            ],
+            "name": "players.name.set_experience"
+        },
+        {
+            "desc": "Sets a player's food level on a scale of 0-20",
+            "returns": [
+                "boolean",
+                "True on succes, false if something went wrong."
+            ],
+            "call": "this.setPlayerFoodLevel(0, 1)",
+            "flags": [
+                "FALSE_ON_EXCEPTION"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "food_level",
+                    "int",
+                    "The amount of food to set"
+                ]
+            ],
+            "name": "players.name.set_food_level"
+        },
+        {
+            "desc": "Sets the game mode for a player. 0 is creative. 1 is survivial",
+            "returns": [
+                "boolean",
+                "True on succes, false if the player is not on the server"
+            ],
+            "call": "this.setPlayerGameMode(0, 1)",
+            "flags": [
+                "FALSE_ON_EXCEPTION"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "game_mode",
+                    "int",
+                    "The game mode"
+                ]
+            ],
+            "name": "players.name.set_game_mode"
+        },
+        {
+            "desc": "Gets the amount of players currently on the server",
+            "returns": [
+                "int",
+                "The number of players on the server"
+            ],
+            "call": "Server.getOnlinePlayers().length",
+            "name": "players.online.count"
+        },
+        {
+            "desc": "Retrieves an array of the names of all the players currently on the server",
+            "returns": [
+                "String[]",
+                "The players' names"
+            ],
+            "call": "this.getPlayerNames()",
+            "name": "players.online.names"
+        },
+        {
+            "desc": "Retrieves an array of all the players who have ever played on the server but are not currently on the server",
+            "returns": [
+                "OfflinePlayer[]",
+                "An array of offlinePlayers"
+            ],
+            "call": "this.getOfflinePlayers()",
+            "name": "players.offline"
+        },
+        {
+            "desc": "Retrieves an array of the names of all the players who have ever played on the server but are not currently on the server",
+            "returns": [
+                "String[]",
+                "The offline players' names"
+            ],
+            "call": "this.getOfflinePlayerNames()",
+            "name": "players.offline.names"
+        },
+        {
+            "desc": "Teleports the specified player to the specified x, y and z co-ordinates",
+            "call": "this.teleport(0,1,2,3)",
+            "returns": [
+                "boolean",
+                "True if successful, false otherwise"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "x",
+                    "int",
+                    "The x-coord of the block"
+                ],
+                [
+                    "y",
+                    "int",
+                    "The y-coord of the block"
+                ],
+                [
+                    "z",
+                    "int",
+                    "The z-coord of the block"
+                ]
+            ],
+            "name": "players.name.teleport"
+        },
+        {
+            "desc": "Teleports the specified player to the specified world and xyz co-ordinates",
+            "call": "this.teleport(0,1,2,3,4)",
+            "returns": [
+                "boolean",
+                "True if successful, false otherwise"
+            ],
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "world",
+                    "String",
+                    "The world name"
+                ],
+                [
+                    "x",
+                    "int",
+                    "The x-coord of the block"
+                ],
+                [
+                    "y",
+                    "int",
+                    "The y-coord of the block"
+                ],
+                [
+                    "z",
+                    "int",
+                    "The z-coord of the block"
+                ]
+            ],
+            "name": "players.name.teleport_world"
+        }
+    ]
+}

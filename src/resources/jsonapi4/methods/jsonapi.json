@@ -1,0 +1,162 @@
+{
+	"name" : "JSONAPI specific methods",
+	"depends" : [
+		"JSONAPI"
+	],
+	"methods" : [
+		{
+			"name": "jsonapi.users.user.permissions",
+			"desc": "Lists all the permission nodes a user is allowed to access. Methods prefixed with jsonapi. will be able to be accessed by any user, regardless of groups.",
+			"returns": ["String[]", "The permission node names"],
+			"call": "this.jsonapi.listPermissions(0)",
+			"args": [
+				["username", "String", "The JSONAPI user's name."]
+			]
+		},
+		{
+			"name": "jsonapi.users",
+			"desc": "Lists all the JSONAPI users on the server",
+			"returns": ["Object[]", "The JSONAPI user objects"],
+			"call": "this.jsonapi.listUsers()"
+		},
+		{
+			"name": "jsonapi.users.add",
+			"desc": "Adds a new JSONAPI user",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.addUser(0,1,2)",
+			"args": [
+				["username", "String", "The JSONAPI username."],
+				["password", "String", "The JSONAPI username."],
+				["groups", "String[]", "The groups this new user should belong to."]
+			]
+		},
+		{
+			"name": "jsonapi.users.remove",
+			"desc": "Removes a JSONAPI user from the server",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.removeUser(0)",
+			"args": [
+				["username", "String", "The JSONAPI username."]
+			]
+		},
+		{
+			"name": "jsonapi.users.user.groups.add",
+			"desc": "Adds a user to a group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.addGroupToUser(0,1)",
+			"args": [
+				["username", "String", "The JSONAPI username."],
+				["group", "String", "The group name."]
+			]
+		},
+		{
+			"name": "jsonapi.users.user.groups.remove",
+			"desc": "Removes a user from a group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.removeGroupFromUser(0,1)",
+			"args": [
+				["username", "String", "The JSONAPI username."],
+				["group", "String", "The group name."]
+			]
+		},
+		{
+			"name": "jsonapi.groups.add",
+			"desc": "Creates a new group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.addGroup(0,1,2,3)",
+			"args": [
+				["name", "String", "The group name."],
+				["methods", "String[]", "An array of methods to add to the group."],
+				["streams", "String[]", "An array of streams to add to the group."],
+				["nodes", "String[]", "An array of permissions to add to the group."]
+			]
+		},
+		{
+			"name": "jsonapi.groups.remove",
+			"desc": "Removes a group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.removeGroup(0)",
+			"args": [
+				["name", "String", "The group name."]
+			]
+		},
+		{
+			"name": "jsonapi.groups.group.permissions.add",
+			"desc": "Add a JSONAPI permission node to a group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.addPermissionToGroup(0,1)",
+			"args": [
+				["name", "String", "The group name."],
+				["node", "String", "The permission node name."]
+			]
+		},
+		{
+			"name": "jsonapi.groups.group.permissions.remove",
+			"desc": "Removes a JSONAPI permission node from a group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.removePermissionFromGroup(0,1)",
+			"args": [
+				["name", "String", "The group name."],
+				["node", "String", "The permission node name."]
+			]
+		},
+		{
+			"name": "jsonapi.groups.group.methods.add",
+			"desc": "Add a JSONAPI method to a group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.addMethodToGroup(0,1)",
+			"args": [
+				["name", "String", "The group name."],
+				["method", "String", "The method name."]
+			]
+		},
+		{
+			"name": "jsonapi.groups.group.methods.remove",
+			"desc": "Removes a JSONAPI method from a group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.removeMethodFromGroup(0,1)",
+			"args": [
+				["name", "String", "The group name."],
+				["method", "String", "The method name."]
+			]
+		},
+		{
+			"name": "jsonapi.groups.group.streams.add",
+			"desc": "Add a JSONAPI stream to a group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.addStreamToGroup(0,1)",
+			"args": [
+				["name", "String", "The group name."],
+				["stream", "String", "The stream name."]
+			]
+		},
+		{
+			"name": "jsonapi.groups.group.streams.remove",
+			"desc": "Removes a JSONAPI stream from a group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.removeStreamFromGroup(0,1)",
+			"args": [
+				["name", "String", "The group name."],
+				["stream", "String", "The stream name."]
+			]
+		},
+		{
+			"name": "jsonapi.users.user.methods",
+			"desc": "Lists all the API methods a user is allowed to access. Methods prefixed with jsonapi. will be able to be accessed by any user, regardless of groups.",
+			"returns": ["String[]", "The permission node names"],
+			"call": "this.jsonapi.listMethods(0)",
+			"args": [
+				["username", "String", "The JSONAPI user's name."]
+			]
+		},
+		{
+			"name": "jsonapi.users.user.streams",
+			"desc": "Lists all the streams a user is allowed to access. Methods prefixed with jsonapi. will be able to be accessed by any user, regardless of groups.",
+			"returns": ["String[]", "The permission node names"],
+			"call": "this.jsonapi.listStreams(0)",
+			"args": [
+				["username", "String", "The JSONAPI user's name."]
+			]
+		}
+	]
+}

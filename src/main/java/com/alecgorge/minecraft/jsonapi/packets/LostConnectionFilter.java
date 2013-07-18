@@ -20,6 +20,9 @@ public class LostConnectionFilter implements Filter {
 			if(record.getMessage().equals("Connection reset"))
 				return false;
 			
+			if(record.getMessage().matches("Reached end of stream for /[0-9:%.]+"))
+				return false;			
+
 			if(record.getMessage().matches("/[0-9:%.]+:[0-9]+ lost connection"))
 				return false;			
 		}

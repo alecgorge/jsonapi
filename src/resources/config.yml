@@ -1,8 +1,6 @@
 method-whitelist:
 - getPlayerLimit
 - dynmap.getPort
-logins:
-    usernameGoesHere: passwordGoesHere
 options:
     startup-delay: 2000
     port: 20059

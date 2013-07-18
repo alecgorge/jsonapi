@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.json.simpleForBukkit.JSONArray;
@@ -13,6 +12,7 @@ import org.json.simpleForBukkit.JSONObject;
 import com.alecgorge.minecraft.jsonapi.APIException;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD;
+import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.event.JSONAPIAuthEvent;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
@@ -81,13 +81,12 @@ public class JSONResponse {
 		}
 		JSONAPIAuthEvent auth = new JSONAPIAuthEvent(new JSONAPIAuthResponse(true, false), methodName, username, stream);
 		try {
-			HashMap<String, String> logins = JSONAPI.instance.getAuthTable();
+			UsersConfig logins = JSONAPI.instance.getAuthTable();
 			
-			if(logins.containsKey(username)) {
-				String thishash = JSONAPI.SHA256(username + methodName + logins.get(username) + JSONAPI.instance.salt);
-				String saltless = JSONAPI.SHA256(username + methodName + logins.get(username));
+			if(logins.userExists(username)) {
+				String saltless = JSONAPI.SHA256(username + methodName + logins.getUser(username).getPassword());
 
-				if (thishash.equals(key) || saltless.equals(key)) {
+				if (saltless.equals(key)) {
 					auth.getAuthResponse().setAuthenticated(true);
 				}
 			}
@@ -123,7 +122,6 @@ public class JSONResponse {
 				Object result = caller.call(methodName, (Object[]) ((ArrayList<Object>) args).toArray(new Object[((ArrayList<Object>) args).size()]));
 				return APISuccess(result);
 			} else {
-				JSONAPI.instance.outLog.warning("The method '" + methodName + "' does not exist!");
 				return APIError("The method '" + methodName + "' does not exist!", 7);
 			}
 		} catch (APIException e) {
@@ -143,6 +141,7 @@ public class JSONResponse {
 	public JSONObject APIException(Exception e, int errorCode) {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
+		r.put("is_success", false);
 		StringWriter pw = new StringWriter();
 		e.printStackTrace(new PrintWriter(pw));
 		e.printStackTrace();
@@ -165,6 +164,7 @@ public class JSONResponse {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
 		r.put("source", methodName);
+		r.put("is_success", false);
 		
 		JSONObject err_obj = new JSONObject();
 		err_obj.put("message", error);
@@ -182,6 +182,7 @@ public class JSONResponse {
 	public JSONObject APISuccess(Object result) {
 		JSONObject r = new JSONObject();
 		r.put("result", "success");
+		r.put("is_success", true);
 		if(methodName != null) r.put("source", methodName);
 		r.put("success", result);
 		

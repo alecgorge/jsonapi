@@ -10,8 +10,8 @@ import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -20,8 +20,9 @@ import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
 import org.json.simpleForBukkit.parser.ParseException;
 
-import com.alecgorge.java.http.HttpRequest;
+import com.alecgorge.java.http.MutableHttpRequest;
 import com.alecgorge.minecraft.jsonapi.api.v2.APIv2Handler;
+import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.streams.ChatMessage;
@@ -30,10 +31,11 @@ import com.alecgorge.minecraft.jsonapi.streams.ConnectionMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ConnectionStream;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleStream;
+import com.alecgorge.minecraft.jsonapi.streams.PerformanceStream;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 public class JSONServer extends NanoHTTPD {
-	public HashMap<String, String> logins = new HashMap<String, String>();
+	public UsersConfig logins;
 	private JSONAPI inst;
 	private Logger outLog = JSONAPI.instance.outLog;
 	private Caller caller;
@@ -41,10 +43,11 @@ public class JSONServer extends NanoHTTPD {
 	public ChatStream chat = new ChatStream("chat");
 	public ConsoleStream console = new ConsoleStream("console");
 	public ConnectionStream connections = new ConnectionStream("connections");
+	public PerformanceStream performance = new PerformanceStream("connections");
 
 	private static boolean initted = false;
 
-	public JSONServer(HashMap<String, String> auth, final JSONAPI plugin, final long startupDelay) throws IOException {
+	public JSONServer(UsersConfig auth, final JSONAPI plugin, final long startupDelay) throws IOException {
 		super(plugin.port, plugin.bindAddress);
 		inst = plugin;
 
@@ -83,6 +86,14 @@ public class JSONServer extends NanoHTTPD {
 					}
 				}
 				
+				String[] methodsFiles = new String[] { "chat.json", "dynmap.json", "econ.json", "fs.json", "permissions.json",
+													   "players.json", "plugins.json", "remotetoolkit.json", "server.json",
+													   "streams.json", "system.json", "worlds.json", "jsonapi.json" };
+				
+				for(String m : methodsFiles) {
+					caller.loadInputStream(inst.getResource("jsonapi4/methods/" + m));
+				}
+				
 				caller.registerMethods(APIWrapperMethods.getInstance());
 				
 				outLog.info("[JSONAPI] " + caller.methodCount + " methods loaded in " + caller.methods.size() + " namespaces.");
@@ -113,7 +124,7 @@ public class JSONServer extends NanoHTTPD {
             outLog.info("[JSONAPI] External IP: " + ip);
 
             for(int i : new int[] { inst.port, inst.port + 1, inst.port + 2 }) {
-	            HttpRequest reqReg = new HttpRequest(checkURL);
+            	MutableHttpRequest reqReg = new MutableHttpRequest(checkURL);
 	            reqReg.addGetValue("host", ip);
 	            reqReg.addGetValue("port", String.valueOf(i));
 	            
@@ -133,7 +144,7 @@ public class JSONServer extends NanoHTTPD {
 	}
 	
 	
-	public HashMap<String, String> getLogins() {
+	public UsersConfig getLogins() {
 		return logins;
 	}
 
@@ -172,12 +183,11 @@ public class JSONServer extends NanoHTTPD {
 	public boolean testLogin(String method, String hash) {
 		try {
 			boolean valid = false;
-			for (String user : logins.keySet()) {
-				String pass = logins.get(user);
+			for (Map<String, Object> user : logins.getUsers()) {
+				String thishash = JSONAPI.SHA256(user.get("username") + method + user.get("password") + inst.salt);
+				String saltless = JSONAPI.SHA256(user.get("username") + method + user.get("password"));
 
-				String thishash = JSONAPI.SHA256(user + method + pass + inst.salt);
-
-				if (thishash.equals(hash)) {
+				if (thishash.equals(hash) || saltless.equals(hash)) {
 					valid = true;
 					break;
 				}

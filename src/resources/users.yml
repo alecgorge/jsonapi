@@ -1,0 +1,9 @@
+users:
+  - username: admin
+    password: changeme
+    groups:
+      - full_control
+  - username: chatonly
+    password: example
+    groups:
+      - chat_only

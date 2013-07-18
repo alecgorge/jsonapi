@@ -1,0 +1,140 @@
+{
+    "name": "Server methods",
+    "depends": [
+        "JSONAPI"
+    ],
+    "methods": [
+        {
+            "desc": "Gets the version string of this server implementation",
+            "returns": [
+                "String",
+                "A string representing the version"
+            ],
+            "call": "Server.getVersion()",
+            "name": "server.version"
+        },
+        {
+            "desc": "Gets the maximum amount of players allowed on the server",
+            "returns": [
+                "int",
+                "The player limit"
+            ],
+            "call": "Server.getMaxPlayers()",
+            "name": "server.settings.max_players"
+        },
+        {
+            "desc": "Gets the Bukkit version that this server is running",
+            "returns": [
+                "String",
+                "A string representing the version"
+            ],
+            "call": "Server.getBukkitVersion()",
+            "name": "server.bukkit.version"
+        },
+        {
+            "desc": "Saves the map to the filesystem",
+            "call": "this.runCommand(\"save-all\")",
+            "name": "server.map.save"
+        },
+        {
+            "desc": "Disables automatic terrian saving",
+            "call": "this.runCommand(\"save-off\")",
+            "name": "server.map.save_off"
+        },
+        {
+            "desc": "Enables automatic terrian saving",
+            "call": "this.runCommand(\"save-on\")",
+            "name": "server.map.save_on"
+        },
+        {
+            "desc": "Runs a command in the console",
+            "call": "this.runCommand(0)",
+            "args": [
+                [
+                    "command",
+                    "String",
+                    "Command to send"
+                ]
+            ],
+            "name": "server.run_command"
+        },
+        {
+            "desc": "Reloads the server, refreshing settings and plugin information",
+            "call": "Server.reload()",
+            "name": "server.reload"
+        },
+        {
+            "desc": "Send a message to every player on the server",
+            "returns": [
+                "int",
+                "The number of players the message was broadcast to"
+            ],
+            "call": "this.broadcastMessage(0)",
+            "args": [
+                [
+                    "message",
+                    "String",
+                    "The message to broadcast"
+                ]
+            ],
+            "name": "chat.broadcast"
+        },
+        {
+            "desc": "Get the game port that the server runs on",
+            "returns": [
+                "int",
+                "The port"
+            ],
+            "call": "Server.getPort()",
+            "name": "server.settings.port"
+        },
+        {
+            "desc": "Gets server information: maxPlayers, players, port, name, serverName, version, worlds",
+            "returns": [
+                "Object",
+                "Key value object with information about the server"
+            ],
+            "call": "this.getServer()",
+            "name": "server"
+        },
+        {
+            "desc": "Gets server's MOTD",
+            "returns": [
+                "String",
+                "The MOTD"
+            ],
+            "call": "Server.getMotd()",
+            "name": "server.settings.motd"
+        },
+        {
+            "desc": "Get the IP that this server is bound to or empty string if not specified",
+            "returns": [
+                "String",
+                "The IP"
+            ],
+            "call": "Server.getIp()",
+            "name": "server.settings.ip"
+        },
+        {
+            "desc": "Similar to broadcast, but lets you specify a name to chat as and displays the message with the proper format. Looks just like the person specified is on the esrver",
+            "returns": [
+                "boolean",
+                "True on success, false on failure"
+            ],
+            "call": "this.chatWithName(0, 1)",
+            "args": [
+                [
+                    "message",
+                    "String",
+                    "The message"
+                ],
+                [
+                    "route",
+                    "String",
+                    "The name to send as"
+                ]
+            ],
+            "name": "chat.with_name"
+        }
+    ]
+}

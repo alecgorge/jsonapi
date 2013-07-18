@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HttpRequest {
+public class MutableHttpRequest {
 	String method = "GET";
 	URL url;
 	List<String> postParamKeys = new ArrayList<String>();
@@ -29,11 +29,11 @@ public class HttpRequest {
 
 	public int timeout = 10000;
 
-	public static HttpRequest create(URL u) throws IOException {
-		return new HttpRequest(u);
+	public static MutableHttpRequest create(URL u) throws IOException {
+		return new MutableHttpRequest(u);
 	}
 
-	public HttpRequest(URL u) throws IOException {
+	public MutableHttpRequest(URL u) throws IOException {
 		url = u;
 	}
 
@@ -53,51 +53,51 @@ public class HttpRequest {
 		return getParamValues;
 	}
 
-	public HttpRequest addPostValue(String key, String value) {
+	public MutableHttpRequest addPostValue(String key, String value) {
 		postParamKeys.add(key);
 		postParamValues.add(value);
 		return this;
 	}
 
-	public HttpRequest addPostValue(String key, Object value) {
+	public MutableHttpRequest addPostValue(String key, Object value) {
 		addPostValue(key, value.toString());
 		return this;
 	}
 
-	public HttpRequest setPostValues(Map<String, String> map) {
+	public MutableHttpRequest setPostValues(Map<String, String> map) {
 		postParamKeys = new ArrayList<String>(map.keySet());
 		postParamValues = new ArrayList<String>(map.values());
 		return this;
 	}
 
-	public HttpRequest addGetValue(String key, String value) {
+	public MutableHttpRequest addGetValue(String key, String value) {
 		getParamKeys.add(key);
 		getParamValues.add(value);
 		return this;
 	}
 
-	public HttpRequest addGetValue(String key, Object value) {
+	public MutableHttpRequest addGetValue(String key, Object value) {
 		addGetValue(key, value.toString());
 		return this;
 	}
 
-	public HttpRequest setGetValues(Map<String, String> map) {
+	public MutableHttpRequest setGetValues(Map<String, String> map) {
 		getParamKeys = new ArrayList<String>(map.keySet());
 		getParamValues = new ArrayList<String>(map.values());
 		return this;
 	}
 
-	public HttpRequest setHeader(String key, String value) {
+	public MutableHttpRequest setHeader(String key, String value) {
 		headers.put(key, value);
 		return this;
 	}
 
-	public HttpRequest setHeaders(Map<String, String> map) {
+	public MutableHttpRequest setHeaders(Map<String, String> map) {
 		headers = map;
 		return this;
 	}
 
-	public HttpRequest setMethod(String m) {
+	public MutableHttpRequest setMethod(String m) {
 		method = m;
 		return this;
 	}
@@ -106,7 +106,7 @@ public class HttpRequest {
 		return this.timeout;
 	}
 
-	public HttpRequest setTimeout(int timeoutMilliseconds) {
+	public MutableHttpRequest setTimeout(int timeoutMilliseconds) {
 		timeout = timeoutMilliseconds;
 		return this;
 	}
@@ -150,6 +150,7 @@ public class HttpRequest {
 	}
 
 	public HttpResponse request(String requestMethod) throws IOException, SocketTimeoutException {
+		setMethod(requestMethod.toUpperCase());
 		if (getParamKeys.size() > 0) {
 			String parms = getGetURL();
 
@@ -162,6 +163,7 @@ public class HttpRequest {
 		}
 
 		conn = (HttpURLConnection) url.openConnection();
+		conn.setInstanceFollowRedirects(true);
 		conn.setConnectTimeout(timeout);
 		conn.setRequestMethod(requestMethod.toUpperCase());
 		conn.setDoInput(true);

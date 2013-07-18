@@ -1,6 +1,7 @@
 package com.alecgorge.minecraft.jsonapi.stringifier;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,6 +30,9 @@ import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
+import com.alecgorge.minecraft.jsonapi.config.JSONAPIPermissionNode;
+import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIGroup;
+import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 
 public class BukkitStringifier {
 	public static HashMap<String, Class<?>> handle = new HashMap<String, Class<?>>();
@@ -53,6 +57,9 @@ public class BukkitStringifier {
 		handle.put("GameMode", org.bukkit.GameMode.class);
 		handle.put("Enchantment", org.bukkit.enchantments.Enchantment.class);
 		handle.put("Block", org.bukkit.block.Block.class);
+		handle.put("JSONAPIUser", JSONAPIUser.class);
+		handle.put("JSONAPIGroup", JSONAPIGroup.class);
+		handle.put("JSONAPIPermissionNode", JSONAPIPermissionNode.class);
 		handle.put("Object[]", java.lang.Object[].class);
 
 		if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null) {
@@ -159,6 +166,16 @@ public class BukkitStringifier {
 			o.put("isThundering", w.isThundering());
 			o.put("hasStorm", w.hasStorm());
 			o.put("remainingWeatherTicks", w.getWeatherDuration());
+			o.put("isPVP", w.getPVP());
+			o.put("difficulty", w.getDifficulty().getValue());
+			o.put("seed", String.valueOf(w.getSeed()));
+			
+			List<String> playerNames = new ArrayList<String>();
+			for(Player p : w.getPlayers()) {
+				playerNames.add(p.getName());
+			}
+			
+			o.put("players", playerNames);
 
 			return o;
 		} else if (obj instanceof Plugin) {
@@ -168,10 +185,10 @@ public class BukkitStringifier {
 			JSONObject o = new JSONObject();
 
 			o.put("name", d.getName());
-			o.put("description", d.getDescription());
+			o.put("description", d.getDescription() == null ? "" : d.getDescription());
 			o.put("authors", d.getAuthors());
 			o.put("version", d.getVersion());
-			o.put("website", d.getWebsite());
+			o.put("website", d.getWebsite() == null ? "" : d.getWebsite());
 			o.put("enabled", JSONAPI.instance.getServer().getPluginManager().isPluginEnabled(p));
 
 			return o;
@@ -243,6 +260,34 @@ public class BukkitStringifier {
 			Collections.sort(l, new PluginSorter());
 
 			return l;
+		} else if(obj instanceof JSONAPIUser) {
+			JSONObject o = new JSONObject();
+			JSONAPIUser u = (JSONAPIUser)obj;
+
+			o.put("username", u.getUsername());
+			o.put("password", u.getPassword());
+			o.put("groups", u.getGroups());
+
+			return o;
+		} else if (obj instanceof JSONAPIGroup) { 
+			JSONObject o = new JSONObject();
+			JSONAPIGroup g = (JSONAPIGroup)obj;
+
+			o.put("name", g.getName());
+			o.put("streams", g.getStreams());
+			o.put("methods", g.getMethods());
+			o.put("permissions", g.getPermissions());
+
+			return o;			
+		} else if(obj instanceof JSONAPIPermissionNode) {
+			JSONObject o = new JSONObject();
+			JSONAPIPermissionNode n = (JSONAPIPermissionNode)obj;
+
+			o.put("name", n.getName());
+//			o.put("methods", n.getName());
+//			o.put("streams", n.getStreams());
+			
+			return o;			
 		} else if (obj instanceof GameMode) {
 			return ((GameMode) obj).getValue();
 		} else if (obj instanceof Enchantment) {

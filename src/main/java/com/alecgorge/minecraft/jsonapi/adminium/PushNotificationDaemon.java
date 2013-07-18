@@ -22,7 +22,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.json.simpleForBukkit.JSONObject;
 
-import com.alecgorge.java.http.HttpRequest;
+import com.alecgorge.java.http.MutableHttpRequest;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.api.APIMethodName;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
@@ -206,9 +206,9 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			@Override
 			public void run() {
 				trace("pushing", message);
-				HttpRequest r = null;
+				MutableHttpRequest r = null;
 				try {
-					r = new HttpRequest(new URL(APNS_PUSH_ENDPOINT));
+					r = new MutableHttpRequest(new URL(APNS_PUSH_ENDPOINT));
 					for (String d : devices) {
 						if (deviceOverrides.containsKey(d) && deviceOverrides.get(d).containsKey(type) && deviceOverrides.get(d).get(type) || !deviceOverrides.containsKey(d))
 							r.addPostValue("devices[]", d);

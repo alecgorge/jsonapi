@@ -83,23 +83,7 @@ public class NanoHTTPD {
 	 */
 	public static String decodePercent(String str) {
 		try {
-			StringBuffer sb = new StringBuffer();
-			for (int i = 0; i < str.length(); i++) {
-				char c = str.charAt(i);
-				switch (c) {
-				case '+':
-					sb.append(' ');
-					break;
-				case '%':
-					sb.append((char) Integer.parseInt(str.substring(i + 1, i + 3), 16));
-					i += 2;
-					break;
-				default:
-					sb.append(c);
-					break;
-				}
-			}
-			return new String(sb.toString().getBytes());
+			return URLDecoder.decode(str, "UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

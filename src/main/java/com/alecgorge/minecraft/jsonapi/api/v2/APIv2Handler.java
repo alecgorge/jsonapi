@@ -15,6 +15,7 @@ import org.json.simpleForBukkit.parser.ParseException;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD.Response;
+import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
@@ -64,23 +65,21 @@ public class APIv2Handler {
 	public NanoHTTPD.Response call() {
 		JSONArray a = new JSONArray();
 		
-		boolean allAreAuth = true;
 		for(JSONResponse resp : requests) {
-			if(!resp.testLogin(false).isAuthenticated()) {
-				allAreAuth = false;
-			}
 			a.add(resp.getJSONObject());
 		}
 		
-		return resp(allAreAuth ? NanoHTTPD.HTTP_OK : NanoHTTPD.HTTP_FORBIDDEN, NanoHTTPD.MIME_JSON, a.toJSONString());
+		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, a.toJSONString());
 	}
 	
 	public NanoHTTPD.Response resp(String resp, String type, String body) {
 		if(params != null && type.equals(NanoHTTPD.MIME_JSON) && params.containsKey("callback")) {
 			body = params.getProperty("callback") + "(" + body + ");";
 		}
+
 		Response r = httpd.new Response(resp, type, body);
 		r.addHeader("Access-Control-Allow-Origin", "*");
+		r.addHeader("Content-Length", String.valueOf(body.length()));
 
 		return r;
 	}
@@ -130,9 +129,21 @@ public class APIv2Handler {
 			// logging
 			StringBuilder b = new StringBuilder("[JSONAPI] ");
 			b.append(stream ? "[Stream Request] " : "[API Request] ");
+			b.append(requests.get(0).getUsername()).append(" requested: ");
 			
 			for(JSONResponse r : requests) {
-				b.append(r.getMethodName()).append("(").append(r.getArguments()).append(") ");
+				b.append(r.getMethodName()).append("(").append(r.getArguments() == null ? "" : r.getArguments()).append(")");
+				
+				JSONAPIAuthResponse a = r.testLogin(false);
+				b.append("{").append(a.isAuthenticated() ? "AUTHED" : "NOT AUTHED").append(", ");
+				b.append(a.isAllowed() ? "ALLOWED" : "NOT ALLOWED");				
+				Caller c = JSONAPI.instance.jsonServer.getCaller();
+				
+				if(!c.methodExists(r.getMethodName()) && !JSONAPI.instance.getStreamManager().streamExists(r.getMethodName())) {
+					b.append(", NO-EXIST");
+				}
+				
+				b.append("} ");
 			}
 			
 			jsonapiLog.info(b.toString());

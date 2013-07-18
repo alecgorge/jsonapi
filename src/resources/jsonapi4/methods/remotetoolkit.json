@@ -1,0 +1,51 @@
+{
+    "name": "Remote Toolkit methods",
+    "depends": [
+        "RemoteToolkitPlugin"
+    ],
+    "methods": [
+        {
+            "desc": "Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format",
+            "returns": [
+                "boolean",
+                "False on error. Null otherwise"
+            ],
+            "call": "this.rescheduleServerRestart(0)",
+            "args": [
+                [
+                    "next_restart",
+                    "String",
+                    "Time in either the #h #m #s format, or the HH:MM format"
+                ]
+            ],
+            "name": "server.power.reschedule_restart"
+        },
+        {
+            "desc": "Restarts the Minecraft server. THIS WILL TAKE DOWN JSONAPI FOR A SHORT TIME",
+            "returns": [
+                "boolean",
+                "False on error. Null otherwise"
+            ],
+            "call": "this.restartServer()",
+            "name": "server.power.restart"
+        },
+        {
+            "desc": "Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT",
+            "returns": [
+                "boolean",
+                "False on error. Null otherwise"
+            ],
+            "call": "this.stopServer()",
+            "name": "server.power.stop"
+        },
+        {
+            "desc": "Starts the Minecraft server. DO NOT CALL IF remotetookit.stopServer HAS NOT BEEN CALLED!",
+            "returns": [
+                "boolean",
+                "True if successful, false otherwise"
+            ],
+            "call": "this.runCommand(\"null\")",
+            "name": "server.power.start"
+        }
+    ]
+}

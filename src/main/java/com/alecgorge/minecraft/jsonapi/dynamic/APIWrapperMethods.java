@@ -18,6 +18,7 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -40,6 +41,8 @@ import com.alecgorge.minecraft.jsonapi.APIException;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
+import com.alecgorge.minecraft.jsonapi.api.BukGetAPIMethods;
+import com.alecgorge.minecraft.jsonapi.api.JSONAPIAPIMethods;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 import com.alecgorge.minecraft.jsonapi.chat.BukkitForgeRealisticChat;
 import com.alecgorge.minecraft.jsonapi.chat.BukkitRealisticChat;
@@ -54,8 +57,12 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public Economy econ;
 	public Chat chat;
+	public BukGetAPIMethods bukget;
+	public JSONAPIAPIMethods jsonapi;
 
 	public APIWrapperMethods(Server server) {
+		bukget = new BukGetAPIMethods(server);
+		jsonapi = new JSONAPIAPIMethods(server);
 		permissions = new PermissionWrapper(server);
 
 		if (server.getPluginManager().getPlugin("Vault") != null) {
@@ -110,6 +117,20 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		}
 
 		return ops;
+	}
+	
+	public boolean setPlayerHealth(String playerName, int health) {
+		Player p = getPlayerExact(playerName);
+		p.setHealth(health);
+		p.saveData();
+		return true;
+	}
+	
+	public boolean setPlayerFoodLevel(String playerName, int health) {
+		Player p = getPlayerExact(playerName);
+		p.setFoodLevel(health);
+		p.saveData();
+		return true;
 	}
 
 	public boolean removeEnchantmentsFromPlayerInventorySlot(String playerName, int slot, List<Object> enchantments) {
@@ -288,7 +309,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	}
 
-	public boolean setPlayerInventorySlotWithDataDamageAndEnchantments(String playerName, int slot, int blockID, final int data, int damage, int quantity, List<Object> enchantments) {
+	public boolean setPlayerInventorySlotWithDataDamageAndEnchantments(String playerName, int slot, int blockID, final int data, int damage, int quantity, Object[] enchantments) {
 		try {
 			if (blockID == 0) {
 				return clearPlayerInventorySlot(playerName, slot);
@@ -299,8 +320,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			ItemStack it = (new MaterialData(blockID, (byte) data)).toItemStack(quantity);
 			it.setDurability(Short.valueOf(String.valueOf(damage)).shortValue());
 
-			for (int i = 0; i < enchantments.size(); i++) {
-				JSONObject o = (JSONObject) enchantments.get(i);
+			for (int i = 0; i < enchantments.length; i++) {
+				JSONObject o = (JSONObject) enchantments[i];
 				it.addEnchantment(Enchantment.getById(Integer.valueOf(o.get("enchantment").toString())), Integer.valueOf(o.get("level").toString()));
 			}
 
@@ -972,6 +993,12 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		return true;
 	}
 
+	public boolean setWorldDifficulty(String worldName, int diff) {
+		Server.getWorld(worldName).setDifficulty(Difficulty.getByValue(diff));
+
+		return true;
+	}
+
 	// I'm a real boy! I swear!
 	public Server getServer() {
 		return Server;
@@ -1074,7 +1101,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	private Player getPlayerExact(String playerName) {
+	public Player getPlayerExact(String playerName) {
 		Player player = Server.getPlayerExact(playerName);
 		if (player == null) {
 			player = JSONAPI.loadOfflinePlayer(playerName);
@@ -1204,5 +1231,5 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	
 	public boolean spawn(String world, double x, double y, double z, String mobName) {
 		return getServer().getWorld(world).spawnEntity(new Location(getServer().getWorld(world), x, y, z), EntityType.fromName(mobName)) != null;
-	}
+	}	
 }

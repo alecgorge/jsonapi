@@ -18,7 +18,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
-import com.alecgorge.java.http.HttpRequest;
+import com.alecgorge.java.http.MutableHttpRequest;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
 
@@ -130,7 +130,7 @@ public class StreamPusher implements JSONAPIStreamListener {
 
 				for (URL u : urlsToPost) {
 					try {
-						HttpRequest r = new HttpRequest(u);
+						MutableHttpRequest r = new MutableHttpRequest(u);
 
 						r.addPostValue("source", streamName);
 						r.addPostValue("count", messages.size());

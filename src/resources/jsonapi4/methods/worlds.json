@@ -1,0 +1,200 @@
+{
+    "name": "World methods",
+    "depends": [
+        "JSONAPI"
+    ],
+    "methods": [
+        {
+            "desc": "Gets the |world| object with the given name",
+            "returns": [
+                "World",
+                "The world with the given name"
+            ],
+            "call": "Server.getWorld(0)",
+            "name": "worlds.world",
+            "args": [
+                [
+                    "world",
+                    "String",
+                    "world"
+                ]
+            ]
+        },
+        {
+            "desc": "Gets an array of all the |world| objects on the server",
+            "returns": [
+                "World[]",
+                "All of the worlds on the server"
+            ],
+            "call": "Server.getWorlds()",
+            "name": "worlds.all"
+        },
+        {
+            "desc": "Gets an array of all the world names on the server",
+            "returns": [
+                "String[]",
+                "All of the names of the worlds on the server"
+            ],
+            "call": "this.getWorldNames()",
+            "name": "worlds.names"
+        },
+        {
+            "desc": "Sets the time for a given world",
+            "returns": [
+                "boolean",
+                "True on succes, false if the world does not exist"
+            ],
+            "call": "this.setWorldTime(0, 1)",
+            "flags": [
+                "FALSE_ON_EXCEPTION"
+            ],
+            "args": [
+                [
+                    "world",
+                    "String",
+                    "world"
+                ],
+                [
+                    "time",
+                    "int",
+                    "Time (from 0-24000), 6000 is dawn, 24000 is midnight"
+                ]
+            ],
+            "name": "worlds.world.set_time"
+        },
+        {
+            "desc": "Sets the difficulty for a given world",
+            "returns": [
+                "boolean",
+                "True on succes, false if the world does not exist"
+            ],
+            "call": "this.setWorldDifficulty(0, 1)",
+            "flags": [
+                "FALSE_ON_EXCEPTION"
+            ],
+            "args": [
+                [
+                    "world",
+                    "String",
+                    "world"
+                ],
+                [
+                    "time",
+                    "int",
+                    "Difficulty. 0 is easy, 1 is hard, 2 is normal, 3 is peaceful."
+                ]
+            ],
+            "name": "worlds.world.set_difficulty"
+        },
+        {
+            "desc": "Retrieves the block in the specified world at the specified coordinate",
+            "returns": [
+                "Object",
+                "Information about the block"
+            ],
+            "call": "Server.getWorld(0).getBlockAt(1, 2, 3)",
+            "args": [
+                [
+                    "world",
+                    "String",
+                    "world"
+                ],
+                [
+                    "x",
+                    "int",
+                    "The x-coord of the block"
+                ],
+                [
+                    "y",
+                    "int",
+                    "The y-coord of the block"
+                ],
+                [
+                    "z",
+                    "int",
+                    "The z-coord of the block"
+                ]
+            ],
+            "name": "worlds.world.get_block"
+        },
+        {
+            "desc": "Set the type of the block in the specified world at the specified coordinate",
+            "call": "Server.getWorld(0).getBlockAt(1, 2, 3).setTypeId(4)",
+            "args": [
+                [
+                    "world",
+                    "String",
+                    "world"
+                ],
+                [
+                    "x",
+                    "int",
+                    "The x-coord of the block"
+                ],
+                [
+                    "y",
+                    "int",
+                    "The y-coord of the block"
+                ],
+                [
+                    "z",
+                    "int",
+                    "The z-coord of the block"
+                ],
+                [
+                    "int",
+                    "The type ID to change the block to"
+                ]
+            ],
+            "name": "worlds.world.get_block"
+        },
+        {
+            "desc": "Set the data value of the block in the specified world at the specified coordinate",
+            "call": "this.setBlockData(0,1,2,3,4)",
+            "args": [
+                [
+                    "world",
+                    "String",
+                    "world"
+                ],
+                [
+                    "x",
+                    "int",
+                    "The x-coord of the block"
+                ],
+                [
+                    "y",
+                    "int",
+                    "The y-coord of the block"
+                ],
+                [
+                    "z",
+                    "int",
+                    "The z-coord of the block"
+                ],
+                [
+                    "id",
+                    "int",
+                    "The decimal representation of the data value to set on the block"
+                ]
+            ],
+            "name": "worlds.world.set_block"
+        },
+        {
+            "desc": "Retrieves an array of the names of all the players currently in the given world",
+            "returns": [
+                "String[]",
+                "The players' names"
+            ],
+            "call": "Server.getWorld(0).getPlayers()",
+            "name": "worlds.world.players.names",
+            "args": [
+                [
+                    "world",
+                    "String",
+                    "world"
+                ]
+            ]
+        }
+    ]
+}

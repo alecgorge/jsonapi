@@ -1,0 +1,127 @@
+{
+    "name": "Plugin methods",
+    "depends": [
+        "JSONAPI"
+    ],
+    "methods": [
+        {
+            "desc": "Gets version of a plugin",
+            "returns": [
+                "String",
+                "A string representing the version"
+            ],
+            "call": "Server.getPluginManager().getPlugin(0).getDescription().getVersion()",
+            "flags": [
+                "FALSE_ON_EXCEPTION"
+            ],
+            "name": "plugins.name.version",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Installs a plugin from a URL",
+            "returns": [
+                "boolean",
+                "If the plugin was successfully downloaded, installed and loaded."
+            ],
+            "call": "this.bukget.installPluginFromJARUrl(0)",
+            "flags": [
+                "FALSE_ON_EXCEPTION"
+            ],
+            "name": "plugins.install",
+            "args": [
+                [
+                    "url",
+                    "String",
+                    "A URL that points to a .jar file that should be installed/"
+                ]
+            ]
+        },
+        {
+            "desc": "Gets an array of all loaded plugins",
+            "returns": [
+                "Plugin[]",
+                "An array of |plugin| objects"
+            ],
+            "call": "Server.getPluginManager().getPlugins()",
+            "name": "plugins"
+        },
+        {
+            "desc": "Gets the |plugin| object for the plugin with the given name",
+            "returns": [
+                "Plugin",
+                "The specified plugin"
+            ],
+            "call": "Server.getPluginManager().getPlugin(0)",
+            "name": "plugins.name",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Enables the specified plugin. Attempting to enable a plugin that is already enabled will have no effect",
+            "returns": [
+                "boolean",
+                "True if the plugin was enabled. False will be returned if the plugin is not on the server"
+            ],
+            "call": "this.enablePlugin(0)",
+            "name": "plugins.name.enable",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Disables the specified plugin. Attempting to disable a plugin that is not enabled will have no effect",
+            "returns": [
+                "boolean",
+                "True if the plugin was disabled. False will be returned if the plugin is not on the server"
+            ],
+            "call": "this.disablePlugin(0)",
+            "name": "plugins.name.disable",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "desc": "Disables all plugins on the server",
+            "call": "Server.getPluginManager().disablePlugins()",
+            "name": "plugins.disable_all"
+        },
+        {
+            "desc": "Retrives an array of files and directories that exist in the plugins data folder. Recursive",
+            "returns": [
+                "String[]",
+                "The files in string format"
+            ],
+            "call": "this.getPluginFiles(0)",
+            "flags": [
+                "NO_EXCEPTIONS"
+            ],
+            "name": "plugins.name.files",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        }
+    ]
+}

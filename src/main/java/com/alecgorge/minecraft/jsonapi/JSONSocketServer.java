@@ -120,7 +120,6 @@ public class JSONSocketServer implements Runnable{
 									try {
 										if(clientSocket.isConnected() && !clientSocket.isClosed()) {
 											output.write((line.trim()+"\r\n").getBytes("UTF-8"));
-											// fuck java: output.writeUTF(line+"\r\n");
 										}
 										else {
 											continueSending = false;

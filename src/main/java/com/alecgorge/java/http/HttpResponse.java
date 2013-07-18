@@ -8,32 +8,32 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpResponse {
-	InputStream in;
-	BufferedReader reader;
-	InputStreamReader inreader;
-	int statuscode;
-	Map<String, List<String>> header;
+	protected InputStream inputStream;
+	protected BufferedReader bufferedReader;
+	protected InputStreamReader inputStreamReader;
+	protected int statuscode;
+	protected Map<String, List<String>> headers;
 
 	public HttpResponse(int statuscode, InputStream in, Map<String, List<String>> map) {
 		this.statuscode = statuscode;
-		this.in = in;
-		this.header = map;
+		this.inputStream = in;
+		this.headers = map;
 	}
 
 	public boolean hasHeader(String key) {
-		return header.containsKey(key);
+		return headers.containsKey(key);
 	}
 
 	public String getHeader(String key) {
-		return header.get(key).get(0);
+		return headers.get(key).get(0);
 	}
 
 	public List<String> getHeaderList(String key) {
-		return header.get(key);
+		return headers.get(key);
 	}
 
 	public Map<String, List<String>> getHeaders() {
-		return header;
+		return headers;
 	}
 
 	public int getStatusCode() {
@@ -41,22 +41,26 @@ public class HttpResponse {
 	}
 
 	public InputStream getInputStream() {
-		return in;
+		return inputStream;
 	}
 
 	public InputStreamReader getInputStreamReader() {
-		if (inreader == null)
-			inreader = new InputStreamReader(in);
-		return inreader;
+		if (inputStreamReader == null)
+			inputStreamReader = new InputStreamReader(inputStream);
+		return inputStreamReader;
 	}
 
 	public BufferedReader getReader() {
-		if (reader == null)
-			reader = new BufferedReader(getInputStreamReader());
-		return reader;
+		if (bufferedReader == null)
+			bufferedReader = new BufferedReader(getInputStreamReader());
+		return bufferedReader;
 	}
 
 	public String getReponse() {
+		return toString();
+	}
+	
+	public String getBody() {
 		return toString();
 	}
 
@@ -73,7 +77,7 @@ public class HttpResponse {
 					b.append(buffer, 0, n);
 				}
 			}
-			in.close();
+			inputStream.close();
 
 			return b.toString();
 		} catch (IOException e) {

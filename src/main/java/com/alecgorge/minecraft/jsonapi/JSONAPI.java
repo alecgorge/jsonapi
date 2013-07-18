@@ -13,9 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.FileHandler;
@@ -46,17 +44,18 @@ import com.alecgorge.minecraft.jsonapi.adminium.PushNotificationDaemon;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStream;
 import com.alecgorge.minecraft.jsonapi.api.StreamPusher;
+import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
 import com.alecgorge.minecraft.jsonapi.packets.LostConnectionFilter;
-import com.alecgorge.minecraft.jsonapi.packets.Packet48HTTPResponse;
-import com.alecgorge.minecraft.jsonapi.packets.Packet50PostPacket;
-import com.alecgorge.minecraft.jsonapi.packets.PacketRegistrar;
+import com.alecgorge.minecraft.jsonapi.packets.PacketRegistrarLauncher;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
+import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
+import com.alecgorge.minecraft.jsonapi.streams.PerformanceStreamDataProvider;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
 import com.alecgorge.minecraft.jsonapi.util.OfflinePlayerLoader;
 import com.alecgorge.minecraft.jsonapi.util.TickRateCounter;
@@ -82,7 +81,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	private long startupDelay = 2000;
 	public List<String> whitelist = new ArrayList<String>();
 	public List<String> method_noauth_whitelist = new ArrayList<String>();
-	HashMap<String, String> auth;
+	UsersConfig auth;
 	public boolean anyoneCanUseCallAdmin = true;
 	public String serverName = "default";
 	public StreamPusher streamPusher;
@@ -120,7 +119,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		return groupManager;
 	}
 	
-	public HashMap<String, String> getAuthTable() {
+	public UsersConfig getAuthTable() {
 		return auth;
 	}
 
@@ -172,8 +171,87 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	private JSONAPIPlayerListener l = new JSONAPIPlayerListener(this);
 	YamlConfiguration yamlConfig;
 	File yamlFile;
+	
+	public ClassLoader myClassLoader() {
+		return getClassLoader();
+	}
 
-	public void onEnable() {		
+	public void onEnable() {
+		/*
+		try {
+			int countI = 0, countB = 0;
+			JSONObject o = new JSONObject();
+			for(Item i : Item.byId) {
+				if(i == null) continue;
+				countI++;
+				if(i.id < 256) continue;
+				
+				System.out.println(String.format("name: %25s id: %4s class: %s", i.getName(), i.id, i.getClass()));
+				
+				String[] names = null;
+				for(Field f : i.getClass().getDeclaredFields()) {
+					if(f.getType().isAssignableFrom(String[].class)) {
+						f.setAccessible(true);
+						names = (String[]) f.get(i);
+						if(names[0].contains("_")) {
+							names = null;
+							continue;
+						}
+						break;
+					}
+				}
+				if(i instanceof ItemCloth) {
+					names = ItemDye.a;
+				}
+				if(names == null) {
+					continue;
+				}
+				
+				//LocaleI18n.get(arg0)
+				
+				for(int j = 0; j < names.length; j++) {
+					System.out.println(String.format("\t%d: %s", j, names[j]));
+				}
+				
+				JSONObject obj = new JSONObject();
+				obj.put(", value)
+				
+				o.put(String.valueOf(i.id), obj);				
+			}
+			for(Block b : Block.byId) {
+				if(b == null) continue;
+				countB++;
+				System.out.println(String.format("name: %25s id: %4s materal: %s class: %s", b.getName(), b.id, b.material.getClass(), b.getClass()));
+
+				String[] names = null;
+				for(Field f : b.getClass().getDeclaredFields()) {
+					if(f.getType().isAssignableFrom(String[].class)) {
+						f.setAccessible(true);
+						names = (String[]) f.get(b);
+						if(names[0].contains("_")) {
+							names = null;
+							continue;
+						}
+						break;
+					}
+				}
+				if(b instanceof BlockCloth) {
+					names = ItemDye.a;
+				}
+				if(names == null) {
+					continue;
+				}
+				
+				for(int j = 0; j < names.length; j++) {
+					System.out.println(String.format("\t%d: %s", j, names[j]));
+				}
+			}
+			System.out.println("items: " + countI + " blocks: " + countB);
+		} catch(Exception e) {
+			
+		}
+		*/
+		
 		// for minecraft forge, Logger.getLogger("JSONAPI"); doesn't output anything...
 		try {
 			Class.forName("net.minecraftforge.common.MinecraftForge");
@@ -181,21 +259,24 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		}
 		catch (Error e) {}
 		catch (Exception e) {}
-
-		try {
-			PacketRegistrar.register(0x50, Packet50PostPacket.class);
-			PacketRegistrar.register(0x48, Packet48HTTPResponse.class);
-		}
-		catch (NoClassDefFoundError e) {
-			e.printStackTrace();
-			outLog.severe("Couldn't register my Packet71WeatherProxy! Is BukkitForge/Bukkit up to date with JSONAPI?");
-		}
 		
+		try {
+//			ClassLoader loader = new MinecraftVersionAgnosticClassLoader(Bukkit.class.getClassLoader(), this);
+//			Class<?> c = loader.loadClass("com.alecgorge.minecraft.jsonapi.packets.PacketRegistrarLauncher");
+//			c.newInstance();
+			new PacketRegistrarLauncher();
+		} catch (Exception ee) {
+			ee.printStackTrace();
+			outLog.severe("Couldn't register my Packet0x47HttpGetPacket! Is BukkitForge/Bukkit up to date with JSONAPI?");
+		} catch (Error e) {
+			e.printStackTrace();
+			outLog.severe("Couldn't register my Packet0x47HttpGetPacket! Is BukkitForge/Bukkit up to date with JSONAPI?");
+		}
 
 		boolean rtkInstalled = Bukkit.getPluginManager().getPlugin("RemoteToolkitPlugin") != null;
 		
 		try {
-			auth = new HashMap<String, String>();
+			auth = new UsersConfig(this);
 
 			if (!getDataFolder().exists()) {
 				getDataFolder().mkdir();
@@ -206,7 +287,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			File methods = new File(getDataFolder(), "methods.json");
 			File methodsFolder = new File(getDataFolder(), "methods");
 			File rtkConfig = new File(getDataFolder(), "config_rtk.yml");
-			File groups = new File(getDataFolder(), "groups.json");
+			File groups = new File(getDataFolder(), "groups.yml");
 
 			if (!methods.exists()) {
 				InputStream in = getResource("methods.json");
@@ -285,7 +366,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			if (!groups.exists()) {
 				groups.createNewFile();
 
-				InputStream in = getResource("groups.json");
+				InputStream in = getResource("groups.yml");
 				OutputStream out = new FileOutputStream(groups);
 
 				byte[] buffer = new byte[1024];
@@ -297,7 +378,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				in.close();
 				out.close();
 
-				log.info("[JSONAPI] groups.json has been copied from the jar");
+				log.info("[JSONAPI] groups.yml has been copied from the jar");
 			}
 
 			String reconstituted = "";
@@ -350,9 +431,22 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 				method_noauth_whitelist = yamlConfig.getStringList("method-whitelist");
 
-				Set<String> logins = ((ConfigurationSection) yamlConfig.get("logins")).getKeys(false);
-				for (String k : logins) {
-					auth.put(k, yamlConfig.getString("logins." + k));
+				File usersFile = new File(getDataFolder(), "users.yml");
+				if(usersFile.exists()) {
+					auth.init();
+				}
+				else {
+					Set<String> logins = ((ConfigurationSection) yamlConfig.get("logins")).getKeys(false);
+					
+					List<String> fullgroups = new ArrayList<String>();
+					fullgroups.add("full_control");
+					for (String k : logins) {
+						String password = yamlConfig.getString("logins." + k);
+						
+//						auth.getUsers().add(new JSONAPIUser(k, password, fullgroups));
+					}
+					
+					auth.save();
 				}
 			}
 			
@@ -388,7 +482,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				outLog.addHandler(fh);
 			}
 
-			if (auth.size() == 0) {
+			if (auth.getUsers().size() == 0) {
 				log.severe("[JSONAPI] No valid logins for JSONAPI. Check config.yml");
 				return;
 			}
@@ -428,12 +522,16 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			registerStreamManager("connections", getJSONServer().connections);
 
 			streamPusher = new StreamPusher(streamManager, new File(getDataFolder(), "push_locations.yml"), max_queue_age, max_queue_length);
-			groupManager = new GroupManager(this, groups);
+			groupManager = new GroupManager();
 
 			initialiseListeners();
 
 			adminium = new PushNotificationDaemon(new File(getDataFolder(), "adminium.yml"), this);
 			tickRateCounter = new TickRateCounter(this);
+
+			// must load this after the tick counter exists!
+			registerStreamManager("performance", getJSONServer().performance);
+			PerformanceStreamDataProvider.enqueue(this);
 
 			registerMethods(this);
 		} catch (Exception ioe) {
@@ -510,24 +608,34 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				return true;
 			} else if (subCommand.equals("users")) {
 				if (args.length == 1 || args[1].equals("list")) {
-					sender.sendMessage("Usernames: " + join(new ArrayList<String>(getJSONServer().getLogins().keySet()), ", "));
+					List<String> usernames = new ArrayList<String>();
+					try {
+//					for(JSONAPIUser u : getJSONServer().getLogins().getUsers()) {
+//						usernames.add(u.getUsername());
+//					}
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+					sender.sendMessage("Usernames: " + join(usernames, ", "));
 					return true;
 				} else if (args.length == 3 && args[2].equals("password")) {
-					Map<String, String> logins = getJSONServer().getLogins();
+					UsersConfig logins = getJSONServer().getLogins();
 
-					if (!logins.containsKey(args[1])) {
+					if (!logins.userExists(args[1])) {
 						sender.sendMessage(ChatColor.RED + "No JSONAPI user named " + args[1]);
 						return true;
 					}
 
-					sender.sendMessage(args[1] + "'s password: " + logins.get(args[1]));
+					sender.sendMessage(args[1] + "'s password: " + logins.getUser(args[1]).getPassword());
 					return true;
 				} else if (args.length == 4 && args[1].equals("add")) {
 					try {
 						String username = args[2];
 						String password = args[3];
 
-						getJSONServer().getLogins().put(username, password);
+						List<String> g = new ArrayList<String>();
+						g.add("full_control");
+//						getJSONServer().getLogins().getUsers().add(new JSONAPIUser(username, password, g));
 
 						yamlConfig.set("logins", getJSONServer().getLogins());
 						yamlConfig.save(yamlFile);

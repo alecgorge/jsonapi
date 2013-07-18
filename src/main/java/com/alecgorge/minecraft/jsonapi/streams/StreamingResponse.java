@@ -89,9 +89,15 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 				m = queue.take();
 				return  JSONServer.callback(callback, makeResponseObj(m)).concat("\r\n");
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
+		}
+	}
+	
+	@Override
+	public void close() throws IOException {
+		for(JSONAPIStream s : stacks) {
+			s.deregisterListener(this);
 		}
 	}
 	
@@ -107,10 +113,12 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 		
 		try {
 			o.put("tag", tag.get(streams.indexOf(ja.streamName())));
+			return o.toJSONString();
 		}
-		catch (Exception e) {}
-		
-		return o.toJSONString();
+		catch (Exception e) {
+			return o.toJSONString(); // incase of a concurrence issue
+									 // very hacky but it works
+		}		
 	}
 	
 	public int read() throws IOException {

@@ -2,6 +2,8 @@ package com.alecgorge.minecraft.jsonapi.dynamic;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,7 +50,10 @@ public class Caller implements JSONAPIMethodProvider {
 		checkObjects();
 
 		final Call c;
-		if (methodParts.length == 1) {
+		if(methods.get("").containsKey(methodAndNamespace)) {
+			c = methods.get("").get(methodAndNamespace).getCall();
+		}
+		else if (methodParts.length == 1) {
 			c = methods.get("").get(methodParts[0]).getCall();
 		} else {
 			c = methods.get(methodParts[0]).get(methodParts[1]).getCall();
@@ -98,6 +103,9 @@ public class Caller implements JSONAPIMethodProvider {
 
 	@API_Method(namespace = "jsonapi", argumentDescriptions = { "The name of the method to test. Should be a FQN. Ex: dynmap.getHost or getPlayers" })
 	public boolean methodExists(String name) {
+		if(methods.get("").containsKey(name)) {
+			return true;
+		}
 		String[] methodParts = name.split("\\.", 2);
 
 		APIMethodName n = new APIMethodName(name);
@@ -130,6 +138,14 @@ public class Caller implements JSONAPIMethodProvider {
 	public void loadFile(File methodsFile) {
 		try {
 			magicWithMethods(p.parse(new FileReader(methodsFile)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadInputStream(InputStream methodsFile) {
+		try {
+			magicWithMethods(p.parse(new InputStreamReader(methodsFile)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -178,7 +194,7 @@ public class Caller implements JSONAPIMethodProvider {
 						outLog.info("[JSONAPI] " + name + " cannot be loaded because it depends on a plugin that is not installed: '" + plugin + "'");
 					} else if (plugin.equals("JSONAPI") || p.isEnabled()) {
 						if (methods.containsKey("methods")) {
-							proccessMethodsWithNamespace((JSONArray) methods.get("methods"), methods.get("namespace").toString());
+							proccessMethodsWithNamespace((JSONArray) methods.get("methods"), methods.containsKey("namespace") ? methods.get("namespace").toString() : "");
 						} else {
 							throw new Exception("A JSON file is not well formed: missing the key 'methods' for the root object.");
 						}

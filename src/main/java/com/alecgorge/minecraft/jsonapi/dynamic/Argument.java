@@ -34,8 +34,18 @@ public class Argument {
 	}
 	
 	public Argument(JSONArray a) {
-		type = getClassFromName((String)a.get(0));
-		desc = (String)a.get(1); 
+		if(a.size() > 2) {
+			type = getClassFromName((String)a.get(1));
+			desc = (String)a.get(2);
+		}
+		else {
+			type = getClassFromName((String)a.get(0));
+			desc = (String)a.get(1);
+		}
+		
+		if(a.size() == 4) {
+			setValue(a.get(3));
+		}
 	}
 	
 	public Argument(Class<?> a, String desc) {

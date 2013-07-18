@@ -7,9 +7,8 @@ $endpoint = "api/2/call";
 $host = "localhost";
 $endpoint = "api/2/call";
 
-$username = "usernameGoesHere";
-$password = "passwordGoesHere";
-$salt = "salt goes here";
+$username = "admin";
+$password = "changeme";
 
 function gen_key($name) {
 	global $username, $password, $salt;
@@ -17,60 +16,55 @@ function gen_key($name) {
 }
 
 
-$methodName = "getPlayers";
+$methodName = "players.name";
 
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
+		'arguments' => ['alecgorge'],
+		'tag' => 'test'
 	),
-	array(
-		'name' => 'getWorlds',
-		'key' => gen_key('getWorlds'),
-		'username' => $username,
-	),
-	array(
-		'name' => 'system.getServerClockDebug',
-		'key' => gen_key('system.getServerClockDebug'),
-		'username' => $username,
-	),
-	array(
-		'name' => 'system.getJavaMemoryUsage',
-		'key' => gen_key('system.getJavaMemoryUsage'),
-		'username' => $username,
-	),
-	array(
-		'name' => 'system.getJavaMemoryTotal',
-		'key' => gen_key('system.getJavaMemoryTotal'),
-		'username' => $username,
-	),
-	array(
-		'name' => 'system.getDiskUsage',
-		'key' => gen_key('system.getDiskUsage'),
-		'username' => $username,
-	),
-	array(
-		'name' => 'system.getDiskSize',
-		'key' => gen_key('system.getDiskSize'),
-		'username' => $username,
-	)
-);
-$payload = array(
-	array(
-		'name' => 'getLatestConsoleLogs',
-		'key' => gen_key('getLatestConsoleLogs'),
-		'username' => $username,
-		'arguments' => []
-	)
+	// array(
+	// 	'name' => 'plugins.name.version',
+	// 	'key' => gen_key('plugins.name.version'),
+	// 	'arguments' => ["JSONAPI"],
+	// 	'username' => $username,
+	// ),
+	// array(
+	// 	'name' => 'server.performance.tick_health',
+	// 	'key' => gen_key('server.performance.tick_health'),
+	// 	'username' => $username,
+	// ),
+	// array(
+	// 	'name' => 'server.performance.memory.used',
+	// 	'key' => gen_key('server.performance.memory.used'),
+	// 	'username' => $username,
+	// ),
+	// array(
+	// 	'name' => 'server.performance.memory.total',
+	// 	'key' => gen_key('server.performance.memory.total'),
+	// 	'username' => $username,i
+	// ),
+	// array(
+	// 	'name' => 'server.performance.disk.used',
+	// 	'key' => gen_key('server.performance.disk.used'),
+	// 	'username' => $username,
+	// ),
+	// array(
+	// 	'name' => 'server.performance.disk.size',
+	// 	'key' => gen_key('server.performance.disk.size'),
+	// 	'username' => $username,
+	// )
 );
 
 $streamPayload = array(
 	array(
-		'name' => 'console',
-		'key' => gen_key('console'),
+		'name' => 'performance',
+		'key' => gen_key('performance'),
 		'username' => $username,
-		'tag' => 'console',
+		'tag' => 'performance',
 		'show_previous' => true,
 	)
 );

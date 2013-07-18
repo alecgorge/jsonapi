@@ -3,7 +3,7 @@ package com.alecgorge.minecraft.jsonapi.packets;
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
-import net.minecraft.server.v1_5_R3.Packet;
+import net.minecraft.server.v1_6_R2.Packet;
 
 public class PacketRegistrar {
 	static Method registrationMethod = null;

@@ -1,0 +1,352 @@
+{
+    "name": "Economy (vault required) methods",
+    "depends": [
+        "JSONAPI",
+        "Vault"
+    ],
+    "methods": [
+        {
+            "call": "this.econ.isEnabled()",
+            "desc": "Checks if economy method is enabled",
+            "returns": [
+                "boolean",
+                "Success or Failure"
+            ],
+            "name": "economy.is_enabled"
+        },
+        {
+            "call": "this.econ.getName()",
+            "desc": "Gets name of permission method",
+            "returns": [
+                "String",
+                "Name of Permission Method"
+            ],
+            "name": "economy.name"
+        },
+        {
+            "call": "this.econ.hasBankSupport()",
+            "desc": "Returns true if the given implementation supports banks",
+            "returns": [
+                "boolean",
+                "true if the implementation supports banks"
+            ],
+            "name": "economy.bank.has_support"
+        },
+        {
+            "call": "this.econ.format(0)",
+            "args": [
+                [
+                    "money",
+                    "double",
+                    "amount"
+                ]
+            ],
+            "desc": "Format amount into a human readable String This provides translation into economy specific formatting to improve consistency between plugins",
+            "returns": [
+                "String",
+                "Human readable string describing amount"
+            ],
+            "name": "economy.currency.format"
+        },
+        {
+            "call": "this.econ.currencyNamePlural()",
+            "desc": "Returns the name of the currency in plural form. If the economy being used does not support currency names then an empty string will be returned",
+            "returns": [
+                "String",
+                "name of the currency (plural)"
+            ],
+            "name": "economy.currency.name_plural"
+        },
+        {
+            "call": "this.econ.currencyNameSingular()",
+            "desc": "Returns the name of the currency in singular form. If the economy being used does not support currency names then an empty string will be returned",
+            "returns": [
+                "String",
+                "name of the currency (singular)"
+            ],
+            "name": "economy.currency.name"
+        },
+        {
+            "call": "this.econ.hasAccount(0)",
+            "desc": "Checks if this player has an account on the server yet This will always return true if the player has joined the server at least once as all major economy plugins auto-generate a player account when the player joins the server",
+            "returns": [
+                "boolean",
+                "if the player has an account"
+            ],
+            "name": "players.name.bank.has_account",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "call": "this.econ.getBalance(0)",
+            "desc": "Gets balance of a player",
+            "returns": [
+                "double",
+                "Amount currently held in players account"
+            ],
+            "name": "players.name.bank.balance",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "call": "this.econ.has(0, 1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "money",
+                    "double",
+                    "amount"
+                ]
+            ],
+            "desc": "Checks if the player account has the amount",
+            "returns": [
+                "boolean",
+                ""
+            ],
+            "name": "players.name.bank.has"
+        },
+        {
+            "call": "this.econ.withdrawPlayer(0, 1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "money",
+                    "double",
+                    "amount - Amount to withdraw"
+                ]
+            ],
+            "desc": "Withdraw an amount from a player",
+            "returns": [
+                "EconomyResponse",
+                "Detailed response of transaction"
+            ],
+            "name": "players.name.bank.withdraw"
+        },
+        {
+            "call": "this.econ.depositPlayer(0, 1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "money",
+                    "double",
+                    "amount - Amount to deposit"
+                ]
+            ],
+            "desc": "Deposit an amount to a player",
+            "returns": [
+                "EconomyResponse",
+                "Detailed response of transaction"
+            ],
+            "name": "players.name.bank.deposit"
+        },
+        {
+            "call": "this.econ.createBank(1, 0)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "Bank name",
+                    "String",
+                    "route"
+                ]
+            ],
+            "desc": "Creates a bank account with the specified name and the player as the owner",
+            "returns": [
+                "EconomyResponse",
+                ""
+            ],
+            "name": "players.name.bank.create"
+        },
+        {
+            "call": "this.econ.deleteBank(0)",
+            "desc": "Deletes a bank account with the specified name",
+            "returns": [
+                "EconomyResponse",
+                "if the operation completed successfully"
+            ],
+            "name": "economy.banks.name.delete",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "call": "this.econ.bankBalance(0)",
+            "desc": "Returns the amount the bank has",
+            "returns": [
+                "EconomyResponse",
+                ""
+            ],
+            "name": "economy.banks.name.balance",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ]
+            ]
+        },
+        {
+            "call": "this.econ.bankHas(0, 1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "money",
+                    "double",
+                    "amount -"
+                ]
+            ],
+            "desc": "Returns true or false whether the bank has the amount specified",
+            "returns": [
+                "EconomyResponse",
+                ""
+            ],
+            "name": "economy.banks.name.has"
+        },
+        {
+            "call": "this.econ.bankWithdraw(0, 1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "money",
+                    "double",
+                    "amount -"
+                ]
+            ],
+            "desc": "Withdraw an amount from a bank account",
+            "returns": [
+                "EconomyResponse",
+                ""
+            ],
+            "name": "economy.banks.name.withdraw"
+        },
+        {
+            "call": "this.econ.bankDeposit(0, 1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "money",
+                    "double",
+                    "amount -"
+                ]
+            ],
+            "desc": "Deposit an amount into a bank account",
+            "returns": [
+                "EconomyResponse",
+                ""
+            ],
+            "name": "economy.banks.name.deposit"
+        },
+        {
+            "call": "this.econ.isBankOwner(0, 1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "owner_name",
+                    "String",
+                    "playerName -"
+                ]
+            ],
+            "desc": "Check if a player is the owner of a bank account",
+            "returns": [
+                "EconomyResponse",
+                ""
+            ],
+            "name": "economy.banks.name.is_owner"
+        },
+        {
+            "call": "this.econ.isBankMember(0, 1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "member_name",
+                    "String",
+                    "playerName -"
+                ]
+            ],
+            "desc": "Check if the player is a member of the bank account",
+            "returns": [
+                "EconomyResponse",
+                ""
+            ],
+            "name": "economy.banks.name.is_member"
+        },
+        {
+            "call": "this.econ.getBanks()",
+            "desc": "Gets the list of banks",
+            "returns": [
+                "String[]",
+                "the List of Banks"
+            ],
+            "name": "economy.banks.names"
+        },
+        {
+            "call": "this.econ.createPlayerAccount(0)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "String",
+                    ""
+                ]
+            ],
+            "desc": "Attempts to create a player account for the given player",
+            "returns": [
+                "boolean",
+                "if the account creation was successful"
+            ],
+            "name": "players.name.bank.create_account"
+        }
+    ]
+}

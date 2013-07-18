@@ -1,0 +1,81 @@
+{
+    "name": "Plugin methods",
+    "depends": [
+        "JSONAPI"
+    ],
+    "methods": [
+        {
+            "desc": "Gets up to the last n lines in the console where n is the limit passed. Returned as an array of JSON stream objects",
+            "returns": [
+                "Object[]",
+                "The array of objects"
+            ],
+            "call": "this.getConsoleLogs(0)",
+            "args": [
+                [
+                    "limit",
+                    "int",
+                    "The maximum number of items to return",
+                    50
+                ]
+            ],
+            "name": "streams.console.latest"
+        },
+        {
+            "desc": "Gets up to the last n lines in chat where n is the limit passed. Returned as an array of JSON stream objects",
+            "returns": [
+                "Object[]",
+                "The array of objects"
+            ],
+            "call": "this.getChatLogs(0)",
+            "args": [
+                [
+                    "limit",
+                    "int",
+                    "The maximum number of items to return",
+                    50
+                ]
+            ],
+            "name": "streams.chat.latest"
+        },
+        {
+            "desc": "Returns all the messages in a stream with the given name",
+            "returns": [
+                "Object[]",
+                "An array of message objects which are different for each kind of stream"
+            ],
+            "call": "this.getStreamWithLimit(0, 1)",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "name"
+                ],
+                [
+                    "limit",
+                    "int",
+                    "The maximum number of items to return",
+                    50
+                ]
+            ],
+            "name": "streams.name.limit"
+        },
+        {
+            "desc": "Gets up to the last n connections.disconnections where n is the limit passed. Returned as an array of JSON stream objects",
+            "returns": [
+                "Object[]",
+                "The array of objects"
+            ],
+            "call": "this.getConnectionLogs(0)",
+            "args": [
+                [
+                    "limit",
+                    "int",
+                    "The maximum number of items to return",
+                    50
+                ]
+            ],
+            "name": "streams.connections.limit"
+        }
+    ]
+}

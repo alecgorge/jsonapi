@@ -8,6 +8,7 @@ import org.bukkit.event.HandlerList;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
+import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 
 public class JSONAPIAuthEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
@@ -41,6 +42,10 @@ public class JSONAPIAuthEvent extends Event {
 
 	public String getUsername() {
 		return username;
+	}
+	
+	public JSONAPIUser getUser() {
+		return JSONAPI.instance.getAuthTable().getUser(getUsername());
 	}
 
 	public String getMethod() {

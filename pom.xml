@@ -14,10 +14,16 @@
 	</scm>
 	<repositories>
 		<repository>
-        		<id>bukkit-repo</id>
-        		<url>http://repo.bukkit.org/content/groups/public</url>
-    	</repository>
+			<id>bukkit-repo</id>
+			<url>http://repo.bukkit.org/content/groups/public</url>
+		</repository>
 	</repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>bukkit-plugins</id>
+      <url>http://repo.bukkit.org/content/groups/public</url>
+    </pluginRepository>
+  </pluginRepositories>
 	<build>
 		<finalName>JSONAPI</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -26,11 +32,15 @@
 				<directory>src/resources</directory>
 				<includes>
 					<include>plugin.yml</include>
+					<include>permission_nodes.yml</include>
 					<include>groups.json</include>
+					<include>users.yml</include>
+					<include>groups.yml</include>
 					<include>config.yml</include>
 					<include>config_rtk.yml</include>
 					<include>methods.json</include>
 					<include>methods/*</include>
+					<include>jsonapi4/methods/*</include>
 				</includes>
 			</resource>
 		</resources>
@@ -48,7 +58,8 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
 						<id>install-jar</id>
@@ -89,6 +100,8 @@
 									<directory>src/resources</directory>
 									<includes>
 										<include>config.yml</include>
+										<include>users.yml</include>
+										<include>groups.yml</include>
 										<include>groups.json</include>
 										<include>methods.json</include>
 										<include>methods/*</include>
@@ -105,7 +118,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.5.2-R0.1</version>
+			<version>1.6.2-R0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.drdanick.McRKit</groupId>
@@ -141,13 +154,6 @@
 			<version>1.2.5</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/Herochat.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.comphenix.protocol</groupId>
-			<artifactId>ProtocolLib</artifactId>
-			<version>2.2.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/ProtocolLib.jar</systemPath>
 		</dependency>
 	</dependencies>	
 </project>
