@@ -34,10 +34,6 @@ options:
     # screen to a file. set to 'false' to disable
     log-to-file: 'false'
 
-    # this is a salt use in the authentication hash. it is like
-    # a second password for security
-    salt: 'salt goes here'
-
     # when set to false, users have to have the jsonapi.calladmin
     # permission to use the /calladmin command
     anyone-can-use-calladmin: true
