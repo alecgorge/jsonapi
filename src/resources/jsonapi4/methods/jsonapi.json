@@ -20,14 +20,60 @@
 			"call": "this.jsonapi.listUsers()"
 		},
 		{
+			"name": "jsonapi.groups",
+			"desc": "Lists all the JSONAPI groups on the server",
+			"returns": ["Object[]", "The JSONAPI group objects"],
+			"call": "this.jsonapi.listGroups()"
+		},
+		{
+			"name": "jsonapi.users.usernames",
+			"desc": "Lists all the JSONAPI usernamess on the server",
+			"returns": ["String[]", "The JSONAPI usernames"],
+			"call": "this.jsonapi.listUsernames()"
+		},
+		{
+			"name": "jsonapi.groups.names",
+			"desc": "Lists all the JSONAPI group anmess on the server",
+			"returns": ["String[]", "The JSONAPI group names"],
+			"call": "this.jsonapi.listGroupNames()"
+		},
+		{
+			"name": "jsonapi.users.username",
+			"desc": "Gets all information for a JSONAPI user",
+			"returns": ["Object", "The JSONAPI user"],
+			"args": [
+				["username", "String", "The username to fetch"]
+			],
+			"call": "this.jsonapi.getUser(0)"
+		},
+		{
+			"name": "jsonapi.groups.name",
+			"desc": "Gets all information for a JSONAPI group",
+			"returns": ["Object", "The JSONAPI group"],
+			"args": [
+				["name", "String", "The group to fetch"]
+			],
+			"call": "this.jsonapi.getGroup(0)"
+		},
+		{
 			"name": "jsonapi.users.add",
 			"desc": "Adds a new JSONAPI user",
 			"returns": ["boolean", "If the execution was successful"],
 			"call": "this.jsonapi.addUser(0,1,2)",
 			"args": [
 				["username", "String", "The JSONAPI username."],
-				["password", "String", "The JSONAPI username."],
+				["password", "String", "The JSONAPI password."],
 				["groups", "String[]", "The groups this new user should belong to."]
+			]
+		},
+		{
+			"name": "jsonapi.users.user.password.set",
+			"desc": "Changes the password for a JSONAPI user",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.changePassword(0,1)",
+			"args": [
+				["username", "String", "The JSONAPI username."],
+				["password", "String", "The JSONAPI user's new password."]
 			]
 		},
 		{
@@ -64,6 +110,18 @@
 			"desc": "Creates a new group",
 			"returns": ["boolean", "If the execution was successful"],
 			"call": "this.jsonapi.addGroup(0,1,2,3)",
+			"args": [
+				["name", "String", "The group name."],
+				["methods", "String[]", "An array of methods to add to the group."],
+				["streams", "String[]", "An array of streams to add to the group."],
+				["nodes", "String[]", "An array of permissions to add to the group."]
+			]
+		},
+		{
+			"name": "jsonapi.groups.name.set",
+			"desc": "Sets all the settings an existing group",
+			"returns": ["boolean", "If the execution was successful"],
+			"call": "this.jsonapi.setGroup(0,1,2,3)",
 			"args": [
 				["name", "String", "The group name."],
 				["methods", "String[]", "An array of methods to add to the group."],

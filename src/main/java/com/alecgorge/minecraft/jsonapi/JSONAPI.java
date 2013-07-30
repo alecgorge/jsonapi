@@ -53,7 +53,6 @@ import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
 import com.alecgorge.minecraft.jsonapi.packets.LostConnectionFilter;
 import com.alecgorge.minecraft.jsonapi.packets.PacketRegistrarLauncher;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
-import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.PerformanceStreamDataProvider;

@@ -33,6 +33,43 @@ import com.alecgorge.minecraft.jsonapi.streams.ConnectionMessage;
 import com.alecgorge.minecraft.jsonapi.util.FixedSizeArrayList;
 
 public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICallHandler {
+	public class AdminiumPushNotification {
+		Date dateSent;
+		String notification;
+		
+		public AdminiumPushNotification(Date d, String message) {
+			dateSent = d;
+			notification = message;
+		}
+		
+		public Date getDateSent() {
+			return dateSent;
+		}
+
+		public void setDateSent(Date dateSent) {
+			this.dateSent = dateSent;
+		}
+
+		public String getMessage() {
+			return notification;
+		}
+
+		public void setMessage(String notification) {
+			this.notification = notification;
+		}
+		
+		public String getPushNotification() {
+			JSONAPI api = JSONAPI.instance;
+			
+			String messager = getMessage();
+			if (api.serverName != null && !api.serverName.isEmpty()) {
+				messager = (api.serverName.equals("default") ? api.getServer().getServerName() : api.serverName) + ": " + messager;
+			}
+
+			return messager.length() > 210 ? messager.substring(0, 208) + "\u2026" : messager;
+		}		
+	}
+	
 	YamlConfiguration deviceConfig = new YamlConfiguration();
 	File configFile;
 
@@ -44,6 +81,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	// log /calladmin & severes
 	List<String> calladmins = Collections.synchronizedList(new FixedSizeArrayList<String>(50));
 	List<String> severeLogs = Collections.synchronizedList(new FixedSizeArrayList<String>(50));
+	List<AdminiumPushNotification> notifications = Collections.synchronizedList(new FixedSizeArrayList<AdminiumPushNotification>(150));
 
 	private final String APNS_PUSH_ENDPOINT = "http://push.adminiumapp.com/push-message";
 
@@ -195,17 +233,15 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			return;
 		}
 
-		if (api.serverName != null && !api.serverName.isEmpty()) {
-			messager = (api.serverName.equals("default") ? api.getServer().getServerName() : api.serverName) + ": " + messager;
-		}
-
-		final String message = messager.length() > 210 ? messager.substring(0, 208) + "\u2026" : messager;
+		final AdminiumPushNotification not = new AdminiumPushNotification(new Date(), messager);
+		notifications.add(not);
 
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				trace("pushing", message);
+				String msg  = not.getPushNotification();
+				trace("pushing", msg);
 				MutableHttpRequest r = null;
 				try {
 					r = new MutableHttpRequest(new URL(APNS_PUSH_ENDPOINT));
@@ -213,9 +249,9 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 						if (deviceOverrides.containsKey(d) && deviceOverrides.get(d).containsKey(type) && deviceOverrides.get(d).get(type) || !deviceOverrides.containsKey(d))
 							r.addPostValue("devices[]", d);
 					}
-					r.addPostValue("message", message);
+					r.addPostValue("message", msg);
 
-					trace("Sending Post Args:", devices, message, r.getPostKeys(), r.getPostValues());
+					trace("Sending Post Args:", devices, msg, r.getPostKeys(), r.getPostValues());
 
 					trace("Complete", r.post().getReponse());
 				} catch (Exception e) {

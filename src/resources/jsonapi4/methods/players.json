@@ -135,7 +135,7 @@
                 ],
                 [
                     "slot",
-                    "String",
+                    "int",
                     "slot"
                 ],
                 [
@@ -179,7 +179,7 @@
                 ],
                 [
                     "slot",
-                    "String",
+                    "int",
                     "slot"
                 ],
                 [
@@ -212,7 +212,7 @@
                 ],
                 [
                     "slot",
-                    "String",
+                    "int",
                     "slot"
                 ],
                 [
@@ -238,7 +238,7 @@
                 ],
                 [
                     "slot",
-                    "String",
+                    "int",
                     "slot"
                 ]
             ]

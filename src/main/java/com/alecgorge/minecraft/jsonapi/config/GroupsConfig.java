@@ -9,6 +9,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.Plugin;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
+import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIGroup;
 
 public class GroupsConfig extends Config {
 	public GroupsConfig(Plugin plugin) {
@@ -48,6 +49,14 @@ public class GroupsConfig extends Config {
 			}
 		}
 		return grr;
+	}
+	
+	public List<JSONAPIGroup> getJSONAPIGroups() {
+		List<JSONAPIGroup> arr = new ArrayList<JSONAPIGroup>();
+		for(JSONAPIGroupConfigObject o : getGroups()) {
+			arr.add(new JSONAPIGroup(o.name));
+		}
+		return arr;
 	}
 	
 	public void generateCache() {

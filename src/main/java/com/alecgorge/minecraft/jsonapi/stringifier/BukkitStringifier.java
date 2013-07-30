@@ -30,6 +30,7 @@ import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
+import com.alecgorge.minecraft.jsonapi.adminium.PushNotificationDaemon.AdminiumPushNotification;
 import com.alecgorge.minecraft.jsonapi.config.JSONAPIPermissionNode;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIGroup;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
@@ -61,6 +62,7 @@ public class BukkitStringifier {
 		handle.put("JSONAPIGroup", JSONAPIGroup.class);
 		handle.put("JSONAPIPermissionNode", JSONAPIPermissionNode.class);
 		handle.put("Object[]", java.lang.Object[].class);
+		handle.put("AdminiumPushNotification", AdminiumPushNotification.class);
 
 		if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null) {
 			handle.put("EconomyResponse", net.milkbowl.vault.economy.EconomyResponse.class);
@@ -301,6 +303,14 @@ public class BukkitStringifier {
 			o.put("errorMessage", r.errorMessage);
 			o.put("type", r.type.toString());
 
+			return o;
+		} else if(obj instanceof AdminiumPushNotification) {
+			JSONObject o = new JSONObject();
+			AdminiumPushNotification not = (AdminiumPushNotification)obj;
+			
+			o.put("date", not.getDateSent());
+			o.put("message", not.getMessage());
+			
 			return o;
 		} else if (obj instanceof Object[]) {
 			int l = ((Object[]) obj).length;

@@ -32,6 +32,65 @@ public class JSONAPIAPIMethods {
 			e.printStackTrace();
 			return new ArrayList<JSONAPIUser>();
 		}
+	
+	}
+	public List<JSONAPIGroup> listGroups() {
+		try {
+			return GroupsConfig.config().getJSONAPIGroups();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return new ArrayList<JSONAPIGroup>();
+		}
+	}
+	
+	public JSONAPIUser getUser(String username) {
+		return authTable.getUser(username);
+	}
+	
+	public JSONAPIGroup getGroup(String groupName) {
+		return new JSONAPIGroup(groupName);
+	}
+	
+	public List<String> listUsernames() {
+		try {
+			List<String> r = new ArrayList<String>();
+			for(JSONAPIUser u : listUsers()) {
+				r.add(u.getUsername());
+			}
+			return r;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return new ArrayList<String>();
+		}
+	
+	}
+	public List<String> listGroupNames() {
+		try {
+			List<String> r = new ArrayList<String>();
+			for(JSONAPIGroup u : listGroups()) {
+				r.add(u.getName());
+			}
+			return r;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return new ArrayList<String>();
+		}
+	}
+	
+	public boolean changePassword(String username, String password) {
+		try {
+			Map<String, Object> m = authTable.getRawUser(username);
+			m.put("password", password);
+			authTable.generateCache(true);
+			authTable.save();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean addUser(String username, String password, List<String> groups) {
@@ -58,6 +117,7 @@ public class JSONAPIAPIMethods {
 					authTable.users.remove(i);
 				}
 			}
+			authTable.generateCache(true);
 			authTable.save();
 		} catch (InvalidConfigurationException e) {
 			// TODO Auto-generated catch block
@@ -104,6 +164,25 @@ public class JSONAPIAPIMethods {
 			map.put("methods", methods);
 			map.put("permissions", nodes);
 			GroupsConfig.config().groups.add(map);
+			GroupsConfig.config().generateCache();
+			GroupsConfig.config().save();
+			authTable.generateCache(true);
+		} catch (InvalidConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean setGroup(String name, List<String> methods, List<String> streams, List<String> nodes) {
+		try {
+			Map<String, Object> map = GroupsConfig.config().getRawGroup(name);
+			map.put("streams", streams);
+			map.put("methods", methods);
+			map.put("permissions", nodes);
+			GroupsConfig.config().generateCache();
 			GroupsConfig.config().save();
 			authTable.generateCache(true);
 		} catch (InvalidConfigurationException e) {

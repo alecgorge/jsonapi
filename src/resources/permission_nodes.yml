@@ -32,7 +32,8 @@
     "modify_player_inventory": {
       "methods": [
         "players.name.inventory.slots.slot.clear",
-        "players.name.inventory.slots.slot.set"
+        "players.name.inventory.slots.slot.set",
+        "players.name.inventory.slots.slot.enchant"
       ]
     }, 
     "view_player_world_info": {
@@ -204,6 +205,39 @@
         "players.name.bank.withdraw"
       ]
     },
+    "modify_player_permissions_and_groups": {
+      "methods": [
+        "players.name.permissions.add",
+        "players.name.groups.add",
+        "players.name.groups.remove",
+        "players.name.permissions.remove"
+      ]
+    }, 
+    "view_jsonapi_users_and_groups": {
+      "methods": [
+        "jsonapi.users",
+        "jsonapi.groups",
+        "jsonapi.users.user.methods",
+        "jsonapi.users.user.permissions",
+        "jsonapi.users.user.streams"
+      ]
+    }, 
+    "modify_jsonapi_users_and_groups": {
+      "methods": [
+        "jsonapi.groups.add",
+        "jsonapi.groups.group.methods.add",
+        "jsonapi.groups.group.methods.remove",
+        "jsonapi.groups.group.permissions.add",
+        "jsonapi.groups.group.permissions.remove",
+        "jsonapi.groups.group.streams.add",
+        "jsonapi.groups.group.streams.remove",
+        "jsonapi.groups.remove",
+        "jsonapi.users.add",
+        "jsonapi.users.remove",
+        "jsonapi.users.user.groups.add",
+        "jsonapi.users.user.groups.remove"
+      ]
+    }, 
     "modify_player_permissions_and_groups": {
       "methods": [
         "players.name.permissions.add",
