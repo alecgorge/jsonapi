@@ -2,6 +2,7 @@ package com.alecgorge.minecraft.jsonapi.api.v2;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -77,9 +78,10 @@ public class APIv2Handler {
 			body = params.getProperty("callback") + "(" + body + ");";
 		}
 
-		Response r = httpd.new Response(resp, type, body);
+		byte[] bytes = body.getBytes(Charset.forName("UTF-8"));
+		Response r = httpd.new Response(resp, type, bytes);
 		r.addHeader("Access-Control-Allow-Origin", "*");
-		r.addHeader("Content-Length", String.valueOf(body.length()));
+		r.addHeader("Content-Length", String.valueOf(bytes.length));
 
 		return r;
 	}

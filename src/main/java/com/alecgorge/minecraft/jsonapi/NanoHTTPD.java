@@ -16,6 +16,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -26,6 +27,8 @@ import java.util.TimeZone;
 
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
+
+import org.apache.commons.io.IOUtils;
 
 import com.alecgorge.minecraft.jsonapi.packets.Lambda;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
@@ -171,7 +174,13 @@ public class NanoHTTPD {
 		public Response(String status, String mimeType, String txt) {
 			this.status = status;
 			this.mimeType = mimeType;
-			this.data = new ByteArrayInputStream(txt.getBytes());
+			this.bytes = txt.getBytes(Charset.forName("UTF-8"));
+		}
+		
+		public Response(String status, String mimeType, byte[] bytes) {
+			this.status = status;
+			this.mimeType = mimeType;
+			this.bytes = bytes;
 		}
 
 		/**
@@ -200,6 +209,8 @@ public class NanoHTTPD {
 		 * Headers for the HTTP response. Use addHeader() to add lines.
 		 */
 		public Properties header = new Properties();
+		
+		public byte[] bytes;
 	}
 
 	/**
@@ -419,7 +430,7 @@ public class NanoHTTPD {
 				if (r == null)
 					sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: Serve() returned a null response.");
 				else
-					sendResponse(r.status, r.mimeType, r.header, r.data);
+					sendResponse(r.status, r.mimeType, r.header, r.data, r.bytes);
 
 				in.close();
 				
@@ -474,14 +485,14 @@ public class NanoHTTPD {
 		 * InterruptedException to stop furhter request processing.
 		 */
 		private void sendError(String status, String msg) throws InterruptedException {
-			sendResponse(status, MIME_PLAINTEXT, null, new ByteArrayInputStream(msg.getBytes()));
+			sendResponse(status, MIME_PLAINTEXT, null, null, msg.getBytes());
 			throw new InterruptedException();
 		}
 
 		/**
 		 * Sends given response to the socket.
 		 */
-		private void sendResponse(String status, String mime, Properties header, InputStream data) {
+		private void sendResponse(String status, String mime, Properties header, InputStream data, byte[] bytes) {
 			try {
 				if (status == null)
 					throw new Error("sendResponse(): Status can't be null.");
@@ -537,14 +548,11 @@ public class NanoHTTPD {
 						}
 					}
 				} else if (data != null) {
-					byte[] buff = new byte[2048];
-					while (true) {
-						int read = data.read(buff, 0, 2048);
-						if (read <= 0)
-							break;
-						out.write(buff, 0, read);
-						out.flush();
-					}
+					IOUtils.copy(data, out);
+					out.flush();
+				} else if (bytes != null) {
+					out.write(bytes);
+					out.flush();
 				}
 				// out.flush();
 				out.close();
