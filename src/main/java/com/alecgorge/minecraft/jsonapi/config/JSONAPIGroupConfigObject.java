@@ -21,8 +21,10 @@ public class JSONAPIGroupConfigObject extends ConfigObject {
 	public List<JSONAPIPermissionNode> getPermissions() {
 		if(_list == null) {
 			_list = new ArrayList<JSONAPIPermissionNode>();
-			for(String name : permissions) {
-				_list.add(PermissionNodesConfig.fromName(name));
+			if(permissions != null) {
+				for(String name : permissions) {
+					_list.add(PermissionNodesConfig.fromName(name));
+				}
 			}
 		}
 		return _list;

@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -132,6 +134,18 @@ public class Caller implements JSONAPIMethodProvider {
 			r.put(key, new ArrayList<String>(methods.get(key).keySet()));
 		}
 
+		return r;
+	}
+	
+	public List<String> getAllMethods() {
+		List<String> r = new ArrayList<String>();
+		
+		for (String key : methods.keySet()) {
+			r.addAll(new ArrayList<String>(methods.get(key).keySet()));
+		}
+		
+		Collections.sort(r);
+		
 		return r;
 	}
 

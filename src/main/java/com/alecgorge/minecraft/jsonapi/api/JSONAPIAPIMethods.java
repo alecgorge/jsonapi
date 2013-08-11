@@ -1,6 +1,7 @@
 package com.alecgorge.minecraft.jsonapi.api;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,42 @@ public class JSONAPIAPIMethods {
 	
 	public JSONAPIGroup getGroup(String groupName) {
 		return new JSONAPIGroup(groupName);
+	}
+	
+	public List<String> listMethods() {
+		try {
+			List<String> l = JSONAPI.instance.getJSONServer().getCaller().getAllMethods();
+			l.add(0, "ALLOW_ALL");
+			return l;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return new ArrayList<String>();
+		}
+	}
+	
+	public List<String> listStreams() {
+		try {
+			List<String> l = JSONAPI.instance.getStreamSources();
+			l.add(0, "ALLOW_ALL");
+			return l;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return new ArrayList<String>();
+		}
+	}
+	
+	public List<String> listPermissions() {
+		try {
+			List<String> r = new ArrayList<String>(PermissionNodesConfig.config().getPermissions().keySet());
+			Collections.sort(r);
+			return r;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return new ArrayList<String>();
+		}
 	}
 	
 	public List<String> listUsernames() {

@@ -235,7 +235,10 @@
         "jsonapi.users.add",
         "jsonapi.users.remove",
         "jsonapi.users.user.groups.add",
-        "jsonapi.users.user.groups.remove"
+        "jsonapi.users.user.groups.remove",
+        "jsonapi.streams",
+        "jsonapi.permissions",
+        "jsonapi.methods"
       ]
     }, 
     "modify_player_permissions_and_groups": {

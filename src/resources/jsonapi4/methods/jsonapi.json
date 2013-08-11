@@ -26,6 +26,24 @@
 			"call": "this.jsonapi.listGroups()"
 		},
 		{
+			"name": "jsonapi.methods",
+			"desc": "Lists all the JSONAPI methods on the server",
+			"returns": ["String[]", "The JSONAPI methods"],
+			"call": "this.jsonapi.listMethods()"
+		},
+		{
+			"name": "jsonapi.streams",
+			"desc": "Lists all the JSONAPI streams on the server",
+			"returns": ["String[]", "The JSONAPI streams"],
+			"call": "this.jsonapi.listStreams()"
+		},
+		{
+			"name": "jsonapi.permissions",
+			"desc": "Lists all the JSONAPI permissions on the server",
+			"returns": ["String[]", "The JSONAPI permissions"],
+			"call": "this.jsonapi.listPermissions()"
+		},
+		{
 			"name": "jsonapi.users.usernames",
 			"desc": "Lists all the JSONAPI usernamess on the server",
 			"returns": ["String[]", "The JSONAPI usernames"],

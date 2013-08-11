@@ -93,7 +93,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<overwrite>true</overwrite>
+							<overwrite>false</overwrite>
 							<outputDirectory>${basedir}/test/plugins/JSONAPI</outputDirectory>
 							<resources>
 								<resource>

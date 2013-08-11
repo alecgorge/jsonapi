@@ -282,14 +282,14 @@ public class BukkitStringifier {
 
 			return o;			
 		} else if(obj instanceof JSONAPIPermissionNode) {
-			JSONObject o = new JSONObject();
+//			JSONObject o = new JSONObject();
 			JSONAPIPermissionNode n = (JSONAPIPermissionNode)obj;
 
-			o.put("name", n.getName());
+//			o.put("name", n.getName());
 //			o.put("methods", n.getName());
 //			o.put("streams", n.getStreams());
 			
-			return o;			
+			return n.getName();			
 		} else if (obj instanceof GameMode) {
 			return ((GameMode) obj).getValue();
 		} else if (obj instanceof Enchantment) {
