@@ -185,7 +185,11 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 							}
 							
 						} else {
-							sendPacket(new PacketStringResponse(r.data, false), loginHandler);
+							InputStream res = r.data;
+							if(res == null) {
+								res = new ByteArrayInputStream(r.bytes);
+							}
+							sendPacket(new PacketStringResponse(res, false), loginHandler);
 						}
 					}
 				})).start();

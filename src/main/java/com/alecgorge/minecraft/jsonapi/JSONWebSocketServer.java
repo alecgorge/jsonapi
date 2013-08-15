@@ -1,6 +1,7 @@
 package com.alecgorge.minecraft.jsonapi;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
@@ -78,7 +79,11 @@ public class JSONWebSocketServer extends WebSocketServer {
 			})).start();
 		}
 		else {
-			BufferedReader data = new BufferedReader(new InputStreamReader(r.data));
+			BufferedReader data;
+			if(r.data != null)
+				data = new BufferedReader(new InputStreamReader(r.data));
+			else
+				data = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(r.bytes)));
 			
 			try {
 				String line = "";

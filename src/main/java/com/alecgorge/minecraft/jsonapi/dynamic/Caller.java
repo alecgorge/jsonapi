@@ -62,7 +62,7 @@ public class Caller implements JSONAPIMethodProvider {
 		}
 
 		if (params.length < c.getNumberOfExpectedArgs()) {
-			throw new Exception("Incorrect number of args: gave " + params.length + " (" + Arrays.asList(params).toString() + "), expected " + c.getNumberOfExpectedArgs());
+			throw new Exception("Incorrect number of args: gave " + params.length + " (" + Arrays.asList(params).toString() + "), expected " + c.getNumberOfExpectedArgs() + " for method " + methodAndNamespace);
 		}
 
 		return innerCall(c, params);
