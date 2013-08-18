@@ -88,7 +88,7 @@ class JSONAPI {
 	}
 	
 	private function curl($url) {
-		if(!extension_loaded('cURL')) {
+		if(extension_loaded('cURL')) {
 			$c = curl_init($url);
 			curl_setopt($c, CURLOPT_PORT, $this->port);
 			curl_setopt($c, CURLOPT_HEADER, false);
@@ -103,7 +103,7 @@ class JSONAPI {
 					'timeout' => $this->timeout
 					)
 				);
-			return file_get_contents($url, false, $opts);
+			return file_get_contents($url, false, stream_context_create($opts));
 		}
 	}
 	
