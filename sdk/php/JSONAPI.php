@@ -18,23 +18,21 @@ class JSONAPI {
 	public $username;
 	public $password;
 	private $urlFormats = array(
-		"call" => "http://%s:%s/api/call?method=%s&args=%s&key=%s",
-		"callMultiple" => "http://%s:%s/api/call-multiple?method=%s&args=%s&key=%s"
+		'call' => 'http://%s:%s/api/call?method=%s&args=%s&key=%s',
+		'callMultiple' => 'http://%s:%s/api/call-multiple?method=%s&args=%s&key=%s'
 	);
-	
+	public $timeout;
+
 	/**
 	 * Creates a new JSONAPI instance.
 	 */
-	public function __construct ($host, $port, $uname, $pword, $salt) {
+	public function __construct ($host, $port, $uname, $pword, $salt, $timeout = 10) {
 		$this->host = $host;
 		$this->port = $port;
 		$this->username = $uname;
 		$this->password = $pword;
 		$this->salt = $salt;
-		
-		if(!extension_loaded("cURL")) {
-			throw new Exception("JSONAPI requires cURL extension in order to work.");
-		}
+		$this->timeout = $timeout;
 	}
 	
 	/**
@@ -58,7 +56,7 @@ class JSONAPI {
 	 * @return string A proper standard JSONAPI API call URL. Example: "http://localhost:20059/api/call?method=methodName&args=jsonEncodedArgsArray&key=validKey".
 	 */
 	public function makeURL($method, array $args) {
-		return sprintf($this->urlFormats["call"], $this->host, $this->port, rawurlencode($method), rawurlencode(json_encode($args)), $this->createKey($method));
+		return sprintf($this->urlFormats['call'], $this->host, $this->port, rawurlencode($method), rawurlencode(json_encode($args)), $this->createKey($method));
 	}
 	
 	/**
@@ -69,7 +67,7 @@ class JSONAPI {
 	 * @return string A proper multiple JSONAPI API call URL. Example: "http://localhost:20059/api/call-multiple?method=[methodName,methodName2]&args=jsonEncodedArrayOfArgsArrays&key=validKey".
 	 */
 	public function makeURLMultiple(array $methods, array $args) {
-		return sprintf($this->urlFormats["callMultiple"], $this->host, $this->port, rawurlencode(json_encode($methods)), rawurlencode(json_encode($args)), $this->createKey($methods));
+		return sprintf($this->urlFormats['callMultiple'], $this->host, $this->port, rawurlencode(json_encode($methods)), rawurlencode(json_encode($args)), $this->createKey($methods));
 	}
 	
 	/**
@@ -90,14 +88,23 @@ class JSONAPI {
 	}
 	
 	private function curl($url) {
-		$c = curl_init($url);
-		curl_setopt($c, CURLOPT_PORT, $this->port);
-		curl_setopt($c, CURLOPT_HEADER, false);
-		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($c, CURLOPT_TIMEOUT, 10);		
-		$result = curl_exec($c);
-		curl_close($c);
-		return $result;
+		if(!extension_loaded('cURL')) {
+			$c = curl_init($url);
+			curl_setopt($c, CURLOPT_PORT, $this->port);
+			curl_setopt($c, CURLOPT_HEADER, false);
+			curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($c, CURLOPT_TIMEOUT, $this->timeout);		
+			$result = curl_exec($c);
+			curl_close($c);
+			return $result;
+		}else{
+			$opts = array('http' =>
+				array(
+					'timeout' => $this->timeout
+					)
+				);
+			return file_get_contents($url, false, $opts);
+		}
 	}
 	
 	/**
@@ -110,7 +117,7 @@ class JSONAPI {
 	 */
 	public function callMultiple(array $methods, array $args = array()) {
 		if(count($methods) !== count($args)) {
-			throw new Exception("The length of the arrays \$methods and \$args are different! You need an array of arguments for each method!");
+			throw new Exception(sprintf('The length of the arrays %s and %s are different! You need an array of arguments for each method!', $methods, $args));
 		}
 		
 		$url = $this->makeURLMultiple($methods, $args);
