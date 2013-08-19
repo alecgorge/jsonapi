@@ -50,7 +50,7 @@ JSONAPI = (function() {
 	
 	var util, crypto, net;
 
-	if(typeof require != 'undefined') {
+	if(typeof require != 'undefined' && typeof window === 'undefined') {
 		    util = require('util')
 		,	crypto = require('crypto')
 		,	net = require('net')
