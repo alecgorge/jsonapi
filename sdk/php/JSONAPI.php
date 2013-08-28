@@ -14,7 +14,6 @@
 class JSONAPI {
 	public $host;
 	public $port;
-	public $salt;
 	public $username;
 	public $password;
 	private $urlFormats = array(
@@ -25,12 +24,11 @@ class JSONAPI {
 	/**
 	 * Creates a new JSONAPI instance.
 	 */
-	public function __construct ($host, $port, $uname, $pword, $salt) {
+	public function __construct ($host, $port, $uname, $pword) {
 		$this->host = $host;
 		$this->port = $port;
 		$this->username = $uname;
 		$this->password = $pword;
-		$this->salt = $salt;
 		
 		if(!extension_loaded("cURL")) {
 			throw new Exception("JSONAPI requires cURL extension in order to work.");
@@ -47,7 +45,7 @@ class JSONAPI {
 		if(is_array($method)) {
 			$method = json_encode($method);
 		}
-		return hash('sha256', $this->username . $method . $this->password . $this->salt);
+		return hash('sha256', $this->username . $method . $this->password);
 	}
 	
 	/**
