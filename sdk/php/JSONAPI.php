@@ -26,7 +26,7 @@ class JSONAPI {
 	/**
 	 * Creates a new JSONAPI instance.
 	 */
-	public function __construct ($host, $port, $uname, $pword, $salt, $timeout = 10) {
+	public function __construct ($host, $port, $uname, $pword, $salt = '', $timeout = 10) {
 		$this->host = $host;
 		$this->port = $port;
 		$this->username = $uname;
