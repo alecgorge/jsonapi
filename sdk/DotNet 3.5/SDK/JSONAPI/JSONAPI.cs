@@ -18,7 +18,7 @@ namespace com.ramblingwood.minecraft.jsonapi {
 		private Serializer deser = new Serializer(typeof(Dictionary<object, object>));
 
 		private string urlFormat_call = "http://{0}:{1}/api/call?method={2}&args={3}&key={4}";
-		private string urlFormat_callMultiple = "http:/{0}:{1}/api/call-multiple?method={2}&args={3}&key={4}";
+		private string urlFormat_callMultiple = "http://{0}:{1}/api/call-multiple?method={2}&args={3}&key={4}";
 
 		public JSONAPI(string host, int port, string username, string password, string salt) {
 			this.host = host;
