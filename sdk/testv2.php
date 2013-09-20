@@ -2,7 +2,7 @@
 <?php
 
 $host = "localhost";
-$port = 25565;
+$port = 20059;
 $endpoint = "api/2/call";
 $host = "localhost";
 $endpoint = "api/2/call";
@@ -16,14 +16,14 @@ function gen_key($name) {
 }
 
 
-$methodName = "players.name";
+$methodName = "adminium.notifications.all";
 
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => ['alecgorge'],
+		'arguments' => [],
 		'tag' => 'test'
 	),
 	// array(

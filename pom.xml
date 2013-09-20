@@ -135,20 +135,6 @@
 			<systemPath>${project.basedir}/deps/Vault.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>keepcalm.mods.bukkitforge</groupId>
-			<artifactId>BukkitForge</artifactId>
-			<version>1.5.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/BukkitForge.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>fml</groupId>
-			<artifactId>Forge</artifactId>
-			<version>1.5.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/ftbserver.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>com.dthielke.herochat</groupId>
 			<artifactId>Herochat</artifactId>
 			<version>1.2.5</version>

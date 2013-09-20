@@ -9,16 +9,12 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
-import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.FileHandler;
@@ -45,6 +41,7 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface;
+import com.alecgorge.minecraft.jsonapi.adminium.Adminium3;
 import com.alecgorge.minecraft.jsonapi.adminium.PushNotificationDaemon;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStream;
@@ -54,8 +51,6 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
-import com.alecgorge.minecraft.jsonapi.javax.jmdns.JmDNS;
-import com.alecgorge.minecraft.jsonapi.javax.jmdns.ServiceInfo;
 import com.alecgorge.minecraft.jsonapi.packets.LostConnectionFilter;
 import com.alecgorge.minecraft.jsonapi.packets.PacketRegistrarLauncher;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
@@ -105,6 +100,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public static JSONAPI instance;
 
 	PushNotificationDaemon adminium;
+	Adminium3 adminium3;
+	
 	GroupManager groupManager;
 
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
@@ -540,19 +537,13 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			initialiseListeners();
 
 			adminium = new PushNotificationDaemon(new File(getDataFolder(), "adminium.yml"), this);
+			adminium3 = new Adminium3(this);
+			
 			tickRateCounter = new TickRateCounter(this);
 
 			// must load this after the tick counter exists!
 			registerStreamManager("performance", getJSONServer().performance);
 			PerformanceStreamDataProvider.enqueue(this);
-			
-			(new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					broadcastBonjour();
-				}
-			})).start();
 
 			registerMethods(this);
 		} catch (Exception ioe) {
@@ -562,44 +553,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		}
 	}
 	
-	List<JmDNS> jmdns = new ArrayList<JmDNS>();
-	void broadcastBonjour() {
-		try {
-			Map<String, String> props = new HashMap<String, String>();
-			props.put("jsonapi_port", String.valueOf(port));
-
-			if(bindAddress == null) {
-				for(NetworkInterface ni : Collections.list(NetworkInterface.getNetworkInterfaces())) {
-					for(NetworkInterface sub : Collections.list(ni.getSubInterfaces())) {
-						bindAllInInterface(sub, props);
-					}					
-					bindAllInInterface(ni, props);
-				}
-			}
-			else {
-				ServiceInfo jsonapiBonjour = ServiceInfo.create("_minecraft._tcp.local.", Bukkit.getServerName(), "", Bukkit.getServer().getPort(), 0, 0, props);
-				JmDNS j = JmDNS.create(bindAddress);
-				j.registerService(jsonapiBonjour);
-				jmdns.add(j);
-			}			
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	void bindAllInInterface(NetworkInterface ni, Map<String, String> props) throws IOException {
-		if(ni.isLoopback()) return;
-		for(InetAddress addr : Collections.list(ni.getInetAddresses())) {
-//			System.out.println(String.format("Bonjour %s (%s) on %s virtual: %b, loopback: %b, p2p: %b, up: %b", ni.getName(), ni.getDisplayName(), addr, ni.isVirtual(), ni.isLoopback(), ni.isPointToPoint(), ni.isUp()));
-			ServiceInfo jsonapiBonjour = ServiceInfo.create("_minecraft._tcp.local.", Bukkit.getServerName(), "", Bukkit.getServer().getPort(), 0, 0, props);
-
-			JmDNS j = JmDNS.create(addr);
-			j.registerService(jsonapiBonjour);
-			jmdns.add(j);
-		}
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (sender instanceof ConsoleCommandSender) {
@@ -807,9 +760,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 	@Override
 	public void onDisable() {
-		for(JmDNS j : jmdns) {
-			j.unregisterAllServices();
-		}
 		if (jsonServer != null) {
 			try {
 				jsonServer.stop();

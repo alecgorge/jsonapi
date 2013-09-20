@@ -78,6 +78,7 @@ public class Caller implements JSONAPIMethodProvider {
 						methods.put(a.namespace(), new HashMap<String, Method>());
 					}
 
+//					System.out.println(String.format("adding %s.%s: %s %s", a.namespace(), a.name().isEmpty() ? m.getName() : a.name(), o,m));
 					methods.get(a.namespace()).put(a.name().isEmpty() ? m.getName() : a.name(), new Method(o, m, a));
 				}
 			}
@@ -119,7 +120,10 @@ public class Caller implements JSONAPIMethodProvider {
 
 		checkObjects();
 
-		if (methodParts.length == 1) {
+		if(methods.get("").containsKey(name)) {
+			return true;
+		}
+		else if (methodParts.length == 1) {
 			return methods.get("").containsKey(methodParts[0]);
 		} else {
 			return methods.containsKey(methodParts[0]) && methods.get(methodParts[0]).containsKey(methodParts[1]);
