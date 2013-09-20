@@ -14,7 +14,6 @@
 class JSONAPI {
 	public $host;
 	public $port;
-	public $salt;
 	public $username;
 	public $password;
 	private $urlFormats = array(
@@ -45,7 +44,7 @@ class JSONAPI {
 		if(is_array($method)) {
 			$method = json_encode($method);
 		}
-		return hash('sha256', $this->username . $method . $this->password . $this->salt);
+		return hash('sha256', $this->username . $method . $this->password);
 	}
 	
 	/**
