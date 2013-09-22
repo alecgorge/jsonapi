@@ -26,8 +26,10 @@ namespace com.ramblingwood.minecraft.jsonapi {
 			this.username = username;
 			this.password = password;
 			this.salt = salt;
+		    ser.Config.OutputTypeInformation = false;
 			ser.Config.OutputTypeComment = false;
 			ser.Config.IsCompact = true;
+		    deser.Config.OutputTypeInformation = false;
 			deser.Config.OutputTypeComment = false;
 			deser.Config.IsCompact = true;
 		}
