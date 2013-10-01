@@ -8,8 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 
-import net.minecraft.server.v1_6_R3.Connection;
-import net.minecraft.server.v1_6_R3.Packet;
+import net.minecraft.server.v1_6_R2.Connection;
+import net.minecraft.server.v1_6_R2.Packet;
 
 public class PacketStringResponse extends Packet {
 	InputStream payload = null;

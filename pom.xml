@@ -118,7 +118,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.6.4-R0.1-SNAPSHOT</version>
+			<version>1.6.2-R1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.drdanick.McRKit</groupId>
