@@ -6,8 +6,6 @@ method-whitelist:
 
 # all valid usernames and passwords are stored
 # under the login key. they are in the format username: password
-logins:
-    usernameGoesHere: passwordGoesHere
 options:
     # this is how long JSONAPI will wait after starting up
     # before it attempts to load any API methods and thus how
@@ -40,7 +38,7 @@ options:
 
     # whether or not you want to only allow using the v2 api
     # that supports granular permissions
-    use-new-api: false
+    use-new-api: true
 
     # configuration for the feature that gathers up data from
     # streams and POSTs it to a URL every once and a while

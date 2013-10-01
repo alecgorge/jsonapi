@@ -314,7 +314,7 @@
         },
         {
             "desc": "Bans the specified player",
-            "call": "this.ban(0)",
+            "call": "this.banWithReason(0, 1)",
             "args": [
                 [
                     "name",
@@ -324,8 +324,7 @@
                 [
                     "reason",
                     "String",
-                    "The reason this player is being banned",
-                    "Banned by admin"
+                    "The reason this player is being banned"
                 ]
             ],
             "name": "players.name.ban"
