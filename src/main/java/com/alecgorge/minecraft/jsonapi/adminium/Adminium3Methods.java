@@ -21,6 +21,8 @@ public class Adminium3Methods implements JSONAPIMethodProvider {
 	
 	@API_Method(namespace="",name="adminium.devices.register")
 	public boolean registerDevice(String pushID) {
+		if(pushID.length() != 64) return false;
+		
 		if(!config.devices.containsKey(pushID)) {
 			config.devices.put(pushID, config.notificationDefaults);
 			try {

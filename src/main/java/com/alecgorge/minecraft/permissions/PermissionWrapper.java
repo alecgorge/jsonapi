@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
@@ -55,6 +56,24 @@ public class PermissionWrapper {
 		}
 
 		return new ArrayList<String>();
+	}
+	
+	public List<String> getPlayersInGroup(String group) {
+		List<String> players = new ArrayList<String>();
+		if(active) {
+			for (Player p : server.getOnlinePlayers()) {
+				if(Arrays.asList(perms.getPlayerGroups(p)).indexOf(group) > -1) {
+					players.add(p.getName());
+				}
+			}
+			for (OfflinePlayer p : server.getOfflinePlayers()) {
+				Player pp = JSONAPI.loadOfflinePlayer(p.getName());
+				if(Arrays.asList(perms.getPlayerGroups(pp)).indexOf(group) > -1) {
+					players.add(pp.getName());
+				}
+			}
+		}
+		return players;
 	}
 
 	public List<String> getAllGroups() {

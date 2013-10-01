@@ -39,6 +39,22 @@
             ]
         },
         {
+            "desc": "Gets all the players in a group",
+            "returns": [
+                "String[]",
+                "Gets all the players in a specific group"
+            ],
+            "call": "this.permissions.getPlayersInGroup(0)",
+            "name": "groups.group.players",
+            "args": [
+                [
+                    "name",
+                    "String",
+                    "The name of the group to retrieve players for"
+                ]
+            ]
+        },
+        {
             "desc": "Gets the groups for a specific player",
             "returns": [
                 "String[]",
