@@ -3,7 +3,7 @@ package com.alecgorge.minecraft.jsonapi.packets;
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
-import net.minecraft.server.v1_6_R2.Packet;
+import net.minecraft.server.v1_6_R3.Packet;
 
 public class PacketRegistrar {
 	static Method registrationMethod = null;
@@ -22,7 +22,7 @@ public class PacketRegistrar {
 				if(Packet.l.get(packetID) != null) {
 					Packet.l.d(packetID); // remove the current packet registration if it exists
 				}
-
+				
 				registrationMethod.invoke(null, new Object[] { packetID, isClientPacket, isServerPacket, packetClass });
 				System.out.println(String.format("[JSONAPI] Injected packet: 0x%X", packetID));
 			} catch (Exception e) {
