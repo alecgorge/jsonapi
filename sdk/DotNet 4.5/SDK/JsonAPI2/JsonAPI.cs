@@ -18,7 +18,6 @@ namespace tman0.JsonAPI2
         public string Password { get; set; }
         public string Salt { get; private set; }
         public bool Connected { get; private set; }
-        public bool Busy { get; private set; }
         public event EventHandler<StreamDataReceivedEventArgs> StreamDataReceived;
 
         private bool doInitialize;
@@ -120,7 +119,9 @@ namespace tman0.JsonAPI2
             data.Add(now, null);                                                // let the reader thread know that we're expecting data with this tag
             netOut.WriteLine(requestUrl);                                       // send the request
             while (data[now] == null) ;                                         // hope for the best
-            return data[now];                                                   // return the rest
+            var toReturn = data[now];
+            data.Remove(now);
+            return toReturn;                                                    // return the rest
         }
 
         /// <summary>
@@ -147,6 +148,7 @@ namespace tman0.JsonAPI2
             {
                 toReturn.Add((string)o["source"], o["success"]);
             }
+            data.Remove(now);
             return toReturn;                                                   // return the rest
         }
 
