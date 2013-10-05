@@ -8,3 +8,4 @@ deps/craftbukkit.jar
 *.DS_Store
 *.swp
 *.out
+!*.dll
