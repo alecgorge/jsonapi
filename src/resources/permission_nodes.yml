@@ -4,10 +4,10 @@
       "methods": [
         "players.name"
       ]
-    }, 
+    },
     "view_map": {
       "methods": [
-        "dynmap.host", 
+        "dynmap.host",
         "dynmap.port"
       ]
     },
@@ -28,14 +28,14 @@
       "methods": [
         "players.banned.names"
       ]
-    }, 
+    },
     "modify_player_inventory": {
       "methods": [
         "players.name.inventory.slots.slot.clear",
         "players.name.inventory.slots.slot.set",
         "players.name.inventory.slots.slot.enchant"
       ]
-    }, 
+    },
     "view_player_world_info": {
       "methods": [
         "players.name",
@@ -43,104 +43,104 @@
         "players.online.count",
         "players.online.names"
       ]
-    }, 
+    },
     "view_severe_log_history": {
       "methods": [
         "adminium.getSeveres"
       ]
-    }, 
+    },
     "file_management": {
       "methods": [
-        "files.read", 
+        "files.read",
         "files.read_binary",
-        "files.append", 
-        "files.create", 
+        "files.append",
+        "files.create",
         "files.create_folder",
         "files.write",
         "files.write_binary",
         "files.move"
       ]
-    }, 
+    },
     "view_push_notification_settings": {
       "methods": [
         "adminium.listPushTypes"
       ]
-    }, 
+    },
     "power_management": {
       "methods": [
-        "remotetoolkit.rescheduleServerRestart", 
-        "remotetoolkit.restartServer", 
-        "remotetoolkit.startServer", 
+        "remotetoolkit.rescheduleServerRestart",
+        "remotetoolkit.restartServer",
+        "remotetoolkit.startServer",
         "remotetoolkit.stopServer"
       ]
-    }, 
+    },
     "view_whitelisted_players": {
       "methods": [
         "players.whitelisted.names"
       ]
-    }, 
+    },
     "view_calladmin_history": {
       "methods": [
         "adminium.getCallAdmins"
       ]
-    }, 
+    },
     "recieve_push_notifications": {
       "methods": [
         "adminium.registerDevice",
         "adminium.deregisterDevice"
       ]
-    }, 
+    },
     "use_player_actions": {
       "methods": [
-        "players.name.op", 
-        "players.name.deop", 
-        "players.name.send_message", 
-        "players.name.kick", 
-        "players.name.ban", 
-        "players.name.pardon", 
-        "players.name.whitelist", 
-        "players.name.unwhitelist", 
+        "players.name.op",
+        "players.name.deop",
+        "players.name.send_message",
+        "players.name.kick",
+        "players.name.ban",
+        "players.name.pardon",
+        "players.name.whitelist",
+        "players.name.unwhitelist",
         "players.name.teleport_to.to_name",
         "players.name.teleport_world"
       ]
-    }, 
+    },
     "view_player_groups": {
       "methods": [
         "groups.all"
       ]
-    }, 
+    }
     "view_offline_players": {
       "methods": [
         "players.offline",
         "players.offline.name",
         "players.offline.names"
       ]
-    }, 
+    }
     "modify_player_information": {
       "methods": [
-        "players.name.set_level", 
-        "players.name.set_food_level", 
-        "players.name.set_health", 
+        "players.name.set_level"
+        "players.name.set_food_level"
+        "players.name.set_health"
         "players.name.set_game_mode"
       ]
-    }, 
+    }
     "configure_push_notifications": {
       "methods": [
         "adminium.setPushTypeEnabled"
       ]
-    }, 
+    },
     "speak_in_chat": {
       "methods": [
         "chat.with_name"
       ]
-    }, 
+    },
     "view_online_player_list": {
       "methods": [
         "players.online.names",
         "players.online.count",
         "server.settings.max_players"
       ]
-    }, 
+    },
     "view_worlds": {
       "methods": [
         "worlds.all",
@@ -169,23 +169,23 @@
       "methods": [
         "players.name"
       ]
-    }, 
+    }
     "view_player_enderchest": {
       "methods": [
         "players.name"
       ]
-    }, 
+    }
     "view_chat": {
       "streams": [
         "chat",
         "connections"
       ]
-    }, 
+    }
     "whitelisted_player_actions": {
       "methods": [
         "players.name.unwhitelist"
       ]
-    }, 
+    }
     "view_player_permissions_and_groups": {
       "methods": [
         "players.name.permissions",
@@ -212,7 +212,7 @@
         "players.name.groups.remove",
         "players.name.permissions.remove"
       ]
-    }, 
+    }
     "view_jsonapi_users_and_groups": {
       "methods": [
         "jsonapi.users",
@@ -221,7 +221,7 @@
         "jsonapi.users.user.permissions",
         "jsonapi.users.user.streams"
       ]
-    }, 
+    }
     "modify_jsonapi_users_and_groups": {
       "methods": [
         "jsonapi.groups.add",
@@ -240,7 +240,7 @@
         "jsonapi.permissions",
         "jsonapi.methods"
       ]
-    }, 
+    }
     "modify_player_permissions_and_groups": {
       "methods": [
         "players.name.permissions.add",
@@ -248,7 +248,7 @@
         "players.name.groups.remove",
         "players.name.permissions.remove"
       ]
-    }, 
+    }
     "modify_group": {
       "methods": [
         "worlds.world.groups.group.prefix",
@@ -256,21 +256,21 @@
         "permissions.all",
         "players.name.permissions.remove"
       ]
-    }, 
+    }
     "view_plugins": {
       "methods": [
-        "plugins", 
+        "plugins"
         "plugins.name.version"
       ]
-    }, 
+    }
     "view_console": {
       "streams": ["console"]
-    }, 
+    }
     "banned_player_actions": {
       "methods": [
         "unban"
       ]
-    }, 
+    }
     "reload_server": {
       "methods": [
         "reloadServer"

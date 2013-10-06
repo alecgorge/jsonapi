@@ -98,7 +98,7 @@ public class PermissionWrapper {
 		return r;
 	}
 
-	public boolean addPermission(String playername, String key, boolean value) {
+	public boolean addPermission(String playername, String key, Boolean value) {
 		try {
 			Player p = getPlayerExact(playername);
 			p.addAttachment(JSONAPI.instance, key, value);
