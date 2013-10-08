@@ -113,6 +113,17 @@ public class Call {
 					} else if ((val.getClass().equals(Integer.class) || val.getClass().equals(Double.class) || val.getClass().equals(String.class) || val.getClass().equals(int.class) || val.getClass().equals(double.class)) && (sig[x].equals(Long.class) || sig[x].equals(long.class))) {
 						args[x] = Long.valueOf(val.toString());
 						val = args[x];
+					} else if ((val.getClass().equals(Integer.class) || val.getClass().equals(Double.class) || val.getClass().equals(String.class) || val.getClass().equals(int.class) || val.getClass().equals(double.class)) && (sig[x].equals(Boolean.class) || sig[x].equals(boolean.class))) {
+						if(val instanceof String) {
+							args[x] = false;
+							if(((String) val).toLowerCase().equals("true")) {
+								args[x] = true;
+							}
+						}
+						else {
+							args[x] = (Integer)val != 0;
+						}
+						val = args[x];
 					} else if (val instanceof List) {
 						sig[x] = List.class;
 					}

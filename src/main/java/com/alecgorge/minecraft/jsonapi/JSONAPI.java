@@ -439,24 +439,44 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					auth.init();
 				}
 				else {
-					Set<String> logins = ((ConfigurationSection) yamlConfig.get("logins")).getKeys(false);
-					
-					List<String> fullgroups = new ArrayList<String>();
-					fullgroups.add("full_control");
-					for (String k : logins) {
-						String password = yamlConfig.getString("logins." + k);
-						
-						HashMap<String, Object> map = new HashMap<String, Object>();
-						map.put("username", k);
-						map.put("password", password);
-						map.put("groups", fullgroups);
-						auth.users.add(map);
+					if(!yamlConfig.contains("logins")) {
+						usersFile.createNewFile();
+
+						InputStream in = getResource("users.yml");
+						OutputStream out = new FileOutputStream(usersFile);
+
+						byte[] buffer = new byte[1024];
+						int len;
+						while ((len = in.read(buffer)) != -1) {
+							out.write(buffer, 0, len);
+						}
+
+						in.close();
+						out.close();
+
+						log.info("[JSONAPI] users.yml has been copied from the jar");
+						auth.init();
 					}
-					
-					yamlConfig.set("logins", null);
-					yamlConfig.save(yamlFile);
-					
-					auth.save();
+					else {
+						Set<String> logins = ((ConfigurationSection) yamlConfig.get("logins")).getKeys(false);
+						
+						List<String> fullgroups = new ArrayList<String>();
+						fullgroups.add("full_control");
+						for (String k : logins) {
+							String password = yamlConfig.getString("logins." + k);
+							
+							HashMap<String, Object> map = new HashMap<String, Object>();
+							map.put("username", k);
+							map.put("password", password);
+							map.put("groups", fullgroups);
+							auth.users.add(map);
+						}
+						
+						yamlConfig.set("logins", null);
+						yamlConfig.save(yamlFile);
+						
+						auth.save();
+					}
 				}
 			}
 			
