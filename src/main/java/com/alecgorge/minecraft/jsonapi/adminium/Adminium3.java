@@ -74,7 +74,7 @@ public class Adminium3 {
 					}
 					r.addPostValue("message", msg);
 					
-					System.out.println(String.format("Sending %s to %d (%s) devices.", msg, devices.size(), devices.get(0)));
+//					System.out.println(String.format("Sending %s to %d (%s) devices.", msg, devices.size(), devices.get(0)));
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
