@@ -324,8 +324,7 @@
                 [
                     "reason",
                     "String",
-                    "The reason this player is being banned",
-                    "Banned by admin"
+                    "The reason this player is being banned"
                 ]
             ],
             "name": "players.name.ban"
