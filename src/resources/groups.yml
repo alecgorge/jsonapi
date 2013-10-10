@@ -9,3 +9,4 @@ groups:
       - view_online_player_list
       - view_map
       - view_chat
+      - speak_in_chat

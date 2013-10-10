@@ -134,6 +134,8 @@
         "chat.with_name"
       ]
     },
+    "change_chat_name": {
+    }
     "view_online_player_list": {
       "methods": [
         "players.online.names",
