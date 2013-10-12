@@ -8,13 +8,12 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
+import java.io.SequenceInputStream;
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.Properties;
 
 import net.minecraft.server.v1_6_R2.Connection;
-import net.minecraft.server.v1_6_R2.NetworkManager;
-import net.minecraft.server.v1_6_R2.Packet;
 import net.minecraft.server.v1_6_R2.Packet71Weather;
 import net.minecraft.server.v1_6_R2.PendingConnection;
 
@@ -28,11 +27,13 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 
 	boolean isHTTP = true;
 	boolean isStream = false;
+	boolean isWebsocket = false;
 	boolean isKeepAlive = false;
 	
 	boolean isGET = true;
 
 	String streamLine = null;
+	RawPacket rawPacket;
 	
 	boolean shouldDebug = false;
 	void dbug(Object objects) {
@@ -40,27 +41,21 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 			System.out.println(objects);
 		}
 	}
-
+	
 	public void a(DataInput inp) {
 		try {
 			// System.out.println("attempting to read packet");
-			String thisLine = "";
 			StringBuilder builder = new StringBuilder();
 
 			final byte next = inp.readByte();
 			dbug("next: " + (char)next);
 			if (next == 'E') {
-				builder.append('G').append(next);
-				while ((thisLine = inp.readLine()) != null) {
-					dbug("got: "+thisLine);
-					builder.append(thisLine).append("\r\n");
-
-					if (thisLine.isEmpty()) {
-						break;
-					}
-				}
-
-				builder.append("\r\n");
+				rawPacket = new RawPacket(inp);
+				rawPacket.resetTimeout();
+								
+				JSONServer jsonServer = JSONAPI.instance.jsonServer;
+				ByteArrayInputStream prefix = new ByteArrayInputStream("GE".getBytes(Charset.forName("UTF-8")));
+				jsonServer.new HTTPSession(new SequenceInputStream(prefix, rawPacket.getInputStream()), rawPacket.getOutputStream(), rawPacket.getAddr(), true);
 			} else if (next == 'S') {
 				isHTTP = false;
 				isStream = true;
@@ -79,43 +74,13 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 				return;
 			} else {
 				isGET = false;
-				final DataInput wrappedInput = inp;
-				super.a(new DataInputStream(new InputStream() {
-					boolean hasReadFirst = false;
-					
-					@Override
-					public int read() throws IOException {
-						return hasReadFirst ? wrappedInput.readInt() : next;
-					}
-				}));
+				ByteArrayInputStream prefix = new ByteArrayInputStream(new byte[] {'G', next});
+				super.a(new DataInputStream(new SequenceInputStream(prefix, (DataInputStream)inp)));
 				return;
-				// System.err.println("Uh oh. Protocol error! Encountered: " + next);
 			}
 
 			payload = new ByteArrayInputStream(builder.toString().getBytes());
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private static Field weirdIterator = null;
-
-	// this prevents the stupid "took too long to log in" message
-	private void resetTimeout(PendingConnection loginHandler) {
-		try {
-			if (weirdIterator == null) {
-				for (Field g : PendingConnection.class.getDeclaredFields()) {
-					if (g.getType().getName().equals("int")) {
-						weirdIterator = g;
-						break;
-					}
-				}
-				weirdIterator.setAccessible(true);
-			}
-
-			weirdIterator.set(loginHandler, 0); // it checks if g++ == 600,
-												// spigot checks for 6000
-		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
@@ -127,7 +92,7 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 	}
 	
 	public void handle(Connection net) {
-		if(!isGET) {
+		if(!isGET || !isHTTP) {
 			super.handle(net);
 			return;
 		}
@@ -136,7 +101,7 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 		try {
 			loginHandler.getSocket().setTcpNoDelay(true);
 
-			resetTimeout(loginHandler);
+			RawPacket.resetTimeout(loginHandler);
 
 			if (isKeepAlive) {
 				return;
@@ -168,12 +133,12 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 							boolean continueSending = true;
 
 							while ((line = s.nextLine()) != null && continueSending) {
-								sendPacket(new PacketStringResponse(line + "\r\n", false), loginHandler);
-								resetTimeout(loginHandler);
+								RawPacket.sendPacket(new PacketStringResponse(line + "\r\n", false), loginHandler, isHTTP);
+								RawPacket.resetTimeout(loginHandler);
 								continueSending = !clientSocket.isClosed();
 							}
 							
-							sendPacket(new PacketStringResponse("\r\n", true), loginHandler);
+							RawPacket.sendPacket(new PacketStringResponse("\r\n", true), loginHandler, isHTTP);
 							
 							try {
 								((StreamingResponse)r.data).close();
@@ -189,7 +154,7 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 							if(res == null) {
 								res = new ByteArrayInputStream(r.bytes);
 							}
-							sendPacket(new PacketStringResponse(res, false), loginHandler);
+							RawPacket.sendPacket(new PacketStringResponse(res, false), loginHandler, isHTTP);
 						}
 					}
 				})).start();
@@ -205,7 +170,7 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 						ByteArrayInputStream inp = new ByteArrayInputStream(o.toByteArray());
 						PacketStringResponse packet = new PacketStringResponse(inp, true);
 
-						sendPacket(packet, loginHandler);
+						RawPacket.sendPacket(packet, loginHandler, isHTTP);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -215,34 +180,6 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 			});
 		} catch (Exception e1) {
 			e1.printStackTrace();
-		}
-	}
-
-	private void sendPacket(Packet packet, PendingConnection loginHandler) {
-		try {
-			Field networkManagerField = null;
-			for (Field f : loginHandler.getClass().getDeclaredFields()) {
-				if (f.getType().isAssignableFrom(NetworkManager.class)) {
-					networkManagerField = f;
-					networkManagerField.setAccessible(true);
-					break;
-				}
-			}
-
-			Object networkManager = networkManagerField.get(loginHandler);
-			try {
-				networkManager.getClass().getDeclaredMethod("queue", Packet.class).invoke(networkManager, packet);
-				if (isHTTP) {
-					networkManager.getClass().getDeclaredMethod("d").invoke(networkManager);
-				}
-			} catch (Exception e) {
-				networkManager.getClass().getDeclaredMethod("func_74429_a", Packet.class).invoke(networkManager, packet);
-				if (isHTTP) {
-					networkManager.getClass().getDeclaredMethod("func_74423_d").invoke(networkManager);
-				}
-			}
-		} catch (Throwable e) {
-			e.printStackTrace();
 		}
 	}
 

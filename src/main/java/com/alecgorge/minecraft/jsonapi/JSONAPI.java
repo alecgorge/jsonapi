@@ -782,13 +782,22 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public void onDisable() {
 		if (jsonServer != null) {
 			try {
+				log.info("[JSONAPI] Stopping JSON server");
 				jsonServer.stop();
+
+				log.info("[JSONAPI] Stopping JSON socket server");
 				jsonSocketServer.stop();
+				
+				log.info("[JSONAPI] Stopping JSON WebSocket server");
 				jsonWebSocketServer.stop();
+
+				log.info("[JSONAPI] Tearing down API methods");
 				APIWrapperMethods.getInstance().pluginDisable();
+
+				log.info("[JSONAPI] Cancelling performance monitoring");
 				getTickRateCounter().cancel();
 			} catch (Exception e) {
-				// e.printStackTrace();
+				e.printStackTrace();
 			}
 			log.removeHandler(handler);
 		}

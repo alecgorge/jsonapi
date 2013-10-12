@@ -52,6 +52,9 @@ public class APIv2Handler {
 				readPayload(true);
 				return subscribe();
 			}
+			else if(this.uri.equals("/api/2/websocket")) {
+				return reverseProxyWebSocket();
+			}
 			else {
 				return resp(NanoHTTPD.HTTP_NOTFOUND, NanoHTTPD.MIME_PLAINTEXT, "Not Found");
 			}
@@ -61,6 +64,10 @@ public class APIv2Handler {
 			e.printStackTrace(new PrintWriter(errors));
 			return resp(NanoHTTPD.HTTP_BADREQUEST, NanoHTTPD.MIME_PLAINTEXT, errors.toString());
 		}
+	}
+	
+	Response reverseProxyWebSocket() {
+		return httpd.new WebSocketResponse(header);
 	}
 	
 	public NanoHTTPD.Response call() {

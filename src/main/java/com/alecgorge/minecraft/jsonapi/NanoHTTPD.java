@@ -16,6 +16,8 @@ import java.net.Socket;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -28,6 +30,7 @@ import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
 
 import org.apache.commons.io.IOUtils;
+import org.java_websocket.util.Base64;
 
 import com.alecgorge.minecraft.jsonapi.packets.Lambda;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
@@ -211,6 +214,35 @@ public class NanoHTTPD {
 		
 		public byte[] bytes;
 	}
+	
+	public class WebSocketResponse extends Response {
+		public WebSocketResponse(Properties header) {
+			super("101 Switching Protocols", null, new byte[]{});
+			
+			String challenge = header.get("Sec-WebSocket-Key".toLowerCase()).toString();
+			challenge += "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+			
+			addHeader("Upgrade", "websocket");
+			addHeader("Connection", "Upgrade");
+			try {
+				addHeader("Sec-WebSocket-Accept", toSHA1(challenge.getBytes("UTF-8")));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public String toSHA1(byte[] convertme) {
+			MessageDigest md = null;
+			try {
+				md = MessageDigest.getInstance("SHA-1");
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+			byte[] buf = md.digest(convertme);
+			return Base64.encodeBytes(buf);
+		}
+	}
 
 	/**
 	 * Some HTTP response status codes
@@ -246,10 +278,14 @@ public class NanoHTTPD {
 		}
 		myThread = new Thread(new Runnable() {
 			public void run() {
-				try {
-					while (true)
-						new HTTPSession(myServerSocket.accept());
-				} catch (IOException ioe) {
+				while (!Thread.currentThread().isInterrupted()) {
+					try {
+						Socket s = myServerSocket.accept();
+						s.setTcpNoDelay(true);
+						
+						new HTTPSession(s.getInputStream(), s.getOutputStream(), s.getInetAddress());
+					} catch (IOException ioe) {
+					}
 				}
 			}
 		});
@@ -271,9 +307,12 @@ public class NanoHTTPD {
 	public void stop() {
 		try {
 			myServerSocket.close();
+			myThread.interrupt();
 			myThread.join();
 		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -309,26 +348,29 @@ public class NanoHTTPD {
 	 */
 	public class HTTPSession implements Runnable {
 
-		public HTTPSession(Socket s) {
-			mySocket = s;
+		public HTTPSession(InputStream in, OutputStream out, InetAddress addr, boolean blocking) {
+			this.in = in;
+			this.out = out;
+			this.addr = addr;
 
-			try {
-				this.in = s.getInputStream();
-				this.out = s.getOutputStream();
-				this.addr = s.getInetAddress();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(!blocking) {
+				Thread t = new Thread(this);
+				t.setDaemon(true);
+				t.start();
 			}
-
-			Thread t = new Thread(this);
-			t.setDaemon(true);
-			t.start();
+			else {
+				run();
+			}
+		}
+		
+		public HTTPSession(InputStream in, OutputStream out, InetAddress addr) {
+			this(in, out, addr, false);
 		}
 
-		private InputStream in;
-		private OutputStream out;
-		private InetAddress addr;
-		private Lambda<Void, OutputStream> callback = null;
+		public InputStream in;
+		public OutputStream out;
+		public InetAddress addr;
+		public Lambda<Void, OutputStream> callback = null;
 		
 		public boolean closeOnCompletion = false;
 
@@ -385,7 +427,7 @@ public class NanoHTTPD {
 					}
 				}
 				header.put("X-REMOTE-ADDR", addr.getHostAddress());
-
+				
 				// If the method is POST, there may be parameters
 				// in data section, too, read it:
 				if (method.equalsIgnoreCase("POST")) {
@@ -428,8 +470,28 @@ public class NanoHTTPD {
 				Response r = serve(uri, method, header, parms);
 				if (r == null)
 					sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: Serve() returned a null response.");
-				else
-					sendResponse(r.status, r.mimeType, r.header, r.data, r.bytes);
+				else {
+					if (r instanceof WebSocketResponse) {
+						// write out the upgrade header
+						out.write(String.format("HTTP/1.1 %s\r\n", r.status).getBytes(Charset.forName("UTF-8")));
+						Enumeration<?> e = r.header.propertyNames();
+
+						while (e.hasMoreElements()) {
+							String key = e.nextElement().toString();
+							out.write(String.format("%s: %s\r\n", key, r.header.get(key)).getBytes(Charset.forName("UTF-8")));
+						}
+						out.write("\r\n".getBytes(Charset.forName("UTF-8")));
+						out.flush();
+						
+						// proxy to the websocket server via a websocket client
+						// ouch.
+						
+						JSONTunneledWebSocket ws = new JSONTunneledWebSocket(this.in, out);
+						ws.start();
+					} else {
+						sendResponse(r.status, r.mimeType, r.header, r.data, r.bytes);
+					}
+				}
 
 				in.close();
 				
@@ -496,12 +558,8 @@ public class NanoHTTPD {
 				if (status == null)
 					throw new Error("sendResponse(): Status can't be null.");
 
-				if (mySocket != null) {
-					mySocket.setTcpNoDelay(true);
-				}
-
 				PrintWriter pw = new PrintWriter(out);
-				pw.print("HTTP/1.0 " + status + " \r\n");
+				pw.print("HTTP/1.1 " + status + " \r\n");
 
 				if (mime != null)
 					pw.print("Content-Type: " + mime + "\r\n");
@@ -522,24 +580,15 @@ public class NanoHTTPD {
 				pw.flush();
 
 				if (data instanceof StreamingResponse) {
-					final DataOutputStream output = new DataOutputStream(out);
 					final StreamingResponse s = (StreamingResponse) data;
 					String line = "";
 
 					boolean doContinue = true;
 					while (doContinue && (line = s.nextLine()) != null) {
 						try {
-							if (mySocket == null || (mySocket.isConnected() && !mySocket.isClosed())) {
-								output.write((line.trim() + "\r\n").getBytes("UTF-8"));
-								// fuck java: output.writeUTF(line+"\r\n");
-							} else {
-								doContinue = false;
-							}
+							out.write((line.trim() + "\r\n").getBytes("UTF-8"));
 						} catch (IOException e) {
 							doContinue = false;
-							if (mySocket != null) {
-								mySocket.close();
-							}
 							out.close();
 							if (data != null) {
 								data.close();
@@ -558,17 +607,15 @@ public class NanoHTTPD {
 				if (data != null)
 					data.close();
 			} catch (IOException ioe) {
-				// Couldn't write? No can do.
 				try {
-					if (mySocket != null) {
-						mySocket.close();
-					}
-				} catch (Throwable t) {
+					in.close();
+					out.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		}
-
-		private Socket mySocket = null;
 	};
 
 	/**

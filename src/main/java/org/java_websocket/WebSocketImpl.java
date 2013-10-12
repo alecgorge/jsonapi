@@ -58,8 +58,6 @@ public class WebSocketImpl implements WebSocket {
 
 	public SelectionKey key;
 
-	private final Socket socket;
-
 	/** the possibly wrapped channel object whose selection is controlled by {@link #key} */
 	public ByteChannel channel;
 	/**
@@ -95,7 +93,7 @@ public class WebSocketImpl implements WebSocket {
 	private Opcode current_continuous_frame_opcode = null;
 
 	/** the bytes of an incomplete received handshake */
-	private ByteBuffer tmpHandshakeBytes;
+	private ByteBuffer tmpHandshakeBytes = ByteBuffer.allocate( 0 );
 
 	/** stores the handshake sent by this websocket ( Role.CLIENT only ) */
 	private ClientHandshake handshakerequest = null;
@@ -103,12 +101,14 @@ public class WebSocketImpl implements WebSocket {
 	private String closemessage = null;
 	private Integer closecode = null;
 	private Boolean closedremotely = null;
+	
+	private String resourceDescriptor = null;
 
 	/**
 	 * crates a websocket with server role
 	 */
-	public WebSocketImpl( WebSocketListener listener , List<Draft> drafts , Socket sock ) {
-		this( listener, (Draft) null, sock );
+	public WebSocketImpl( WebSocketListener listener , List<Draft> drafts ) {
+		this( listener, (Draft) null );
 		this.role = Role.SERVER;
 		// draft.copyInstance will be called when the draft is first needed
 		if( drafts == null || drafts.isEmpty() ) {
@@ -121,11 +121,11 @@ public class WebSocketImpl implements WebSocket {
 	/**
 	 * crates a websocket with client role
 	 * 
-	 * @param sock
+	 * @param socket
 	 *            may be unbound
 	 */
-	public WebSocketImpl( WebSocketListener listener , Draft draft , Socket sock ) {
-		if( listener == null || sock == null || ( draft == null && role == Role.SERVER ) )
+	public WebSocketImpl( WebSocketListener listener , Draft draft ) {
+		if( listener == null || ( draft == null && role == Role.SERVER ) )// socket can be null because we want do be able to create the object without already having a bound channel
 			throw new IllegalArgumentException( "parameters must not be null" );
 		this.outQueue = new LinkedBlockingQueue<ByteBuffer>();
 		inQueue = new LinkedBlockingQueue<ByteBuffer>();
@@ -133,37 +133,49 @@ public class WebSocketImpl implements WebSocket {
 		this.role = Role.CLIENT;
 		if( draft != null )
 			this.draft = draft.copyInstance();
+	}
 
-		socket = sock;
+	@Deprecated
+	public WebSocketImpl( WebSocketListener listener , Draft draft , Socket socket ) {
+		this( listener, draft );
+	}
+
+	@Deprecated
+	public WebSocketImpl( WebSocketListener listener , List<Draft> drafts , Socket socket ) {
+		this( listener, drafts );
 	}
 
 	/**
 	 * 
 	 */
 	public void decode( ByteBuffer socketBuffer ) {
-		if( !socketBuffer.hasRemaining() || flushandclosestate )
-			return;
+		assert ( socketBuffer.hasRemaining() );
 
 		if( DEBUG )
 			System.out.println( "process(" + socketBuffer.remaining() + "): {" + ( socketBuffer.remaining() > 1000 ? "too big to display" : new String( socketBuffer.array(), socketBuffer.position(), socketBuffer.remaining() ) ) + "}" );
 
-		if( readystate == READYSTATE.OPEN ) {
-			decodeFrames( socketBuffer );
+		if( readystate != READYSTATE.NOT_YET_CONNECTED ) {
+			decodeFrames( socketBuffer );;
 		} else {
 			if( decodeHandshake( socketBuffer ) ) {
-				decodeFrames( socketBuffer );
+				assert ( tmpHandshakeBytes.hasRemaining() != socketBuffer.hasRemaining() || !socketBuffer.hasRemaining() ); // the buffers will never have remaining bytes at the same time
+
+				if( socketBuffer.hasRemaining() ) {
+					decodeFrames( socketBuffer );
+				} else if( tmpHandshakeBytes.hasRemaining() ) {
+					decodeFrames( tmpHandshakeBytes );
+				}
 			}
 		}
 		assert ( isClosing() || isFlushAndClose() || !socketBuffer.hasRemaining() );
 	}
-
 	/**
 	 * Returns whether the handshake phase has is completed.
 	 * In case of a broken handshake this will be never the case.
 	 **/
 	private boolean decodeHandshake( ByteBuffer socketBufferNew ) {
 		ByteBuffer socketBuffer;
-		if( tmpHandshakeBytes == null ) {
+		if( tmpHandshakeBytes.capacity() == 0 ) {
 			socketBuffer = socketBufferNew;
 		} else {
 			if( tmpHandshakeBytes.remaining() < socketBufferNew.remaining() ) {
@@ -182,8 +194,12 @@ public class WebSocketImpl implements WebSocket {
 			if( draft == null ) {
 				HandshakeState isflashedgecase = isFlashEdgeCase( socketBuffer );
 				if( isflashedgecase == HandshakeState.MATCHED ) {
-					write( ByteBuffer.wrap( Charsetfunctions.utf8Bytes( wsl.getFlashPolicy( this ) ) ) );
-					close( CloseFrame.FLASHPOLICY, "" );
+					try {
+						write( ByteBuffer.wrap( Charsetfunctions.utf8Bytes( wsl.getFlashPolicy( this ) ) ) );
+						close( CloseFrame.FLASHPOLICY, "" );
+					} catch ( InvalidDataException e ) {
+						close( CloseFrame.ABNORMAL_CLOSE, "remote peer closed connection before flashpolicy could be transmitted", true );
+					}
 					return false;
 				}
 			}
@@ -205,6 +221,7 @@ public class WebSocketImpl implements WebSocket {
 								ClientHandshake handshake = (ClientHandshake) tmphandshake;
 								handshakestate = d.acceptHandshakeAsServer( handshake );
 								if( handshakestate == HandshakeState.MATCHED ) {
+									resourceDescriptor = handshake.getResourceDescriptor();
 									ServerHandshakeBuilder response;
 									try {
 										response = wsl.onWebsocketHandshakeReceivedAsServer( this, d, handshake );
@@ -251,7 +268,7 @@ public class WebSocketImpl implements WebSocket {
 					draft.setParseMode( role );
 					Handshakedata tmphandshake = draft.translateHandshake( socketBuffer );
 					if( tmphandshake instanceof ServerHandshake == false ) {
-						flushAndClose( CloseFrame.PROTOCOL_ERROR, "Wwrong http function", false );
+						flushAndClose( CloseFrame.PROTOCOL_ERROR, "wrong http function", false );
 						return false;
 					}
 					ServerHandshake handshake = (ServerHandshake) tmphandshake;
@@ -277,7 +294,7 @@ public class WebSocketImpl implements WebSocket {
 				close( e );
 			}
 		} catch ( IncompleteHandshakeException e ) {
-			if( tmpHandshakeBytes == null ) {
+			if( tmpHandshakeBytes.capacity() == 0 ) {
 				socketBuffer.reset();
 				int newsize = e.getPreferedSize();
 				if( newsize == 0 ) {
@@ -298,8 +315,6 @@ public class WebSocketImpl implements WebSocket {
 	}
 
 	private void decodeFrames( ByteBuffer socketBuffer ) {
-		if( flushandclosestate )
-			return;
 
 		List<Framedata> frames;
 		try {
@@ -307,8 +322,6 @@ public class WebSocketImpl implements WebSocket {
 			for( Framedata f : frames ) {
 				if( DEBUG )
 					System.out.println( "matched frame: " + f );
-				if( flushandclosestate )
-					return;
 				Opcode curop = f.getOpcode();
 				boolean fin = f.isFin();
 
@@ -442,10 +455,12 @@ public class WebSocketImpl implements WebSocket {
 			// key.attach( null ); //see issue #114
 			key.cancel();
 		}
-		try {
-			channel.close();
-		} catch ( IOException e ) {
-			wsl.onWebsocketError( this, e );
+		if( channel != null ) {
+			try {
+				channel.close();
+			} catch ( IOException e ) {
+				wsl.onWebsocketError( this, e );
+			}
 		}
 		try {
 			this.wsl.onWebsocketClose( this, code, message, remote );
@@ -457,7 +472,7 @@ public class WebSocketImpl implements WebSocket {
 		handshakerequest = null;
 
 		readystate = READYSTATE.CLOSED;
-
+		this.outQueue.clear();
 	}
 
 	protected void closeConnection( int code, boolean remote ) {
@@ -562,6 +577,11 @@ public class WebSocketImpl implements WebSocket {
 	}
 
 	@Override
+	public void sendFragmentedFrame( Opcode op, ByteBuffer buffer, boolean fin ) {
+		send( draft.continuousFrame( op, buffer, fin ) );
+	}
+
+	@Override
 	public void sendFrame( Framedata framedata ) {
 		if( DEBUG )
 			System.out.println( "send frame: " + framedata );
@@ -597,6 +617,9 @@ public class WebSocketImpl implements WebSocket {
 		// Store the Handshake Request we are about to send
 		this.handshakerequest = draft.postProcessHandshakeRequestAsClient( handshakedata );
 
+		resourceDescriptor = handshakedata.getResourceDescriptor();
+		assert( resourceDescriptor != null );
+		
 		// Notify Listener
 		try {
 			wsl.onWebsocketHandshakeSentAsClient( this, this.handshakerequest );
@@ -688,12 +711,12 @@ public class WebSocketImpl implements WebSocket {
 
 	@Override
 	public InetSocketAddress getRemoteSocketAddress() {
-		return (InetSocketAddress) socket.getRemoteSocketAddress();
+		return wsl.getRemoteSocketAddress( this );
 	}
 
 	@Override
 	public InetSocketAddress getLocalSocketAddress() {
-		return (InetSocketAddress) socket.getLocalSocketAddress();
+		return wsl.getLocalSocketAddress( this );
 	}
 
 	@Override
@@ -704,6 +727,11 @@ public class WebSocketImpl implements WebSocket {
 	@Override
 	public void close() {
 		close( CloseFrame.NORMAL );
+	}
+
+	@Override
+	public String getResourceDescriptor() {
+		return resourceDescriptor;
 	}
 
 }

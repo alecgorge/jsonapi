@@ -95,7 +95,11 @@ public class Caller implements JSONAPIMethodProvider {
 		try {
 			return f.get();
 		} catch (InterruptedException e) {
-			System.out.println("Interrupt triggered which waiting on callable to return");
+			try {
+				return f.get();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} catch (ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.getCause().printStackTrace();

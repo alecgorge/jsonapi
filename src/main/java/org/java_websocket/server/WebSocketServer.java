@@ -8,6 +8,8 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ByteChannel;
 import java.nio.channels.CancelledKeyException;
+import java.nio.channels.ClosedByInterruptException;
+import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -33,9 +35,12 @@ import org.java_websocket.WebSocketFactory;
 import org.java_websocket.WebSocketImpl;
 import org.java_websocket.WrappedByteChannel;
 import org.java_websocket.drafts.Draft;
+import org.java_websocket.exceptions.InvalidDataException;
 import org.java_websocket.framing.CloseFrame;
+import org.java_websocket.framing.Framedata;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.handshake.Handshakedata;
+import org.java_websocket.handshake.ServerHandshakeBuilder;
 
 /**
  * <tt>WebSocketServer</tt> is an abstract class that only takes care of the
@@ -190,43 +195,42 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 	 * If this method is called before the server is started it will never start.
 	 * 
 	 * @param timeout
-	 *            Specifies how many milliseconds shall pass between initiating the close handshakes with the connected clients and closing the servers socket channel.
+	 *            Specifies how many milliseconds the overall close handshaking may take altogether before the connections are closed without proper close handshaking.<br>
 	 * 
 	 * @throws IOException
 	 *             When {@link ServerSocketChannel}.close throws an IOException
 	 * @throws InterruptedException
 	 */
-	public void stop( int timeout ) throws IOException , InterruptedException {
-		if( !isclosed.compareAndSet( false, true ) ) {
+	public void stop( int timeout ) throws InterruptedException {
+		if( !isclosed.compareAndSet( false, true ) ) { // this also makes sure that no further connections will be added to this.connections
 			return;
 		}
 
+		List<WebSocket> socketsToClose = null;
+
+		// copy the connections in a list (prevent callback deadlocks)
 		synchronized ( connections ) {
-			for( WebSocket ws : connections ) {
-				ws.close( CloseFrame.GOING_AWAY );
-			}
+			socketsToClose = new ArrayList<WebSocket>( connections );
 		}
+
+		for( WebSocket ws : socketsToClose ) {
+			ws.close( CloseFrame.GOING_AWAY );
+		}
+
 		synchronized ( this ) {
 			if( selectorthread != null ) {
 				if( Thread.currentThread() != selectorthread ) {
 
 				}
 				if( selectorthread != Thread.currentThread() ) {
-					selectorthread.interrupt();
+					if( socketsToClose.size() > 0 )
+						selectorthread.join( timeout );// isclosed will tell the selectorthread to go down after the last connection was closed
+					selectorthread.interrupt();// in case the selectorthread did not terminate in time we send the interrupt
 					selectorthread.join();
 				}
 			}
-			if( decoders != null ) {
-				for( WebSocketWorker w : decoders ) {
-					w.interrupt();
-				}
-			}
-			if( server != null ) {
-				server.close();
-			}
 		}
 	}
-
 	public void stop() throws IOException , InterruptedException {
 		stop( 0 );
 	}
@@ -323,29 +327,29 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 							conn = (WebSocketImpl) key.attachment();
 							ByteBuffer buf = takeBuffer();
 							try {
-								if( SocketChannelIOHelper.read( buf, conn, (ByteChannel) conn.channel ) ) {
-									conn.inQueue.put( buf );
-									queue( conn );
-									i.remove();
-									if( conn.channel instanceof WrappedByteChannel ) {
-										if( ( (WrappedByteChannel) conn.channel ).isNeedRead() ) {
-											iqueue.add( conn );
+								if( SocketChannelIOHelper.read( buf, conn, conn.channel ) ) {
+									if( buf.hasRemaining() ) {
+										conn.inQueue.put( buf );
+										queue( conn );
+										i.remove();
+										if( conn.channel instanceof WrappedByteChannel ) {
+											if( ( (WrappedByteChannel) conn.channel ).isNeedRead() ) {
+												iqueue.add( conn );
+											}
 										}
-									}
+									} else
+										pushBuffer( buf );
 								} else {
 									pushBuffer( buf );
 								}
 							} catch ( IOException e ) {
 								pushBuffer( buf );
 								throw e;
-							} catch ( RuntimeException e ) {
-								pushBuffer( buf );
-								throw e;
 							}
 						}
 						if( key.isWritable() ) {
 							conn = (WebSocketImpl) key.attachment();
-							if( SocketChannelIOHelper.batch( conn, (ByteChannel) conn.channel ) ) {
+							if( SocketChannelIOHelper.batch( conn, conn.channel ) ) {
 								if( key.isValid() )
 									key.interestOps( SelectionKey.OP_READ );
 							}
@@ -358,27 +362,47 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 						try {
 							if( SocketChannelIOHelper.readMore( buf, conn, c ) )
 								iqueue.add( conn );
-							conn.inQueue.put( buf );
-							queue( conn );
-						} finally {
+							if( buf.hasRemaining() ) {
+								conn.inQueue.put( buf );
+								queue( conn );
+							} else {
+								pushBuffer( buf );
+							}
+						} catch ( IOException e ) {
 							pushBuffer( buf );
+							throw e;
 						}
 
 					}
 				} catch ( CancelledKeyException e ) {
 					// an other thread may cancel the key
+				} catch ( ClosedByInterruptException e ) {
+					return; // do the same stuff as when InterruptedException is thrown
 				} catch ( IOException ex ) {
 					if( key != null )
 						key.cancel();
-					handleIOException( conn, ex );
+					handleIOException( key, conn, ex );
 				} catch ( InterruptedException e ) {
-					return;// FIXME controlled shutdown
+					return;// FIXME controlled shutdown (e.g. take care of buffermanagement)
 				}
 			}
 
 		} catch ( RuntimeException e ) {
 			// should hopefully never occur
 			handleFatal( null, e );
+		} finally {
+			if( decoders != null ) {
+				for( WebSocketWorker w : decoders ) {
+					w.interrupt();
+				}
+			}
+			if( server != null ) {
+				try {
+					server.close();
+				} catch ( IOException e ) {
+					onError( null, e );
+				}
+			}
 		}
 	}
 	protected void allocateBuffers( WebSocket c ) throws InterruptedException {
@@ -416,10 +440,21 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 		buffers.put( buf );
 	}
 
-	private void handleIOException( WebSocket conn, IOException ex ) {
-		onWebsocketError( conn, ex );// conn may be null here
+	private void handleIOException( SelectionKey key, WebSocket conn, IOException ex ) {
+		// onWebsocketError( conn, ex );// conn may be null here
 		if( conn != null ) {
 			conn.closeConnection( CloseFrame.ABNORMAL_CLOSE, ex.getMessage() );
+		} else if( key != null ) {
+			SelectableChannel channel = key.channel();
+			if( channel != null && channel.isOpen() ) { // this could be the case if the IOException ex is a SSLException
+				try {
+					channel.close();
+				} catch ( IOException e ) {
+					// there is nothing that must be done here
+				}
+				if( WebSocketImpl.DEBUG )
+					System.out.println( "Connection closed because of" + ex );
+			}
 		}
 	}
 
@@ -458,6 +493,12 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 	}
 
 	@Override
+	@Deprecated
+	public/*final*/void onWebsocketMessageFragment( WebSocket conn, Framedata frame ) {// onFragment should be overloaded instead
+		onFragment( conn, frame );
+	}
+
+	@Override
 	public final void onWebsocketMessage( WebSocket conn, ByteBuffer blob ) {
 		onMessage( conn, blob );
 	}
@@ -493,18 +534,35 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 	 * Depending on the type on the connection, modifications of that collection may have to be synchronized.
 	 **/
 	protected boolean removeConnection( WebSocket ws ) {
+		boolean removed;
 		synchronized ( connections ) {
-			return this.connections.remove( ws );
+			removed = this.connections.remove( ws );
+			assert ( removed );
 		}
+		if( isclosed.get() && connections.size() == 0 ) {
+			selectorthread.interrupt();
+		}
+		return removed;
+	}
+	@Override
+	public ServerHandshakeBuilder onWebsocketHandshakeReceivedAsServer( WebSocket conn, Draft draft, ClientHandshake request ) throws InvalidDataException {
+		return super.onWebsocketHandshakeReceivedAsServer( conn, draft, request );
 	}
 
 	/** @see #removeConnection(WebSocket) */
 	protected boolean addConnection( WebSocket ws ) {
-		synchronized ( connections ) {
-			return this.connections.add( ws );
+		if( !isclosed.get() ) {
+			synchronized ( connections ) {
+				boolean succ = this.connections.add( ws );
+				assert ( succ );
+				return succ;
+			}
+		} else {
+			// This case will happen when a new connection gets ready while the server is already stopping.
+			ws.close( CloseFrame.GOING_AWAY );
+			return true;// for consistency sake we will make sure that both onOpen will be called
 		}
 	}
-
 	/**
 	 * @param conn
 	 *            may be null if the error does not belong to a single connection
@@ -517,7 +575,12 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 	@Override
 	public final void onWriteDemand( WebSocket w ) {
 		WebSocketImpl conn = (WebSocketImpl) w;
-		conn.key.interestOps( SelectionKey.OP_READ | SelectionKey.OP_WRITE );
+		try {
+			conn.key.interestOps( SelectionKey.OP_READ | SelectionKey.OP_WRITE );
+		} catch ( CancelledKeyException e ) {
+			// the thread which cancels key is responsible for possible cleanup
+			conn.outQueue.clear();
+		}
 		selector.wakeup();
 	}
 
@@ -557,6 +620,21 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 		return true;
 	}
 
+	private Socket getSocket( WebSocket conn ) {
+		WebSocketImpl impl = (WebSocketImpl) conn;
+		return ( (SocketChannel) impl.key.channel() ).socket();
+	}
+
+	@Override
+	public InetSocketAddress getLocalSocketAddress( WebSocket conn ) {
+		return (InetSocketAddress) getSocket( conn ).getLocalSocketAddress();
+	}
+
+	@Override
+	public InetSocketAddress getRemoteSocketAddress( WebSocket conn ) {
+		return (InetSocketAddress) getSocket( conn ).getRemoteSocketAddress();
+	}
+
 	/** Called after an opening handshake has been performed and the given websocket is ready to be written on. */
 	public abstract void onOpen( WebSocket conn, ClientHandshake handshake );
 	/**
@@ -591,7 +669,13 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 	 * @see #onMessage(WebSocket, String)
 	 **/
 	public void onMessage( WebSocket conn, ByteBuffer message ) {
-	};
+	}
+
+	/**
+	 * @see WebSocket#sendFragmentedFrame(org.java_websocket.framing.Framedata.Opcode, ByteBuffer, boolean)
+	 */
+	public void onFragment( WebSocket conn, Framedata fragment ) {
+	}
 
 	public class WebSocketWorker extends Thread {
 

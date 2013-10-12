@@ -16,22 +16,22 @@ function gen_key($name) {
 }
 
 
-$methodName = "adminium.notifications.all";
+$methodName = "players.name.inventory.slots.slot.set";
 
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => [],
+		'arguments' => ['alecgorge', 0, 35, 6, 0, 2],
 		'tag' => 'test'
 	),
-	// array(
-	// 	'name' => 'plugins.name.version',
-	// 	'key' => gen_key('plugins.name.version'),
-	// 	'arguments' => ["JSONAPI"],
-	// 	'username' => $username,
-	// ),
+	array(
+		'name' => 'players.name',
+		'key' => gen_key('players.name'),
+		'arguments' => ["alecgorge"],
+		'username' => $username,
+	),
 	// array(
 	// 	'name' => 'server.performance.tick_health',
 	// 	'key' => gen_key('server.performance.tick_health'),

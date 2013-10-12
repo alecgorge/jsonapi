@@ -21,6 +21,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.block.BlockState;
@@ -286,9 +287,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 			Player p = getPlayerExact(playerName);
 			PlayerInventory inv = p.getInventory();
+			
 			ItemStack it = (new MaterialData(blockID, (byte) data)).toItemStack(quantity);
-			it.setDurability(Short.valueOf(String.valueOf(damage)).shortValue());
-
+			it.setDurability((short)data);
+			
 			if (slot == 103)
 				inv.setHelmet(it);
 			else if (slot == 102)
@@ -318,7 +320,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			Player p = getPlayerExact(playerName);
 			PlayerInventory inv = p.getInventory();
 			ItemStack it = (new MaterialData(blockID, (byte) data)).toItemStack(quantity);
-			it.setDurability(Short.valueOf(String.valueOf(damage)).shortValue());
+			it.setDurability((short)data);
 
 			for (int i = 0; i < enchantments.length; i++) {
 				JSONObject o = (JSONObject) enchantments[i];
