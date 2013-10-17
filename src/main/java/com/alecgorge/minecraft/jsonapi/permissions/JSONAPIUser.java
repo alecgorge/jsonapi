@@ -42,9 +42,6 @@ public class JSONAPIUser extends ConfigObject {
 	}
 	
 	public boolean canUseMethod(String methodName) {
-		if(methodName.startsWith("jsonapi.")) {
-			return true;
-		}
 		for(JSONAPIGroup g : getGroups()) {
 			if(g.canUseMethod(methodName)) {
 				return true;

@@ -16,22 +16,29 @@ function gen_key($name) {
 }
 
 
-$methodName = "players.name.inventory.slots.slot.set";
+$methodName = "server.version";
 
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => ['alecgorge', 0, 35, 6, 0, 2],
-		'tag' => 'test'
+		'arguments' => [],
+		'tag' => '1'
 	),
 	array(
-		'name' => 'players.name',
-		'key' => gen_key('players.name'),
-		'arguments' => ["alecgorge"],
+		'name' => $methodName,
+		'key' => 'asdf',
 		'username' => $username,
+		'arguments' => [],
+		'tag' => '2'
 	),
+	// array(
+	// 	'name' => 'players.name',
+	// 	'key' => gen_key('players.name'),
+	// 	'arguments' => ["alecgorge"],
+	// 	'username' => $username,
+	// ),
 	// array(
 	// 	'name' => 'server.performance.tick_health',
 	// 	'key' => gen_key('server.performance.tick_health'),
@@ -73,7 +80,7 @@ if(!(php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR']))) {
 	echo "<pre>";
 }
 
-$stream = false;
+$stream = true;
 if($stream) {
 	$url = sprintf("http://%s:%d/api/2/subscribe?json=%s", $host, $port, rawurlencode(json_encode($streamPayload)));
 	echo $url ."\n";

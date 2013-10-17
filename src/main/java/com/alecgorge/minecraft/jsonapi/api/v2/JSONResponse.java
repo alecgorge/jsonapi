@@ -16,6 +16,7 @@ import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.event.JSONAPIAuthEvent;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
+import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 
 public class JSONResponse {
 	String tag = "";
@@ -116,6 +117,12 @@ public class JSONResponse {
 	@SuppressWarnings("unchecked")
 	public JSONObject serveAPICall(Object args) {
 		try {
+			if(methodName.equals("chat.with_name")) {
+				if(!UsersConfig.config().getUser(username).hasPermission("change_chat_name")) {
+					((ArrayList<Object>) args).set(0, username);
+				}
+			}
+			
 			if (caller.methodExists(methodName)) {
 				if (!(args instanceof JSONArray)) {
 					args = new JSONArray();

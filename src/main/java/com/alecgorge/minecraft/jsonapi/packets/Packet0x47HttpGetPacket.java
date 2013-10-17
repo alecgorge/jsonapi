@@ -5,12 +5,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.SequenceInputStream;
 import java.net.Socket;
-import java.nio.charset.Charset;
 import java.util.Properties;
 
 import net.minecraft.server.v1_6_R2.Connection;
@@ -54,7 +52,7 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 				rawPacket.resetTimeout();
 								
 				JSONServer jsonServer = JSONAPI.instance.jsonServer;
-				ByteArrayInputStream prefix = new ByteArrayInputStream("GE".getBytes(Charset.forName("UTF-8")));
+				ByteArrayInputStream prefix = new ByteArrayInputStream(new byte[] { 'G', 'E' });
 				jsonServer.new HTTPSession(new SequenceInputStream(prefix, rawPacket.getInputStream()), rawPacket.getOutputStream(), rawPacket.getAddr(), true);
 			} else if (next == 'S') {
 				isHTTP = false;

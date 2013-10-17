@@ -46,7 +46,7 @@
     },
     "view_severe_log_history": {
       "methods": [
-        "adminium.getSeveres"
+        "adminium.notifications.all"
       ]
     },
     "file_management": {
@@ -63,7 +63,7 @@
     },
     "view_push_notification_settings": {
       "methods": [
-        "adminium.listPushTypes"
+        "adminium.devices.device.push_notifications"
       ]
     },
     "power_management": {
@@ -81,13 +81,16 @@
     },
     "view_calladmin_history": {
       "methods": [
-        "adminium.getCallAdmins"
+        "adminium.notifications.all"
       ]
     },
     "recieve_push_notifications": {
       "methods": [
-        "adminium.registerDevice",
-        "adminium.deregisterDevice"
+        "adminium.devices.register",
+        "adminium.devices.remove",
+        "adminium.devices.device.taboo.all",
+        "adminium.devices.device.taboo.add",
+        "adminium.devices.device.taboo.remove"
       ]
     },
     "use_player_actions": {
@@ -126,7 +129,7 @@
     },
     "configure_push_notifications": {
       "methods": [
-        "adminium.setPushTypeEnabled"
+        "adminium.devices.device.set_push_notification"
       ]
     },
     "speak_in_chat": {
@@ -236,6 +239,7 @@
         "jsonapi.groups.remove",
         "jsonapi.users.add",
         "jsonapi.users.remove",
+        "jsonapi.users.user.password.set",
         "jsonapi.users.user.groups.add",
         "jsonapi.users.user.groups.remove",
         "jsonapi.streams",
