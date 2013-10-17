@@ -90,7 +90,7 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 	}
 	
 	public void handle(Connection net) {
-		if(!isGET || !isHTTP) {
+		if(!isGET) {
 			super.handle(net);
 			return;
 		}
