@@ -92,18 +92,15 @@ public class BukkitStringifier {
 	public static Object handle(Object obj) {
 		if (obj instanceof World.Environment) {
 			World.Environment e = (World.Environment) obj;
-			if (e == World.Environment.NETHER) {
-				return "nether";
-			} else {
-				return "normal";
-			}
+			return e.name().toLowerCase();
 		} else if (obj instanceof File) {
 			return ((File) obj).toString();
 		} else if (obj instanceof Block) {
 			Block b = (Block) obj;
 			JSONObject o = new JSONObject();
 
-			o.put("type", b.getTypeId());
+			o.put("type", b.getType().name().toLowerCase());
+			// I couldn't find any alternative for this
 			o.put("data", b.getData());
 
 			return o;
@@ -180,7 +177,7 @@ public class BukkitStringifier {
 			o.put("hasStorm", w.hasStorm());
 			o.put("remainingWeatherTicks", w.getWeatherDuration());
 			o.put("isPVP", w.getPVP());
-			o.put("difficulty", w.getDifficulty().getValue());
+			o.put("difficulty", w.getDifficulty().name().toLowerCase());
 			o.put("seed", String.valueOf(w.getSeed()));
 			
 			List<String> playerNames = new ArrayList<String>();
@@ -210,14 +207,14 @@ public class BukkitStringifier {
 
 			JSONObject o = new JSONObject();
 
-			o.put("type", i.getTypeId());
+			o.put("type", i.getType().name().toLowerCase());
 			o.put("durability", i.getDurability());
 			o.put("dataValue", (int) i.getData().getData());
 			o.put("amount", i.getAmount());
 
 			JSONObject enchantments = new JSONObject();
 			for (Map.Entry<Enchantment, Integer> enchantment : i.getEnchantments().entrySet()) {
-				enchantments.put(enchantment.getKey().getId(), enchantment.getValue());
+				enchantments.put(enchantment.getKey().getName().toLowerCase(), enchantment.getValue());
 			}
 
 			o.put("enchantments", enchantments);
@@ -302,9 +299,9 @@ public class BukkitStringifier {
 			
 			return n.getName();			
 		} else if (obj instanceof GameMode) {
-			return ((GameMode) obj).getValue();
+			return ((GameMode) obj).name().toLowerCase();
 		} else if (obj instanceof Enchantment) {
-			return ((Enchantment) obj).getId();
+			return ((Enchantment) obj).getName().toLowerCase();
 		} else if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null && obj instanceof EconomyResponse) {
 			JSONObject o = new JSONObject();
 			EconomyResponse r = (EconomyResponse) obj;
@@ -342,7 +339,7 @@ public class BukkitStringifier {
 
 			return a;
 		}
-		JSONAPI.instance.outLog.warning("Uncaugh object! Value:");
+		JSONAPI.instance.outLog.warning("Uncaught object! Value:");
 		JSONAPI.instance.outLog.warning(obj.toString());
 		JSONAPI.instance.outLog.warning("Type:");
 		JSONAPI.instance.outLog.warning(obj.getClass().getName());
