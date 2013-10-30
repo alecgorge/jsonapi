@@ -363,7 +363,7 @@ Here is a sample function to calculate a JSONAPI key in `PHP`:
 
 ```
 function generate_jsonapi_key($username, $password, $api_method_or_stream_name) {
-	return hash('sha256', $username . $password. $api_method_or_stream_name);
+	return hash('sha256', $username . $api_method_or_stream_name . $password);
 }
 ```
 
