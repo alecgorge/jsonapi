@@ -11,9 +11,9 @@ import java.io.SequenceInputStream;
 import java.net.Socket;
 import java.util.Properties;
 
-import net.minecraft.server.v1_6_R2.Connection;
-import net.minecraft.server.v1_6_R2.Packet71Weather;
-import net.minecraft.server.v1_6_R2.PendingConnection;
+import net.minecraft.server.v1_6_R3.Connection;
+import net.minecraft.server.v1_6_R3.Packet71Weather;
+import net.minecraft.server.v1_6_R3.PendingConnection;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.JSONServer;

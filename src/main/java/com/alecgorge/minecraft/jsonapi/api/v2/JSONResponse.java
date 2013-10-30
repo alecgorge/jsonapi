@@ -16,7 +16,6 @@ import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.event.JSONAPIAuthEvent;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
-import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 
 public class JSONResponse {
 	String tag = "";
