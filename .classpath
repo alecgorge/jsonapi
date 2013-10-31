@@ -4,7 +4,7 @@
   <classpathentry kind="src" path="src/resources" including="plugin.yml|permission_nodes.yml|groups.json|users.yml|groups.yml|config.yml|config_rtk.yml|methods.json|methods/*|jsonapi4/methods/*" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-  <classpathentry kind="var" path="M2_REPO/org/bukkit/craftbukkit/1.6.2-R1.0/craftbukkit-1.6.2-R1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/bukkit/craftbukkit/1.6.4-R1.0/craftbukkit-1.6.4-R1.0.jar"/>
   <classpathentry kind="lib" path="deps/Minecraft_RKit.jar"/>
   <classpathentry kind="lib" path="deps/Vault.jar"/>
   <classpathentry kind="lib" path="deps/Herochat.jar"/>
