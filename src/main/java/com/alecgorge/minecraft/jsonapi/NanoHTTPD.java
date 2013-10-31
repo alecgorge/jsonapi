@@ -1,6 +1,7 @@
 package com.alecgorge.minecraft.jsonapi;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,6 +33,8 @@ import org.apache.commons.io.IOUtils;
 import org.java_websocket.util.Base64;
 
 import com.alecgorge.minecraft.jsonapi.packets.Lambda;
+import com.alecgorge.minecraft.jsonapi.packets.PacketStringResponse;
+import com.alecgorge.minecraft.jsonapi.packets.RawPacket;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 /**
@@ -386,12 +389,75 @@ public class NanoHTTPD {
 
 		public void run() {
 			try {
-				BufferedReader in = new BufferedReader(new InputStreamReader(this.in));
+				final BufferedReader in = new BufferedReader(new InputStreamReader(this.in));
 
 				// Read the request line
 				String inLine = in.readLine();
 				if (inLine == null)
 					return;
+				
+				if(inLine.substring(0, 2).equalsIgnoreCase("gs")) {
+					try {
+						String streamLine = inLine;
+						do {
+							String[] reqLine = streamLine.split(" ", 2);
+							
+							if(reqLine[0].equalsIgnoreCase("gsa")) {
+								continue;
+							}
+							
+							final JSONServer jsonServer = JSONAPI.instance.getJSONServer();
+							final String[] split = reqLine[1].split("\\?", 2);
+							final OutputStream out = this.out;
+							
+							(new Thread(new Runnable() {
+								@Override
+								public void run() {
+									try {
+										NanoHTTPD.Response r = null;
+										if (split.length < 2) {
+											r = jsonServer.new Response(NanoHTTPD.HTTP_NOTFOUND, NanoHTTPD.MIME_JSON, jsonServer.returnAPIError("", "Incorrect. Socket requests are in the format PAGE?ARGUMENTS. For example, /api/subscribe?source=....").toJSONString());
+										} else {
+											Properties header2 = new Properties();
+											NanoHTTPD.decodeParms(split[1], header2);
+											Properties p = new Properties();
+											p.put("X-REMOTE-ADDR", addr.getHostAddress());
+											r = jsonServer.serve(split[0], "GET", p, header2);
+										}
+				
+										if (r.data instanceof StreamingResponse) {
+											final StreamingResponse s = (StreamingResponse) r.data;
+											String line = "";
+				
+											while ((line = s.nextLine()) != null) {
+												out.write((line + "\r\n").getBytes(Charset.forName("UTF-8")));
+											}
+											
+											out.close();
+											((StreamingResponse)r.data).close();
+										} else {
+											InputStream res = r.data;
+											if(res == null) {
+												res = new ByteArrayInputStream(r.bytes);
+											}
+											
+											IOUtils.copy(res, out);
+											out.write("\r\n".getBytes(Charset.forName("UTF-8")));
+										}
+									}
+									catch(Exception e) {
+										e.printStackTrace();
+									}
+								}
+							})).start();
+						} while ((streamLine = in.readLine()) != null);
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
+					return;
+				}
+				
 				StringTokenizer st = new StringTokenizer(inLine);
 				if (!st.hasMoreTokens())
 					sendError(HTTP_BADREQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html");
@@ -412,11 +478,13 @@ public class NanoHTTPD {
 				} else
 					uri = decodePercent(uri);
 
+				Properties header = new Properties();
+				header.put("X-REMOTE-ADDR", addr.getHostAddress());
+				
 				// If there's another token, it's protocol version,
 				// followed by HTTP headers. Ignore version but parse headers.
 				// NOTE: this now forces header names uppercase since they are
 				// case insensitive and vary by client.
-				Properties header = new Properties();
 				if (st.hasMoreTokens()) {
 					String line = in.readLine();
 					while (line != null && line.trim().length() > 0) {
@@ -425,7 +493,6 @@ public class NanoHTTPD {
 						line = in.readLine();
 					}
 				}
-				header.put("X-REMOTE-ADDR", addr.getHostAddress());
 				
 				// If the method is POST, there may be parameters
 				// in data section, too, read it:
