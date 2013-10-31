@@ -49,6 +49,10 @@ public class JSONAPIGroupConfigObject extends ConfigObject {
 	}
 	
 	public boolean canUseMethod(String methodName) {
+		if(methodName.startsWith("jsonapi.")) {
+			return true;
+		}
+
 		if(getMethods().contains("ALLOW_ALL")) {
 			return true;
 		}

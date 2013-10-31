@@ -16,7 +16,6 @@ import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.event.JSONAPIAuthEvent;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
-import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 
 public class JSONResponse {
 	String tag = "";
@@ -118,11 +117,8 @@ public class JSONResponse {
 	public JSONObject serveAPICall(Object args) {
 		try {
 			if(methodName.equals("chat.with_name")) {
-				JSONAPIUser u = UsersConfig.config().getUser(username);
-				System.out.println(String.format("perm: %b ALLOW_ALL: %b", u.hasPermission("change_chat_name"), u.canUseMethod("ALLOW_ALL")));
-				if(!u.hasPermission("change_chat_name") && !u.canUseMethod("ALLOW_ALL")) {
-					System.out.println("overriding username");
-					((ArrayList<Object>) args).set(1, username);
+				if(!UsersConfig.config().getUser(username).hasPermission("change_chat_name")) {
+					((ArrayList<Object>) args).set(0, username);
 				}
 			}
 			
