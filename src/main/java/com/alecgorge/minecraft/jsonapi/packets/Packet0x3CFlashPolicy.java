@@ -6,8 +6,8 @@ import java.io.DataInputStream;
 import java.io.SequenceInputStream;
 import java.nio.charset.Charset;
 
-import net.minecraft.server.v1_6_R3.Connection;
-import net.minecraft.server.v1_6_R3.Packet60Explosion;
+import net.minecraft.server.v1_6_R2.Connection;
+import net.minecraft.server.v1_6_R2.Packet60Explosion;
 
 public class Packet0x3CFlashPolicy extends Packet60Explosion {
 	final static String flashSocketPolicy = "<?xml version=\"1.0\"?>\n" + 

@@ -6,8 +6,8 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 
-import net.minecraft.server.v1_6_R3.Connection;
-import net.minecraft.server.v1_6_R3.Packet;
+import net.minecraft.server.v1_6_R2.Connection;
+import net.minecraft.server.v1_6_R2.Packet;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.JSONServer;

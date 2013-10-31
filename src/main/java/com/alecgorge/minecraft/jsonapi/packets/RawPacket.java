@@ -9,15 +9,15 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
 
-import net.minecraft.server.v1_6_R3.DedicatedServerConnection;
-import net.minecraft.server.v1_6_R3.DedicatedServerConnectionThread;
-import net.minecraft.server.v1_6_R3.MinecraftServer;
-import net.minecraft.server.v1_6_R3.NetworkManager;
-import net.minecraft.server.v1_6_R3.Packet;
-import net.minecraft.server.v1_6_R3.PendingConnection;
+import net.minecraft.server.v1_6_R2.DedicatedServerConnection;
+import net.minecraft.server.v1_6_R2.DedicatedServerConnectionThread;
+import net.minecraft.server.v1_6_R2.MinecraftServer;
+import net.minecraft.server.v1_6_R2.NetworkManager;
+import net.minecraft.server.v1_6_R2.Packet;
+import net.minecraft.server.v1_6_R2.PendingConnection;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_6_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_6_R2.CraftServer;
 
 // use nasty reflection to capture the raw input and output streams while doing the initial read
 // from the packet stream
