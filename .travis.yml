@@ -1,3 +1,5 @@
 language: java
 jdk:
   - oraclejdk7
+install: true
+script: ./complete_build
