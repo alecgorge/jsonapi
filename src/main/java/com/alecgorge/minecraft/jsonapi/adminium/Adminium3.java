@@ -50,7 +50,7 @@ public class Adminium3 {
 		for(String device : config.devices.keySet()) {
 			Boolean should_recieve = config.devices.get(device).get(push_type);
 			
-			if(should_recieve) {
+			if(should_recieve != null && should_recieve) {
 				devices.add(device);
 			}
 		}

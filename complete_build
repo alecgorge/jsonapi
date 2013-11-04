@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+mvn clean install $@ -DmcPackage="v1_6_R3" -DcbVersion=1.6.4-R2.0
+mvn clean install $@ -DmcPackage="v1_6_R2" -DcbVersion=1.6.2-R1.0

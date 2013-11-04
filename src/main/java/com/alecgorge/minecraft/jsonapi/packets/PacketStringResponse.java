@@ -8,8 +8,13 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 
+//#ifdefined mcversion
+//$import net.minecraft.server./*$mcversion$*/.Connection;
+//$import net.minecraft.server./*$mcversion$*/.Packet;
+//#else
 import net.minecraft.server.v1_6_R3.Connection;
 import net.minecraft.server.v1_6_R3.Packet;
+//#endif
 
 public class PacketStringResponse extends Packet {
 	InputStream payload = null;

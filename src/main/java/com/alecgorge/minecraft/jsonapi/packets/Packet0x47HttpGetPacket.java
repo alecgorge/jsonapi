@@ -11,9 +11,15 @@ import java.io.SequenceInputStream;
 import java.net.Socket;
 import java.util.Properties;
 
+//#ifdefined mcversion
+//$import net.minecraft.server./*$mcversion$*/.Connection;
+//$import net.minecraft.server./*$mcversion$*/.Packet71Weather;
+//$import net.minecraft.server./*$mcversion$*/.PendingConnection;
+//#else
 import net.minecraft.server.v1_6_R3.Connection;
 import net.minecraft.server.v1_6_R3.Packet71Weather;
 import net.minecraft.server.v1_6_R3.PendingConnection;
+//#endif
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.JSONServer;
@@ -33,21 +39,15 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 	String streamLine = null;
 	RawPacket rawPacket;
 	
-	boolean shouldDebug = false;
-	void dbug(Object objects) {
-		if(shouldDebug) {
-			System.out.println(objects);
-		}
-	}
-	
 	public void a(DataInput inp) {
 		try {
 			// System.out.println("attempting to read packet");
 			StringBuilder builder = new StringBuilder();
 
 			final byte next = inp.readByte();
-			dbug("next: " + (char)next);
+			JSONAPI.dbug("next: " + (char)next);
 			if (next == 'E') {
+				JSONAPI.dbug("GET request");
 				rawPacket = new RawPacket(inp);
 				rawPacket.resetTimeout();
 								
@@ -59,21 +59,21 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 				isStream = true;
 
 				if (inp.readByte() == 'A') {
-					dbug("Keep Alive!");
+					JSONAPI.dbug("Keep Alive!");
 					isKeepAlive = true;
 					inp.readLine();
 					return;
 				}
-				dbug("Stream!");
+				JSONAPI.dbug("Stream!");
 
 				streamLine = inp.readLine();
 				
-				dbug(streamLine);
+				JSONAPI.dbug(streamLine);
 				return;
 			} else {
 				isGET = false;
 				ByteArrayInputStream prefix = new ByteArrayInputStream(new byte[] {'G', next});
-				super.a(new DataInputStream(new SequenceInputStream(prefix, (DataInputStream)inp)));
+				super.a(new DataInputStream(new SequenceInputStream(prefix, (InputStream)inp)));
 				return;
 			}
 

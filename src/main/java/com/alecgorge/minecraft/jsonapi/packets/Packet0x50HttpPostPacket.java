@@ -6,8 +6,13 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 
+//#ifdefined mcversion
+//$import net.minecraft.server./*$mcversion$*/.Connection;
+//$import net.minecraft.server./*$mcversion$*/.Packet;
+//#else
 import net.minecraft.server.v1_6_R3.Connection;
 import net.minecraft.server.v1_6_R3.Packet;
+//#endif
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.JSONServer;

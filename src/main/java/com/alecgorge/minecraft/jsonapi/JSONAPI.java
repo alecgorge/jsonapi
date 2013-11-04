@@ -103,6 +103,14 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	Adminium3 adminium3;
 	
 	GroupManager groupManager;
+	
+	public static boolean shouldDebug = false;
+	public static void dbug(Object objects) {
+		if(JSONAPI.shouldDebug) {
+			System.out.println(objects);
+		}
+	}
+	
 
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		this.pluginLoader = pluginLoader;
