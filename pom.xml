@@ -23,6 +23,10 @@
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public</url>
 		</repository>
+		<repository>
+			<id>vault-repo</id>
+			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -178,25 +182,9 @@
 			<version>5.3.2</version>
 		</dependency>
 		<dependency>
-			<groupId>com.drdanick.McRKit</groupId>
-			<artifactId>McRKit</artifactId>
-			<version>10</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/Minecraft_RKit.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>Vault</artifactId>
-			<version>1.2.5</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/Vault.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.dthielke.herochat</groupId>
-			<artifactId>Herochat</artifactId>
-			<version>1.2.5</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/Herochat.jar</systemPath>
+			<version>1.2.27</version>
 		</dependency>
 	</dependencies>	
 </project>
