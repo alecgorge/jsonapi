@@ -1,4 +1,15 @@
 #!/usr/bin/env bash
 
 mvn clean install $@ -DmcPackage="v1_6_R3" -DcbVersion=1.6.4-R2.0
+
+rc=$?
+if [[ $rc != 0 ]] ; then
+    exit $rc
+fi
+
 mvn clean install $@ -DmcPackage="v1_6_R2" -DcbVersion=1.6.2-R1.0
+
+rc=$?
+if [[ $rc != 0 ]] ; then
+    exit $rc
+fi
