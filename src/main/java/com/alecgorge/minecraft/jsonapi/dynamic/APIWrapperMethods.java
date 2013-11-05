@@ -121,7 +121,11 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	
 	public boolean setPlayerHealth(String playerName, int health) {
 		Player p = getPlayerExact(playerName);
+//#if mc16OrNewer=="yes"
 		p.setHealth((double)health);
+//#else
+//$		p.setHealth((int)health);
+//#endif
 		p.saveData();
 		return true;
 	}

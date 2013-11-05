@@ -111,26 +111,31 @@ public class RawPacket {
 				synchronized (o) {
 					o.clear();
 				}
-			} else {
-				Logger.getLogger("Minecraft").warning("[JSONAPI] Using JSONAPI/Adminium on port 25565 will not work. Use port 20059 or switch to Bukkit or MCPC+");
-				
-				// NettyServerConnection?
-				Class<?> netty = Class.forName("org.spigotmc.netty.NettyServerConnection");
-
-				nettyThread = ob;
-
-				if (nettyServerConnectionPendingConnections == null) {
-					nettyServerConnectionPendingConnections = netty.getDeclaredField("pending");
-					nettyServerConnectionPendingConnections.setAccessible(true);
+			} else {				
+				try {
+					// NettyServerConnection?
+					Class<?> netty = Class.forName("org.spigotmc.netty.NettyServerConnection");
+					Logger.getLogger("Minecraft").warning("[JSONAPI] Using JSONAPI/Adminium on port 25565 will not work. Use port 20059 or switch to Bukkit or MCPC+");
+	
+					nettyThread = ob;
+	
+					if (nettyServerConnectionPendingConnections == null) {
+						nettyServerConnectionPendingConnections = netty.getDeclaredField("pending");
+						nettyServerConnectionPendingConnections.setAccessible(true);
+					}
+				}
+				catch(Exception e) {
+					Logger.getLogger("Minecraft").warning("[JSONAPI] Using JSONAPI/Adminium on port 25565 will not work. Please upgrade to 1.6+");
+					return;
 				}
 			}
 
-			if (inputStream == null || outputStream == null) {
-				List<PendingConnection> pendingConnections;
+			if ((inputStream == null || outputStream == null) && (thread != null || nettyThread != null)) {
+				List<PendingConnection> pendingConnections = null;
 
 				if (thread != null)
 					pendingConnections = (List<PendingConnection>) dedicatedServerConnectThreadPendingConnectionList.get(thread);
-				else
+				else if(nettyThread != null)
 					pendingConnections = (List<PendingConnection>) nettyServerConnectionPendingConnections.get(nettyThread);
 				
 				JSONAPI.dbug("pending connections: " + pendingConnections);

@@ -22,6 +22,12 @@
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public</url>
+			<releases>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>vault-repo</id>
@@ -73,7 +79,11 @@
 							<property>
 								 <name>mcversion</name>
 								 <value>${mcPackage}</value>
-							</property>	 
+							</property>
+							<property>
+								 <name>mc16OrNewer</name>
+								 <value>${mc16OrNewer}</value>
+							</property>
 					  </globalVars>
 				 </configuration>
 			</plugin>
@@ -94,7 +104,7 @@
  				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>install-jar</id>
+						<id>install-test-jar</id>
 						<phase>install</phase>
 						<goals>
 							<goal>copy</goal>
@@ -111,12 +121,6 @@
 							<stripVersion>true</stripVersion>
 						</configuration>
 					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
- 				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
 					<execution>
 						<id>install-jar</id>
 						<phase>install</phase>
@@ -133,6 +137,18 @@
 							</artifactItems>
 							<outputDirectory>builds/Minecraft-${cbVersion}</outputDirectory>
 							<stripVersion>true</stripVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/test</outputDirectory>
+							<includeArtifactIds>craftbukkit</includeArtifactIds>
+							<overWriteIfNewer>true</overWriteIfNewer>
 						</configuration>
 					</execution>
 				</executions>

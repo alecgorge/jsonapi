@@ -25,8 +25,13 @@ public class Packet0x3CFlashPolicy extends Packet60Explosion {
 	
 	RawPacket rawPacket;
 	
+//#if mc16OrNewer=="yes"
 	@Override
 	public void a(DataInput inp) {
+//#else
+//$ @Override
+//$	public void a(DataInputStream inp) {
+//#endif
 		try {
 			final byte next = inp.readByte();
 			if (next == 'p') {

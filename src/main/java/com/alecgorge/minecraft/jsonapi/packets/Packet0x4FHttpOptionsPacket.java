@@ -2,7 +2,9 @@ package com.alecgorge.minecraft.jsonapi.packets;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 
@@ -20,8 +22,13 @@ import com.alecgorge.minecraft.jsonapi.JSONServer;
 public class Packet0x4FHttpOptionsPacket extends Packet {
 	RawPacket rawPacket;
 	
+//#if mc16OrNewer=="yes"
 	@Override
 	public void a(DataInput inp) {
+//#else
+//$ @Override
+//$	public void a(DataInputStream inp) {
+//#endif
 		try {
 			rawPacket = new RawPacket(inp);
 			rawPacket.resetTimeout();
@@ -40,8 +47,13 @@ public class Packet0x4FHttpOptionsPacket extends Packet {
 		}
 	}
 
+//#if mc16OrNewer=="yes"
 	@Override
-	public void a(DataOutput paramDataOutput) throws IOException {
+	public void a(DataOutput out) {
+//#else
+//$ @Override
+//$	public void a(DataOutputStream out) {
+//#endif
 	}
 
 	@Override

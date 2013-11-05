@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.SequenceInputStream;
@@ -39,7 +40,13 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 	String streamLine = null;
 	RawPacket rawPacket;
 	
+//#if mc16OrNewer=="yes"
+	@Override
 	public void a(DataInput inp) {
+//#else
+//$ @Override
+//$	public void a(DataInputStream inp) {
+//#endif
 		try {
 			// System.out.println("attempting to read packet");
 			StringBuilder builder = new StringBuilder();
@@ -83,12 +90,19 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 		}
 	}
 
+//#if mc16OrNewer=="yes"
+	@Override
 	public void a(DataOutput out) {
+//#else
+//$ @Override
+//$	public void a(DataOutputStream out) {
+//#endif
 		if(!isGET) {
 			super.a(out);
 		}
 	}
 	
+	@Override
 	public void handle(Connection net) {
 		if(!isGET) {
 			super.handle(net);
@@ -181,6 +195,7 @@ public class Packet0x47HttpGetPacket extends Packet71Weather {
 		}
 	}
 
+	@Override
 	public int a() {
 		return 0;
 	}

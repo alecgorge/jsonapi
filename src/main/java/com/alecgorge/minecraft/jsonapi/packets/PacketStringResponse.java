@@ -1,7 +1,9 @@
 package com.alecgorge.minecraft.jsonapi.packets;
 
 import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -67,13 +69,23 @@ public class PacketStringResponse extends Packet {
 		return 0;
 	}
 
+//#if mc16OrNewer=="yes"
 	@Override
-	public void a(DataInput arg0) throws IOException {
+	public void a(DataInput inp) {
+//#else
+//$ @Override
+//$	public void a(DataInputStream inp) {
+//#endif
 		return;
 	}
 
+//#if mc16OrNewer=="yes"
 	@Override
 	public void a(DataOutput output) throws IOException {
+//#else
+//$ @Override
+//$	public void a(DataOutputStream output) throws IOException {
+//#endif
 		if(stringPayload != null) {
 			// skip the first byte, that is the packet ID
 			output.write(stringPayload, 1, stringPayload.length - 1);

@@ -1,13 +1,34 @@
 #!/usr/bin/env bash
+# Generated with the command ./jsonapi build all
 
-mvn clean install $@ -DmcPackage="v1_6_R3" -DcbVersion=1.6.4-R2.0
+cd "/Users/alecgorge/Documents/java/jsonapi"
+
+echo "Building 1.4.7-R1.0"
+mvn clean install $@ -DmcPackage=v1_4_R1 -DcbVersion=1.4.7-R1.0 -Dmc16OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
 
-mvn clean install $@ -DmcPackage="v1_6_R2" -DcbVersion=1.6.2-R1.0
+echo "Building 1.5.2-R1.0"
+mvn clean install $@ -DmcPackage=v1_5_R3 -DcbVersion=1.5.2-R1.0 -Dmc16OrNewer=no
+
+rc=$?
+if [[ $rc != 0 ]] ; then
+    exit $rc
+fi
+
+echo "Building 1.6.2-R1.0"
+mvn clean install $@ -DmcPackage=v1_6_R2 -DcbVersion=1.6.2-R1.0 -Dmc16OrNewer=yes
+
+rc=$?
+if [[ $rc != 0 ]] ; then
+    exit $rc
+fi
+
+echo "Building 1.6.4-R2.0"
+mvn clean install $@ -DmcPackage=v1_6_R3 -DcbVersion=1.6.4-R2.0 -Dmc16OrNewer=yes
 
 rc=$?
 if [[ $rc != 0 ]] ; then
