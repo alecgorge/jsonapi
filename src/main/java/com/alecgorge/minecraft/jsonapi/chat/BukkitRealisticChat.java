@@ -33,7 +33,7 @@ public class BukkitRealisticChat implements IRealisticChat {
 			getServer().getPluginManager().callEvent(event);
 
 			if (event.isCancelled()) {
-				System.out.println("cancelled");
+				JSONAPI.dbug("cancelled");
 				return true;
 			}
 

@@ -168,8 +168,12 @@ public class JSONResponse {
 		
 		return r;
 	}
-
+	
 	public JSONObject APIError(String error, int errorCode) {
+		return APIError(error, errorCode, methodName, tag);
+	}
+
+	public static JSONObject APIError(String error, int errorCode, String methodName, String tag) {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
 		r.put("source", methodName);

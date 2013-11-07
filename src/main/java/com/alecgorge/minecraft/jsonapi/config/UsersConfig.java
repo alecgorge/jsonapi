@@ -44,7 +44,11 @@ public class UsersConfig extends Config {
 		if(force || juserCache.size() != users.size()) {
 			juserCache.clear();
 			for(Map<String, Object> o : getUsers()) {
-				JSONAPIUser user = new JSONAPIUser(o.get("username").toString(), o.get("password").toString(), (List<String>)o.get("groups"));
+				boolean logging = true;
+				if(o.containsKey("logging"))
+					logging = Boolean.valueOf(o.get("logging").toString());
+				
+				JSONAPIUser user = new JSONAPIUser(o.get("username").toString(), o.get("password").toString(), (List<String>)o.get("groups"), logging);
 				juserCache.put(o.get("username").toString(), user);
 			}
 		}

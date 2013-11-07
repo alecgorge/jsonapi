@@ -794,15 +794,22 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	public boolean setFileContents(String fileName, String contents) throws APIException {
 		FileOutputStream stream = null;
 		try {
+			JSONAPI.dbug("opening: " + fileName);
 			File f = new File(fileName);
+			JSONAPI.dbug("opened");
 
 			f.createNewFile();
 
 			stream = new FileOutputStream(f);
+			
+			JSONAPI.dbug("output stream created");
 			stream.write(contents.getBytes(Charset.forName("UTF-8")));
+			JSONAPI.dbug("output stream written");
 			try {
 				stream.flush();
+				JSONAPI.dbug("flushed output");
 				stream.close();
+				JSONAPI.dbug("closed output");
 			} catch (IOException e) {
 				throw new APIException(fileName + " could not be closed!");
 			}

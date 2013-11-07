@@ -36,9 +36,11 @@ versions['1.5']   = versions['1.5.2']
 versions['1.6']   = versions['1.6.4']
 
 available_versions = Object.keys(versions)
-build_cmd = (ver) ->
+build_cmd = (ver, cmd = "clean install") ->
 	mc16OrNewer = if parseFloat(ver.cb_version.substr(0, 3)) >= 1.6 then "yes" else "no"
-	return "mvn clean install $@ -DmcPackage=#{ver.package} -DcbVersion=#{ver.cb_version} -Dmc16OrNewer=#{mc16OrNewer}"
+	return "mvn #{cmd} $@ -DmcPackage=#{ver.package} -DcbVersion=#{ver.cb_version} -Dmc16OrNewer=#{mc16OrNewer}"
+eclipse_cmd = (ver) ->
+	return build_cmd ver, "eclipse:eclipse"
 build = (to_build) ->
 	return to_build.map (ver) ->
 		return """
@@ -86,10 +88,22 @@ else if command is "test"
 # Generated with the command ./jsonapi test #{version}
 
 cd "#{__dirname}"
-#{build_cmd(ver)}
-cd test/
-java -Xmx256M -jar craftbukkit-#{ver.cb_version}.jar
-cd ../
+#{build_cmd(ver)} && cd test/ && java -Xmx256M -jar craftbukkit-#{ver.cb_version}.jar
+cd "#{__dirname}"
+"""
+else if command is "eclipse"
+	version = process.argv[3] or DEFAULT_VERSION
+	ver = versions[version]
+
+	if not ver
+		console.error "#{version} doesn't exist. Available versions: #{available_versions.join(', ')}"
+	else
+		console.log """
+#!/usr/bin/env bash
+# Generated with the command ./jsonapi eclipse #{version}
+
+cd "#{__dirname}"
+#{eclipse_cmd(ver)}
 """
 
 else if command is "versions"

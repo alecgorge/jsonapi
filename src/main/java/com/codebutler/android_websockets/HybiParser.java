@@ -38,6 +38,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
+import com.codebutler.android_websockets.WebSocketServer;
+
 public class HybiParser {
     private static final String TAG = "HybiParser";
 
@@ -249,11 +251,11 @@ public class HybiParser {
         return frame;
     }
 
-    public void ping(String message) {
+    public void ping(String message) throws Exception {
         mClient.send(frame(message, OP_PING, -1));
     }
 
-    public void close(int code, String reason) {
+    public void close(int code, String reason) throws Exception {
         if (mClosed) return;
         mClient.send(frame(reason, OP_CLOSE, code));
         mClosed = true;
@@ -304,7 +306,11 @@ public class HybiParser {
         } else if (opcode == OP_PING) {
             if (payload.length > 125) { throw new ProtocolError("Ping payload too large"); }
             dbug(TAG + ": Sending pong!!");
-            mClient.sendFrame(frame(payload, OP_PONG, -1));
+            try {
+            	mClient.sendFrame(frame(payload, OP_PONG, -1));
+            } catch(Exception e) {
+            	e.printStackTrace();
+            }
 
         } else if (opcode == OP_PONG) {
             String message = encode(payload);

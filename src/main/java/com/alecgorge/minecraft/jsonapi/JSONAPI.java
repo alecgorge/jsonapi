@@ -103,8 +103,12 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	Adminium3 adminium3;
 	
 	GroupManager groupManager;
-	
+
+//#if jsonapiDebug=="yes"
+//$	public static boolean shouldDebug = true;
+//#else
 	public static boolean shouldDebug = false;
+//#endif
 	public static void dbug(Object objects) {
 		if(JSONAPI.shouldDebug) {
 			System.out.println(objects);

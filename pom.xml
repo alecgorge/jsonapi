@@ -77,12 +77,16 @@
 				 <configuration>
 					  <globalVars>
 							<property>
-								 <name>mcversion</name>
-								 <value>${mcPackage}</value>
+								<name>mcversion</name>
+								<value>${mcPackage}</value>
 							</property>
 							<property>
-								 <name>mc16OrNewer</name>
-								 <value>${mc16OrNewer}</value>
+								<name>mc16OrNewer</name>
+								<value>${mc16OrNewer}</value>
+							</property>
+							<property>
+								<name>jsonapiDebug</name>
+								<value>${jsonapiDebug}</value>
 							</property>
 					  </globalVars>
 				 </configuration>
