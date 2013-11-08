@@ -43,7 +43,7 @@ public class JSONServer extends NanoHTTPD {
 	public ChatStream chat = new ChatStream("chat");
 	public ConsoleStream console = new ConsoleStream("console");
 	public ConnectionStream connections = new ConnectionStream("connections");
-	public PerformanceStream performance = new PerformanceStream("connections");
+	public PerformanceStream performance = new PerformanceStream("performance");
 
 	private static boolean initted = false;
 

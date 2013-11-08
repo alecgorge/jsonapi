@@ -90,6 +90,7 @@ public class APIv2Handler {
 	public NanoHTTPD.Response version() {
 		JSONObject versionObj = new JSONObject();
 		versionObj.put("version", JSONAPI.instance.getDescription().getVersion());
+		versionObj.put("server_version", JSONAPI.instance.getServer().getVersion());
 		
 		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, versionObj.toJSONString());
 	}

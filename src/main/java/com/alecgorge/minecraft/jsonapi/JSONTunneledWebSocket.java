@@ -10,13 +10,12 @@ import java.io.OutputStream;
 import java.net.SocketException;
 import java.util.Properties;
 
-import com.alecgorge.minecraft.jsonapi.JSONAPI;
-import com.alecgorge.minecraft.jsonapi.JSONServer;
-import com.alecgorge.minecraft.jsonapi.NanoHTTPD;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 import com.codebutler.android_websockets.WebSocketServer;
 
 public class JSONTunneledWebSocket extends WebSocketServer {
+	boolean continueSending = true;
+	
 	public JSONTunneledWebSocket(InputStream input, OutputStream output) {
 		super(input, output);
 	}
@@ -50,7 +49,9 @@ public class JSONTunneledWebSocket extends WebSocketServer {
 				@Override
 				public void run() {
 					String line = "";
-					while((line = s.nextLine()) != null) {
+					
+					JSONAPI.dbug("starting streaming response");
+					while(continueSending && (line = s.nextLine()) != null) {
 						try {
 							send(line.trim());
 						} catch (SocketException e) {
@@ -64,6 +65,7 @@ public class JSONTunneledWebSocket extends WebSocketServer {
 					}
 					
 					try {
+						JSONAPI.dbug("closing streaming response");
 						s.close();
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -81,7 +83,7 @@ public class JSONTunneledWebSocket extends WebSocketServer {
 			try {
 				String line = "";
 
-				while((line = data.readLine()) != null) {
+				while(continueSending && (line = data.readLine()) != null) {
 					send(line);
 				}
 			}
@@ -99,6 +101,7 @@ public class JSONTunneledWebSocket extends WebSocketServer {
 	public void onDisconnect(int code, String reason) {
 		// TODO Auto-generated method stub
 		JSONAPI.dbug("websocket disconnected: " + code + ", " + reason);
+		continueSending = false;
 	}
 
 	@Override

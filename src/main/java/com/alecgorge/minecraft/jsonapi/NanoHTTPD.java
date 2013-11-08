@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -430,7 +431,16 @@ public class NanoHTTPD {
 											String line = "";
 				
 											while ((line = s.nextLine()) != null) {
-												out.write((line + "\r\n").getBytes(Charset.forName("UTF-8")));
+												try {
+													out.write((line + "\r\n").getBytes(Charset.forName("UTF-8")));
+												}
+												catch (Exception e) {
+													StringWriter sw = new StringWriter();
+													PrintWriter pw = new PrintWriter(sw);
+													e.printStackTrace(pw);
+													JSONAPI.dbug("I accidently an exception: " + sw.toString());
+													break;
+												}
 											}
 											
 											out.close();
@@ -570,6 +580,7 @@ public class NanoHTTPD {
 				} catch (Throwable t) {
 				}
 			} catch (InterruptedException ie) {
+				
 				// Thrown by sendError, ignore and exit the thread.
 			}
 		}
