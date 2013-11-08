@@ -9,6 +9,7 @@ import java.util.List;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 
+import com.alecgorge.minecraft.jsonapi.APIException;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
 public class Call {
@@ -39,9 +40,7 @@ public class Call {
 	}
 
 	private void debug(String in) {
-		if (debug) {
-			System.out.println(in);
-		}
+		JSONAPI.dbug(in);
 	}
 
 	public int getNumberOfExpectedArgs() {
@@ -154,9 +153,7 @@ public class Call {
 					} catch (NoSuchMethodException e) {
 						thisMethod = lastResult.getClass().getDeclaredMethod(obj.getName(), sig);
 					} catch (NullPointerException e) {
-						return null;
-						// Logger.getLogger("Minecraft").severe("this returned null: "
-						// + stack.get(i - 1));
+						throw new APIException("this returned null: " + stack.get(i - 1));
 					}
 					thisMethod.setAccessible(true);
 					lastResult = thisMethod.invoke(lastResult, args);

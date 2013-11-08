@@ -142,12 +142,12 @@ public class JSONResponse {
 			return APIException(e, 5);
 		} catch (NullPointerException e) {
 			return APIError("The server is offline right now. Try again in 6 seconds.", 3);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			return APIException(e, 6);
 		}
 	}
 	
-	public JSONObject APIException(Exception e, int errorCode) {
+	public JSONObject APIException(Throwable e, int errorCode) {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
 		r.put("is_success", false);
