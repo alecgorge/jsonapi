@@ -84,7 +84,10 @@ public class APIv2Handler {
 			a.add(resp.getJSONObject());
 		}
 		
-		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, a.toJSONString());
+		String json = a.toJSONString();
+		
+		JSONAPI.dbug("returning: " + json);
+		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, json);
 	}
 	
 	public NanoHTTPD.Response version() {
