@@ -37,7 +37,10 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 		}
 		
 		int i = 0;
+		
+		JSONAPI.dbug("Stacks: " + stacks);
 		for(JSONAPIStream s : stacks) {
+			JSONAPI.dbug("adding listener for " + s.getName() + ": " + s.getClass());
 			s.registerListener(this, showOlder.get(i));
 			i++;
 		}
@@ -69,11 +72,13 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 		}
 		
 		for(JSONAPIStream s : stacks) {
+			JSONAPI.dbug("adding listener for " + s.getName());
 			s.registerListener(this, showOlder);
 		}
 	}
 		
 	public void onMessage(JSONAPIStreamMessage message, JSONAPIStream sender) {
+		JSONAPI.dbug("recieveing message for " + sender.getName());
 		try {
 			queue.put(message);
 		} catch (InterruptedException e) {
@@ -83,20 +88,21 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 	}
 
 	public String nextLine () {
-		while(true) {
-			JSONAPIStreamMessage m;
-			try {
+		try {
+			while(true) {
+				JSONAPIStreamMessage m;
 				m = queue.take();
 				return  JSONServer.callback(callback, makeResponseObj(m)).concat("\r\n");
-			} catch (InterruptedException e) {
-				
 			}
+		} catch (InterruptedException e) {
+			return null;
 		}
 	}
 	
 	@Override
 	public void close() throws IOException {
 		for(JSONAPIStream s : stacks) {
+			JSONAPI.dbug("removing listener for " + s.getName());
 			s.deregisterListener(this);
 		}
 	}

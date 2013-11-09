@@ -104,6 +104,18 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	
 	GroupManager groupManager;
 
+//#if jsonapiDebug=="yes"
+//$	public static boolean shouldDebug = true;
+//#else
+	public static boolean shouldDebug = false;
+//#endif
+	public static void dbug(Object objects) {
+		if(JSONAPI.shouldDebug) {
+			System.out.println(objects);
+		}
+	}
+	
+
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		this.pluginLoader = pluginLoader;
 		// server = instance;

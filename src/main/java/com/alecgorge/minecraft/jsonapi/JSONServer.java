@@ -43,7 +43,7 @@ public class JSONServer extends NanoHTTPD {
 	public ChatStream chat = new ChatStream("chat");
 	public ConsoleStream console = new ConsoleStream("console");
 	public ConnectionStream connections = new ConnectionStream("connections");
-	public PerformanceStream performance = new PerformanceStream("connections");
+	public PerformanceStream performance = new PerformanceStream("performance");
 
 	private static boolean initted = false;
 
@@ -372,7 +372,7 @@ public class JSONServer extends NanoHTTPD {
 		}
 	}
 
-	public JSONObject returnAPIException(Object calledMethod, Exception e) {
+	public JSONObject returnAPIException(Object calledMethod, Throwable e) {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
 		StringWriter pw = new StringWriter();
@@ -436,7 +436,7 @@ public class JSONServer extends NanoHTTPD {
 			return returnAPIException(calledMethod, e);
 		} catch (NullPointerException e) {
 			return returnAPIError(calledMethod, "The server is offline right now. Try again in 2 seconds.");
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			return returnAPIException(calledMethod, e);
 		}
 	}

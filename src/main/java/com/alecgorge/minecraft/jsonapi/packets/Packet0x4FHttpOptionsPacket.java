@@ -2,12 +2,19 @@ package com.alecgorge.minecraft.jsonapi.packets;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 
-import net.minecraft.server.v1_6_R2.Connection;
-import net.minecraft.server.v1_6_R2.Packet;
+//#ifdefined mcversion
+//$import net.minecraft.server./*$mcversion$*/.Connection;
+//$import net.minecraft.server./*$mcversion$*/.Packet;
+//#else
+import net.minecraft.server.v1_6_R3.Connection;
+import net.minecraft.server.v1_6_R3.Packet;
+//#endif
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.JSONServer;
@@ -15,8 +22,13 @@ import com.alecgorge.minecraft.jsonapi.JSONServer;
 public class Packet0x4FHttpOptionsPacket extends Packet {
 	RawPacket rawPacket;
 	
+//#if mc16OrNewer=="yes"
 	@Override
 	public void a(DataInput inp) {
+//#else
+//$ @Override
+//$	public void a(DataInputStream inp) {
+//#endif
 		try {
 			rawPacket = new RawPacket(inp);
 			rawPacket.resetTimeout();
@@ -35,8 +47,13 @@ public class Packet0x4FHttpOptionsPacket extends Packet {
 		}
 	}
 
+//#if mc16OrNewer=="yes"
 	@Override
-	public void a(DataOutput paramDataOutput) throws IOException {
+	public void a(DataOutput out) {
+//#else
+//$ @Override
+//$	public void a(DataOutputStream out) {
+//#endif
 	}
 
 	@Override

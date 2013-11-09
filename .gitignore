@@ -1,5 +1,5 @@
 test/
-target/classes/*
+target/
 release/
 bin/
 deps/craftbukkit.jar

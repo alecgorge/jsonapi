@@ -1,0 +1,112 @@
+#!/usr/bin/env coffee
+
+DEFAULT_VERSION = "1.6.4"
+
+usage = """
+USAGE:
+
+# List all available versions
+jsonapi versions
+
+# This screen
+jsonapi
+
+# Build all versions and put jars in builds/**/JSONAPI.jar
+jsonapi build
+
+# Build a specific version
+jsonapi build 1.6.4
+
+# Test the default version
+jsonapi test
+
+# Test a specific version
+jsonapi test 1.6.2
+"""
+
+versions = {}
+
+versions['1.4.7'] = package: 'v1_4_R1', cb_version: '1.4.7-R1.0'
+versions['1.5.2'] = package: 'v1_5_R3', cb_version: '1.5.2-R1.0'
+versions['1.6.2'] = package: 'v1_6_R2', cb_version: '1.6.2-R1.0'
+versions['1.6.4'] = package: 'v1_6_R3', cb_version: '1.6.4-R2.0'
+
+versions['1.4']   = versions['1.4.7']
+versions['1.5']   = versions['1.5.2']
+versions['1.6']   = versions['1.6.4']
+
+available_versions = Object.keys(versions)
+build_cmd = (ver, cmd = "clean install") ->
+	mc16OrNewer = if parseFloat(ver.cb_version.substr(0, 3)) >= 1.6 then "yes" else "no"
+	return "mvn #{cmd} $@ -DmcPackage=#{ver.package} -DcbVersion=#{ver.cb_version} -Dmc16OrNewer=#{mc16OrNewer}"
+eclipse_cmd = (ver) ->
+	return build_cmd ver, "eclipse:eclipse"
+build = (to_build) ->
+	return to_build.map (ver) ->
+		return """
+
+
+echo "Building #{ver.cb_version}"
+#{build_cmd(ver)}
+
+rc=$?
+if [[ $rc != 0 ]] ; then
+    exit $rc
+fi
+"""
+
+command = process.argv[2]
+
+if command is "build"
+	version = process.argv[3] or "all"
+
+	to_build = []
+	if version is "all"
+		to_build = Object.keys(versions).filter((v) -> v.length > 3).map((v) -> return versions[v])
+	else
+		to_build.push versions[version]
+
+	if to_build.length > 0
+		console.log """
+#!/usr/bin/env bash
+# Generated with the command ./jsonapi build #{version}
+
+cd "#{__dirname}"
+"""
+		console.log build(to_build).join("\n")
+	else
+		console.error "#{version} doesn't exist. Available versions: #{available_versions.join(', ')}"
+else if command is "test"
+	version = process.argv[3] or DEFAULT_VERSION
+	ver = versions[version]
+
+	if not ver
+		console.error "#{version} doesn't exist. Available versions: #{available_versions.join(', ')}"
+	else
+		console.log """
+#!/usr/bin/env bash
+# Generated with the command ./jsonapi test #{version}
+
+cd "#{__dirname}"
+#{build_cmd(ver)} && cd test/ && java -Xmx256M -jar craftbukkit-#{ver.cb_version}.jar
+cd "#{__dirname}"
+"""
+else if command is "eclipse"
+	version = process.argv[3] or DEFAULT_VERSION
+	ver = versions[version]
+
+	if not ver
+		console.error "#{version} doesn't exist. Available versions: #{available_versions.join(', ')}"
+	else
+		console.log """
+#!/usr/bin/env bash
+# Generated with the command ./jsonapi eclipse #{version}
+
+cd "#{__dirname}"
+#{eclipse_cmd(ver)}
+"""
+
+else if command is "versions"
+	console.log available_versions.join("\n")
+else
+	console.error usage

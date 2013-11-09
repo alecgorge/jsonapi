@@ -1,5 +1,8 @@
 ---
   permissions: 
+    view_server_version:
+      methods:
+        - "server.version"
     view_player_information: 
       methods: 
         - "players.name"

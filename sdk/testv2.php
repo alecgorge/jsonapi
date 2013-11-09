@@ -27,10 +27,10 @@ $payload = array(
 		'tag' => '1'
 	),
 	array(
-		'name' => $methodName,
-		'key' => 'asdf',
+		'name' => 'players.name',
+		'key' => gen_key('players.name'),
 		'username' => $username,
-		'arguments' => [],
+		'arguments' => ['alecgorge'],
 		'tag' => '2'
 	),
 	// array(
@@ -80,7 +80,7 @@ if(!(php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR']))) {
 	echo "<pre>";
 }
 
-$stream = true;
+$stream = false;
 if($stream) {
 	$url = sprintf("http://%s:%d/api/2/subscribe?json=%s", $host, $port, rawurlencode(json_encode($streamPayload)));
 	echo $url ."\n";

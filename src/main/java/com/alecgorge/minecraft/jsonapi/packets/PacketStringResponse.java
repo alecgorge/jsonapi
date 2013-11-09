@@ -1,15 +1,22 @@
 package com.alecgorge.minecraft.jsonapi.packets;
 
 import java.io.DataInput;
+import java.io.DataInputStream;
 import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 
-import net.minecraft.server.v1_6_R2.Connection;
-import net.minecraft.server.v1_6_R2.Packet;
+//#ifdefined mcversion
+//$import net.minecraft.server./*$mcversion$*/.Connection;
+//$import net.minecraft.server./*$mcversion$*/.Packet;
+//#else
+import net.minecraft.server.v1_6_R3.Connection;
+import net.minecraft.server.v1_6_R3.Packet;
+//#endif
 
 public class PacketStringResponse extends Packet {
 	InputStream payload = null;
@@ -62,13 +69,23 @@ public class PacketStringResponse extends Packet {
 		return 0;
 	}
 
+//#if mc16OrNewer=="yes"
 	@Override
-	public void a(DataInput arg0) throws IOException {
+	public void a(DataInput inp) {
+//#else
+//$ @Override
+//$	public void a(DataInputStream inp) {
+//#endif
 		return;
 	}
 
+//#if mc16OrNewer=="yes"
 	@Override
 	public void a(DataOutput output) throws IOException {
+//#else
+//$ @Override
+//$	public void a(DataOutputStream output) throws IOException {
+//#endif
 		if(stringPayload != null) {
 			// skip the first byte, that is the packet ID
 			output.write(stringPayload, 1, stringPayload.length - 1);

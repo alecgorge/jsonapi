@@ -2,27 +2,33 @@ package com.alecgorge.minecraft.jsonapi;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.nio.channels.NotYetConnectedException;
+import java.net.SocketException;
 import java.util.Properties;
 
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 import com.codebutler.android_websockets.WebSocketServer;
 
 public class JSONTunneledWebSocket extends WebSocketServer {
+	boolean continueSending = true;
+	
 	public JSONTunneledWebSocket(InputStream input, OutputStream output) {
 		super(input, output);
 	}
 
 	@Override
 	public void onConnect() {
+		JSONAPI.dbug("websocket connected");
 	}
 
 	@Override
 	public void onMessage(String message) {
+		JSONAPI.dbug("got websocket message: "+message);
+		
 		String[] split = message.split("\\?", 2);
 		JSONServer jsonServer = JSONAPI.instance.jsonServer;
 		
@@ -43,15 +49,26 @@ public class JSONTunneledWebSocket extends WebSocketServer {
 				@Override
 				public void run() {
 					String line = "";
-					boolean continueSending = true;
 					
-					while((line = s.nextLine()) != null && continueSending) {
+					JSONAPI.dbug("starting streaming response");
+					while(continueSending && (line = s.nextLine()) != null) {
 						try {
 							send(line.trim());
+						} catch (SocketException e) {
+							break;
+						} catch (EOFException e) {
+							break;
 						} catch (Exception e) {
-							continueSending = false;
 							e.printStackTrace();
+							break;
 						}
+					}
+					
+					try {
+						JSONAPI.dbug("closing streaming response");
+						s.close();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
 			})).start();
@@ -66,17 +83,11 @@ public class JSONTunneledWebSocket extends WebSocketServer {
 			try {
 				String line = "";
 
-				while((line = data.readLine()) != null) {
+				while(continueSending && (line = data.readLine()) != null) {
 					send(line);
 				}
 			}
-			catch (IOException e) {
-				e.printStackTrace();
-			} catch (NotYetConnectedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}		
@@ -89,7 +100,8 @@ public class JSONTunneledWebSocket extends WebSocketServer {
 	@Override
 	public void onDisconnect(int code, String reason) {
 		// TODO Auto-generated method stub
-
+		JSONAPI.dbug("websocket disconnected: " + code + ", " + reason);
+		continueSending = false;
 	}
 
 	@Override

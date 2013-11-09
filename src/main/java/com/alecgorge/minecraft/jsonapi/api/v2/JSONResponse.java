@@ -118,8 +118,9 @@ public class JSONResponse {
 	public JSONObject serveAPICall(Object args) {
 		try {
 			if(methodName.equals("chat.with_name")) {
-				if(!UsersConfig.config().getUser(username).hasPermission("change_chat_name")) {
-					((ArrayList<Object>) args).set(0, username);
+				JSONAPIUser u = UsersConfig.config().getUser(username);
+				if(!u.hasPermission("change_chat_name") && !u.canUseMethod("ALLOW_ALL")) {
+					((ArrayList<Object>) args).set(1, username);
 				}
 			}
 			
@@ -141,12 +142,12 @@ public class JSONResponse {
 			return APIException(e, 5);
 		} catch (NullPointerException e) {
 			return APIError("The server is offline right now. Try again in 6 seconds.", 3);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			return APIException(e, 6);
 		}
 	}
 	
-	public JSONObject APIException(Exception e, int errorCode) {
+	public JSONObject APIException(Throwable e, int errorCode) {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
 		r.put("is_success", false);
@@ -167,8 +168,12 @@ public class JSONResponse {
 		
 		return r;
 	}
-
+	
 	public JSONObject APIError(String error, int errorCode) {
+		return APIError(error, errorCode, methodName, tag);
+	}
+
+	public static JSONObject APIError(String error, int errorCode, String methodName, String tag) {
 		JSONObject r = new JSONObject();
 		r.put("result", "error");
 		r.put("source", methodName);

@@ -38,7 +38,7 @@ public class Caller implements JSONAPIMethodProvider {
 		registerMethods(this);
 	}
 
-	public Object call(String methodAndNamespace, final Object[] params) throws Exception {
+	public Object call(String methodAndNamespace, final Object[] params) throws Throwable {
 		String[] methodParts = methodAndNamespace.split("\\.", 2);
 
 		APIMethodName n = new APIMethodName(methodAndNamespace);
@@ -85,7 +85,7 @@ public class Caller implements JSONAPIMethodProvider {
 		objectsToCheck = new ArrayList<JSONAPIMethodProvider>();
 	}
 
-	private Object innerCall(final Call c, final Object[] params) {
+	private Object innerCall(final Call c, final Object[] params) throws Throwable {
 		Future<Object> f = inst.getServer().getScheduler().callSyncMethod(inst, new Callable<Object>() {
 			public Object call() throws Exception {
 				return c.call(params);
@@ -95,16 +95,10 @@ public class Caller implements JSONAPIMethodProvider {
 		try {
 			return f.get();
 		} catch (InterruptedException e) {
-			try {
-				return f.get();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+			return f.get();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.getCause().printStackTrace();
+			throw e.getCause();
 		}
-		return null;
 	}
 
 	@API_Method(namespace = "jsonapi", argumentDescriptions = { "The name of the method to test. Should be a FQN. Ex: dynmap.getHost or getPlayers" })

@@ -1,9 +1,11 @@
 users:
   - username: admin
     password: changeme
+    logging: true
     groups:
       - full_control
   - username: chatonly
     password: example
+    logging: true
     groups:
       - chat_only

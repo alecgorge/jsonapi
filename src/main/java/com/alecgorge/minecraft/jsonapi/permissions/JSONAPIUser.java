@@ -9,10 +9,13 @@ public class JSONAPIUser extends ConfigObject {
 	public String username;
 	public String password;
 	public List<JSONAPIGroup> groups;
+	public boolean logging;
 	
-	public JSONAPIUser(String username, String password, List<String> groups) {
+	public JSONAPIUser(String username, String password, List<String> groups, boolean logging) {
 		this.username = username;
 		this.password = password;
+		
+		this.logging = logging;
 		
 		this.groups = new ArrayList<JSONAPIGroup>();
 		for(String s : groups) {
@@ -30,6 +33,10 @@ public class JSONAPIUser extends ConfigObject {
 	
 	public List<JSONAPIGroup> getGroups() {
 		return groups;
+	}
+	
+	public boolean getLogging() {
+		return logging;
 	}
 	
 	public boolean canUseStream(String streamName) {

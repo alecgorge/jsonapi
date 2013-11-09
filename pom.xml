@@ -12,18 +12,35 @@
 		<connection>scm:git:git://github.com/alecgorge/jsonapi.git</connection>
 		<url>https://github.com/alecgorge/jsonapi/tree/master/</url>
 	</scm>
+
+	<organization>
+		<name>Alec Gorge</name>
+		<url>http://alecgorge.com</url>
+	</organization>
+
 	<repositories>
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public</url>
+			<releases>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>vault-repo</id>
+			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
 		</repository>
 	</repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>bukkit-plugins</id>
-      <url>http://repo.bukkit.org/content/groups/public</url>
-    </pluginRepository>
-  </pluginRepositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>bukkit-plugins</id>
+			<url>http://repo.bukkit.org/content/groups/public</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<build>
 		<finalName>JSONAPI</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -46,6 +63,35 @@
 		</resources>
 		<plugins>
 			<plugin>
+				 <groupId>com.igormaznitsa</groupId>
+				 <artifactId>jcp</artifactId>
+				 <version>5.3.2</version>
+				 <executions>
+					  <execution>
+							<phase>generate-sources</phase>
+							<goals>
+								 <goal>preprocess</goal>
+							</goals>
+					  </execution>
+				 </executions>
+				 <configuration>
+					  <globalVars>
+							<property>
+								<name>mcversion</name>
+								<value>${mcPackage}</value>
+							</property>
+							<property>
+								<name>mc16OrNewer</name>
+								<value>${mc16OrNewer}</value>
+							</property>
+							<property>
+								<name>jsonapiDebug</name>
+								<value>${jsonapiDebug}</value>
+							</property>
+					  </globalVars>
+				 </configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
@@ -62,7 +108,7 @@
  				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>install-jar</id>
+						<id>install-test-jar</id>
 						<phase>install</phase>
 						<goals>
 							<goal>copy</goal>
@@ -77,6 +123,36 @@
 							</artifactItems>
 							<outputDirectory>test/plugins</outputDirectory>
 							<stripVersion>true</stripVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install-jar</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.alecgorge.minecraft.jsonapi</groupId>
+									<artifactId>JSONAPI</artifactId>
+									<version>bleeding</version>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>builds/Minecraft-${cbVersion}</outputDirectory>
+							<stripVersion>true</stripVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/test</outputDirectory>
+							<includeArtifactIds>craftbukkit</includeArtifactIds>
+							<overWriteIfNewer>true</overWriteIfNewer>
 						</configuration>
 					</execution>
 				</executions>
@@ -118,28 +194,17 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.6.2-R1.0</version>
+			<version>${cbVersion}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.drdanick.McRKit</groupId>
-			<artifactId>McRKit</artifactId>
-			<version>10</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/Minecraft_RKit.jar</systemPath>
+			<groupId>com.igormaznitsa</groupId>
+			<artifactId>jcp</artifactId>
+			<version>5.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>Vault</artifactId>
-			<version>1.2.5</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/Vault.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.dthielke.herochat</groupId>
-			<artifactId>Herochat</artifactId>
-			<version>1.2.5</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/deps/Herochat.jar</systemPath>
+			<version>1.2.27</version>
 		</dependency>
 	</dependencies>	
 </project>

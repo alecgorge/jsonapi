@@ -21,7 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.block.BlockState;
@@ -122,7 +121,11 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	
 	public boolean setPlayerHealth(String playerName, int health) {
 		Player p = getPlayerExact(playerName);
+//#if mc16OrNewer=="yes"
 		p.setHealth((double)health);
+//#else
+//$		p.setHealth((int)health);
+//#endif
 		p.saveData();
 		return true;
 	}
@@ -791,15 +794,22 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	public boolean setFileContents(String fileName, String contents) throws APIException {
 		FileOutputStream stream = null;
 		try {
+			JSONAPI.dbug("opening: " + fileName);
 			File f = new File(fileName);
+			JSONAPI.dbug("opened");
 
 			f.createNewFile();
 
 			stream = new FileOutputStream(f);
+			
+			JSONAPI.dbug("output stream created");
 			stream.write(contents.getBytes(Charset.forName("UTF-8")));
+			JSONAPI.dbug("output stream written");
 			try {
 				stream.flush();
+				JSONAPI.dbug("flushed output");
 				stream.close();
+				JSONAPI.dbug("closed output");
 			} catch (IOException e) {
 				throw new APIException(fileName + " could not be closed!");
 			}

@@ -1,8 +1,11 @@
 package com.codebutler.android_websockets;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import com.codebutler.android_websockets.HybiParser;
 
 public abstract class WebSocketServer {
 	InputStream 						inputStream;
@@ -23,6 +26,8 @@ public abstract class WebSocketServer {
 	public void start() {
 		try {
 			parser.start(websocketInputStream);
+		} catch (EOFException e) {
+			// eat it!
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -32,22 +37,18 @@ public abstract class WebSocketServer {
 		return this;
 	}
 	
-    public void send(String data) {
+    public void send(String data) throws Exception {
         sendFrame(parser.frame(data));
     }
 
-    public void send(byte[] data) {
+    public void send(byte[] data) throws Exception {
         sendFrame(parser.frame(data));
     }
     
-	public void sendFrame(final byte[] frame) {
-		try {
-			synchronized (sendLock) {
-				outputStream.write(frame);
-				outputStream.flush();
-			}
-		} catch (IOException e) {
-			getListener().onError(e);
+	public void sendFrame(final byte[] frame) throws Exception {
+		synchronized (sendLock) {
+			outputStream.write(frame);
+			outputStream.flush();
 		}
 	}
 	

@@ -6,8 +6,13 @@ import java.io.DataInputStream;
 import java.io.SequenceInputStream;
 import java.nio.charset.Charset;
 
-import net.minecraft.server.v1_6_R2.Connection;
-import net.minecraft.server.v1_6_R2.Packet60Explosion;
+//#ifdefined mcversion
+//$import net.minecraft.server./*$mcversion$*/.Connection;
+//$import net.minecraft.server./*$mcversion$*/.Packet60Explosion;
+//#else
+import net.minecraft.server.v1_6_R3.Connection;
+import net.minecraft.server.v1_6_R3.Packet60Explosion;
+//#endif
 
 public class Packet0x3CFlashPolicy extends Packet60Explosion {
 	final static String flashSocketPolicy = "<?xml version=\"1.0\"?>\n" + 
@@ -20,8 +25,13 @@ public class Packet0x3CFlashPolicy extends Packet60Explosion {
 	
 	RawPacket rawPacket;
 	
+//#if mc16OrNewer=="yes"
 	@Override
 	public void a(DataInput inp) {
+//#else
+//$ @Override
+//$	public void a(DataInputStream inp) {
+//#endif
 		try {
 			final byte next = inp.readByte();
 			if (next == 'p') {

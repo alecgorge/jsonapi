@@ -16,8 +16,11 @@ import org.json.simpleForBukkit.parser.ParseException;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD.Response;
+import com.alecgorge.minecraft.jsonapi.api.v2.JSONResponse;
+import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
+import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 public class APIv2Handler {
@@ -52,7 +55,11 @@ public class APIv2Handler {
 				readPayload(true);
 				return subscribe();
 			}
+			else if(this.uri.equals("/api/2/version")) {
+				return version();
+			}
 			else if(this.uri.equals("/api/2/websocket")) {
+				JSONAPI.dbug("websocket requested");
 				return reverseProxyWebSocket();
 			}
 			else {
@@ -62,7 +69,7 @@ public class APIv2Handler {
 		catch (ParseException e) {
 			StringWriter errors = new StringWriter();
 			e.printStackTrace(new PrintWriter(errors));
-			return resp(NanoHTTPD.HTTP_BADREQUEST, NanoHTTPD.MIME_PLAINTEXT, errors.toString());
+			return resp(NanoHTTPD.HTTP_BADREQUEST, NanoHTTPD.MIME_JSON, "["+JSONResponse.APIError(errors.toString(), 4, "JSON_PARSE_ERROR", "").toJSONString()+"]");
 		}
 	}
 	
@@ -77,7 +84,18 @@ public class APIv2Handler {
 			a.add(resp.getJSONObject());
 		}
 		
-		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, a.toJSONString());
+		String json = a.toJSONString();
+		
+		JSONAPI.dbug("returning: " + json);
+		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, json);
+	}
+	
+	public NanoHTTPD.Response version() {
+		JSONObject versionObj = new JSONObject();
+		versionObj.put("version", JSONAPI.instance.getDescription().getVersion());
+		versionObj.put("server_version", JSONAPI.instance.getServer().getVersion());
+		
+		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, versionObj.toJSONString());
 	}
 	
 	public NanoHTTPD.Response resp(String resp, String type, String body) {
@@ -121,8 +139,11 @@ public class APIv2Handler {
 	}
 	
 	public void readPayload(boolean stream) throws ParseException {
+		JSONAPI.dbug("params.json: "+params.get("json"));
 		if(params.containsKey("json")) {
 			Object o = parser.parse(params.get("json").toString());
+			
+			JSONAPI.dbug("json obj: "+ o);
 			
 			if(o instanceof JSONObject) {
 				requests.add(new JSONResponse((JSONObject)o, httpd, stream));
@@ -135,27 +156,31 @@ public class APIv2Handler {
 				}
 			}
 			
-			// logging
-			StringBuilder b = new StringBuilder("[JSONAPI] ");
-			b.append(stream ? "[Stream Request] " : "[API Request] ");
-			b.append(requests.get(0).getUsername()).append(" requested: ");
-			
-			for(JSONResponse r : requests) {
-				b.append(r.getMethodName()).append("(").append(r.getArguments() == null ? "" : r.getArguments()).append(")");
+			String username = requests.get(0).getUsername();
+			JSONAPIUser user = UsersConfig.config().getUser(username);
+			if(user == null || user.getLogging()) {
+				// logging
+				StringBuilder b = new StringBuilder("[JSONAPI] ");
+				b.append(stream ? "[Stream Request] " : "[API Request] ");
+				b.append(requests.get(0).getUsername()).append(" requested: ");
 				
-				JSONAPIAuthResponse a = r.testLogin(false);
-				b.append("{").append(a.isAuthenticated() ? "AUTHED" : "NOT AUTHED").append(", ");
-				b.append(a.isAllowed() ? "ALLOWED" : "NOT ALLOWED");				
-				Caller c = JSONAPI.instance.jsonServer.getCaller();
-				
-				if(!c.methodExists(r.getMethodName()) && !JSONAPI.instance.getStreamManager().streamExists(r.getMethodName())) {
-					b.append(", NO-EXIST");
+				for(JSONResponse r : requests) {
+					b.append(r.getMethodName()).append("(").append(r.getArguments() == null ? "" : r.getArguments()).append(")");
+					
+					JSONAPIAuthResponse a = r.testLogin(false);
+					b.append("{").append(a.isAuthenticated() ? "AUTHED" : "NOT AUTHED").append(", ");
+					b.append(a.isAllowed() ? "ALLOWED" : "NOT ALLOWED");				
+					Caller c = JSONAPI.instance.jsonServer.getCaller();
+					
+					if(!c.methodExists(r.getMethodName()) && !JSONAPI.instance.getStreamManager().streamExists(r.getMethodName())) {
+						b.append(", NO-EXIST");
+					}
+					
+					b.append("} ");
 				}
 				
-				b.append("} ");
+				jsonapiLog.info(b.toString());
 			}
-			
-			jsonapiLog.info(b.toString());
 		}
 	}	
 }
