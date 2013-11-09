@@ -12,15 +12,12 @@
  * @since Alpha 5
  */
 class JSONAPI {
-	public $host;
-	public $port;
-	public $username;
-	public $password;
-	private $urlFormats = array(
-		'call' => 'http://%s:%s/api/call?method=%s&args=%s&key=%s',
-		'callMultiple' => 'http://%s:%s/api/call-multiple?method=%s&args=%s&key=%s'
-	);
-	public $timeout;
+	private $host;
+	private $port;
+	private $username;
+	private $password;
+	const URL_FORMAT = 'http://%s:%d/api/2/call?json=%s';
+	private $timeout;
 
 	/**
 	 * Creates a new JSONAPI instance.
@@ -55,7 +52,7 @@ class JSONAPI {
 	 * @return string A proper standard JSONAPI API call URL. Example: "http://localhost:20059/api/call?method=methodName&args=jsonEncodedArgsArray&key=validKey".
 	 */
 	public function makeURL($method, array $args) {
-		return sprintf($this->urlFormats['call'], $this->host, $this->port, rawurlencode($method), rawurlencode(json_encode($args)), $this->createKey($method));
+		return sprintf(self::URL_FORMAT, $this->host, $this->port, rawurlencode(json_encode($this->constructCall($method, $args))));
 	}
 	
 	/**
@@ -66,7 +63,7 @@ class JSONAPI {
 	 * @return string A proper multiple JSONAPI API call URL. Example: "http://localhost:20059/api/call-multiple?method=[methodName,methodName2]&args=jsonEncodedArrayOfArgsArrays&key=validKey".
 	 */
 	public function makeURLMultiple(array $methods, array $args) {
-		return sprintf($this->urlFormats['callMultiple'], $this->host, $this->port, rawurlencode(json_encode($methods)), rawurlencode(json_encode($args)), $this->createKey($methods));
+		return sprintf(self::URL_FORMAT, $this->host, $this->port, rawurlencode(json_encode($this->constructCalls($methods, $args))));
 	}
 	
 	/**
@@ -105,6 +102,23 @@ class JSONAPI {
 			return file_get_contents($url, false, stream_context_create($opts));
 		}
 	}
+
+	private function constructCall($method, array $args) {
+		$json = array();
+		$json['name'] = $method;
+		$json['arguments'] = $args;
+		$json['key'] = $this->createKey($method);
+		$json['username'] = $this->username;
+		return $json;
+	}
+
+	private function constructCalls(array $methods, array $args) {
+		$calls = array();
+		foreach ($methods as $key => $method) {
+			$calls[] = $this->constructCall($method, $args[$key]);
+		}
+		return $calls;
+	}
 	
 	/**
 	 * Calls the given JSONAPI API methods with the given args.
@@ -131,10 +145,99 @@ class JSONAPI {
 	 * @return array An associative array representing the JSON that was returned.
 	 */
 	function __call($method, $params) {
-                if(is_array($params)) {
-                    return $this->call($method, $params);
-                } else {
-                    return $this->call($method, array($params));	
-                }
+        if(is_array($params)) {
+            return $this->call($method, $params);
+        } else {
+            return $this->call($method, array($params));	
+        }
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getHost() {
+	    return $this->host;
+	}
+	
+	/**
+	 * @param string $newhost
+	 * @return JSONAPI This object, for method chaining
+	 */
+	public function setHost($host) {
+	    $this->host = $host;
+	
+	    return $this;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getPort() {
+	    return $this->port;
+	}
+	
+	/**
+	 * @param integer $newport
+	 * @return JSONAPI This object, for method chaining
+	 */
+	public function setPort($port) {
+		$port = (int) $port;
+		if ($port < 1 || $port > 65535) {
+			throw new Exception('The port must be between 1 and 65535, you supplied ' . $port);
+		}
+	    $this->port = $port;
+	
+	    return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUsername() {
+	    return $this->username;
+	}
+	
+	/**
+	 * @param string $newusername
+	 * @return JSONAPI This object, for method chaining
+	 */
+	public function setUsername($username) {
+	    $this->username = $username;
+	
+	    return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPassword() {
+	    return $this->password;
+	}
+	
+	/**
+	 * @param string $newpassword
+	 * @return JSONAPI This object, for method chaining
+	 */
+	public function setPassword($username) {
+	    $this->password = $password;
+	
+	    return $this;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getTimeout() {
+	    return $this->timeout;
+	}
+	
+	/**
+	 * @param integer $newtimeout
+	 * @return JSONAPI This object, for method chaining
+	 */
+	public function setTimeout($timeout) {
+	    $this->timeout = (int) $timeout;
+	
+	    return $this;
 	}
 }
