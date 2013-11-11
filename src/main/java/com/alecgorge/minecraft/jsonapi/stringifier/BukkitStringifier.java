@@ -92,11 +92,7 @@ public class BukkitStringifier {
 	public static Object handle(Object obj) {
 		if (obj instanceof World.Environment) {
 			World.Environment e = (World.Environment) obj;
-			if (e == World.Environment.NETHER) {
-				return "nether";
-			} else {
-				return "normal";
-			}
+			return e.name().toLowerCase();
 		} else if (obj instanceof File) {
 			return ((File) obj).toString();
 		} else if (obj instanceof Block) {
