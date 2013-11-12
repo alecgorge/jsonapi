@@ -1,28 +1,21 @@
 package com.alecgorge.minecraft.jsonapi.dynamic;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-
+import com.alecgorge.minecraft.jsonapi.APIException;
+import com.alecgorge.minecraft.jsonapi.JSONAPI;
+import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
+import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
+import com.alecgorge.minecraft.jsonapi.api.BukGetAPIMethods;
+import com.alecgorge.minecraft.jsonapi.api.JSONAPIAPIMethods;
+import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
+import com.alecgorge.minecraft.jsonapi.chat.BukkitForgeRealisticChat;
+import com.alecgorge.minecraft.jsonapi.chat.BukkitRealisticChat;
+import com.alecgorge.minecraft.jsonapi.chat.IRealisticChat;
+import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
+import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
+import com.alecgorge.minecraft.permissions.PermissionWrapper;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Server;
+import org.bukkit.*;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
@@ -37,19 +30,16 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.java_websocket.util.Base64;
 import org.json.simpleForBukkit.JSONObject;
 
-import com.alecgorge.minecraft.jsonapi.APIException;
-import com.alecgorge.minecraft.jsonapi.JSONAPI;
-import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
-import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
-import com.alecgorge.minecraft.jsonapi.api.BukGetAPIMethods;
-import com.alecgorge.minecraft.jsonapi.api.JSONAPIAPIMethods;
-import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
-import com.alecgorge.minecraft.jsonapi.chat.BukkitForgeRealisticChat;
-import com.alecgorge.minecraft.jsonapi.chat.BukkitRealisticChat;
-import com.alecgorge.minecraft.jsonapi.chat.IRealisticChat;
-import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
-import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
-import com.alecgorge.minecraft.permissions.PermissionWrapper;
+import java.io.*;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class APIWrapperMethods implements JSONAPIMethodProvider {
 	private Logger outLog = JSONAPI.instance.outLog;
@@ -555,10 +545,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public boolean giveItem(String name, int id, int quant, int data) throws Exception {
 		try {
+            byte realData = Byte.valueOf(String.valueOf(data));
 			Player p = getPlayerExact(name);
-			ItemStack stack = new ItemStack(id, quant);
-			stack.setData(new MaterialData(id, Byte.valueOf(String.valueOf(data)).byteValue()));
-			p.getInventory().addItem(stack);
+            MaterialData materialData = new MaterialData(id, realData);
+			p.getInventory().addItem(materialData.toItemStack(quant));
 			p.saveData();
 			return true;
 		} catch (NullPointerException e) {
