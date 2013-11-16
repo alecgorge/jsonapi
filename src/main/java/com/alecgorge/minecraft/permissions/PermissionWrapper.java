@@ -151,6 +151,7 @@ public class PermissionWrapper {
 
 			return perms;
 		} catch (Exception e) {
+			if(JSONAPI.shouldDebug) e.printStackTrace();
 			return perms;
 		}
 	}
