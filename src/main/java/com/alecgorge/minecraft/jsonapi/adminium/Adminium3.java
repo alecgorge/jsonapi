@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -59,6 +60,18 @@ public class Adminium3 {
 		sendNotification(devices, not);
 	}
 	
+	public boolean calladmin(CommandSender from, String message) {
+		if (api.anyoneCanUseCallAdmin || from.hasPermission("jsonapi.calladmin")) {
+			String push = "Admin request from " + from.getName() + ": " + message;
+
+			pushNotification(push, "calladmin");
+			from.sendMessage("A message was sent to the admin(s).");
+		} else if (!from.hasPermission("jsonapi.calladmin")) {
+			from.sendMessage("You don't have the jsonapi.calladmin permission to call for an admin.");
+		}
+
+		return true;
+	}	
 	protected void sendNotification(final List<String> devices, final AdminiumPushNotification not) {
 		notifications.add(not);
 		

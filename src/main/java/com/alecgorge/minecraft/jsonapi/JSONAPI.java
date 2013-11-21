@@ -609,8 +609,14 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			 * join(Arrays.asList(args), " ")); return true; }
 			 */
 		}
-		if (adminium.init && args.length >= 1 && cmd.getName().equals("calladmin")) {
-			return adminium.calladmin(sender, join(Arrays.asList(args), " "));
+		if (args.length >= 1 && cmd.getName().equals("calladmin")) {
+			adminium3.calladmin(sender, join(Arrays.asList(args), " "));
+			
+			// adminium 2.x
+			if(adminium.init)
+				adminium.calladmin(sender, join(Arrays.asList(args), " "));
+			
+			return true;
 		}
 
 		if (cmd.getName().equals("jsonapi") && (sender.hasPermission("jsonapi.command") || sender instanceof ConsoleCommandSender)) {
