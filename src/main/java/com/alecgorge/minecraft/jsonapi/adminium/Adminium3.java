@@ -18,9 +18,13 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.alecgorge.java.http.MutableHttpRequest;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
+import com.alecgorge.minecraft.jsonapi.api.JSONAPIStream;
+import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamListener;
+import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
+import com.alecgorge.minecraft.jsonapi.streams.ConnectionMessage;
 import com.alecgorge.minecraft.jsonapi.util.FixedSizeArrayList;
 
-public class Adminium3 {
+public class Adminium3 implements JSONAPIStreamListener {
 	public static List<String> pushTypes = Arrays.asList(new String[] { "calladmin", "player_join", "player_quit", "severe", "taboo" });
 	public static List<String> pushTypeDescriptions = Arrays.asList(new String[] { "On /calladmin", "On player join", "On player quit", "On SEVERE logs", "Chat notifications" });
 	
@@ -32,6 +36,7 @@ public class Adminium3 {
 		mcLog.addHandler(new ConsoleHandler(this));
 		
 		api.registerMethods(new Adminium3Methods(this));
+		api.getStreamManager().getStream("connections").registerListener(this, false);
 	}
 
 	List<AdminiumPushNotification> notifications = Collections.synchronizedList(new FixedSizeArrayList<AdminiumPushNotification>(200));
@@ -60,6 +65,19 @@ public class Adminium3 {
 		sendNotification(devices, not);
 	}
 	
+	@Override
+	public void onMessage(JSONAPIStreamMessage message, JSONAPIStream sender) {
+		if (message instanceof ConnectionMessage) {
+			ConnectionMessage c = (ConnectionMessage) message;
+			if(c.TrueIsConnectedFalseIsDisconnected) {
+				pushNotification(c.player + " joined!", "player_join");
+			}
+			else {
+				pushNotification(c.player + " quit!", "player_quit");
+			}
+		}
+	}
+	
 	public boolean calladmin(CommandSender from, String message) {
 		if (api.anyoneCanUseCallAdmin || from.hasPermission("jsonapi.calladmin")) {
 			String push = "Admin request from " + from.getName() + ": " + message;
@@ -86,6 +104,10 @@ public class Adminium3 {
 							r.addPostValue("devices[]", d);
 					}
 					r.addPostValue("message", msg);
+					
+					r.post();
+					
+					JSONAPI.dbug("Sending to "+APNS_PUSH_ENDPOINT+": " + r.getPostKeys() + " -- " + r.getPostValues());
 					
 //					System.out.println(String.format("Sending %s to %d (%s) devices.", msg, devices.size(), devices.get(0)));
 				} catch (Exception e) {
