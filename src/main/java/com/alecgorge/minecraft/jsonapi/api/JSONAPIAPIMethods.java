@@ -78,15 +78,9 @@ public class JSONAPIAPIMethods {
 	}
 	
 	public List<String> listPermissions() {
-		try {
-			List<String> r = new ArrayList<String>(PermissionNodesConfig.config().getPermissions().keySet());
-			Collections.sort(r);
-			return r;
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return new ArrayList<String>();
-		}
+		List<String> r = new ArrayList<String>(PermissionNodesConfig.config().getPermissions().keySet());
+		Collections.sort(r);
+		return r;
 	}
 	
 	public List<String> listUsernames() {
@@ -341,20 +335,15 @@ public class JSONAPIAPIMethods {
 	
 	public List<String> listPermissions(String username) {
 		List<String> perms = new ArrayList<String>();
-		try {
-			JSONAPIUser u = JSONAPI.instance.getAuthTable().getUser(username);
-			if(u.canUseMethod("ALLOW_ALL") && u.canUseStream("ALLOW_ALL")) {
-				perms.addAll(PermissionNodesConfig.config().getPermissions().keySet());
-				return perms;
-			}
-			for(JSONAPIGroup g : u.getGroups()) {
-				for(JSONAPIPermissionNode node : g.getPermissions()) {
-					perms.add(node.getName());
-				}
-			}
+		JSONAPIUser u = JSONAPI.instance.getAuthTable().getUser(username);
+		if(u.canUseMethod("ALLOW_ALL") && u.canUseStream("ALLOW_ALL")) {
+			perms.addAll(PermissionNodesConfig.config().getPermissions().keySet());
+			return perms;
 		}
-		catch(Exception e) {
-			e.printStackTrace();
+		for(JSONAPIGroup g : u.getGroups()) {
+			for(JSONAPIPermissionNode node : g.getPermissions()) {
+				perms.add(node.getName());
+			}
 		}
 		return perms;
 	}
