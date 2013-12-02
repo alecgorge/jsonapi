@@ -34,3 +34,11 @@ rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
+
+echo "Building 1.7.2-R0.1-SNAPSHOT"
+mvn clean install $@ -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.1-SNAPSHOT -Dmc16OrNewer=yes
+
+rc=$?
+if [[ $rc != 0 ]] ; then
+    exit $rc
+fi
