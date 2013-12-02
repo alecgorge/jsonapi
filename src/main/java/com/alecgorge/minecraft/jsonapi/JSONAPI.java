@@ -51,8 +51,6 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
-import com.alecgorge.minecraft.jsonapi.packets.LostConnectionFilter;
-import com.alecgorge.minecraft.jsonapi.packets.PacketRegistrarLauncher;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
@@ -274,19 +272,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		}
 		catch (Error e) {}
 		catch (Exception e) {}
-		
-		try {
-//			ClassLoader loader = new MinecraftVersionAgnosticClassLoader(Bukkit.class.getClassLoader(), this);
-//			Class<?> c = loader.loadClass("com.alecgorge.minecraft.jsonapi.packets.PacketRegistrarLauncher");
-//			c.newInstance();
-			new PacketRegistrarLauncher();
-		} catch (Exception ee) {
-			ee.printStackTrace();
-			outLog.severe("Couldn't register my Packet0x47HttpGetPacket! Is BukkitForge/Bukkit up to date with JSONAPI?");
-		} catch (Error e) {
-			e.printStackTrace();
-			outLog.severe("Couldn't register my Packet0x47HttpGetPacket! Is BukkitForge/Bukkit up to date with JSONAPI?");
-		}
+
 
 		boolean rtkInstalled = Bukkit.getPluginManager().getPlugin("RemoteToolkitPlugin") != null;
 		
@@ -520,7 +506,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			if (!logFile.equals("false") && !logFile.isEmpty()) {
 				FileHandler fh = new FileHandler(logFile, true);
 				fh.setFormatter(new ConsoleLogFormatter());
-				fh.setFilter(new LostConnectionFilter());
 				outLog.addHandler(fh);
 			}
 
@@ -548,7 +533,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					Logger.getLogger("org.bukkit.craftbukkit.Main")				
 			}) {
 				olog.addHandler(handler);
-				olog.setFilter(new LostConnectionFilter());
 			}
 
 			log.info("[JSONAPI] Attempting to use port " + port);

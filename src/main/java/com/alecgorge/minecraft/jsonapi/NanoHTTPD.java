@@ -34,8 +34,6 @@ import org.apache.commons.io.IOUtils;
 import org.java_websocket.util.Base64;
 
 import com.alecgorge.minecraft.jsonapi.packets.Lambda;
-import com.alecgorge.minecraft.jsonapi.packets.PacketStringResponse;
-import com.alecgorge.minecraft.jsonapi.packets.RawPacket;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 /**

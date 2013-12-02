@@ -7,6 +7,9 @@ import java.io.File;
 //$import net.minecraft.server./*$mcversion$*/.MinecraftServer;
 //$import net.minecraft.server./*$mcversion$*/.PlayerInteractManager;
 //$import org.bukkit.craftbukkit./*$mcversion$*/.CraftServer;
+//#if mc17OrNewer=="yes"
+//$import net.minecraft.util.com.mojang.authlib.GameProfile;
+//#endif
 //#else
 import net.minecraft.server.v1_6_R3.EntityPlayer;
 import net.minecraft.server.v1_6_R3.MinecraftServer;
@@ -23,44 +26,49 @@ public class OfflinePlayerLoader {
 		// big thanks to
 		// https://github.com/lishd/OpenInv/blob/master/src/com/lishid/openinv/internal/craftbukkit/PlayerDataManager.java
 		// Offline inv here...
-		try {
-			// See if the player has data files
-
-			// Find the player folder
-			File playerfolder = new File(((World)Bukkit.getWorlds().get(0)).getWorldFolder(), "players");
-			if (!playerfolder.exists()) {
-				return null;
-			}
-
-			Player target = null;
+		
+		int index = 0;
+		for (World w : Bukkit.getWorlds()) {
 			try {
-				MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
-				
+				// See if the player has data files
+
+				// Find the player folder
+				File playerfolder = new File(w.getWorldFolder(), "players");
+				if (!playerfolder.exists()) {
+					return null;
+				}
+
+				Player target = null;
+				MinecraftServer server = null;
+				try {
+					server = ((CraftServer) Bukkit.getServer()).getServer();
+				} catch (Exception e) {
+					server = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
+				}
+
 				// Create an entity to load the player data
-				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), exactPlayerName, new PlayerInteractManager(server.getWorldServer(0)));
-	
+				//#if mc17OrNewer=="yes"
+				//$EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile("fake_for_jsonapi_offline_player_loading", exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));				
+				//#else
+				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), exactPlayerName, new PlayerInteractManager(server.getWorldServer(index)));
+				//#endif
+
 				// Get the bukkit entity
 				target = (entity == null) ? null : entity.getBukkitEntity();
+
+				if (target != null) {
+					// Load data
+					target.loadData();
+					// Return the entity
+					return target;
+				}
 			} catch (Exception e) {
-				MinecraftServer server = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
-				
-				// Create an entity to load the player data
-				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), exactPlayerName, new PlayerInteractManager(server.getWorldServer(0)));
-	
-				// Get the bukkit entity
-				target = (entity == null) ? null : entity.getBukkitEntity();				
+				e.printStackTrace();
+			} catch (Error e) {
+				e.printStackTrace();
+			} finally {
+				index++;
 			}
-			
-			if (target != null) {
-				// Load data
-				target.loadData();
-				// Return the entity
-				return target;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} catch (Error e) {
-			e.printStackTrace();
 		}
 
 		return null;

@@ -2,7 +2,5 @@
 # Generated with the command ./jsonapi test 1.6.2
 
 cd "/Users/alecgorge/Documents/java/jsonapi"
-mvn clean install $@ -DmcPackage=v1_6_R2 -DcbVersion=1.6.2-R1.0 -Dmc16OrNewer=yes
-cd test/
-java -Xmx256M -jar craftbukkit-1.6.2-R1.0.jar
-cd ../
+mvn clean install $@ -DmcPackage=v1_6_R2 -DcbVersion=1.6.2-R1.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no && cd test/ && java -Xmx256M -jar craftbukkit-1.6.2-R1.0.jar
+cd "/Users/alecgorge/Documents/java/jsonapi"

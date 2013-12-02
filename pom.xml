@@ -85,6 +85,10 @@
 								<value>${mc16OrNewer}</value>
 							</property>
 							<property>
+								<name>mc17OrNewer</name>
+								<value>${mc17OrNewer}</value>
+							</property>
+							<property>
 								<name>jsonapiDebug</name>
 								<value>${jsonapiDebug}</value>
 							</property>
