@@ -3,7 +3,7 @@
 	<classpathentry excluding="**/*.java" including="plugin.yml|permission_nodes.yml|groups.json|users.yml|groups.yml|config.yml|config_rtk.yml|methods.json|methods/*|jsonapi4/methods/*" kind="src" path="src/resources"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="var" path="M2_REPO/org/bukkit/craftbukkit/1.6.4-R2.0/craftbukkit-1.6.4-R2.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/bukkit/craftbukkit/1.7.2-R0.1-SNAPSHOT/craftbukkit-1.7.2-R0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/igormaznitsa/jcp/5.3.2/jcp-5.3.2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/maven/maven-plugin-api/3.0.3/maven-plugin-api-3.0.3.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/maven/maven-model/3.0.3/maven-model-3.0.3.jar"/>

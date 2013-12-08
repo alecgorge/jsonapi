@@ -30,9 +30,9 @@ import java.util.TimeZone;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocketFactory;
 
-import org.apache.commons.io.IOUtils;
 import org.java_websocket.util.Base64;
 
+import com.alecgorge.minecraft.jsonapi.util.SlimIOUtils;
 import com.alecgorge.minecraft.jsonapi.packets.Lambda;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
@@ -449,7 +449,7 @@ public class NanoHTTPD {
 												res = new ByteArrayInputStream(r.bytes);
 											}
 											
-											IOUtils.copy(res, out);
+											SlimIOUtils.copy(res, out);
 											out.write("\r\n".getBytes(Charset.forName("UTF-8")));
 										}
 									}
@@ -671,7 +671,7 @@ public class NanoHTTPD {
 						}
 					}
 				} else if (data != null) {
-					IOUtils.copy(data, out);
+					SlimIOUtils.copy(data, out);
 					out.flush();
 				} else if (bytes != null) {
 					out.write(bytes);

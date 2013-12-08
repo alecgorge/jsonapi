@@ -1,4 +1,4 @@
-package com.alecgorge.minecraft.jsonapi.streams;
+package com.alecgorge.minecraft.jsonapi.streams.console;
 
 import java.util.logging.Formatter;
 import java.util.logging.Handler;

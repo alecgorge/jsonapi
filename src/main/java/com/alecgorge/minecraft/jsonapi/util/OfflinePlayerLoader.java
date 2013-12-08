@@ -8,13 +8,13 @@ import java.io.File;
 //$import net.minecraft.server./*$mcversion$*/.PlayerInteractManager;
 //$import org.bukkit.craftbukkit./*$mcversion$*/.CraftServer;
 //#if mc17OrNewer=="yes"
-//$import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
 //#endif
 //#else
-import net.minecraft.server.v1_6_R3.EntityPlayer;
-import net.minecraft.server.v1_6_R3.MinecraftServer;
-import net.minecraft.server.v1_6_R3.PlayerInteractManager;
-import org.bukkit.craftbukkit.v1_6_R3.CraftServer;
+import net.minecraft.server.v1_7_R1.EntityPlayer;
+import net.minecraft.server.v1_7_R1.MinecraftServer;
+import net.minecraft.server.v1_7_R1.PlayerInteractManager;
+import org.bukkit.craftbukkit.v1_7_R1.CraftServer;
 //#endif
 
 import org.bukkit.Bukkit;
@@ -48,9 +48,9 @@ public class OfflinePlayerLoader {
 
 				// Create an entity to load the player data
 				//#if mc17OrNewer=="yes"
-				//$EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile("fake_for_jsonapi_offline_player_loading", exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));				
+				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile("fake_for_jsonapi_offline_player_loading", exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));				
 				//#else
-				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), exactPlayerName, new PlayerInteractManager(server.getWorldServer(index)));
+				//$EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), exactPlayerName, new PlayerInteractManager(server.getWorldServer(index)));
 				//#endif
 
 				// Get the bukkit entity

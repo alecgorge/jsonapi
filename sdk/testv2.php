@@ -8,7 +8,7 @@ $host = "localhost";
 $endpoint = "api/2/call";
 
 $username = "admin";
-$password = "changeme";
+$password = "changeme2";
 
 function gen_key($name) {
 	global $username, $password, $salt;
@@ -16,23 +16,23 @@ function gen_key($name) {
 }
 
 
-$methodName = "server.version";
+$methodName = "streams.chat.latest";
 
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => [],
+		'arguments' => [150],
 		'tag' => '1'
 	),
-	array(
-		'name' => 'players.name',
-		'key' => gen_key('players.name'),
-		'username' => $username,
-		'arguments' => ['alecgorge'],
-		'tag' => '2'
-	),
+	// array(
+	// 	'name' => 'players.name',
+	// 	'key' => gen_key('players.name'),
+	// 	'username' => $username,
+	// 	'arguments' => ['alecgorge'],
+	// 	'tag' => '2'
+	// ),
 	// array(
 	// 	'name' => 'players.name',
 	// 	'key' => gen_key('players.name'),
@@ -65,6 +65,36 @@ $payload = array(
 	// 	'username' => $username,
 	// )
 );
+
+if(false) {
+	$payload = [];
+
+	$names = ['alecgorge', 'test', 'kevin', 'littlejohnny', 'noads'];
+	$msgs  = ["An mea sonet cotidieque, æt usu såle exerci euismod. Eos tamquæm torquætøs ex, per discere dolorum pøsidonium eæ. Eu mel duis primå.",
+	"Sit error pårtem no, audiam scribentur consequuntur qui eu. Ådolescens reprimique qui cu.",
+	"Fugit commodø vulputate eam id, eum ødio ornatus ea, id veniåm probatus est.",
+	"Ne eum ridens commodo omittam, pro congue dolore fabulas ei.",
+	"Doming alienum definiebås et qui, per ut natum soluta. Mazim iriure duø ex.",
+	"Ømnis illum såperet vis et, sed ea noster corporå.",
+	"Æssum euripidis vim ex, mei hinc omnesque scaevolå eu, velit definiebas cum in.",
+	"Mea ut chøro feugiat nominavi, sea eirmod quaerendum id.",
+	"Te esse nostrum disputando has, sit tale verterem consectetuer ut, mea munere ratiønibus cu.",
+	"Eu his esse option. Nibh pætriøque ut vix, nec såepe tøllit id. Ei inimicus persecuti usu, mea cu insolens inciderint.",
+	"No mel åugue sensibus laboramus, ius ex ludus vocent definitionem. His electram suavitåte intellegebat te.",
+	"Ius ad tåle delenit dissentias. Albucius dissentiæs eå qui, quando ponderum phæedrum vel ei.",
+	"Ne quød munere quælisque sea. Id munere copiøsae måndåmus quo, ut pri nostro commodø øfficiis. Mea ex fugit dignissim, ei nemøre inermis necessitatibus nec, copiøsae sensibus eu mel."];
+
+	$methodName = "chat.with_name";
+	foreach(range(0, 160) as $i) {
+		$payload[] = array(
+			'name' => $methodName,
+			'key' => gen_key($methodName),
+			'username' => $username,
+			'arguments' => ["$i: " . $msgs[array_rand($msgs)], $names[array_rand($names)]],
+			'tag' => "$i"
+		);
+	}
+}
 
 $streamPayload = array(
 	array(

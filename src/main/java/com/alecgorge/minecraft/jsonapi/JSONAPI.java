@@ -52,10 +52,11 @@ import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
-import com.alecgorge.minecraft.jsonapi.streams.ConsoleHandler;
-import com.alecgorge.minecraft.jsonapi.streams.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.PerformanceStreamDataProvider;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
+import com.alecgorge.minecraft.jsonapi.streams.console.ConsoleHandler;
+import com.alecgorge.minecraft.jsonapi.streams.console.ConsoleLogFormatter;
+import com.alecgorge.minecraft.jsonapi.streams.console.Log4j2ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.util.OfflinePlayerLoader;
 import com.alecgorge.minecraft.jsonapi.util.TickRateCounter;
 
@@ -522,9 +523,12 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 						
 			// add console stream support
 			handler = new ConsoleHandler(jsonServer);
-
+			
 			// this is quite hacky but it hides the mess from HTTP requests on the join port
 
+			//#if mc17OrNewer=="yes"
+			new Log4j2ConsoleHandler(jsonServer);
+			//#else
 			for(Logger olog : new Logger[] {
 					log,
 					Logger.getLogger(""),
@@ -534,6 +538,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			}) {
 				olog.addHandler(handler);
 			}
+			//#endif
 
 			log.info("[JSONAPI] Attempting to use port " + port);
 

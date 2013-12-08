@@ -1,4 +1,4 @@
-package com.alecgorge.minecraft.jsonapi.streams;
+package com.alecgorge.minecraft.jsonapi.streams.console;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
