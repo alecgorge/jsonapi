@@ -51,6 +51,7 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
+import com.alecgorge.minecraft.jsonapi.packets.netty.NettyInjector;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.PerformanceStreamDataProvider;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
@@ -524,6 +525,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			// add console stream support
 			handler = new ConsoleHandler(jsonServer);
 			
+			new NettyInjector();
 			// this is quite hacky but it hides the mess from HTTP requests on the join port
 
 			//#if mc17OrNewer=="yes"

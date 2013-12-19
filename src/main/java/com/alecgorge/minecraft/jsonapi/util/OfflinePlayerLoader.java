@@ -3,18 +3,14 @@ package com.alecgorge.minecraft.jsonapi.util;
 import java.io.File;
 
 //#ifdefined mcversion
-//$import net.minecraft.server./*$mcversion$*/.EntityPlayer;
-//$import net.minecraft.server./*$mcversion$*/.MinecraftServer;
-//$import net.minecraft.server./*$mcversion$*/.PlayerInteractManager;
-//$import org.bukkit.craftbukkit./*$mcversion$*/.CraftServer;
+//$import net.minecraft.server./*$mcversion$*/.*;
+//$import org.bukkit.craftbukkit./*$mcversion$*/.*;
 //#if mc17OrNewer=="yes"
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 //#endif
 //#else
-import net.minecraft.server.v1_7_R1.EntityPlayer;
-import net.minecraft.server.v1_7_R1.MinecraftServer;
-import net.minecraft.server.v1_7_R1.PlayerInteractManager;
-import org.bukkit.craftbukkit.v1_7_R1.CraftServer;
+import net.minecraft.server.v1_7_R1.*;
+import org.bukkit.craftbukkit.v1_7_R1.*;
 //#endif
 
 import org.bukkit.Bukkit;

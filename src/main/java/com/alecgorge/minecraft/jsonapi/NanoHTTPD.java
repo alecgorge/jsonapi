@@ -375,15 +375,24 @@ public class NanoHTTPD {
 		
 		public boolean closeOnCompletion = false;
 
-		public HTTPSession(InputStream in, OutputStream s, InetAddress a, Lambda<Void, OutputStream> callback) {
+		public HTTPSession(InputStream in, OutputStream s, InetAddress a, Lambda<Void, OutputStream> callback, boolean blocking) {
 			this.in = in;
 			this.out = s;
 			this.addr = a;
 			this.callback = callback;
 
-			Thread t = new Thread(this);
-			t.setDaemon(true);
-			t.start();
+			if(!blocking) {
+				Thread t = new Thread(this);
+				t.setDaemon(true);
+				t.start();
+			}
+			else {
+				run();
+			}
+		}
+		
+		public HTTPSession(InputStream in, OutputStream s, InetAddress a, Lambda<Void, OutputStream> callback) {
+			this(in, s, a, callback, false);
 		}
 
 		public void run() {

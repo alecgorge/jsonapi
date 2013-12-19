@@ -2,5 +2,5 @@
 # Generated with the command ./jsonapi test 1.7.2
 
 cd "/Users/alecgorge/Documents/java/jsonapi"
-mvn clean install $@ -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.1-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes && cd test/ && java -Xmx256M -jar craftbukkit-1.7.2-R0.1-SNAPSHOT.jar
+mvn clean install $@ -DjsonapiDebug=yes -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.1-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes && cd test/ && java -Xmx256M -Dlog4j.configurationFile=log4j2.xml -Dorg.jboss.netty.debug=true -jar craftbukkit-1.7.2-R0.1-SNAPSHOT.jar
 cd "/Users/alecgorge/Documents/java/jsonapi"
