@@ -314,7 +314,7 @@
         },
         {
             "desc": "Bans the specified player",
-            "call": "this.ban(0, 1)",
+            "call": "this.banWithReason(0, 1)",
             "args": [
                 [
                     "name",

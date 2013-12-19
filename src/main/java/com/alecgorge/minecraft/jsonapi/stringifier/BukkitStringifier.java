@@ -181,7 +181,9 @@ public class BukkitStringifier {
 			
 			List<String> playerNames = new ArrayList<String>();
 			for(Player p : w.getPlayers()) {
-				playerNames.add(p.getName());
+				if(!p.getName().equals("¤fHerobrine")) {
+					playerNames.add(p.getName());
+				}
 			}
 			
 			o.put("players", playerNames);
