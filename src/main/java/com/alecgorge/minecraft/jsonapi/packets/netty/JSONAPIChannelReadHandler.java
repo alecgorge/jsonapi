@@ -1,3 +1,4 @@
+//#if mc17OrNewer=="yes"
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
 import java.net.InetSocketAddress;
@@ -87,3 +88,4 @@ public class JSONAPIChannelReadHandler extends ChannelInboundHandlerAdapter {
 		}
 	}
 }
+//#endif

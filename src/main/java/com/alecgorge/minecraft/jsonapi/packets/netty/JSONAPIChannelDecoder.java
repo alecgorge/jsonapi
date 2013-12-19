@@ -1,3 +1,4 @@
+//#if mc17OrNewer=="yes"
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
 import java.nio.charset.Charset;
@@ -5,21 +6,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import net.minecraft.util.io.netty.buffer.ByteBuf;
-import net.minecraft.util.io.netty.buffer.Unpooled;
-import net.minecraft.util.io.netty.channel.ChannelFutureListener;
 import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
-import net.minecraft.util.io.netty.channel.ChannelInboundHandlerAdapter;
 import net.minecraft.util.io.netty.channel.ChannelOption;
 import net.minecraft.util.io.netty.channel.ChannelPipeline;
 import net.minecraft.util.io.netty.handler.codec.ByteToMessageDecoder;
-import net.minecraft.util.io.netty.handler.codec.http.DefaultFullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.HttpHeaders;
-import net.minecraft.util.io.netty.handler.codec.http.HttpRequest;
 import net.minecraft.util.io.netty.handler.codec.http.HttpRequestDecoder;
 import net.minecraft.util.io.netty.handler.codec.http.HttpResponseEncoder;
-import net.minecraft.util.io.netty.handler.codec.http.HttpResponseStatus;
-import net.minecraft.util.io.netty.handler.codec.http.HttpVersion;
-import net.minecraft.util.io.netty.util.CharsetUtil;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.JSONServer;
@@ -92,3 +84,4 @@ public class JSONAPIChannelDecoder extends ByteToMessageDecoder {
 				magic1 == 'C' && magic2 == 'O' && magic3 == 'N' && magic4 == 'N'; // CONNECT
 	}
 }
+//#endif
