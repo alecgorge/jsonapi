@@ -1,21 +1,28 @@
 package com.alecgorge.minecraft.jsonapi.dynamic;
 
-import com.alecgorge.minecraft.jsonapi.APIException;
-import com.alecgorge.minecraft.jsonapi.JSONAPI;
-import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
-import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
-import com.alecgorge.minecraft.jsonapi.api.BukGetAPIMethods;
-import com.alecgorge.minecraft.jsonapi.api.JSONAPIAPIMethods;
-import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
-import com.alecgorge.minecraft.jsonapi.chat.BukkitForgeRealisticChat;
-import com.alecgorge.minecraft.jsonapi.chat.BukkitRealisticChat;
-import com.alecgorge.minecraft.jsonapi.chat.IRealisticChat;
-import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
-import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
-import com.alecgorge.minecraft.permissions.PermissionWrapper;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.*;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Server;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
@@ -30,16 +37,19 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.java_websocket.util.Base64;
 import org.json.simpleForBukkit.JSONObject;
 
-import java.io.*;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.alecgorge.minecraft.jsonapi.APIException;
+import com.alecgorge.minecraft.jsonapi.JSONAPI;
+import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
+import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
+import com.alecgorge.minecraft.jsonapi.api.BukGetAPIMethods;
+import com.alecgorge.minecraft.jsonapi.api.JSONAPIAPIMethods;
+import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
+import com.alecgorge.minecraft.jsonapi.chat.BukkitForgeRealisticChat;
+import com.alecgorge.minecraft.jsonapi.chat.BukkitRealisticChat;
+import com.alecgorge.minecraft.jsonapi.chat.IRealisticChat;
+import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
+import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
+import com.alecgorge.minecraft.permissions.PermissionWrapper;
 
 public class APIWrapperMethods implements JSONAPIMethodProvider {
 	private Logger outLog = JSONAPI.instance.outLog;
@@ -723,6 +733,43 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 				e.printStackTrace();
 				return false;
 			}
+		} else {
+			return false;
+		}
+	}
+
+	public boolean copyFileOrFolder(String oldName, String newName) {
+		File sourceFile;
+		if ((sourceFile = new File(oldName)).exists()) {
+			File destFile = new File(newName);
+			boolean res = true;
+
+			try {
+				if (!destFile.exists()) {
+					destFile.createNewFile();
+				}
+
+				FileChannel source = null;
+				FileChannel destination = null;
+
+				try {
+					source = new FileInputStream(sourceFile).getChannel();
+					destination = new FileOutputStream(destFile).getChannel();
+					destination.transferFrom(source, 0, source.size());
+				} catch (Exception e) {
+					res = false;
+				} finally {
+					if (source != null) {
+						source.close();
+					}
+					if (destination != null) {
+						destination.close();
+					}
+				}
+			} catch (Exception e) {
+				res = false;
+			}
+			return res;
 		} else {
 			return false;
 		}

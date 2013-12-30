@@ -90,6 +90,27 @@
             "name": "files.move"
         },
         {
+            "desc": "Copies the specified file or folder",
+            "returns": [
+                "boolean",
+                "True if successful, false otherwise"
+            ],
+            "call": "this.copyFileOrFolder(0,1)",
+            "args": [
+                [
+                    "from_path",
+                    "String",
+                    "The old path to the file or folder relative to the server root"
+                ],
+                [
+                    "to_path",
+                    "String",
+                    "The new path to the file or folder relative to the server root"
+                ]
+            ],
+            "name": "files.copy"
+        },
+        {
             "desc": "Gets the binary contents of the specified file encoded in base64. The file path is relative to the folder that the craftbukkit jar is in",
             "returns": [
                 "String",
