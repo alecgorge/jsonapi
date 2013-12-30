@@ -71,4 +71,8 @@ public class JSONAPIGroupConfigObject extends ConfigObject {
 		
 		return false;
 	}
+	
+	public String toString() {
+		return "name: " + name + "; streams: " + streams + "; permissions: " + permissions + "; methods: " + methods;
+	}
 }
