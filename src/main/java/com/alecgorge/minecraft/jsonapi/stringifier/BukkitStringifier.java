@@ -201,6 +201,7 @@ public class BukkitStringifier {
 			o.put("version", d.getVersion());
 			o.put("website", d.getWebsite() == null ? "" : d.getWebsite());
 			o.put("enabled", JSONAPI.instance.getServer().getPluginManager().isPluginEnabled(p));
+			o.put("commands", d.getCommands());
 
 			return o;
 		} else if (obj instanceof ItemStack) {
