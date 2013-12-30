@@ -42,6 +42,7 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface.CommandType;
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterfaceException;
 import com.alecgorge.minecraft.jsonapi.api.BukGetAPIMethods;
+import com.alecgorge.minecraft.jsonapi.api.CommandMethods;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIAPIMethods;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 import com.alecgorge.minecraft.jsonapi.chat.BukkitForgeRealisticChat;
@@ -59,11 +60,13 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	public Chat chat;
 	public BukGetAPIMethods bukget;
 	public JSONAPIAPIMethods jsonapi;
+	public CommandMethods commands;
 
 	public APIWrapperMethods(Server server) {
 		bukget = new BukGetAPIMethods(server);
 		jsonapi = new JSONAPIAPIMethods(server);
 		permissions = new PermissionWrapper(server);
+		commands = new CommandMethods(server);
 
 		if (server.getPluginManager().getPlugin("Vault") != null) {
 			RegisteredServiceProvider<Economy> rsp = server.getServicesManager().getRegistration(Economy.class);

@@ -100,6 +100,22 @@
             ]
         },
         {
+            "desc": "Gets all the commands for a plugin with details",
+            "returns": [
+                "Object",
+                "The commands with details"
+            ],
+            "args": [
+                [
+                    "plugin_name",
+                    "String",
+                    "The plugin name to fetch commands for"
+                ]
+            ],
+            "call": "this.commands.commandsForPluginName(0)",
+            "name": "plugins.name.commands"
+        },
+        {
             "desc": "Disables all plugins on the server",
             "call": "Server.getPluginManager().disablePlugins()",
             "name": "plugins.disable_all"

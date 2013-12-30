@@ -107,6 +107,40 @@
             "name": "server.settings.motd"
         },
         {
+            "desc": "Gets the name of all the commands on the server",
+            "returns": [
+                "String[]",
+                "The command names"
+            ],
+            "call": "this.commands.listSimple()",
+            "name": "server.commands.list"
+        },
+        {
+            "desc": "Gets the all the commands on the server with details, organized by plugins",
+            "returns": [
+                "Object",
+                "The commands"
+            ],
+            "call": "this.commands.listComplete()",
+            "name": "server.commands.list_with_details"
+        },
+        {
+            "desc": "Gets the details of a command based on its name",
+            "returns": [
+                "Object",
+                "The command names"
+            ],
+            "args": [
+                [
+                    "command_name",
+                    "String",
+                    "The command name to fetch details for"
+                ]
+            ],
+            "call": "this.commands.commandForName(0)",
+            "name": "server.commands.name"
+        },
+        {
             "desc": "Get the IP that this server is bound to or empty string if not specified",
             "returns": [
                 "String",
