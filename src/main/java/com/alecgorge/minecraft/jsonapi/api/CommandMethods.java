@@ -23,7 +23,12 @@ public class CommandMethods {
 			final PluginDescriptionFile desc = p.getDescription();
 			final Map<String, Map<String, Object>> cmds = desc.getCommands();
 
-			allCmds.put(p.getDescription().getName(), cmds);
+			if(desc.getCommands() != null) {
+				allCmds.put(p.getDescription().getName(), cmds);
+			}
+			else {
+				allCmds.put(p.getDescription().getName(), new HashMap<String, Map<String,Object>>());
+			}
 		}
 		
 		return allCmds;
@@ -35,7 +40,10 @@ public class CommandMethods {
 		Plugin p = server.getPluginManager().getPlugin(name);
 		if(p != null) {
 			final PluginDescriptionFile desc = p.getDescription();
-			allCmds = desc.getCommands();
+			
+			if(desc.getCommands() != null) {
+				allCmds = desc.getCommands();
+			}
 		}
 		
 		return allCmds;
