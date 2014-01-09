@@ -48,8 +48,10 @@ public abstract class JSONAPIStream {
 	 */
 	public void registerListener(JSONAPIStreamListener l, boolean feedOld) {
 		if (feedOld) {
-			for (JSONAPIStreamMessage m : last50) {
-				l.onMessage(m, this);
+			synchronized (last50) {
+				for (JSONAPIStreamMessage m : last50) {
+					l.onMessage(m, this);
+				}				
 			}
 		}
 
