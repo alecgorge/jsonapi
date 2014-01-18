@@ -22,7 +22,7 @@ public class OfflinePlayerLoader {
 		// big thanks to
 		// https://github.com/lishd/OpenInv/blob/master/src/com/lishid/openinv/internal/craftbukkit/PlayerDataManager.java
 		// Offline inv here...
-		
+
 		int index = 0;
 		for (World w : Bukkit.getWorlds()) {
 			try {
@@ -38,16 +38,19 @@ public class OfflinePlayerLoader {
 				MinecraftServer server = null;
 				try {
 					server = ((CraftServer) Bukkit.getServer()).getServer();
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					server = ((CraftServer) Bukkit.getServer()).getHandle().getServer();
 				}
 
 				// Create an entity to load the player data
-				//#if mc17OrNewer=="yes"
-				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile("fake_for_jsonapi_offline_player_loading", exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));				
-				//#else
-				//$EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), exactPlayerName, new PlayerInteractManager(server.getWorldServer(index)));
-				//#endif
+				// #if mc17OrNewer=="yes"
+				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile("fake_for_jsonapi_offline_player_loading", exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));
+				// #else
+				// $EntityPlayer entity = new EntityPlayer(server,
+				// server.getWorldServer(index), exactPlayerName, new
+				// PlayerInteractManager(server.getWorldServer(index)));
+				// #endif
 
 				// Get the bukkit entity
 				target = (entity == null) ? null : entity.getBukkitEntity();
@@ -58,11 +61,14 @@ public class OfflinePlayerLoader {
 					// Return the entity
 					return target;
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				e.printStackTrace();
-			} catch (Error e) {
+			}
+			catch (Error e) {
 				e.printStackTrace();
-			} finally {
+			}
+			finally {
 				index++;
 			}
 		}
