@@ -14,7 +14,7 @@ public class GroupManager {
 
 	public GroupManager(JSONAPI plugin) {
 		this.plugin = plugin;
-	
+
 		JSONAPI.dbug("registering for jsonapiauthevents");
 		plugin.getServer().getPluginManager().registerEvents(new JSONAPIPermissionsListener(), plugin);
 	}

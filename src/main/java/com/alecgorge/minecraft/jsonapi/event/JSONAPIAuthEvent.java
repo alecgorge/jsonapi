@@ -11,14 +11,14 @@ import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 
 public class JSONAPIAuthEvent extends Event {
-	private static final HandlerList handlers = new HandlerList();
+	private static final HandlerList	handlers	= new HandlerList();
 
-	String method;
-	String hash;
-	HashMap<String, String> logins;
-	JSONAPIAuthResponse valid;
-	String username;
-	boolean stream;
+	String								method;
+	String								hash;
+	HashMap<String, String>				logins;
+	JSONAPIAuthResponse					valid;
+	String								username;
+	boolean								stream;
 
 	public JSONAPIAuthEvent(JSONAPIAuthResponse valid, String method, String hash, HashMap<String, String> logins, String username, boolean stream) {
 		this.valid = valid;
@@ -35,7 +35,7 @@ public class JSONAPIAuthEvent extends Event {
 		this.username = username;
 		this.stream = stream;
 	}
-	
+
 	public boolean isStream() {
 		return stream;
 	}
@@ -43,7 +43,7 @@ public class JSONAPIAuthEvent extends Event {
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public JSONAPIUser getUser() {
 		return JSONAPI.instance.getAuthTable().getUser(getUsername());
 	}
@@ -67,7 +67,8 @@ public class JSONAPIAuthEvent extends Event {
 	public String calculateSHA256Hash(String input) {
 		try {
 			return JSONAPI.SHA256(input);
-		} catch (NoSuchAlgorithmException e) {
+		}
+		catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			return "abbBESTHASHEVER";
 		}

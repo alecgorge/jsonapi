@@ -34,14 +34,14 @@ import com.alecgorge.minecraft.jsonapi.util.FixedSizeArrayList;
 
 public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICallHandler {
 	public class AdminiumPushNotification {
-		Date dateSent;
-		String notification;
-		
+		Date	dateSent;
+		String	notification;
+
 		public AdminiumPushNotification(Date d, String message) {
 			dateSent = d;
 			notification = message;
 		}
-		
+
 		public Date getDateSent() {
 			return dateSent;
 		}
@@ -57,40 +57,40 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		public void setMessage(String notification) {
 			this.notification = notification;
 		}
-		
+
 		public String getPushNotification() {
 			JSONAPI api = JSONAPI.instance;
-			
+
 			String messager = getMessage();
 			if (api.serverName != null && !api.serverName.isEmpty()) {
 				messager = (api.serverName.equals("default") ? api.getServer().getServerName() : api.serverName) + ": " + messager;
 			}
 
 			return messager.length() > 210 ? messager.substring(0, 208) + "\u2026" : messager;
-		}		
+		}
 	}
-	
-	YamlConfiguration deviceConfig = new YamlConfiguration();
-	File configFile;
 
-	List<String> devices = new ArrayList<String>();
-	Map<String, Boolean> settings = new HashMap<String, Boolean>();
+	YamlConfiguration					deviceConfig		= new YamlConfiguration();
+	File								configFile;
 
-	Map<String, Map<String, Boolean>> deviceOverrides = new HashMap<String, Map<String, Boolean>>();
+	List<String>						devices				= new ArrayList<String>();
+	Map<String, Boolean>				settings			= new HashMap<String, Boolean>();
+
+	Map<String, Map<String, Boolean>>	deviceOverrides		= new HashMap<String, Map<String, Boolean>>();
 
 	// log /calladmin & severes
-	List<String> calladmins = Collections.synchronizedList(new FixedSizeArrayList<String>(50));
-	List<String> severeLogs = Collections.synchronizedList(new FixedSizeArrayList<String>(50));
-	List<AdminiumPushNotification> notifications = Collections.synchronizedList(new FixedSizeArrayList<AdminiumPushNotification>(150));
+	List<String>						calladmins			= Collections.synchronizedList(new FixedSizeArrayList<String>(50));
+	List<String>						severeLogs			= Collections.synchronizedList(new FixedSizeArrayList<String>(50));
+	List<AdminiumPushNotification>		notifications		= Collections.synchronizedList(new FixedSizeArrayList<AdminiumPushNotification>(150));
 
-	private final String APNS_PUSH_ENDPOINT = "http://push.adminiumapp.com/push-message";
+	private final String				APNS_PUSH_ENDPOINT	= "http://push.adminiumapp.com/push-message";
 
-	private JSONAPI api;
-	public boolean init = false;
+	private JSONAPI						api;
+	public boolean						init				= false;
 
-	public final boolean doTrace = false;
+	public final boolean				doTrace				= false;
 
-	private Logger mcLog = Logger.getLogger("Minecraft");
+	private Logger						mcLog				= Logger.getLogger("Minecraft");
 
 	private void trace(Object... args) {
 		if (doTrace) {
@@ -102,8 +102,8 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		}
 	}
 
-	private List<String> pushTypes = new ArrayList<String>();
-	private List<String> pushTypeDescriptions;
+	private List<String>	pushTypes	= new ArrayList<String>();
+	private List<String>	pushTypeDescriptions;
 
 	public PushNotificationDaemon(File configFile, JSONAPI api) throws FileNotFoundException, IOException, InvalidConfigurationException {
 		this.configFile = configFile;
@@ -128,7 +128,8 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			calladmins.add(0, push);
 			pushNotification(push, "admin_call");
 			from.sendMessage("A message was sent to the admin(s).");
-		} else if (!from.hasPermission("jsonapi.calladmin")) {
+		}
+		else if (!from.hasPermission("jsonapi.calladmin")) {
 			from.sendMessage("You don't have the jsonapi.calladmin permission to call for an admin.");
 		}
 
@@ -136,8 +137,8 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 	}
 
 	public class ConsoleHandler extends Handler {
-		PushNotificationDaemon p;
-		long lastNotification;
+		PushNotificationDaemon	p;
+		long					lastNotification;
 
 		public ConsoleHandler(PushNotificationDaemon d) {
 			p = d;
@@ -191,7 +192,8 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		deviceConfig.set("devices", devices);
 		try {
 			deviceConfig.save(configFile);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -208,7 +210,8 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 		deviceConfig.set("devices", devices);
 		try {
 			deviceConfig.save(configFile);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -222,7 +225,8 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			ConnectionMessage c = (ConnectionMessage) message;
 			if (settings.get("player_joined") != null && settings.get("player_joined") && c.TrueIsConnectedFalseIsDisconnected) {
 				pushNotification(c.player + " joined!", "player_joined");
-			} else if (settings.get("player_quit") != null && settings.get("player_quit") && !c.TrueIsConnectedFalseIsDisconnected) {
+			}
+			else if (settings.get("player_quit") != null && settings.get("player_quit") && !c.TrueIsConnectedFalseIsDisconnected) {
 				pushNotification(c.player + " quit!", "player_quit");
 			}
 		}
@@ -240,7 +244,7 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 
 			@Override
 			public void run() {
-				String msg  = not.getPushNotification();
+				String msg = not.getPushNotification();
 				trace("pushing", msg);
 				MutableHttpRequest r = null;
 				try {
@@ -254,9 +258,11 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 					trace("Sending Post Args:", devices, msg, r.getPostKeys(), r.getPostValues());
 
 					trace("Complete", r.post().getReponse());
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					e.printStackTrace();
-				} finally {
+				}
+				finally {
 					if (r != null)
 						r.close();
 				}
@@ -330,21 +336,24 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 				if (settings != null && settings.get("player_joined") || settings.get("player_quit")) {
 					api.getStreamManager().getStream("connections").registerListener(this, false);
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 
 			pushTypes.addAll(settings.keySet());
 			Collections.sort(pushTypes);
-			pushTypeDescriptions = Arrays.asList(new String[] { "On /calladmin", "On player join", "On player quit", "On SEVERE logs" });
+			pushTypeDescriptions = Arrays.asList(new String[] { "On /calladmin","On player join","On player quit","On SEVERE logs" });
 
 			this.init = true;
 		}
 	}
 
 	public void saveConfig() throws IOException {
-		/*deviceConfig.set("group_assignments", groupAssignments);
-		deviceConfig.set("group_permissions", groupPerms);*/
+		/*
+		 * deviceConfig.set("group_assignments", groupAssignments);
+		 * deviceConfig.set("group_permissions", groupPerms);
+		 */
 
 		deviceConfig.save(configFile);
 	}
@@ -359,11 +368,13 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			String deviceToken = args[0].toString();
 
 			registerDevice(deviceToken);
-		} else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("deregisterDevice") && args.length == 1) {
+		}
+		else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("deregisterDevice") && args.length == 1) {
 			String deviceToken = args[0].toString();
 
 			deregisterDevice(deviceToken);
-		} else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("listPushTypes")) {
+		}
+		else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("listPushTypes")) {
 			JSONObject o = new JSONObject();
 
 			int i = 0;
@@ -376,25 +387,30 @@ public class PushNotificationDaemon implements JSONAPIStreamListener, JSONAPICal
 			}
 
 			return o;
-		} else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("setPushTypeEnabled")) {
+		}
+		else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("setPushTypeEnabled")) {
 			settings.put(args[0].toString(), Boolean.valueOf(args[1].toString()));
 			deviceConfig.set("settings." + args[0].toString(), settings.get(args[0].toString()));
 			try {
 				deviceConfig.save(configFile);
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			return true;
-		} else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("triggerSevere")) {
+		}
+		else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("triggerSevere")) {
 			for (int i = 0; i < 10; i++)
 				mcLog.severe("This is a severe log: " + i);
 
 			return true;
-		} else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("getCallAdmins")) {
+		}
+		else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("getCallAdmins")) {
 			return calladmins;
-		} else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("getSeveres")) {
+		}
+		else if (methodName.getNamespace().equals("adminium") && methodName.getMethodName().equals("getSeveres")) {
 			return severeLogs;
 		}
 

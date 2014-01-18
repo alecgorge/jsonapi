@@ -35,17 +35,17 @@ import com.alecgorge.minecraft.jsonapi.streams.PerformanceStream;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
 public class JSONServer extends NanoHTTPD {
-	public UsersConfig logins;
-	private JSONAPI inst;
-	private Logger outLog = JSONAPI.instance.outLog;
-	private Caller caller;
+	public UsersConfig			logins;
+	private JSONAPI				inst;
+	private Logger				outLog		= JSONAPI.instance.outLog;
+	private Caller				caller;
 
-	public ChatStream chat = new ChatStream("chat");
-	public ConsoleStream console = new ConsoleStream("console");
-	public ConnectionStream connections = new ConnectionStream("connections");
-	public PerformanceStream performance = new PerformanceStream("performance");
+	public ChatStream			chat		= new ChatStream("chat");
+	public ConsoleStream		console		= new ConsoleStream("console");
+	public ConnectionStream		connections	= new ConnectionStream("connections");
+	public PerformanceStream	performance	= new PerformanceStream("performance");
 
-	private static boolean initted = false;
+	private static boolean		initted		= false;
 
 	public JSONServer(UsersConfig auth, final JSONAPI plugin, final long startupDelay) throws IOException {
 		super(plugin.port, plugin.bindAddress);
@@ -53,7 +53,7 @@ public class JSONServer extends NanoHTTPD {
 
 		caller = new Caller(inst);
 		caller.loadFile(new File(inst.getDataFolder() + File.separator + "methods.json"));
-		
+
 		outLog.info("[JSONAPI] Loaded methods.json.");
 
 		(new Thread(new Runnable() {
@@ -68,7 +68,8 @@ public class JSONServer extends NanoHTTPD {
 						Thread.sleep(startupDelay);
 						initted = true;
 					}
-				} catch (InterruptedException e) {
+				}
+				catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -85,19 +86,17 @@ public class JSONServer extends NanoHTTPD {
 						caller.loadFile(f);
 					}
 				}
-				
-				String[] methodsFiles = new String[] { "chat.json", "dynmap.json", "econ.json", "fs.json", "permissions.json",
-													   "players.json", "plugins.json", "remotetoolkit.json", "server.json",
-													   "streams.json", "system.json", "worlds.json", "jsonapi.json" };
-				
-				for(String m : methodsFiles) {
+
+				String[] methodsFiles = new String[] { "chat.json","dynmap.json","econ.json","fs.json","permissions.json","players.json","plugins.json","remotetoolkit.json","server.json","streams.json","system.json","worlds.json","jsonapi.json" };
+
+				for (String m : methodsFiles) {
 					caller.loadInputStream(inst.getResource("jsonapi4/methods/" + m));
 				}
-				
+
 				caller.registerMethods(APIWrapperMethods.getInstance());
-				
+
 				outLog.info("[JSONAPI] " + caller.methodCount + " methods loaded in " + caller.methods.size() + " namespaces.");
-				
+
 				connectionInfo();
 			}
 		})).start();
@@ -105,9 +104,8 @@ public class JSONServer extends NanoHTTPD {
 		this.logins = auth;
 	}
 
-	
 	void connectionInfo() {
-        outLog.info("[JSONAPI] ------[Connection information]-------");
+		outLog.info("[JSONAPI] ------[Connection information]-------");
 		outLog.info("[JSONAPI] JSON Server listening on " + inst.port);
 		outLog.info("[JSONAPI] JSON Stream Server listening on " + (inst.port + 1));
 		outLog.info("[JSONAPI] JSON WebSocket Stream Server listening on " + (inst.port + 2));
@@ -115,35 +113,35 @@ public class JSONServer extends NanoHTTPD {
 
 		try {
 			URL whatismyip = new URL("http://tools.alecgorge.com/ip.php");
-            BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
 
-            String ip = in.readLine();
-            
-            URL checkURL = new URL("http://tools.alecgorge.com/port_check.php");
-            
-            outLog.info("[JSONAPI] External IP: " + ip);
+			String ip = in.readLine();
 
-            for(int i : new int[] { inst.port, inst.port + 1, inst.port + 2 }) {
-            	MutableHttpRequest reqReg = new MutableHttpRequest(checkURL);
-	            reqReg.addGetValue("host", ip);
-	            reqReg.addGetValue("port", String.valueOf(i));
-	            
-	            if(reqReg.get().getStatusCode() == 200) {
-	            	outLog.info("[JSONAPI] Port " + i + " is properly forwarded and is externally accessible.");
-	            }
-	            else {
-	            	outLog.info("[JSONAPI] Port " + i + " is not properly forwarded.");
-	            }
-            }
-            
-		} catch (Exception e) {
+			URL checkURL = new URL("http://tools.alecgorge.com/port_check.php");
+
+			outLog.info("[JSONAPI] External IP: " + ip);
+
+			for (int i : new int[] { inst.port,inst.port + 1,inst.port + 2 }) {
+				MutableHttpRequest reqReg = new MutableHttpRequest(checkURL);
+				reqReg.addGetValue("host", ip);
+				reqReg.addGetValue("port", String.valueOf(i));
+
+				if (reqReg.get().getStatusCode() == 200) {
+					outLog.info("[JSONAPI] Port " + i + " is properly forwarded and is externally accessible.");
+				}
+				else {
+					outLog.info("[JSONAPI] Port " + i + " is not properly forwarded.");
+				}
+			}
+
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-        outLog.info("[JSONAPI] -------------------------------------");
+
+		outLog.info("[JSONAPI] -------------------------------------");
 	}
-	
-	
+
 	public UsersConfig getLogins() {
 		return logins;
 	}
@@ -157,25 +155,25 @@ public class JSONServer extends NanoHTTPD {
 	}
 
 	public void logChat(String player, String message) {
-		if(inst.isEnabled()) {
+		if (inst.isEnabled()) {
 			chat.addMessage(new ChatMessage(player, message));
 		}
 	}
 
 	public void logConsole(String line) {
-		if(inst.isEnabled()) {
+		if (inst.isEnabled()) {
 			console.addMessage(new ConsoleMessage(line));
 		}
 	}
 
 	public void logConnected(String player) {
-		if(inst.isEnabled()) {
+		if (inst.isEnabled()) {
 			connections.addMessage(new ConnectionMessage(player, true));
 		}
 	}
 
 	public void logDisconnected(String player) {
-		if(inst.isEnabled()) {
+		if (inst.isEnabled()) {
 			connections.addMessage(new ConnectionMessage(player, false));
 		}
 	}
@@ -194,7 +192,8 @@ public class JSONServer extends NanoHTTPD {
 			}
 
 			return valid;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
@@ -229,21 +228,21 @@ public class JSONServer extends NanoHTTPD {
 		}
 	}
 
-	private Properties lastRequestParms = null;
+	private Properties	lastRequestParms	= null;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Response serve(String uri, String method, Properties header, Properties parms) {
-		if(method.equals("OPTIONS")) {
+		if (method.equals("OPTIONS")) {
 			Response r = new NanoHTTPD.Response(HTTP_OK, MIME_HTML, "");
-			
+
 			r.addHeader("Access-Control-Allow-Origin", "*");
 			r.addHeader("Access-Control-Allow-Methods", "GET, POST");
-			
+
 			return r;
 		}
-		
-		if(uri.startsWith("/api/2/") || inst.useGroups) {
+
+		if (uri.startsWith("/api/2/") || inst.useGroups) {
 			APIv2Handler handler = new APIv2Handler(uri, method, header, parms, this);
 			return handler.serve();
 		}
@@ -264,10 +263,12 @@ public class JSONServer extends NanoHTTPD {
 			boolean showOlder;
 			if (prev == null) {
 				showOlder = true;
-			} else {
+			}
+			else {
 				if (prev.equals("false")) {
 					showOlder = false;
-				} else {
+				}
+				else {
 					showOlder = true;
 				}
 			}
@@ -281,10 +282,12 @@ public class JSONServer extends NanoHTTPD {
 
 				if (source.equals("all")) {
 					sourceList = new ArrayList<String>(JSONAPI.instance.getStreamManager().getStreams().keySet());
-				} else {
+				}
+				else {
 					sourceList.add(source);
 				}
-			} else if (sources != null) {
+			}
+			else if (sources != null) {
 				if (!testLogin(sources, key)) {
 					info("[Streaming API] " + header.get("X-REMOTE-ADDR") + ": Invalid API Key.");
 					return jsonRespone(returnAPIError(source, "Invalid API key."), callback, HTTP_FORBIDDEN);
@@ -294,7 +297,8 @@ public class JSONServer extends NanoHTTPD {
 					for (Object o : (JSONArray) p.parse(sources)) {
 						sourceList.add(o.toString());
 					}
-				} catch (ParseException e) {
+				}
+				catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -307,7 +311,8 @@ public class JSONServer extends NanoHTTPD {
 			Response r = new NanoHTTPD.Response(HTTP_OK, MIME_PLAINTEXT, out);
 			r.addHeader("Access-Control-Allow-Origin", "*");
 			return r;
-		} else if (!uri.equals("/api/call") && !uri.equals("/api/call-multiple")) {
+		}
+		else if (!uri.equals("/api/call") && !uri.equals("/api/call-multiple")) {
 			Response r = new NanoHTTPD.Response(HTTP_NOTFOUND, MIME_PLAINTEXT, "File not found.");
 			r.addHeader("Access-Control-Allow-Origin", "*");
 			return r;
@@ -331,7 +336,8 @@ public class JSONServer extends NanoHTTPD {
 
 		if (args == null || calledMethod == null) {
 			return jsonRespone(returnAPIError(calledMethod, "You need to pass a method and an array of arguments."), callback, HTTP_NOTFOUND);
-		} else {
+		}
+		else {
 			try {
 				JSONParser parse = new JSONParser();
 				args = parse.parse((String) args);
@@ -343,7 +349,8 @@ public class JSONServer extends NanoHTTPD {
 					if (o instanceof List<?> && args instanceof List<?>) {
 						methods = (List<String>) o;
 						arguments = (List<Object>) args;
-					} else {
+					}
+					else {
 						return jsonRespone(returnAPIException(calledMethod, new Exception("method and args both need to be arrays for /api/call-multiple")), callback);
 					}
 
@@ -354,19 +361,19 @@ public class JSONServer extends NanoHTTPD {
 					}
 
 					return jsonRespone(returnAPISuccess(o, arr), callback);
-				} else {
-					// work around because Adminium 2.1.1 doesn't parse the version correctly
+				}
+				else {
+					// work around because Adminium 2.1.1 doesn't parse the
+					// version correctly
 					// it says that 4.0.1 < 3.4.5. Always return 3.6.7 for that.
 					// :sadface:
-					if(calledMethod.equals("getPluginVersion")
-					&& args instanceof List<?>
-					&& ((List<Object>) args).get(0).toString().equals("JSONAPI")
-					&& header.getProperty("user-agent").startsWith("Adminium 2.1.1")) {
+					if (calledMethod.equals("getPluginVersion") && args instanceof List<?> && ((List<Object>) args).get(0).toString().equals("JSONAPI") && header.getProperty("user-agent").startsWith("Adminium 2.1.1")) {
 						calledMethod = "polyfill_getPluginVersion";
 					}
 					return jsonRespone(serveAPICall(calledMethod, args), callback);
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				return jsonRespone(returnAPIException(calledMethod, e), callback);
 			}
 		}
@@ -423,20 +430,25 @@ public class JSONServer extends NanoHTTPD {
 				}
 				Object result = caller.call(calledMethod, (Object[]) ((ArrayList<Object>) args).toArray(new Object[((ArrayList<Object>) args).size()]));
 				return returnAPISuccess(calledMethod, result);
-			} else {
+			}
+			else {
 				warning("The method '" + calledMethod + "' does not exist!");
 				return returnAPIError(calledMethod, "The method '" + calledMethod + "' does not exist!");
 			}
-		} catch (APIException e) {
+		}
+		catch (APIException e) {
 			return returnAPIError(calledMethod, e.getMessage());
-		} catch (InvocationTargetException e) {
+		}
+		catch (InvocationTargetException e) {
 			if (e.getCause() instanceof APIException) {
 				return returnAPIError(calledMethod, e.getCause().getMessage());
 			}
 			return returnAPIException(calledMethod, e);
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return returnAPIError(calledMethod, "The server is offline right now. Try again in 2 seconds.");
-		} catch (Throwable e) {
+		}
+		catch (Throwable e) {
 			return returnAPIException(calledMethod, e);
 		}
 	}

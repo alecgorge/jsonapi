@@ -23,20 +23,20 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
 
 public class StreamPusher implements JSONAPIStreamListener {
-	private Map<String, List<URL>> urls = Collections.synchronizedMap(new HashMap<String, List<URL>>());
-	private StreamManager manager;
+	private Map<String, List<URL>>					urls			= Collections.synchronizedMap(new HashMap<String, List<URL>>());
+	private StreamManager							manager;
 
-	private List<BukkitTask> scheduledTasks = Collections.synchronizedList(new ArrayList<BukkitTask>());
-	private Map<String, List<JSONAPIStreamMessage>> queuedMessages = Collections.synchronizedMap(new HashMap<String, List<JSONAPIStreamMessage>>());
+	private List<BukkitTask>						scheduledTasks	= Collections.synchronizedList(new ArrayList<BukkitTask>());
+	private Map<String, List<JSONAPIStreamMessage>>	queuedMessages	= Collections.synchronizedMap(new HashMap<String, List<JSONAPIStreamMessage>>());
 
-	private File config_location;
-	private YamlConfiguration config;
+	private File									config_location;
+	private YamlConfiguration						config;
 
-	private Logger log = JSONAPI.instance.outLog;
-	
-	int maxQueueAge = 30;
-	int maxQueueLength = 500;
-	String pushTag = null;
+	private Logger									log				= JSONAPI.instance.outLog;
+
+	int												maxQueueAge		= 30;
+	int												maxQueueLength	= 500;
+	String											pushTag			= null;
 
 	public StreamPusher(StreamManager m, File file, int max_queue_age, int max_queue_length) {
 		manager = m;
@@ -61,15 +61,18 @@ public class StreamPusher implements JSONAPIStreamListener {
 				if ((Boolean) s.get("enabled")) {
 					try {
 						subscribe(s.get("stream_name").toString(), s.get("url").toString(), false);
-					} catch (MalformedURLException e) {
+					}
+					catch (MalformedURLException e) {
 						log.severe("[JSONAPI] Malformed URL: " + s.get("url"));
-					} catch (Exception e) {
+					}
+					catch (Exception e) {
 						log.severe("[JSONAPI] Non-exsistant stream: " + s.get("stream_name"));
 						e.printStackTrace();
 					}
 				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -135,17 +138,18 @@ public class StreamPusher implements JSONAPIStreamListener {
 						r.addPostValue("source", streamName);
 						r.addPostValue("count", messages.size());
 						r.addPostValue("server-name", JSONAPI.instance.getServer().getServerName());
-						
-						if(getPushTag() != null) {
+
+						if (getPushTag() != null) {
 							r.addPostValue("tag", getPushTag());
 						}
-						
+
 						for (JSONAPIStreamMessage m : messages) {
 							r.addPostValue("messages[]", m.toJSONString());
 						}
 
 						r.post();
-					} catch (IOException e) {
+					}
+					catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -172,7 +176,7 @@ public class StreamPusher implements JSONAPIStreamListener {
 				queuedMessages.get(streamName).add(message);
 
 				// schedule it for later if the queue isn't too long.
-				if(queuedMessages.size() <= maxQueueLength) {
+				if (queuedMessages.size() <= maxQueueLength) {
 					scheduledTasks.add(scheduler.runTaskLaterAsynchronously(JSONAPI.instance, delayedPush(streamName), 20 * maxQueueAge));
 				}
 				else {
@@ -197,7 +201,7 @@ public class StreamPusher implements JSONAPIStreamListener {
 	public void setMaxQueueLength(int maxQueueLength) {
 		this.maxQueueLength = maxQueueLength;
 	}
-	
+
 	public String getPushTag() {
 		return pushTag;
 	}

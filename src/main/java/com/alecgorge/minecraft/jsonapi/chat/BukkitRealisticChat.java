@@ -12,16 +12,16 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
 public class BukkitRealisticChat implements IRealisticChat {
-	private Server Server = JSONAPI.instance.getServer();
+	private Server	Server	= JSONAPI.instance.getServer();
 
 	public Server getServer() {
 		return Server;
 	}
-	
+
 	public boolean chatWithName(String message, String name) {
 		try {
 			Player player = getServer().getPlayerExact(name);
-			if(player == null)
+			if (player == null)
 				player = JSONAPI.loadOfflinePlayer(name);
 
 			String s = message;
@@ -39,26 +39,28 @@ public class BukkitRealisticChat implements IRealisticChat {
 
 			s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
 			boolean isLazy = false;
-			if(!(event.getRecipients() instanceof HashSet)) {
+			if (!(event.getRecipients() instanceof HashSet)) {
 				try {
 					Method m = event.getRecipients().getClass().getMethod("isLazy");
 					Boolean.valueOf(m.invoke(event.getRecipients()).toString());
 				}
 				catch (NoSuchMethodException e) {
-					
+
 				}
 			}
-			
+
 			if (isLazy) {
 				for (Player p : Bukkit.getServer().getOnlinePlayers())
 					p.sendMessage(s);
-			} else {
+			}
+			else {
 				for (Player recipient : event.getRecipients())
 					recipient.sendMessage(s);
 			}
 
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}

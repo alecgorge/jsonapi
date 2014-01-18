@@ -22,48 +22,51 @@ import com.alecgorge.minecraft.jsonapi.JSONServer;
 
 @Sharable
 public class JSONAPIChannelReadHandler extends ChannelInboundHandlerAdapter {
-	NioEventLoopGroup eventGroup;
+	NioEventLoopGroup	eventGroup;
 
 	public JSONAPIChannelReadHandler(final NioEventLoopGroup eventGroup) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		this.eventGroup = eventGroup;
 	}
 
-	List<Entry<String, ChannelHandler>> handlers = new ArrayList<Entry<String, ChannelHandler>>();
+	List<Entry<String, ChannelHandler>>	handlers	= new ArrayList<Entry<String, ChannelHandler>>();
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		Channel child = (Channel) msg;
 
 		JSONAPI.dbug("channelRead pipeline hashcode: " + ctx.channel().pipeline().hashCode());
-		
-//		final NioEventLoopGroup e = this.eventGroup;
+
+		// final NioEventLoopGroup e = this.eventGroup;
 		child.pipeline().addFirst(new JSONAPIChannelDecoder());
-		
-//		ChannelPipeline p = child.pipeline();
-//		p.addFirst("http_handler", new ChannelInboundHandlerAdapter() {
-//			@Override
-//			public void channelRead(ChannelHandlerContext ctx, Object msg) {
-//				System.out.println("read: " + msg);
-//
-//				if (msg instanceof HttpRequest) {
-//					DefaultFullHttpResponse res = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, Unpooled.copiedBuffer("test data", CharsetUtil.US_ASCII));
-//
-//					res.headers().set(HttpHeaders.Names.CONTENT_TYPE, "text/plain");
-//					res.headers().set(HttpHeaders.Names.CONTENT_LENGTH, res.content().readableBytes());
-//
-//					ctx.write(res).addListener(ChannelFutureListener.CLOSE);
-//				}
-//			}
-//
-//			@Override
-//			public void channelReadComplete(ChannelHandlerContext ctx) {
-//				System.out.println("read complete");
-//				ctx.flush();
-//			}
-//		});
-//        p.addFirst("http_encoder", new HttpResponseEncoder());
-//        p.addFirst("http_decoder", new HttpRequestDecoder());
-		
+
+		// ChannelPipeline p = child.pipeline();
+		// p.addFirst("http_handler", new ChannelInboundHandlerAdapter() {
+		// @Override
+		// public void channelRead(ChannelHandlerContext ctx, Object msg) {
+		// System.out.println("read: " + msg);
+		//
+		// if (msg instanceof HttpRequest) {
+		// DefaultFullHttpResponse res = new
+		// DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK,
+		// Unpooled.copiedBuffer("test data", CharsetUtil.US_ASCII));
+		//
+		// res.headers().set(HttpHeaders.Names.CONTENT_TYPE, "text/plain");
+		// res.headers().set(HttpHeaders.Names.CONTENT_LENGTH,
+		// res.content().readableBytes());
+		//
+		// ctx.write(res).addListener(ChannelFutureListener.CLOSE);
+		// }
+		// }
+		//
+		// @Override
+		// public void channelReadComplete(ChannelHandlerContext ctx) {
+		// System.out.println("read complete");
+		// ctx.flush();
+		// }
+		// });
+		// p.addFirst("http_encoder", new HttpResponseEncoder());
+		// p.addFirst("http_decoder", new HttpRequestDecoder());
+
 		this.eventGroup.register(child);
 
 		ctx.fireChannelRead(msg);
@@ -77,7 +80,7 @@ public class JSONAPIChannelReadHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	public class JSONAPIChannelEncoder extends MessageToByteEncoder<HTTPRequest> {
-		JSONServer server = JSONAPI.instance.getJSONServer();
+		JSONServer	server	= JSONAPI.instance.getJSONServer();
 
 		@Override
 		protected void encode(ChannelHandlerContext ctx, HTTPRequest req, ByteBuf buf) throws Exception {
@@ -88,4 +91,4 @@ public class JSONAPIChannelReadHandler extends ChannelInboundHandlerAdapter {
 		}
 	}
 }
-//#endif
+// #endif

@@ -5,13 +5,13 @@ import org.json.simpleForBukkit.JSONObject;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 
 public class PerformanceMessage extends JSONAPIStreamMessage {
-	JSONObject tickInformation;
-	double maxDisk;
-	double diskUsage;
-	double maxMemory;
-	double memoryUsage;
-	int players;
-	
+	JSONObject	tickInformation;
+	double		maxDisk;
+	double		diskUsage;
+	double		maxMemory;
+	double		memoryUsage;
+	int			players;
+
 	public PerformanceMessage(JSONObject t, double diskMax, double diskUsage, double memoryMax, double memoryUsage, int players) {
 		tickInformation = t;
 		maxDisk = diskMax;
@@ -19,11 +19,11 @@ public class PerformanceMessage extends JSONAPIStreamMessage {
 		this.maxMemory = memoryMax;
 		this.memoryUsage = memoryUsage;
 		this.players = players;
-		
+
 		setTime();
 	}
-	
-	public String streamName () {
+
+	public String streamName() {
 		return "performance";
 	}
 

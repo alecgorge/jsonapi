@@ -53,14 +53,14 @@ import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
 import com.alecgorge.minecraft.permissions.PermissionWrapper;
 
 public class APIWrapperMethods implements JSONAPIMethodProvider {
-	private Logger outLog = JSONAPI.instance.outLog;
-	public PermissionWrapper permissions;
+	private Logger				outLog	= JSONAPI.instance.outLog;
+	public PermissionWrapper	permissions;
 
-	public Economy econ;
-	public Chat chat;
-	public BukGetAPIMethods bukget;
-	public JSONAPIAPIMethods jsonapi;
-	public CommandMethods commands;
+	public Economy				econ;
+	public Chat					chat;
+	public BukGetAPIMethods		bukget;
+	public JSONAPIAPIMethods	jsonapi;
+	public CommandMethods		commands;
 
 	public APIWrapperMethods(Server server) {
 		bukget = new BukGetAPIMethods(server);
@@ -80,8 +80,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	private Server Server = JSONAPI.instance.getServer();
-	private static APIWrapperMethods instance;
+	private Server						Server	= JSONAPI.instance.getServer();
+	private static APIWrapperMethods	instance;
 
 	public static APIWrapperMethods getInstance() {
 		if (instance == null) {
@@ -89,10 +89,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		}
 		return instance;
 	}
-		
+
 	public List<String> getWorldNames() {
 		List<String> names = new ArrayList<String>();
-		for(org.bukkit.World world : getServer().getWorlds()) {
+		for (org.bukkit.World world : getServer().getWorlds()) {
 			names.add(world.getName());
 		}
 		return names;
@@ -105,7 +105,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return c;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return null;
 		}
 	}
@@ -121,18 +122,18 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 		return ops;
 	}
-	
+
 	public boolean setPlayerHealth(String playerName, int health) {
 		Player p = getPlayerExact(playerName);
-//#if mc16OrNewer=="yes"
-		p.setHealth((double)health);
-//#else
-//$		p.setHealth((int)health);
-//#endif
+		// #if mc16OrNewer=="yes"
+		p.setHealth((double) health);
+		// #else
+		// $ p.setHealth((int)health);
+		// #endif
 		p.saveData();
 		return true;
 	}
-	
+
 	public boolean setPlayerFoodLevel(String playerName, int health) {
 		Player p = getPlayerExact(playerName);
 		p.setFoodLevel(health);
@@ -164,7 +165,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -191,7 +193,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -221,7 +224,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -250,7 +254,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -279,7 +284,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 
@@ -293,10 +299,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 			Player p = getPlayerExact(playerName);
 			PlayerInventory inv = p.getInventory();
-			
+
 			ItemStack it = (new MaterialData(blockID, (byte) data)).toItemStack(quantity);
-			it.setDurability((short)data);
-			
+			it.setDurability((short) data);
+
 			if (slot == 103)
 				inv.setHelmet(it);
 			else if (slot == 102)
@@ -311,7 +317,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 
@@ -326,7 +333,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			Player p = getPlayerExact(playerName);
 			PlayerInventory inv = p.getInventory();
 			ItemStack it = (new MaterialData(blockID, (byte) data)).toItemStack(quantity);
-			it.setDurability((short)data);
+			it.setDurability((short) data);
 
 			for (int i = 0; i < enchantments.length; i++) {
 				JSONObject o = (JSONObject) enchantments[i];
@@ -347,7 +354,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 
@@ -377,7 +385,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -408,7 +417,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -423,7 +433,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.saveData();
 
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -434,44 +445,46 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			RecursiveDirLister d = new RecursiveDirLister(dir);
 
 			return d.getFileListing();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			// e.printStackTrace();
 			return new ArrayList<String>();
 		}
 	}
 
-	@API_Method(namespace = "", name="polyfill_getPluginVersion")
+	@API_Method(namespace = "", name = "polyfill_getPluginVersion")
 	public String get345version(String name) {
-		return "3.6.7"; // needed because of faulty Adminium 2.2.1 version checking
+		return "3.6.7"; // needed because of faulty Adminium 2.2.1 version
+						// checking
 	}
-	
-	private IRealisticChat chatUtility = null;
-		
+
+	private IRealisticChat	chatUtility	= null;
+
 	public IRealisticChat getRealisticChatProvider() {
-		if(chatUtility != null) {
+		if (chatUtility != null) {
 			return chatUtility;
 		}
-		
+
 		chatUtility = new BukkitRealisticChat();
-		if(!chatUtility.canHandleChats()) {
+		if (!chatUtility.canHandleChats()) {
 			chatUtility = new BukkitForgeRealisticChat();
 		}
-		
-		if(chatUtility == null) {
+
+		if (chatUtility == null) {
 			chatUtility = new IRealisticChat() {
-				
+
 				@Override
 				public void pluginDisable() {
 					// TODO Auto-generated method stub
-					
+
 				}
-				
+
 				@Override
 				public boolean chatWithName(String message, String name) {
 					// TODO Auto-generated method stub
 					return false;
 				}
-				
+
 				@Override
 				public boolean canHandleChats() {
 					// TODO Auto-generated method stub
@@ -479,15 +492,15 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 				}
 			};
 		}
-		
+
 		return chatUtility;
 	}
-	
+
 	public boolean chatWithName(String message, String name) {
 		getRealisticChatProvider().chatWithName(message, name);
 		return true;
 	}
-	
+
 	public void pluginDisable() {
 		getRealisticChatProvider().pluginDisable();
 	}
@@ -522,7 +535,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			Bukkit.getOfflinePlayer(name).setBanned(true);
 			Bukkit.getPlayerExact(name).kickPlayer(reason);
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
@@ -531,7 +545,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		try {
 			Server.getPluginManager().enablePlugin(Server.getPluginManager().getPlugin(name));
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -540,7 +555,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		try {
 			Server.getPluginManager().disablePlugin(Server.getPluginManager().getPlugin(name));
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -551,20 +567,22 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.getInventory().addItem(new ItemStack(id, quant));
 			p.saveData();
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
 
 	public boolean giveItem(String name, int id, int quant, int data) throws Exception {
 		try {
-            byte realData = Byte.valueOf(String.valueOf(data));
+			byte realData = Byte.valueOf(String.valueOf(data));
 			Player p = getPlayerExact(name);
-            MaterialData materialData = new MaterialData(id, realData);
+			MaterialData materialData = new MaterialData(id, realData);
 			p.getInventory().addItem(materialData.toItemStack(quant));
 			p.saveData();
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -574,7 +592,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			Player p = getPlayerExact(name);
 			p.getWorld().dropItem(p.getLocation(), new ItemStack(id, quant));
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -587,7 +606,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.getWorld().dropItem(p.getLocation(), stack);
 			p.saveData();
 			return true;
-		} catch (NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -610,57 +630,58 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	}
 
 	public void runCommand(String obj, String obj2) {
-		runCommand(new String[] { obj, obj2 });
+		runCommand(new String[] { obj,obj2 });
 	}
 
 	public void runCommand(String obj, String obj2, String obj3) {
-		runCommand(new String[] { obj, obj2, obj3 });
+		runCommand(new String[] { obj,obj2,obj3 });
 	}
 
 	public void runCommand(String obj, String obj2, String obj3, String obj4) {
-		runCommand(new String[] { obj, obj2, obj3, obj4 });
+		runCommand(new String[] { obj,obj2,obj3,obj4 });
 	}
 
 	public void runCommand(String obj, String obj2, String obj3, String obj4, String obj5) {
-		runCommand(new String[] { obj, obj2, obj3, obj4, obj5 });
+		runCommand(new String[] { obj,obj2,obj3,obj4,obj5 });
 	}
 
 	public void runCommand(String obj, String obj2, String obj3, String obj4, String obj5, String obj6) {
-		runCommand(new String[] { obj, obj2, obj3, obj4, obj5, obj6 });
+		runCommand(new String[] { obj,obj2,obj3,obj4,obj5,obj6 });
 	}
 
 	public void runCommand(String obj, String obj2, String obj3, String obj4, String obj5, String obj6, String obj7) {
-		runCommand(new String[] { obj, obj2, obj3, obj4, obj5, obj6, obj7 });
+		runCommand(new String[] { obj,obj2,obj3,obj4,obj5,obj6,obj7 });
 	}
 
 	public void runCommand(String obj, String obj2, String obj3, String obj4, String obj5, String obj6, String obj7, String obj8) {
-		runCommand(new String[] { obj, obj2, obj3, obj4, obj5, obj6, obj7, obj8 });
+		runCommand(new String[] { obj,obj2,obj3,obj4,obj5,obj6,obj7,obj8 });
 	}
 
 	public void runCommand(String obj, String obj2, String obj3, String obj4, String obj5, String obj6, String obj7, String obj8, String obj9) {
-		runCommand(new String[] { obj, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9 });
+		runCommand(new String[] { obj,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9 });
 	}
 
 	public Map<String, String> getPropertiesFile(String fileName) throws Exception {
 		if ((new File(fileName + ".properties")).exists()) {
 			PropertiesFile p = new PropertiesFile(fileName + ".properties");
 			return p.returnMap();
-		} else {
+		}
+		else {
 			throw new FileNotFoundException(fileName + ".properties was not found");
 		}
 	}
-	
+
 	public String createFile(String path) throws IOException {
 		File f = new File(path);
-		if(!f.exists()) {
+		if (!f.exists()) {
 			f.createNewFile();
 		}
 		return path;
 	}
-	
+
 	public String createFolder(String path) throws IOException {
 		File f = new File(path);
-		if(!f.exists()) {
+		if (!f.exists()) {
 			f.mkdirs();
 		}
 		return path;
@@ -675,16 +696,20 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 				/* Instead of using default, pass in a decoder. */
 				return Charset.forName("UTF-8").decode(bb).toString();
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				throw new APIException(fileName + " could not have its files extracte!");
-			} finally {
+			}
+			finally {
 				try {
 					stream.close();
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					throw new APIException(fileName + " could not be closed!");
 				}
 			}
-		} else {
+		}
+		else {
 			throw new APIException(fileName + " doesn't exist!");
 		}
 	}
@@ -693,27 +718,29 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		File f;
 		if ((f = new File(fileName)).exists()) {
 			try {
-				if(f.isDirectory()) {
+				if (f.isDirectory()) {
 					return deleteDirectory(f);
 				}
 				else {
 					return f.delete();
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 				return false;
 			}
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
-	
+
 	private boolean deleteDirectory(File directory) {
-		if (directory.exists()){
+		if (directory.exists()) {
 			File[] files = directory.listFiles();
-			
-			if (files != null){
-				for (int i=0; i<files.length; i++) {
+
+			if (files != null) {
+				for (int i = 0; i < files.length; i++) {
 					if (files[i].isDirectory()) {
 						deleteDirectory(files[i]);
 					}
@@ -723,7 +750,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 				}
 			}
 		}
-		
+
 		return directory.delete();
 	}
 
@@ -732,11 +759,13 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		if ((f = new File(oldName)).exists()) {
 			try {
 				return f.renameTo(new File(newName));
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 				return false;
 			}
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -759,9 +788,11 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 					source = new FileInputStream(sourceFile).getChannel();
 					destination = new FileOutputStream(destFile).getChannel();
 					destination.transferFrom(source, 0, source.size());
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					res = false;
-				} finally {
+				}
+				finally {
 					if (source != null) {
 						source.close();
 					}
@@ -769,11 +800,13 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 						destination.close();
 					}
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				res = false;
 			}
 			return res;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -790,16 +823,20 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 				bb.get(b);
 
 				return Base64.encodeBytes(b);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				throw new APIException(fileName + " could not have its files extracte!");
-			} finally {
+			}
+			finally {
 				try {
 					stream.close();
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					throw new APIException(fileName + " could not be closed!");
 				}
 			}
-		} else {
+		}
+		else {
 			throw new APIException(fileName + " doesn't exist!");
 		}
 	}
@@ -815,16 +852,20 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			stream.write(Base64.decode(base64));
 			try {
 				stream.close();
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				throw new APIException(fileName + " could not be closed!");
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new APIException(fileName + " could not have its files extracte!");
-		} finally {
+		}
+		finally {
 			try {
 				stream.flush();
 				stream.close();
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				throw new APIException(fileName + " could not be closed!");
 			}
 		}
@@ -841,7 +882,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			f.createNewFile();
 
 			stream = new FileOutputStream(f);
-			
+
 			JSONAPI.dbug("output stream created");
 			stream.write(contents.getBytes(Charset.forName("UTF-8")));
 			JSONAPI.dbug("output stream written");
@@ -850,10 +891,12 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 				JSONAPI.dbug("flushed output");
 				stream.close();
 				JSONAPI.dbug("closed output");
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				throw new APIException(fileName + " could not be closed!");
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new APIException(fileName + " could not be written to!");
 		}
 		return true;
@@ -871,10 +914,12 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			try {
 				stream.flush();
 				stream.close();
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				throw new APIException(fileName + " could not be closed!");
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new APIException(fileName + " could not be written to!");
 		}
 		return true;
@@ -885,18 +930,23 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			PropertiesFile p = new PropertiesFile(fileName + ".properties");
 			if (type.toLowerCase().equals("boolean")) {
 				p.setBoolean(key, Boolean.valueOf(value.toString()));
-			} else if (type.toLowerCase().equals("long")) {
+			}
+			else if (type.toLowerCase().equals("long")) {
 				p.setLong(key, Long.valueOf(value.toString()));
-			} else if (type.toLowerCase().equals("int")) {
+			}
+			else if (type.toLowerCase().equals("int")) {
 				p.setInt(key, Integer.valueOf(value.toString()));
-			} else if (type.toLowerCase().equals("string")) {
+			}
+			else if (type.toLowerCase().equals("string")) {
 				p.setString(key, value.toString());
-			} else if (type.toLowerCase().equals("double")) {
+			}
+			else if (type.toLowerCase().equals("double")) {
 				p.setDouble(key, Double.valueOf(value.toString()));
 			}
 			p.save();
 			return true;
-		} else {
+		}
+		else {
 			throw new FileNotFoundException(fileName + ".properties was not found");
 		}
 	}
@@ -934,11 +984,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	public double getDiskFreeSpace() {
 		return (new File(".")).getFreeSpace() / 1024.0 / 1024.0;
 	}
-	
+
 	public JSONObject testClock() {
 		return JSONAPI.instance.getTickRateCounter().getJSONObject();
 	}
-
 
 	public List<JSONObject> getStreamWithLimit(String streamName, int count) {
 		List<JSONAPIStreamMessage> stack = JSONAPI.instance.getStreamManager().getStream(streamName).getStack();
@@ -983,7 +1032,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		return getConnectionLogs(-1);
 	}
 
-	boolean isRTKloaded = false;
+	boolean	isRTKloaded	= false;
 
 	// RTK methods
 	public boolean restartServer() throws IOException, RTKInterfaceException {
@@ -1009,7 +1058,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			RecursiveDirLister d = new RecursiveDirLister(dir);
 
 			return d.getFileListing();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			// e.printStackTrace();
 			return new ArrayList<String>();
 		}
@@ -1021,7 +1071,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			RecursiveDirLister d = new RecursiveDirLister(dir);
 
 			return d.getSingleFileListing();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			// e.printStackTrace();
 			return new ArrayList<String>();
 		}
@@ -1100,7 +1151,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		try {
 			Bukkit.getOfflinePlayer(playerName).setBanned(false);
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
@@ -1109,7 +1161,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		try {
 			Bukkit.getOfflinePlayer(playerName).setWhitelisted(true);
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
@@ -1118,7 +1171,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		try {
 			Bukkit.getOfflinePlayer(playerName).setWhitelisted(false);
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
@@ -1133,7 +1187,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 			p.setOp(true);
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
@@ -1148,7 +1203,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 			p.setOp(false);
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
@@ -1168,7 +1224,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			player.teleport(new Location(player.getWorld(), x, y, z));
 			player.saveData();
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
@@ -1179,7 +1236,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			p.teleport(new Location(Server.getWorld(world), x, y, z));
 			p.saveData();
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
@@ -1202,13 +1260,13 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 				((Sign) d).setLine(i, lines[i]);
 			}
 			((Sign) d).update();
-			
+
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	public boolean setSignText(String world, int x, int y, int z, List<String> lines) {
 		String[] a = new String[lines.size()];
 		lines.toArray(a);
@@ -1248,7 +1306,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			inv.setItem(slot, it);
 
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
@@ -1264,7 +1323,8 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			inv.setItem(slot, it);
 
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 
@@ -1276,12 +1336,13 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			inv.clear(slot);
 
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			return false;
 		}
 	}
-	
+
 	public boolean spawn(String world, double x, double y, double z, String mobName) {
 		return getServer().getWorld(world).spawnEntity(new Location(getServer().getWorld(world), x, y, z), EntityType.fromName(mobName)) != null;
-	}	
+	}
 }

@@ -1,19 +1,19 @@
 package com.alecgorge.minecraft.jsonapi.permissions;
 
 public class JSONAPIAuthResponse {
-	private boolean authenticated;
-	private boolean allowed;
-	
-	private String key;
-	private String username;
-	
-	private String message = null;
-	
+	private boolean	authenticated;
+	private boolean	allowed;
+
+	private String	key;
+	private String	username;
+
+	private String	message	= null;
+
 	public JSONAPIAuthResponse(boolean al, boolean auth) {
 		authenticated = auth;
 		allowed = al;
 	}
-	
+
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
@@ -31,11 +31,11 @@ public class JSONAPIAuthResponse {
 	}
 
 	public String getMessage() {
-		if(message == null) {
-			if(authenticated == false) {
+		if (message == null) {
+			if (authenticated == false) {
 				return "Invalid username, password or salt.";
 			}
-			if(allowed == false) {
+			if (allowed == false) {
 				return "You had the correct username, password and salt but you just aren't allowed to use this API method.";
 			}
 		}

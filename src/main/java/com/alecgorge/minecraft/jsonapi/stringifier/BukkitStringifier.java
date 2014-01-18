@@ -41,13 +41,13 @@ import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIGroup;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 
 public class BukkitStringifier {
-	public static HashMap<String, Class<?>> handle = new HashMap<String, Class<?>>();
-	static TimeZone tz = TimeZone.getTimeZone("UTC");
-	static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+	public static HashMap<String, Class<?>>	handle		= new HashMap<String, Class<?>>();
+	static TimeZone							tz			= TimeZone.getTimeZone("UTC");
+	static DateFormat						dateFormat	= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 	static {
-		dateFormat.setTimeZone(tz);		
-		
+		dateFormat.setTimeZone(tz);
+
 		handle.put("Player", org.bukkit.entity.Player.class);
 		handle.put("Player[]", org.bukkit.entity.Player[].class);
 		handle.put("OfflinePlayer", org.bukkit.OfflinePlayer.class);
@@ -93,9 +93,11 @@ public class BukkitStringifier {
 		if (obj instanceof World.Environment) {
 			World.Environment e = (World.Environment) obj;
 			return e.name().toLowerCase();
-		} else if (obj instanceof File) {
+		}
+		else if (obj instanceof File) {
 			return ((File) obj).toString();
-		} else if (obj instanceof Block) {
+		}
+		else if (obj instanceof Block) {
 			Block b = (Block) obj;
 			JSONObject o = new JSONObject();
 
@@ -103,7 +105,8 @@ public class BukkitStringifier {
 			o.put("data", b.getData());
 
 			return o;
-		} else if (obj instanceof Player) {
+		}
+		else if (obj instanceof Player) {
 			Player p = (Player) obj;
 			JSONObject o = new JSONObject();
 
@@ -134,7 +137,8 @@ public class BukkitStringifier {
 			o.put("enderchest", p.getEnderChest());
 
 			return o;
-		} else if (obj instanceof OfflinePlayer) {
+		}
+		else if (obj instanceof OfflinePlayer) {
 			OfflinePlayer op = (OfflinePlayer) obj;
 			JSONObject o = new JSONObject();
 
@@ -149,7 +153,8 @@ public class BukkitStringifier {
 			o.put("name", op.getName());
 
 			return o;
-		} else if (obj instanceof Server) {
+		}
+		else if (obj instanceof Server) {
 			Server s = (Server) obj;
 
 			JSONObject o = new JSONObject();
@@ -163,7 +168,8 @@ public class BukkitStringifier {
 			o.put("worlds", s.getWorlds());
 
 			return o;
-		} else if (obj instanceof World) {
+		}
+		else if (obj instanceof World) {
 			World w = (World) obj;
 
 			JSONObject o = new JSONObject();
@@ -178,18 +184,19 @@ public class BukkitStringifier {
 			o.put("isPVP", w.getPVP());
 			o.put("difficulty", w.getDifficulty().getValue());
 			o.put("seed", String.valueOf(w.getSeed()));
-			
+
 			List<String> playerNames = new ArrayList<String>();
-			for(Player p : w.getPlayers()) {
-				if(!p.getName().equals("¤fHerobrine")) {
+			for (Player p : w.getPlayers()) {
+				if (!p.getName().equals("¤fHerobrine")) {
 					playerNames.add(p.getName());
 				}
 			}
-			
+
 			o.put("players", playerNames);
 
 			return o;
-		} else if (obj instanceof Plugin) {
+		}
+		else if (obj instanceof Plugin) {
 			Plugin p = (Plugin) obj;
 			PluginDescriptionFile d = p.getDescription();
 
@@ -204,7 +211,8 @@ public class BukkitStringifier {
 			o.put("commands", d.getCommands());
 
 			return o;
-		} else if (obj instanceof ItemStack) {
+		}
+		else if (obj instanceof ItemStack) {
 			ItemStack i = (ItemStack) obj;
 
 			JSONObject o = new JSONObject();
@@ -220,21 +228,22 @@ public class BukkitStringifier {
 			}
 
 			o.put("enchantments", enchantments);
-			
+
 			if (((ItemStack) obj).getType().equals(Material.BOOK_AND_QUILL) || ((ItemStack) obj).getType().equals(Material.WRITTEN_BOOK)) {
 				JSONObject book = new JSONObject();
-				
-				BookMeta bookObj = (BookMeta)((ItemStack)obj).getItemMeta();
-				
+
+				BookMeta bookObj = (BookMeta) ((ItemStack) obj).getItemMeta();
+
 				book.put("pages", bookObj.getPages());
 				book.put("title", bookObj.getTitle());
 				book.put("author", bookObj.getAuthor());
-				
+
 				o.put("book", book);
 			}
-			
+
 			return o;
-		} else if (obj instanceof PlayerInventory) {
+		}
+		else if (obj instanceof PlayerInventory) {
 			PlayerInventory p = (PlayerInventory) obj;
 
 			JSONObject o = new JSONObject();
@@ -250,11 +259,13 @@ public class BukkitStringifier {
 			o.put("inventory", Arrays.asList(p.getContents()));
 
 			return o;
-		} else if (obj instanceof Inventory) {
+		}
+		else if (obj instanceof Inventory) {
 			Inventory p = (Inventory) obj;
 
 			return Arrays.asList(p.getContents());
-		} else if (obj instanceof Location) {
+		}
+		else if (obj instanceof Location) {
 			Location l = (Location) obj;
 
 			JSONObject o = new JSONObject();
@@ -266,45 +277,52 @@ public class BukkitStringifier {
 			o.put("yaw", l.getYaw());
 
 			return o;
-		} else if (obj instanceof Plugin[]) {
+		}
+		else if (obj instanceof Plugin[]) {
 			List<Plugin> l = Arrays.asList((Plugin[]) obj);
 
 			Collections.sort(l, new PluginSorter());
 
 			return l;
-		} else if(obj instanceof JSONAPIUser) {
+		}
+		else if (obj instanceof JSONAPIUser) {
 			JSONObject o = new JSONObject();
-			JSONAPIUser u = (JSONAPIUser)obj;
+			JSONAPIUser u = (JSONAPIUser) obj;
 
 			o.put("username", u.getUsername());
 			o.put("password", u.getPassword());
 			o.put("groups", u.getGroups());
 
 			return o;
-		} else if (obj instanceof JSONAPIGroup) { 
+		}
+		else if (obj instanceof JSONAPIGroup) {
 			JSONObject o = new JSONObject();
-			JSONAPIGroup g = (JSONAPIGroup)obj;
+			JSONAPIGroup g = (JSONAPIGroup) obj;
 
 			o.put("name", g.getName());
 			o.put("streams", g.getStreams());
 			o.put("methods", g.getMethods());
 			o.put("permissions", g.getPermissions());
 
-			return o;			
-		} else if(obj instanceof JSONAPIPermissionNode) {
-//			JSONObject o = new JSONObject();
-			JSONAPIPermissionNode n = (JSONAPIPermissionNode)obj;
+			return o;
+		}
+		else if (obj instanceof JSONAPIPermissionNode) {
+			// JSONObject o = new JSONObject();
+			JSONAPIPermissionNode n = (JSONAPIPermissionNode) obj;
 
-//			o.put("name", n.getName());
-//			o.put("methods", n.getName());
-//			o.put("streams", n.getStreams());
-			
-			return n.getName();			
-		} else if (obj instanceof GameMode) {
+			// o.put("name", n.getName());
+			// o.put("methods", n.getName());
+			// o.put("streams", n.getStreams());
+
+			return n.getName();
+		}
+		else if (obj instanceof GameMode) {
 			return ((GameMode) obj).getValue();
-		} else if (obj instanceof Enchantment) {
+		}
+		else if (obj instanceof Enchantment) {
 			return ((Enchantment) obj).getId();
-		} else if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null && obj instanceof EconomyResponse) {
+		}
+		else if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null && obj instanceof EconomyResponse) {
 			JSONObject o = new JSONObject();
 			EconomyResponse r = (EconomyResponse) obj;
 
@@ -314,25 +332,29 @@ public class BukkitStringifier {
 			o.put("type", r.type.toString());
 
 			return o;
-		} else if (obj instanceof Adminium3.AdminiumPushNotification) {
+		}
+		else if (obj instanceof Adminium3.AdminiumPushNotification) {
 			JSONObject o = new JSONObject();
-			Adminium3.AdminiumPushNotification not = (Adminium3.AdminiumPushNotification)obj;
-			
+			Adminium3.AdminiumPushNotification not = (Adminium3.AdminiumPushNotification) obj;
+
 			o.put("date", not.getDateSent());
 			o.put("message", not.getMessage());
-			
-			return o;			
-		} else if(obj instanceof AdminiumPushNotification) {
-			JSONObject o = new JSONObject();
-			AdminiumPushNotification not = (AdminiumPushNotification)obj;
-			
-			o.put("date", not.getDateSent());
-			o.put("message", not.getMessage());
-			
+
 			return o;
-		} else if (obj instanceof Date) {
-			return dateFormat.format((Date)obj);
-		} else if (obj instanceof Object[]) {
+		}
+		else if (obj instanceof AdminiumPushNotification) {
+			JSONObject o = new JSONObject();
+			AdminiumPushNotification not = (AdminiumPushNotification) obj;
+
+			o.put("date", not.getDateSent());
+			o.put("message", not.getMessage());
+
+			return o;
+		}
+		else if (obj instanceof Date) {
+			return dateFormat.format((Date) obj);
+		}
+		else if (obj instanceof Object[]) {
 			int l = ((Object[]) obj).length;
 			JSONArray a = new JSONArray();
 			for (int i = 0; i < l; i++) {

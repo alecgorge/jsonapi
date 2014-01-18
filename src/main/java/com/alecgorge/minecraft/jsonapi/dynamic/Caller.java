@@ -24,14 +24,14 @@ import com.alecgorge.minecraft.jsonapi.api.APIMethodName;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
 
 public class Caller implements JSONAPIMethodProvider {
-	public HashMap<String, HashMap<String, Method>> methods = new HashMap<String, HashMap<String, Method>>();
-	private JSONParser p = new JSONParser();
-	private JSONAPI inst;
-	private Logger outLog = JSONAPI.instance.outLog;
-	public int methodCount = 0;
+	public HashMap<String, HashMap<String, Method>>	methods			= new HashMap<String, HashMap<String, Method>>();
+	private JSONParser								p				= new JSONParser();
+	private JSONAPI									inst;
+	private Logger									outLog			= JSONAPI.instance.outLog;
+	public int										methodCount		= 0;
 
-	private List<JSONAPICallHandler> handlers = new ArrayList<JSONAPICallHandler>();
-	private List<JSONAPIMethodProvider> objectsToCheck = new ArrayList<JSONAPIMethodProvider>();
+	private List<JSONAPICallHandler>				handlers		= new ArrayList<JSONAPICallHandler>();
+	private List<JSONAPIMethodProvider>				objectsToCheck	= new ArrayList<JSONAPIMethodProvider>();
 
 	public Caller(JSONAPI plugin) {
 		inst = plugin;
@@ -51,12 +51,13 @@ public class Caller implements JSONAPIMethodProvider {
 		checkObjects();
 
 		final Call c;
-		if(methods.get("").containsKey(methodAndNamespace)) {
+		if (methods.get("").containsKey(methodAndNamespace)) {
 			c = methods.get("").get(methodAndNamespace).getCall();
 		}
 		else if (methodParts.length == 1) {
 			c = methods.get("").get(methodParts[0]).getCall();
-		} else {
+		}
+		else {
 			c = methods.get(methodParts[0]).get(methodParts[1]).getCall();
 		}
 
@@ -77,7 +78,9 @@ public class Caller implements JSONAPIMethodProvider {
 						methods.put(a.namespace(), new HashMap<String, Method>());
 					}
 
-//					System.out.println(String.format("adding %s.%s: %s %s", a.namespace(), a.name().isEmpty() ? m.getName() : a.name(), o,m));
+					// System.out.println(String.format("adding %s.%s: %s %s",
+					// a.namespace(), a.name().isEmpty() ? m.getName() :
+					// a.name(), o,m));
 					methods.get(a.namespace()).put(a.name().isEmpty() ? m.getName() : a.name(), new Method(o, m, a));
 				}
 			}
@@ -94,16 +97,18 @@ public class Caller implements JSONAPIMethodProvider {
 
 		try {
 			return f.get();
-		} catch (InterruptedException e) {
+		}
+		catch (InterruptedException e) {
 			return f.get();
-		} catch (ExecutionException e) {
+		}
+		catch (ExecutionException e) {
 			throw e.getCause();
 		}
 	}
 
 	@API_Method(namespace = "jsonapi", argumentDescriptions = { "The name of the method to test. Should be a FQN. Ex: dynmap.getHost or getPlayers" })
 	public boolean methodExists(String name) {
-		if(methods.get("").containsKey(name)) {
+		if (methods.get("").containsKey(name)) {
 			return true;
 		}
 		String[] methodParts = name.split("\\.", 2);
@@ -117,12 +122,13 @@ public class Caller implements JSONAPIMethodProvider {
 
 		checkObjects();
 
-		if(methods.get("").containsKey(name)) {
+		if (methods.get("").containsKey(name)) {
 			return true;
 		}
 		else if (methodParts.length == 1) {
 			return methods.get("").containsKey(methodParts[0]);
-		} else {
+		}
+		else {
 			return methods.containsKey(methodParts[0]) && methods.get(methodParts[0]).containsKey(methodParts[1]);
 		}
 	}
@@ -137,31 +143,33 @@ public class Caller implements JSONAPIMethodProvider {
 
 		return r;
 	}
-	
+
 	public List<String> getAllMethods() {
 		List<String> r = new ArrayList<String>();
-		
+
 		for (String key : methods.keySet()) {
 			r.addAll(new ArrayList<String>(methods.get(key).keySet()));
 		}
-		
+
 		Collections.sort(r);
-		
+
 		return r;
 	}
 
 	public void loadFile(File methodsFile) {
 		try {
 			magicWithMethods(p.parse(new FileReader(methodsFile)));
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void loadInputStream(InputStream methodsFile) {
 		try {
 			magicWithMethods(p.parse(new InputStreamReader(methodsFile)));
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -185,7 +193,8 @@ public class Caller implements JSONAPIMethodProvider {
 
 			if (methods.containsKey("name")) {
 				name = methods.get("name").toString();
-			} else {
+			}
+			else {
 				throw new Exception("A JSON file is not well formed: missing the key 'name' for the root object.");
 			}
 
@@ -197,7 +206,8 @@ public class Caller implements JSONAPIMethodProvider {
 					for (Object o : ((JSONArray) deps)) {
 						pluginNames.add(o.toString());
 					}
-				} else {
+				}
+				else {
 					pluginNames.add(deps.toString());
 				}
 
@@ -207,20 +217,25 @@ public class Caller implements JSONAPIMethodProvider {
 
 					if (p == null && !plugin.equals("JSONAPI")) {
 						outLog.info("[JSONAPI] " + name + " cannot be loaded because it depends on a plugin that is not installed: '" + plugin + "'");
-					} else if (plugin.equals("JSONAPI") || p.isEnabled()) {
+					}
+					else if (plugin.equals("JSONAPI") || p.isEnabled()) {
 						if (methods.containsKey("methods")) {
 							proccessMethodsWithNamespace((JSONArray) methods.get("methods"), methods.containsKey("namespace") ? methods.get("namespace").toString() : "");
-						} else {
+						}
+						else {
 							throw new Exception("A JSON file is not well formed: missing the key 'methods' for the root object.");
 						}
-					} else {
+					}
+					else {
 						outLog.info("[JSONAPI] " + name + " cannot be loaded because it depends on a plugin that is not enabled: '" + plugin + "'");
 					}
 				}
 			}
-		} else if (raw instanceof JSONArray) {
+		}
+		else if (raw instanceof JSONArray) {
 			proccessMethodsWithNamespace((JSONArray) raw, "");
-		} else {
+		}
+		else {
 			throw new Exception("JSON file is not a valid methods file.");
 		}
 	}
@@ -247,7 +262,8 @@ public class Caller implements JSONAPIMethodProvider {
 	public void loadString(String methodsString) {
 		try {
 			magicWithMethods(p.parse(methodsString));
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

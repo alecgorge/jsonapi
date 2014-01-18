@@ -11,77 +11,78 @@ import java.util.Properties;
 
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
-public class JSONSocketServer implements Runnable{
+public class JSONSocketServer implements Runnable {
 	protected int			serverPort		= 20060;
 	protected ServerSocket	serverSocket	= null;
 	protected JSONServer	jsonServer		= null;
 	protected boolean		isStopped		= true;
 	protected Thread		runningThread	= null;
 
-	public JSONSocketServer(int port, JSONServer jsonServer){
+	public JSONSocketServer(int port, JSONServer jsonServer) {
 		this.serverPort = port;
 		this.jsonServer = jsonServer;
 		start();
 	}
 
-	public void run(){
-		synchronized(this){
+	public void run() {
+		synchronized (this) {
 			this.runningThread = Thread.currentThread();
 			isStopped = false;
 		}
-		
+
 		try {
-			if(JSONAPI.instance.bindAddress != null) {
+			if (JSONAPI.instance.bindAddress != null) {
 				this.serverSocket = new ServerSocket(this.serverPort, -1, JSONAPI.instance.bindAddress);
 			}
 			else {
 				this.serverSocket = new ServerSocket(this.serverPort);
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		finally {
-			while(!isStopped()){
+			while (!isStopped()) {
 				Socket clientSocket = null;
-				
+
 				try {
 					clientSocket = this.serverSocket.accept();
 					clientSocket.setTcpNoDelay(true);
-				} catch (IOException e) {
-					if(isStopped()) {
+				}
+				catch (IOException e) {
+					if (isStopped()) {
 						return;
 					}
 					e.printStackTrace();
 				}
-				
-				new Thread(
-					new WorkerRunnable(clientSocket)
-				).start();
+
+				new Thread(new WorkerRunnable(clientSocket)).start();
 			}
 		}
 	}
-	
+
 	private synchronized boolean isStopped() {
 		return this.isStopped;
 	}
 
-	public synchronized void stop(){
+	public synchronized void stop() {
 		this.isStopped = true;
 		try {
 			this.serverSocket.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public synchronized void start(){
+	public synchronized void start() {
 		(new Thread(this)).start();
 	}
-	
-	public class WorkerRunnable implements Runnable{
 
-		protected Socket clientSocket = null;
-		protected String serverText	 = null;
+	public class WorkerRunnable implements Runnable {
+
+		protected Socket	clientSocket	= null;
+		protected String	serverText		= null;
 
 		public WorkerRunnable(Socket clientSocket) {
 			this.clientSocket = clientSocket;
@@ -90,16 +91,16 @@ public class JSONSocketServer implements Runnable{
 		public void run() {
 			try {
 				String line2 = "";
-				final BufferedReader input	= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				final BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				final DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
 
-				while((line2 = input.readLine()) != null) {
+				while ((line2 = input.readLine()) != null) {
 					// format method=xyz&args=[]&username=user&password=pass
 					String[] split = line2.split("\\?", 2);
-					
+
 					NanoHTTPD.Response r = null;
-					if(split.length < 2) {
-						r = jsonServer.new Response( NanoHTTPD.HTTP_NOTFOUND, NanoHTTPD.MIME_JSON, jsonServer.returnAPIError("", "Incorrect. Socket requests are in the format PAGE?ARGUMENTS. For example, /api/subscribe?source=....").toJSONString());
+					if (split.length < 2) {
+						r = jsonServer.new Response(NanoHTTPD.HTTP_NOTFOUND, NanoHTTPD.MIME_JSON, jsonServer.returnAPIError("", "Incorrect. Socket requests are in the format PAGE?ARGUMENTS. For example, /api/subscribe?source=....").toJSONString());
 					}
 					else {
 						Properties header = new Properties();
@@ -108,31 +109,33 @@ public class JSONSocketServer implements Runnable{
 						p.put("X-REMOTE-ADDR", clientSocket.getInetAddress().getHostAddress());
 						r = jsonServer.serve(split[0], "GET", p, header);
 					}
-					
-					if(r.data instanceof StreamingResponse) {
-						final StreamingResponse s = (StreamingResponse)r.data;
+
+					if (r.data instanceof StreamingResponse) {
+						final StreamingResponse s = (StreamingResponse) r.data;
 						(new Thread(new Runnable() {
 							@Override
 							public void run() {
 								String line = "";
 								boolean continueSending = true;
-								
-								while((line = s.nextLine()) != null && continueSending) {
+
+								while ((line = s.nextLine()) != null && continueSending) {
 									try {
-										if(clientSocket.isConnected() && !clientSocket.isClosed()) {
-											output.write((line.trim()+"\r\n").getBytes("UTF-8"));
+										if (clientSocket.isConnected() && !clientSocket.isClosed()) {
+											output.write((line.trim() + "\r\n").getBytes("UTF-8"));
 										}
 										else {
 											continueSending = false;
 										}
-									} catch (IOException e) {
-										//e.printStackTrace();
+									}
+									catch (IOException e) {
+										// e.printStackTrace();
 										continueSending = false;
 										try {
 											clientSocket.close();
 											output.close();
 											input.close();
-										} catch (IOException e1) {
+										}
+										catch (IOException e1) {
 											e1.printStackTrace();
 										}
 									}
@@ -142,16 +145,16 @@ public class JSONSocketServer implements Runnable{
 					}
 					else {
 						BufferedReader data;
-						if(r.data != null)
+						if (r.data != null)
 							data = new BufferedReader(new InputStreamReader(r.data));
 						else
 							data = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(r.bytes)));
-						
+
 						try {
 							String line = "";
-	
-							while((line = data.readLine()) != null) {
-								output.write((line+"\r\n").getBytes("UTF-8"));
+
+							while ((line = data.readLine()) != null) {
+								output.write((line + "\r\n").getBytes("UTF-8"));
 								// fuck java: output.writeUTF(line+"\r\n");
 							}
 						}
@@ -159,17 +162,19 @@ public class JSONSocketServer implements Runnable{
 							e.printStackTrace();
 						}
 					}
-					
+
 				}
 				output.close();
 				input.close();
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				try {
 					clientSocket.close();
-				} catch (IOException e1) {
 				}
-				
-				//e.printStackTrace();
+				catch (IOException e1) {
+				}
+
+				// e.printStackTrace();
 			}
 		}
 	}

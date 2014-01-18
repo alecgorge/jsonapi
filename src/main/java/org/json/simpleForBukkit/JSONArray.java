@@ -10,96 +10,97 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * A JSON array. JSONObject supports java.util.List interface.
  * 
  * @author FangYidong<fangyidong@yahoo.com.cn>
  */
 public class JSONArray extends ArrayList<Object> implements List<Object>, JSONAware, JSONStreamAware {
-	private static final long serialVersionUID = 3957988303675231981L;
+	private static final long	serialVersionUID	= 3957988303675231981L;
 
-    /**
-     * Encode a list into JSON text and write it to out. 
-     * If this list is also a JSONStreamAware or a JSONAware, JSONStreamAware and JSONAware specific behaviours will be ignored at this top level.
-     * 
-     * @see org.json.simpleForBukkit.JSONValue#writeJSONString(Object, Writer)
-     * 
-     * @param list
-     * @param out
-     */
-	public static void writeJSONString(List<Object> list, Writer out) throws IOException{
-		if(list == null){
+	/**
+	 * Encode a list into JSON text and write it to out. If this list is also a
+	 * JSONStreamAware or a JSONAware, JSONStreamAware and JSONAware specific
+	 * behaviours will be ignored at this top level.
+	 * 
+	 * @see org.json.simpleForBukkit.JSONValue#writeJSONString(Object, Writer)
+	 * 
+	 * @param list
+	 * @param out
+	 */
+	public static void writeJSONString(List<Object> list, Writer out) throws IOException {
+		if (list == null) {
 			out.write("null");
 			return;
 		}
-		
+
 		boolean first = true;
-		Iterator<Object> iter=list.iterator();
-		
-        out.write('[');
-		while(iter.hasNext()){
-            if(first)
-                first = false;
-            else
-                out.write(',');
-            
-			Object value=iter.next();
-			if(value == null){
+		Iterator<Object> iter = list.iterator();
+
+		out.write('[');
+		while (iter.hasNext()) {
+			if (first)
+				first = false;
+			else
+				out.write(',');
+
+			Object value = iter.next();
+			if (value == null) {
 				out.write("null");
 				continue;
 			}
-			
+
 			JSONValue.writeJSONString(value, out);
 		}
 		out.write(']');
 	}
-	
-	public void writeJSONString(Writer out) throws IOException{
+
+	public void writeJSONString(Writer out) throws IOException {
 		writeJSONString(this, out);
 	}
-	
+
 	/**
-	 * Convert a list to JSON text. The result is a JSON array. 
-	 * If this list is also a JSONAware, JSONAware specific behaviours will be omitted at this top level.
+	 * Convert a list to JSON text. The result is a JSON array. If this list is
+	 * also a JSONAware, JSONAware specific behaviours will be omitted at this
+	 * top level.
 	 * 
 	 * @see org.json.simpleForBukkit.JSONValue#toJSONString(Object)
 	 * 
 	 * @param list
 	 * @return JSON text, or "null" if list is null.
 	 */
-	public static String toJSONString(List<Object> list){
-		if(list == null)
+	public static String toJSONString(List<Object> list) {
+		if (list == null)
 			return "null";
-		
-        boolean first = true;
-        StringBuffer sb = new StringBuffer();
-		Iterator<Object> iter=list.iterator();
-        
-        sb.append('[');
-		while(iter.hasNext()){
-            if(first)
-                first = false;
-            else
-                sb.append(',');
-            
-			Object value=iter.next();
-			if(value == null){
+
+		boolean first = true;
+		StringBuffer sb = new StringBuffer();
+		Iterator<Object> iter = list.iterator();
+
+		sb.append('[');
+		while (iter.hasNext()) {
+			if (first)
+				first = false;
+			else
+				sb.append(',');
+
+			Object value = iter.next();
+			if (value == null) {
 				sb.append("null");
 				continue;
 			}
 			sb.append(JSONValue.toJSONString(value));
 		}
-        sb.append(']');
+		sb.append(']');
 		return sb.toString();
 	}
 
-	public String toJSONString(){
+	public String toJSONString() {
 		return toJSONString(this);
 	}
-	
+
 	public String toString() {
 		return toJSONString();
 	}
-	
+
 }
