@@ -30,7 +30,7 @@ versions['1.4.7'] = package: 'v1_4_R1', cb_version: '1.4.7-R1.0'
 versions['1.5.2'] = package: 'v1_5_R3', cb_version: '1.5.2-R1.0'
 versions['1.6.2'] = package: 'v1_6_R2', cb_version: '1.6.2-R1.0'
 versions['1.6.4'] = package: 'v1_6_R3', cb_version: '1.6.4-R2.0'
-versions['1.7.2'] = package: 'v1_7_R1', cb_version: '1.7.2-R0.1-SNAPSHOT'
+versions['1.7.2'] = package: 'v1_7_R1', cb_version: '1.7.2-R0.3-SNAPSHOT'
 
 versions['1.4']   = versions['1.4.7']
 versions['1.5']   = versions['1.5.2']
@@ -73,7 +73,8 @@ if command is "build"
 #!/usr/bin/env bash
 # Generated with the command ./jsonapi build #{version}
 
-cd "#{__dirname}"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
 """
 		console.log build(to_build).join("\n")
 	else
@@ -89,9 +90,10 @@ else if command is "test"
 #!/usr/bin/env bash
 # Generated with the command ./jsonapi test #{version}
 
-cd "#{__dirname}"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
 #{build_cmd(ver)} && cd test/ && java -Xmx256M -jar craftbukkit-#{ver.cb_version}.jar
-cd "#{__dirname}"
+cd $DIR
 """
 else if command is "eclipse"
 	version = process.argv[3] or DEFAULT_VERSION
@@ -104,7 +106,8 @@ else if command is "eclipse"
 #!/usr/bin/env bash
 # Generated with the command ./jsonapi eclipse #{version}
 
-cd "#{__dirname}"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
 #{eclipse_cmd(ver)}
 """
 

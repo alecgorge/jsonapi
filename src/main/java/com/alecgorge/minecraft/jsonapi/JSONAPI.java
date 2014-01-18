@@ -555,7 +555,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			registerStreamManager("connections", getJSONServer().connections);
 
 			streamPusher = new StreamPusher(streamManager, new File(getDataFolder(), "push_locations.yml"), max_queue_age, max_queue_length);
-			groupManager = new GroupManager();
+			groupManager = new GroupManager(this);
 
 			initialiseListeners();
 

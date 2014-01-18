@@ -4,11 +4,11 @@
 $host = "localhost";
 $port = 20059;
 $endpoint = "api/2/call";
-$host = "localhost";
-$endpoint = "api/2/call";
+// $host = "dedicated.alecgorge.com";
+// $endpoint = "api/2/call";
 
-$username = "admin";
-$password = "changeme2";
+$username = "chatonly";
+$password = "example";
 
 function gen_key($name) {
 	global $username, $password, $salt;
@@ -16,14 +16,14 @@ function gen_key($name) {
 }
 
 
-$methodName = "streams.chat.latest";
+$methodName = "server";
 
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => [150],
+		'arguments' => [],
 		'tag' => '1'
 	),
 	// array(
@@ -119,7 +119,7 @@ if($stream) {
 
 $url = sprintf("http://%s:%d/%s?json=%s", $host, $port, $endpoint, rawurlencode(json_encode($payload)));
 echo $url . "\n"; // "\n\n\n";
-exit();
+// exit();
 
 $c = curl_init($url);
 curl_setopt($c, CURLOPT_PORT, $port);

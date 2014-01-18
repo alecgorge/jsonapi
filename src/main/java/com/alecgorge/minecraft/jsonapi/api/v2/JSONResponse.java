@@ -80,7 +80,7 @@ public class JSONResponse {
 		if(this.auth != null) {
 			return this.auth;
 		}
-		JSONAPIAuthEvent auth = new JSONAPIAuthEvent(new JSONAPIAuthResponse(true, false), methodName, username, stream);
+		JSONAPIAuthEvent auth = new JSONAPIAuthEvent(new JSONAPIAuthResponse(false, false), methodName, username, stream);
 		try {
 			UsersConfig logins = JSONAPI.instance.getAuthTable();
 			
@@ -93,8 +93,10 @@ public class JSONResponse {
 				}
 			}
 			
+			JSONAPI.dbug("Calling auth event " + auth);
 			Bukkit.getPluginManager().callEvent(auth);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return this.auth = auth.getAuthResponse();
 	}

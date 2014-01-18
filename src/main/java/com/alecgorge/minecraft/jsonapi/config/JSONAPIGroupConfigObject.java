@@ -3,6 +3,8 @@ package com.alecgorge.minecraft.jsonapi.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alecgorge.minecraft.jsonapi.JSONAPI;
+
 public class JSONAPIGroupConfigObject extends ConfigObject {
 	public String name;
 	public List<String> streams = new ArrayList<String>();
@@ -49,17 +51,28 @@ public class JSONAPIGroupConfigObject extends ConfigObject {
 	}
 	
 	public boolean canUseMethod(String methodName) {
+		JSONAPI.dbug("Testing permissions for " + methodName);
+		
 		if(getMethods().contains("ALLOW_ALL")) {
+			JSONAPI.dbug("ALLOW_ALL found in methods");
 			return true;
 		}
 		
 		for(JSONAPIPermissionNode node : getPermissions()) {
 			if(node.canUseMethod(methodName)) {
+				JSONAPI.dbug(node.getName() + " allows usage of " + methodName);
 				return true;
 			}
 		}
 		
-		return getMethods().contains("ALLOW_ALL") || getMethods().contains(methodName);
+		if(getMethods().contains(methodName)) {
+			JSONAPI.dbug("the user's method list explicitly contains " + methodName);
+			return true;
+		}
+		else {
+			JSONAPI.dbug("the user cannot use " + methodName);
+			return false;
+		}
 	}
 	
 	public boolean hasPermission(String permission) {
