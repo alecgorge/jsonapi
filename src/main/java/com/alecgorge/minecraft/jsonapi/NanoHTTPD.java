@@ -90,8 +90,7 @@ public class NanoHTTPD {
 	public static String decodePercent(String str) {
 		try {
 			return URLDecoder.decode(str, "UTF-8");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -180,7 +179,7 @@ public class NanoHTTPD {
 			this.mimeType = mimeType;
 			this.bytes = txt.getBytes(Charset.forName("UTF-8"));
 		}
-
+		
 		public Response(String status, String mimeType, byte[] bytes) {
 			this.status = status;
 			this.mimeType = mimeType;
@@ -197,50 +196,48 @@ public class NanoHTTPD {
 		/**
 		 * HTTP status code after processing, e.g. "200 OK", HTTP_OK
 		 */
-		public String		status;
+		public String status;
 
 		/**
 		 * MIME type of content, e.g. "text/html"
 		 */
-		public String		mimeType;
+		public String mimeType;
 
 		/**
 		 * Data of the response, may be null.
 		 */
-		public InputStream	data;
+		public InputStream data;
 
 		/**
 		 * Headers for the HTTP response. Use addHeader() to add lines.
 		 */
-		public Properties	header	= new Properties();
-
-		public byte[]		bytes;
+		public Properties header = new Properties();
+		
+		public byte[] bytes;
 	}
-
+	
 	public class WebSocketResponse extends Response {
 		public WebSocketResponse(Properties header) {
-			super("101 Switching Protocols", null, new byte[] {});
-
+			super("101 Switching Protocols", null, new byte[]{});
+			
 			String challenge = header.get("Sec-WebSocket-Key".toLowerCase()).toString();
 			challenge += "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-
+			
 			addHeader("Upgrade", "websocket");
 			addHeader("Connection", "Upgrade");
 			try {
 				addHeader("Sec-WebSocket-Accept", toSHA1(challenge.getBytes("UTF-8")));
-			}
-			catch (UnsupportedEncodingException e) {
+			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
+		
 		public String toSHA1(byte[] convertme) {
 			MessageDigest md = null;
 			try {
 				md = MessageDigest.getInstance("SHA-1");
-			}
-			catch (NoSuchAlgorithmException e) {
+			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			}
 			byte[] buf = md.digest(convertme);
@@ -251,22 +248,12 @@ public class NanoHTTPD {
 	/**
 	 * Some HTTP response status codes
 	 */
-	public static final String	HTTP_OK	= "200 OK",
-			HTTP_REDIRECT = "301 Moved Permanently",
-			HTTP_FORBIDDEN = "403 Forbidden",
-			HTTP_NOTFOUND = "404 Not Found",
-			HTTP_BADREQUEST = "400 Bad Request",
-			HTTP_INTERNALERROR = "500 Internal Server Error",
-			HTTP_UNAUTHORIZED = "401 Authorization Required",
-			HTTP_NOTIMPLEMENTED = "501 Not Implemented";
+	public static final String HTTP_OK = "200 OK", HTTP_REDIRECT = "301 Moved Permanently", HTTP_FORBIDDEN = "403 Forbidden", HTTP_NOTFOUND = "404 Not Found", HTTP_BADREQUEST = "400 Bad Request", HTTP_INTERNALERROR = "500 Internal Server Error", HTTP_UNAUTHORIZED = "401 Authorization Required", HTTP_NOTIMPLEMENTED = "501 Not Implemented";
 
 	/**
 	 * Common mime types for dynamic content
 	 */
-	public static final String	MIME_PLAINTEXT	= "text/plain",
-			MIME_HTML = "text/html",
-			MIME_DEFAULT_BINARY = "application/octet-stream",
-			MIME_JSON = "application/json";
+	public static final String MIME_PLAINTEXT = "text/plain", MIME_HTML = "text/html", MIME_DEFAULT_BINARY = "application/octet-stream", MIME_JSON = "application/json";
 
 	// ==================================================
 	// Socket & server code
@@ -283,12 +270,10 @@ public class NanoHTTPD {
 		if (ssl) {
 			ServerSocketFactory ssocketFactory = SSLServerSocketFactory.getDefault();
 			myServerSocket = ssocketFactory.createServerSocket(port);
-		}
-		else {
+		} else {
 			if (bindAddress != null) {
 				myServerSocket = new ServerSocket(myTcpPort, /* default value */-1, bindAddress);
-			}
-			else {
+			} else {
 				myServerSocket = new ServerSocket(myTcpPort);
 			}
 		}
@@ -298,10 +283,9 @@ public class NanoHTTPD {
 					try {
 						Socket s = myServerSocket.accept();
 						s.setTcpNoDelay(true);
-
+						
 						new HTTPSession(s.getInputStream(), s.getOutputStream(), s.getInetAddress());
-					}
-					catch (IOException ioe) {
+					} catch (IOException ioe) {
 					}
 				}
 			}
@@ -326,11 +310,9 @@ public class NanoHTTPD {
 			myServerSocket.close();
 			myThread.interrupt();
 			myThread.join();
-		}
-		catch (IOException ioe) {
+		} catch (IOException ioe) {
 			ioe.printStackTrace();
-		}
-		catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
@@ -372,7 +354,7 @@ public class NanoHTTPD {
 			this.out = out;
 			this.addr = addr;
 
-			if (!blocking) {
+			if(!blocking) {
 				Thread t = new Thread(this);
 				t.setDaemon(true);
 				t.start();
@@ -381,17 +363,17 @@ public class NanoHTTPD {
 				run();
 			}
 		}
-
+		
 		public HTTPSession(InputStream in, OutputStream out, InetAddress addr) {
 			this(in, out, addr, false);
 		}
 
-		public InputStream					in;
-		public OutputStream					out;
-		public InetAddress					addr;
-		public Lambda<Void, OutputStream>	callback			= null;
-
-		public boolean						closeOnCompletion	= false;
+		public InputStream in;
+		public OutputStream out;
+		public InetAddress addr;
+		public Lambda<Void, OutputStream> callback = null;
+		
+		public boolean closeOnCompletion = false;
 
 		public HTTPSession(InputStream in, OutputStream s, InetAddress a, Lambda<Void, OutputStream> callback, boolean blocking) {
 			this.in = in;
@@ -399,7 +381,7 @@ public class NanoHTTPD {
 			this.addr = a;
 			this.callback = callback;
 
-			if (!blocking) {
+			if(!blocking) {
 				Thread t = new Thread(this);
 				t.setDaemon(true);
 				t.start();
@@ -408,7 +390,7 @@ public class NanoHTTPD {
 				run();
 			}
 		}
-
+		
 		public HTTPSession(InputStream in, OutputStream s, InetAddress a, Lambda<Void, OutputStream> callback) {
 			this(in, s, a, callback, false);
 		}
@@ -421,21 +403,21 @@ public class NanoHTTPD {
 				String inLine = in.readLine();
 				if (inLine == null)
 					return;
-
-				if (inLine.substring(0, 2).equalsIgnoreCase("gs")) {
+				
+				if(inLine.substring(0, 2).equalsIgnoreCase("gs")) {
 					try {
 						String streamLine = inLine;
 						do {
 							String[] reqLine = streamLine.split(" ", 2);
-
-							if (reqLine[0].equalsIgnoreCase("gsa")) {
+							
+							if(reqLine[0].equalsIgnoreCase("gsa")) {
 								continue;
 							}
-
+							
 							final JSONServer jsonServer = JSONAPI.instance.getJSONServer();
 							final String[] split = reqLine[1].split("\\?", 2);
 							final OutputStream out = this.out;
-
+							
 							(new Thread(new Runnable() {
 								@Override
 								public void run() {
@@ -443,19 +425,18 @@ public class NanoHTTPD {
 										NanoHTTPD.Response r = null;
 										if (split.length < 2) {
 											r = jsonServer.new Response(NanoHTTPD.HTTP_NOTFOUND, NanoHTTPD.MIME_JSON, jsonServer.returnAPIError("", "Incorrect. Socket requests are in the format PAGE?ARGUMENTS. For example, /api/subscribe?source=....").toJSONString());
-										}
-										else {
+										} else {
 											Properties header2 = new Properties();
 											NanoHTTPD.decodeParms(split[1], header2);
 											Properties p = new Properties();
 											p.put("X-REMOTE-ADDR", addr.getHostAddress());
 											r = jsonServer.serve(split[0], "GET", p, header2);
 										}
-
+				
 										if (r.data instanceof StreamingResponse) {
 											final StreamingResponse s = (StreamingResponse) r.data;
 											String line = "";
-
+				
 											while ((line = s.nextLine()) != null) {
 												try {
 													out.write((line + "\r\n").getBytes(Charset.forName("UTF-8")));
@@ -468,34 +449,32 @@ public class NanoHTTPD {
 													break;
 												}
 											}
-
+											
 											out.close();
-											((StreamingResponse) r.data).close();
-										}
-										else {
+											((StreamingResponse)r.data).close();
+										} else {
 											InputStream res = r.data;
-											if (res == null) {
+											if(res == null) {
 												res = new ByteArrayInputStream(r.bytes);
 											}
-
+											
 											SlimIOUtils.copy(res, out);
 											out.write("\r\n".getBytes(Charset.forName("UTF-8")));
 										}
 									}
-									catch (Exception e) {
+									catch(Exception e) {
 										e.printStackTrace();
 									}
 								}
 							})).start();
-						}
-						while ((streamLine = in.readLine()) != null);
+						} while ((streamLine = in.readLine()) != null);
 					}
-					catch (Exception e) {
+					catch(Exception e) {
 						e.printStackTrace();
 					}
 					return;
 				}
-
+				
 				StringTokenizer st = new StringTokenizer(inLine);
 				if (!st.hasMoreTokens())
 					sendError(HTTP_BADREQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html");
@@ -513,13 +492,12 @@ public class NanoHTTPD {
 				if (qmi >= 0) {
 					decodeParms(uri.substring(qmi + 1), parms);
 					uri = decodePercent(uri.substring(0, qmi));
-				}
-				else
+				} else
 					uri = decodePercent(uri);
 
 				Properties header = new Properties();
 				header.put("X-REMOTE-ADDR", addr.getHostAddress());
-
+				
 				// If there's another token, it's protocol version,
 				// followed by HTTP headers. Ignore version but parse headers.
 				// NOTE: this now forces header names uppercase since they are
@@ -532,7 +510,7 @@ public class NanoHTTPD {
 						line = in.readLine();
 					}
 				}
-
+				
 				// If the method is POST, there may be parameters
 				// in data section, too, read it:
 				if (method.equalsIgnoreCase("POST")) {
@@ -541,8 +519,7 @@ public class NanoHTTPD {
 					if (contentLength != null) {
 						try {
 							size = Integer.parseInt(contentLength);
-						}
-						catch (NumberFormatException ex) {
+						} catch (NumberFormatException ex) {
 						}
 					}
 					StringBuffer postLine = new StringBuffer();
@@ -561,8 +538,7 @@ public class NanoHTTPD {
 						}
 
 						parms.put("json", postLine);
-					}
-					else {
+					} else {
 						while (read >= 0 && size > 0 && !postLine.toString().endsWith("\r\n")) {
 							size -= read;
 							postLine.append(String.valueOf(buf, 0, read));
@@ -589,33 +565,29 @@ public class NanoHTTPD {
 						}
 						out.write("\r\n".getBytes(Charset.forName("UTF-8")));
 						out.flush();
-
+						
 						// proxy to the websocket server via a websocket client
 						// ouch.
-
+						
 						JSONTunneledWebSocket ws = new JSONTunneledWebSocket(this.in, out);
 						ws.start();
-					}
-					else {
+					} else {
 						sendResponse(r.status, r.mimeType, r.header, r.data, r.bytes);
 					}
 				}
 
 				in.close();
-
-				if (callback != null) {
+				
+				if(callback != null) {
 					callback.execute(this.out);
 				}
-			}
-			catch (IOException ioe) {
+			} catch (IOException ioe) {
 				try {
 					sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage());
+				} catch (Throwable t) {
 				}
-				catch (Throwable t) {
-				}
-			}
-			catch (InterruptedException ie) {
-
+			} catch (InterruptedException ie) {
+				
 				// Thrown by sendError, ignore and exit the thread.
 			}
 		}
@@ -627,8 +599,7 @@ public class NanoHTTPD {
 		public String decodePercent(String str) throws InterruptedException {
 			try {
 				return URLDecoder.decode(str.replace("+", "%2B"), "UTF-8").replace("%2B", "+");
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				sendError(HTTP_BADREQUEST, "BAD REQUEST: Bad percent-encoding.");
 				return null;
 			}
@@ -700,8 +671,7 @@ public class NanoHTTPD {
 					while (doContinue && (line = s.nextLine()) != null) {
 						try {
 							out.write((line.trim() + "\r\n").getBytes("UTF-8"));
-						}
-						catch (IOException e) {
+						} catch (IOException e) {
 							doContinue = false;
 							out.close();
 							if (data != null) {
@@ -709,12 +679,10 @@ public class NanoHTTPD {
 							}
 						}
 					}
-				}
-				else if (data != null) {
+				} else if (data != null) {
 					SlimIOUtils.copy(data, out);
 					out.flush();
-				}
-				else if (bytes != null) {
+				} else if (bytes != null) {
 					out.write(bytes);
 					out.flush();
 				}
@@ -722,13 +690,11 @@ public class NanoHTTPD {
 				out.close();
 				if (data != null)
 					data.close();
-			}
-			catch (IOException ioe) {
+			} catch (IOException ioe) {
 				try {
 					in.close();
 					out.close();
-				}
-				catch (IOException e) {
+				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -754,20 +720,20 @@ public class NanoHTTPD {
 				// For Java 1.4 you'll want to use this instead:
 				try {
 					newUri.append(URLEncoder.encode(tok, "UTF-8"));
-				}
-				catch (UnsupportedEncodingException uee) {
+				} catch (UnsupportedEncodingException uee) {
 					uee.printStackTrace();
-				};
+				}
+				;
 			}
 		}
 		return newUri.toString();
 	}
 
-	private int					myTcpPort;
-	private final ServerSocket	myServerSocket;
-	private Thread				myThread;
+	private int myTcpPort;
+	private final ServerSocket myServerSocket;
+	private Thread myThread;
 
-	File						myFileDir;
+	File myFileDir;
 
 	// ==================================================
 	// File server code
@@ -852,8 +818,7 @@ public class NanoHTTPD {
 						msg += "</b>";
 				}
 				return new Response(HTTP_OK, MIME_HTML, msg);
-			}
-			else {
+			} else {
 				return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: No directory listing.");
 			}
 		}
@@ -878,8 +843,7 @@ public class NanoHTTPD {
 						range = range.substring(0, minus);
 					try {
 						startFrom = Long.parseLong(range);
-					}
-					catch (NumberFormatException nfe) {
+					} catch (NumberFormatException nfe) {
 					}
 				}
 			}
@@ -890,8 +854,7 @@ public class NanoHTTPD {
 			r.addHeader("Content-length", "" + (f.length() - startFrom));
 			r.addHeader("Content-range", "" + startFrom + "-" + (f.length() - 1) + "/" + f.length());
 			return r;
-		}
-		catch (IOException ioe) {
+		} catch (IOException ioe) {
 			return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: Reading file failed.");
 		}
 	}
@@ -899,7 +862,7 @@ public class NanoHTTPD {
 	/**
 	 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
 	 */
-	private static Hashtable<String, String>	theMimeTypes	= new Hashtable<String, String>();
+	private static Hashtable<String, String> theMimeTypes = new Hashtable<String, String>();
 	static {
 		StringTokenizer st = new StringTokenizer("htm		text/html " + "html		text/html " + "txt		text/plain " + "asc		text/plain " + "gif		image/gif " + "jpg		image/jpeg " + "jpeg		image/jpeg " + "png		image/png " + "mp3		audio/mpeg " + "m3u		audio/mpeg-url " + "pdf		application/pdf " + "json		application/json " + "doc		application/msword " + "ogg		application/x-ogg " + "zip		application/octet-stream " + "exe		application/octet-stream " + "class		application/octet-stream ");
 		while (st.hasMoreTokens())
@@ -909,7 +872,7 @@ public class NanoHTTPD {
 	/**
 	 * GMT date formatter
 	 */
-	private static java.text.SimpleDateFormat	gmtFrmt;
+	private static java.text.SimpleDateFormat gmtFrmt;
 	static {
 		gmtFrmt = new java.text.SimpleDateFormat("E, d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
 		gmtFrmt.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -919,5 +882,5 @@ public class NanoHTTPD {
 	 * The distribution licence
 	 */
 	@SuppressWarnings("unused")
-	private static final String					LICENCE			= "Copyright (C) 2001,2005-2010 by Jarno Elonen <elonen@iki.fi>\n" + "\n" + "Redistribution and use in source and binary forms, with or without\n" + "modification, are permitted provided that the following conditions\n" + "are met:\n" + "\n" + "Redistributions of source code must retain the above copyright notice,\n" + "this list of conditions and the following disclaimer. Redistributions in\n" + "binary form must reproduce the above copyright notice, this list of\n" + "conditions and the following disclaimer in the documentation and/or other\n" + "materials provided with the distribution. The name of the author may not\n" + "be used to endorse or promote products derived from this software without\n" + "specific prior written permission. \n" + " \n" + "THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n" + "IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n" + "OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n" + "IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\n" + "INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n" + "NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n" + "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n" + "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n" + "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n" + "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
+	private static final String LICENCE = "Copyright (C) 2001,2005-2010 by Jarno Elonen <elonen@iki.fi>\n" + "\n" + "Redistribution and use in source and binary forms, with or without\n" + "modification, are permitted provided that the following conditions\n" + "are met:\n" + "\n" + "Redistributions of source code must retain the above copyright notice,\n" + "this list of conditions and the following disclaimer. Redistributions in\n" + "binary form must reproduce the above copyright notice, this list of\n" + "conditions and the following disclaimer in the documentation and/or other\n" + "materials provided with the distribution. The name of the author may not\n" + "be used to endorse or promote products derived from this software without\n" + "specific prior written permission. \n" + " \n" + "THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n" + "IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n" + "OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n" + "IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\n" + "INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n" + "NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n" + "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n" + "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n" + "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n" + "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
 }

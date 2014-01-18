@@ -8,30 +8,29 @@ import java.util.logging.LogRecord;
 
 final public class ConsoleLogFormatter extends Formatter {
 
-	private SimpleDateFormat	a	= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat a = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	public ConsoleLogFormatter() {
-	}
+    public ConsoleLogFormatter() {}
 
-	public String format(LogRecord logrecord) {
-		StringBuilder stringbuilder = new StringBuilder();
+    public String format(LogRecord logrecord) {
+        StringBuilder stringbuilder = new StringBuilder();
 
-		stringbuilder.append(this.a.format(Long.valueOf(logrecord.getMillis())));
-		stringbuilder.append(" [");
-		stringbuilder.append(logrecord.getLevel().getLocalizedName().toUpperCase());
-		stringbuilder.append("] ");
+        stringbuilder.append(this.a.format(Long.valueOf(logrecord.getMillis())));
+        stringbuilder.append(" [");
+        stringbuilder.append(logrecord.getLevel().getLocalizedName().toUpperCase());
+        stringbuilder.append("] ");
 
-		stringbuilder.append(logrecord.getMessage());
-		stringbuilder.append('\n');
-		Throwable throwable = logrecord.getThrown();
+        stringbuilder.append(logrecord.getMessage());
+        stringbuilder.append('\n');
+        Throwable throwable = logrecord.getThrown();
 
-		if (throwable != null) {
-			StringWriter stringwriter = new StringWriter();
+        if (throwable != null) {
+            StringWriter stringwriter = new StringWriter();
 
-			throwable.printStackTrace(new PrintWriter(stringwriter));
-			stringbuilder.append(stringwriter);
-		}
+            throwable.printStackTrace(new PrintWriter(stringwriter));
+            stringbuilder.append(stringwriter);
+        }
 
-		return stringbuilder.toString();
-	}
+        return stringbuilder.toString();
+    }
 }

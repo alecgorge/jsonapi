@@ -66,55 +66,55 @@ import com.alecgorge.minecraft.jsonapi.util.TickRateCounter;
  * @author alecgorge
  */
 public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
-	public PluginLoader				pluginLoader;
+	public PluginLoader pluginLoader;
 	// private Server server;
-	public JSONServer				jsonServer;
-	public JSONSocketServer			jsonSocketServer;
-	public JSONWebSocketServer		jsonWebSocketServer;
-	public JSONAPIMessageListener	jsonMessageListener		= new JSONAPIMessageListener(this);
+	public JSONServer jsonServer;
+	public JSONSocketServer jsonSocketServer;
+	public JSONWebSocketServer jsonWebSocketServer;
+	public JSONAPIMessageListener jsonMessageListener = new JSONAPIMessageListener(this);
 
-	private StreamManager			streamManager			= new StreamManager();
+	private StreamManager streamManager = new StreamManager();
 
-	public boolean					logging					= false;
-	public String					logFile					= "false";
-	public String					salt					= "";
-	public int						port					= 20059;
-	private long					startupDelay			= 2000;
-	public List<String>				whitelist				= new ArrayList<String>();
-	public List<String>				method_noauth_whitelist	= new ArrayList<String>();
-	UsersConfig						auth;
-	public boolean					anyoneCanUseCallAdmin	= true;
-	public String					serverName				= "default";
-	public StreamPusher				streamPusher;
-	public boolean					useGroups				= false;
-	TickRateCounter					tickRateCounter;
+	public boolean logging = false;
+	public String logFile = "false";
+	public String salt = "";
+	public int port = 20059;
+	private long startupDelay = 2000;
+	public List<String> whitelist = new ArrayList<String>();
+	public List<String> method_noauth_whitelist = new ArrayList<String>();
+	UsersConfig auth;
+	public boolean anyoneCanUseCallAdmin = true;
+	public String serverName = "default";
+	public StreamPusher streamPusher;
+	public boolean useGroups = false;
+	TickRateCounter tickRateCounter;
 
-	private Logger					log						= Bukkit.getLogger();
-	public Logger					outLog					= Logger.getLogger("JSONAPI");
-	private Handler					handler;
+	private Logger log = Bukkit.getLogger();
+	public Logger outLog = Logger.getLogger("JSONAPI");
+	private Handler handler;
 
-	public RTKInterface				rtkAPI					= null;
-	public InetAddress				bindAddress;
+	public RTKInterface rtkAPI = null;
+	public InetAddress bindAddress;
 
 	// for dynamic access
-	public static JSONAPI			instance;
+	public static JSONAPI instance;
 
-	PushNotificationDaemon			adminium;
-	Adminium3						adminium3;
+	PushNotificationDaemon adminium;
+	Adminium3 adminium3;
+	
+	GroupManager groupManager;
 
-	GroupManager					groupManager;
-
-	// #if jsonapiDebug=="yes"
-	// $ public static boolean shouldDebug = true;
-	// #else
-	public static boolean			shouldDebug				= false;
-
-	// #endif
+//#if jsonapiDebug=="yes"
+//$	public static boolean shouldDebug = true;
+//#else
+	public static boolean shouldDebug = false;
+//#endif
 	public static void dbug(Object objects) {
-		if (JSONAPI.shouldDebug) {
+		if(JSONAPI.shouldDebug) {
 			System.out.println(objects);
 		}
 	}
+	
 
 	protected void initalize(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
 		this.pluginLoader = pluginLoader;
@@ -129,11 +129,11 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public JSONServer getJSONServer() {
 		return jsonServer;
 	}
-
+	
 	public GroupManager getGroupManager() {
 		return groupManager;
 	}
-
+	
 	public UsersConfig getAuthTable() {
 		return auth;
 	}
@@ -178,77 +178,106 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public void deregisterAPICallHandler(JSONAPICallHandler handler) {
 		getCaller().deregisterAPICallHandler(handler);
 	}
-
+	
 	public TickRateCounter getTickRateCounter() {
 		return tickRateCounter;
 	}
 
-	private JSONAPIPlayerListener	l	= new JSONAPIPlayerListener(this);
-	YamlConfiguration				yamlConfig;
-	File							yamlFile;
-
+	private JSONAPIPlayerListener l = new JSONAPIPlayerListener(this);
+	YamlConfiguration yamlConfig;
+	File yamlFile;
+	
 	public ClassLoader myClassLoader() {
 		return getClassLoader();
 	}
 
 	public void onEnable() {
 		/*
-		 * try { int countI = 0, countB = 0; JSONObject o = new JSONObject();
-		 * for(Item i : Item.byId) { if(i == null) continue; countI++; if(i.id <
-		 * 256) continue;
-		 * 
-		 * System.out.println(String.format("name: %25s id: %4s class: %s",
-		 * i.getName(), i.id, i.getClass()));
-		 * 
-		 * String[] names = null; for(Field f :
-		 * i.getClass().getDeclaredFields()) {
-		 * if(f.getType().isAssignableFrom(String[].class)) {
-		 * f.setAccessible(true); names = (String[]) f.get(i);
-		 * if(names[0].contains("_")) { names = null; continue; } break; } }
-		 * if(i instanceof ItemCloth) { names = ItemDye.a; } if(names == null) {
-		 * continue; }
-		 * 
-		 * //LocaleI18n.get(arg0)
-		 * 
-		 * for(int j = 0; j < names.length; j++) {
-		 * System.out.println(String.format("\t%d: %s", j, names[j])); }
-		 * 
-		 * JSONObject obj = new JSONObject(); obj.put(", value)
-		 * 
-		 * o.put(String.valueOf(i.id), obj); } for(Block b : Block.byId) { if(b
-		 * == null) continue; countB++; System.out.println(String.format(
-		 * "name: %25s id: %4s materal: %s class: %s", b.getName(), b.id,
-		 * b.material.getClass(), b.getClass()));
-		 * 
-		 * String[] names = null; for(Field f :
-		 * b.getClass().getDeclaredFields()) {
-		 * if(f.getType().isAssignableFrom(String[].class)) {
-		 * f.setAccessible(true); names = (String[]) f.get(b);
-		 * if(names[0].contains("_")) { names = null; continue; } break; } }
-		 * if(b instanceof BlockCloth) { names = ItemDye.a; } if(names == null)
-		 * { continue; }
-		 * 
-		 * for(int j = 0; j < names.length; j++) {
-		 * System.out.println(String.format("\t%d: %s", j, names[j])); } }
-		 * System.out.println("items: " + countI + " blocks: " + countB); }
-		 * catch(Exception e) {
-		 * 
-		 * }
-		 */
+		try {
+			int countI = 0, countB = 0;
+			JSONObject o = new JSONObject();
+			for(Item i : Item.byId) {
+				if(i == null) continue;
+				countI++;
+				if(i.id < 256) continue;
+				
+				System.out.println(String.format("name: %25s id: %4s class: %s", i.getName(), i.id, i.getClass()));
+				
+				String[] names = null;
+				for(Field f : i.getClass().getDeclaredFields()) {
+					if(f.getType().isAssignableFrom(String[].class)) {
+						f.setAccessible(true);
+						names = (String[]) f.get(i);
+						if(names[0].contains("_")) {
+							names = null;
+							continue;
+						}
+						break;
+					}
+				}
+				if(i instanceof ItemCloth) {
+					names = ItemDye.a;
+				}
+				if(names == null) {
+					continue;
+				}
+				
+				//LocaleI18n.get(arg0)
+				
+				for(int j = 0; j < names.length; j++) {
+					System.out.println(String.format("\t%d: %s", j, names[j]));
+				}
+				
+				JSONObject obj = new JSONObject();
+				obj.put(", value)
+				
+				o.put(String.valueOf(i.id), obj);				
+			}
+			for(Block b : Block.byId) {
+				if(b == null) continue;
+				countB++;
+				System.out.println(String.format("name: %25s id: %4s materal: %s class: %s", b.getName(), b.id, b.material.getClass(), b.getClass()));
 
-		// for minecraft forge, Logger.getLogger("JSONAPI"); doesn't output
-		// anything...
+				String[] names = null;
+				for(Field f : b.getClass().getDeclaredFields()) {
+					if(f.getType().isAssignableFrom(String[].class)) {
+						f.setAccessible(true);
+						names = (String[]) f.get(b);
+						if(names[0].contains("_")) {
+							names = null;
+							continue;
+						}
+						break;
+					}
+				}
+				if(b instanceof BlockCloth) {
+					names = ItemDye.a;
+				}
+				if(names == null) {
+					continue;
+				}
+				
+				for(int j = 0; j < names.length; j++) {
+					System.out.println(String.format("\t%d: %s", j, names[j]));
+				}
+			}
+			System.out.println("items: " + countI + " blocks: " + countB);
+		} catch(Exception e) {
+			
+		}
+		*/
+		
+		// for minecraft forge, Logger.getLogger("JSONAPI"); doesn't output anything...
 		try {
 			Class.forName("net.minecraftforge.common.MinecraftForge");
 			outLog = log;
 		}
-		catch (Error e) {
-		}
-		catch (Exception e) {
-		}
+		catch (Error e) {}
+		catch (Exception e) {}
+
 
 		boolean rtkInstalled = Bukkit.getPluginManager().getPlugin("RemoteToolkitPlugin") != null;
-
+		
 		try {
 			auth = new UsersConfig(this);
 
@@ -281,8 +310,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			if (!methodsFolder.exists()) {
 				methodsFolder.mkdirs();
 			}
-
-			String[] methodsFiles = new String[] { "chat.json","dynmap.json","econ.json","permissions.json","fs.json","readme.txt","remotetoolkit.json","system.json","world.json" };
+			
+			String[] methodsFiles = new String[] { "chat.json", "dynmap.json", "econ.json", "permissions.json", "fs.json", "readme.txt", "remotetoolkit.json", "system.json", "world.json" };
 
 			for (String f : methodsFiles) {
 				File outF = new File(methodsFolder, f);
@@ -302,7 +331,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					out.close();
 				}
 			}
-
+				
 			if (!yamlFile.exists()) {
 				yamlFile.createNewFile();
 
@@ -361,17 +390,17 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			if (yamlFile.exists()) {
 				yamlConfig = new YamlConfiguration();
 				yamlConfig.load(yamlFile); // VERY IMPORTANT
-
-				yamlConfig.addDefault("method-whitelist", new String[] { "getPlayerLimit","dynmap.getPort" });
-
+				
+				yamlConfig.addDefault("method-whitelist", new String[]{ "getPlayerLimit", "dynmap.getPort"} );
+				
 				MemoryConfiguration stream_pusher_config = new MemoryConfiguration();
 				stream_pusher_config.addDefault("max_queue_age", 30);
 				stream_pusher_config.addDefault("max_queue_length", 500);
-
+				
 				yamlConfig.addDefault("options.stream_pusher", stream_pusher_config);
 				yamlConfig.options().copyDefaults(true);
 				yamlConfig.save(yamlFile);
-
+				
 				logging = yamlConfig.getBoolean("options.log-to-console", true);
 				logFile = yamlConfig.getString("options.log-to-file", "false");
 
@@ -379,7 +408,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				for (String ip : whitelist) {
 					reconstituted += ip + ",";
 				}
-
+				
 				max_queue_age = yamlConfig.getInt("max_queue_age", 30);
 				max_queue_length = yamlConfig.getInt("max_queue_length", 500);
 
@@ -388,7 +417,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				startupDelay = yamlConfig.getInt("options.startup-delay", 2000);
 				anyoneCanUseCallAdmin = yamlConfig.getBoolean("options.anyone-can-use-calladmin", false);
 				serverName = getServer().getServerName();
-				if (yamlConfig.contains("options.use-new-api")) {
+				if(yamlConfig.contains("options.use-new-api")) {
 					useGroups = yamlConfig.getBoolean("options.use-new-api", false);
 				}
 				else {
@@ -399,19 +428,18 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				String host = yamlConfig.getString("options.bind-address", "");
 				if (host.equals("")) {
 					bindAddress = null;
-				}
-				else {
+				} else {
 					bindAddress = InetAddress.getByName(host);
 				}
 
 				method_noauth_whitelist = yamlConfig.getStringList("method-whitelist");
 
 				File usersFile = new File(getDataFolder(), "users.yml");
-				if (usersFile.exists()) {
+				if(usersFile.exists()) {
 					auth.init();
 				}
 				else {
-					if (!yamlConfig.contains("logins")) {
+					if(!yamlConfig.contains("logins")) {
 						usersFile.createNewFile();
 
 						InputStream in = getResource("users.yml");
@@ -431,43 +459,42 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					}
 					else {
 						Set<String> logins = ((ConfigurationSection) yamlConfig.get("logins")).getKeys(false);
-
+						
 						List<String> fullgroups = new ArrayList<String>();
 						fullgroups.add("full_control");
 						for (String k : logins) {
 							String password = yamlConfig.getString("logins." + k);
-
+							
 							HashMap<String, Object> map = new HashMap<String, Object>();
 							map.put("username", k);
 							map.put("password", password);
 							map.put("groups", fullgroups);
 							auth.users.add(map);
 						}
-
+						
 						yamlConfig.set("logins", null);
 						yamlConfig.save(yamlFile);
-
+						
 						auth.save();
 					}
 				}
 			}
-
+			
 			if (rtkInstalled) {
 				YamlConfiguration yamlRTK = new YamlConfiguration();
-
+	
 				try {
 					yamlRTK.load(rtkConfig);
-
+					
 					Properties rtkProps = new Properties();
 					rtkProps.load(new FileInputStream("toolkit/remote.properties"));
-
+					
 					int port = Integer.parseInt(rtkProps.getProperty("remote-control-port"));
 					String salt = rtkProps.getProperty("auth-salt");
-
+					
 					rtkAPI = new RTKInterface(port, "localhost", yamlRTK.getString("RTK.username"), yamlRTK.getString("RTK.password"), salt);
-
-				}
-				catch (Exception e) {
+					
+				} catch (Exception e) {
 					// e.printStackTrace();
 				}
 			}
@@ -488,34 +515,39 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				log.severe("[JSONAPI] No valid logins for JSONAPI. Check config.yml");
 				return;
 			}
-
+			
 			log.info("[JSONAPI] Logging to file: " + logFile);
 			log.info("[JSONAPI] Logging to console: " + String.valueOf(logging));
 			log.info("[JSONAPI] IP Whitelist = " + (reconstituted.equals("") ? "None, all requests are allowed." : reconstituted));
 
 			jsonServer = new JSONServer(auth, this, startupDelay);
-
+						
 			// add console stream support
 			handler = new ConsoleHandler(jsonServer);
-
+			
 			new NettyInjector();
-			// this is quite hacky but it hides the mess from HTTP requests on
-			// the join port
+			// this is quite hacky but it hides the mess from HTTP requests on the join port
 
-			// #if mc17OrNewer=="yes"
+			//#if mc17OrNewer=="yes"
 			new Log4j2ConsoleHandler(jsonServer);
-			// #else
-			for (Logger olog : new Logger[] { log,Logger.getLogger(""),Logger.getLogger("Minecraft"),Logger.getLogger("ForgeModLoader"),Logger.getLogger("org.bukkit.craftbukkit.Main") }) {
+			//#else
+			for(Logger olog : new Logger[] {
+					log,
+					Logger.getLogger(""),
+					Logger.getLogger("Minecraft"),
+					Logger.getLogger("ForgeModLoader"),
+					Logger.getLogger("org.bukkit.craftbukkit.Main")				
+			}) {
 				olog.addHandler(handler);
 			}
-			// #endif
+			//#endif
 
 			log.info("[JSONAPI] Attempting to use port " + port);
 
 			jsonSocketServer = new JSONSocketServer(port + 1, jsonServer);
 			jsonWebSocketServer = new JSONWebSocketServer(port + 2, jsonServer);
 			jsonWebSocketServer.start();
-
+			
 			// new PortMapper(this); // map dem ports
 
 			registerStreamManager("chat", getJSONServer().chat);
@@ -529,7 +561,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 			adminium = new PushNotificationDaemon(new File(getDataFolder(), "adminium.yml"), this);
 			adminium3 = new Adminium3(this);
-
+			
 			tickRateCounter = new TickRateCounter(this);
 
 			// must load this after the tick counter exists!
@@ -537,14 +569,13 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			PerformanceStreamDataProvider.enqueue(this);
 
 			registerMethods(this);
-		}
-		catch (Exception ioe) {
+		} catch (Exception ioe) {
 			log.severe("[JSONAPI] Couldn't start server!\n");
 			ioe.printStackTrace();
 			// System.exit( -1 );
 		}
 	}
-
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (sender instanceof ConsoleCommandSender) {
@@ -555,12 +586,10 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					onEnable();
 				}
 				return true;
-			}
-			else if (cmd.getName().equals("jsonapi-list")) {
+			} else if (cmd.getName().equals("jsonapi-list")) {
 				listMethods(sender);
 				return true;
-			}
-			else if (cmd.getName().equals("jsonapi") && args.length > 0 && args[0].equals("status")) {
+			} else if (cmd.getName().equals("jsonapi") && args.length > 0 && args[0].equals("status")) {
 				jsonServer.connectionInfo();
 				return true;
 			}
@@ -573,11 +602,11 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		}
 		if (args.length >= 1 && cmd.getName().equals("calladmin")) {
 			adminium3.calladmin(sender, join(Arrays.asList(args), " "));
-
+			
 			// adminium 2.x
-			if (adminium.init)
+			if(adminium.init)
 				adminium.calladmin(sender, join(Arrays.asList(args), " "));
-
+			
 			return true;
 		}
 
@@ -591,23 +620,19 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			if (subCommand.equals("list")) {
 				if (args.length == 1) {
 					listMethods(sender);
-				}
-				else {
+				} else {
 					listMethods(sender, args[1]);
 				}
 				return true;
-			}
-			else if (subCommand.equals("reloadgroups")) {
+			} else if(subCommand.equals("reloadgroups")) {
 				groupManager.loadFromConfig();
 				sender.sendMessage("Groups reloaded!");
-			}
-			else if (subCommand.equals("reload")) {
+			} else if (subCommand.equals("reload")) {
 				log.info("Reloading JSONAPI");
 				onDisable();
 				onEnable();
 				return true;
-			}
-			else if (subCommand.equals("subscribe")) {
+			} else if (subCommand.equals("subscribe")) {
 				if (args.length != 3) {
 					sender.sendMessage(ChatColor.RED + "Incorrect number of args. Should be /jsonapi subscribe [stream-name] [url-to-POST-to]");
 					return true;
@@ -616,31 +641,25 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				try {
 					streamPusher.subscribe(args[1], args[2], true);
 					sender.sendMessage(ChatColor.GREEN + "Subscription setup.");
-				}
-				catch (MalformedURLException e) {
+				} catch (MalformedURLException e) {
 					sender.sendMessage(ChatColor.RED + "Invalid URL: " + e.getMessage());
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
 				}
 				return true;
-			}
-			else if (subCommand.equals("users")) {
+			} else if (subCommand.equals("users")) {
 				if (args.length == 1 || args[1].equals("list")) {
 					List<String> usernames = new ArrayList<String>();
 					try {
-						// for(JSONAPIUser u :
-						// getJSONServer().getLogins().getUsers()) {
-						// usernames.add(u.getUsername());
-						// }
-					}
-					catch (Exception e) {
+//					for(JSONAPIUser u : getJSONServer().getLogins().getUsers()) {
+//						usernames.add(u.getUsername());
+//					}
+					}catch(Exception e) {
 						e.printStackTrace();
 					}
 					sender.sendMessage("Usernames: " + join(usernames, ", "));
 					return true;
-				}
-				else if (args.length == 3 && args[2].equals("password")) {
+				} else if (args.length == 3 && args[2].equals("password")) {
 					UsersConfig logins = getJSONServer().getLogins();
 
 					if (!logins.userExists(args[1])) {
@@ -650,81 +669,89 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 					sender.sendMessage(args[1] + "'s password: " + logins.getUser(args[1]).getPassword());
 					return true;
-				}
-				else if (args.length == 4 && args[1].equals("add")) {
+				} else if (args.length == 4 && args[1].equals("add")) {
 					try {
 						String username = args[2];
 						String password = args[3];
 
 						List<String> g = new ArrayList<String>();
 						g.add("full_control");
-						// getJSONServer().getLogins().getUsers().add(new
-						// JSONAPIUser(username, password, g));
+//						getJSONServer().getLogins().getUsers().add(new JSONAPIUser(username, password, g));
 
 						yamlConfig.set("logins", getJSONServer().getLogins());
 						yamlConfig.save(yamlFile);
 
 						sender.sendMessage(ChatColor.GREEN + "Created a new user with the username '" + username + "' and password '" + password + "'");
-					}
-					catch (IOException e) {
+					} catch (IOException e) {
 						sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
 						e.printStackTrace();
 					}
 					return true;
 				}
 			}
-		} /*
-		 * else if (cmd.getName().equals("adminium")) { if (!adminium.init) {
-		 * sender.sendMessage(ChatColor.RED + "You need Adminium for that.");
-		 * return true; }
-		 * 
-		 * if (args.length == 0) { sender.sendMessage(ChatColor.RED +
-		 * "/adminium [user (username)|create-user (username) (group name)|set-group (username) (group name)|list-groups]"
-		 * ); return true; }
-		 * 
-		 * String sub = args[0]; if (args.length == 2 && sub.equals("user")) {
-		 * String username = args[1];
-		 * 
-		 * if (!adminium.groupAssignments.containsKey(username)) {
-		 * sender.sendMessage(ChatColor.GREEN + username +
-		 * " has access to everything and is not in a group."); return true; }
-		 * 
-		 * sender.sendMessage(ChatColor.GREEN + username + " is in the group " +
-		 * adminium.groupAssignments.get(username)); return true; } else if
-		 * (args.length == 3 && (sub.equals("create-user") ||
-		 * sub.equals("set-group"))) { try { String username = args[1]; String
-		 * groupName = args[2];
-		 * 
-		 * if (!adminium.groupPerms.containsKey(groupName)) {
-		 * sender.sendMessage(ChatColor.RED + groupName +
-		 * " is a non-existant group!"); return true; }
-		 * 
-		 * String pass = ""; if
-		 * (!getJSONServer().getLogins().containsKey(username)) { pass =
-		 * genPassword(); getJSONServer().getLogins().put(username, pass);
-		 * 
-		 * yamlConfig.set("logins", getJSONServer().getLogins());
-		 * yamlConfig.save(yamlFile); } else { pass =
-		 * getJSONServer().getLogins().get(username); }
-		 * 
-		 * adminium.groupAssignments.put(username, groupName);
-		 * adminium.saveConfig();
-		 * 
-		 * sender.sendMessage(ChatColor.GREEN +
-		 * "This user has the following information");
-		 * sender.sendMessage(ChatColor.GREEN + "Username: " + username);
-		 * sender.sendMessage(ChatColor.GREEN + "Password: " + pass);
-		 * sender.sendMessage(ChatColor.GREEN + "Group name: " + groupName);
-		 * sender.sendMessage(ChatColor.GREEN + "Salt: " + salt); } catch
-		 * (IOException e) { sender.sendMessage(ChatColor.RED + "Error: " +
-		 * e.getMessage()); e.printStackTrace(); } return true; } else if
-		 * (args.length == 1 && sub.equals("list-groups")) {
-		 * sender.sendMessage(ChatColor.GREEN + join(new
-		 * ArrayList<String>(adminium.groupPerms.keySet()), ", ")); return true;
-		 * }
-		 * 
-		 * return true; }
-		 */
+		} /*else if (cmd.getName().equals("adminium")) {
+			if (!adminium.init) {
+				sender.sendMessage(ChatColor.RED + "You need Adminium for that.");
+				return true;
+			}
+
+			if (args.length == 0) {
+				sender.sendMessage(ChatColor.RED + "/adminium [user (username)|create-user (username) (group name)|set-group (username) (group name)|list-groups]");
+				return true;
+			}
+
+			String sub = args[0];
+			if (args.length == 2 && sub.equals("user")) {
+				String username = args[1];
+
+				if (!adminium.groupAssignments.containsKey(username)) {
+					sender.sendMessage(ChatColor.GREEN + username + " has access to everything and is not in a group.");
+					return true;
+				}
+
+				sender.sendMessage(ChatColor.GREEN + username + " is in the group " + adminium.groupAssignments.get(username));
+				return true;
+			} else if (args.length == 3 && (sub.equals("create-user") || sub.equals("set-group"))) {
+				try {
+					String username = args[1];
+					String groupName = args[2];
+
+					if (!adminium.groupPerms.containsKey(groupName)) {
+						sender.sendMessage(ChatColor.RED + groupName + " is a non-existant group!");
+						return true;
+					}
+
+					String pass = "";
+					if (!getJSONServer().getLogins().containsKey(username)) {
+						pass = genPassword();
+						getJSONServer().getLogins().put(username, pass);
+
+						yamlConfig.set("logins", getJSONServer().getLogins());
+						yamlConfig.save(yamlFile);
+					} else {
+						pass = getJSONServer().getLogins().get(username);
+					}
+
+					adminium.groupAssignments.put(username, groupName);
+					adminium.saveConfig();
+
+					sender.sendMessage(ChatColor.GREEN + "This user has the following information");
+					sender.sendMessage(ChatColor.GREEN + "Username: " + username);
+					sender.sendMessage(ChatColor.GREEN + "Password: " + pass);
+					sender.sendMessage(ChatColor.GREEN + "Group name: " + groupName);
+					sender.sendMessage(ChatColor.GREEN + "Salt: " + salt);
+				} catch (IOException e) {
+					sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
+					e.printStackTrace();
+				}
+				return true;
+			} else if (args.length == 1 && sub.equals("list-groups")) {
+				sender.sendMessage(ChatColor.GREEN + join(new ArrayList<String>(adminium.groupPerms.keySet()), ", "));
+				return true;
+			}
+
+			return true;
+		}*/
 
 		return false;
 	}
@@ -769,7 +796,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 				log.info("[JSONAPI] Stopping JSON socket server");
 				jsonSocketServer.stop();
-
+				
 				log.info("[JSONAPI] Stopping JSON WebSocket server");
 				jsonWebSocketServer.stop();
 
@@ -778,8 +805,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 				log.info("[JSONAPI] Cancelling performance monitoring");
 				getTickRateCounter().cancel();
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			log.removeHandler(handler);
@@ -823,8 +849,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				hexString.append(hex);
 			}
 			return hexString.toString();
-		}
-		catch (UnsupportedEncodingException e) {
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return "UnsupportedEncodingException";
@@ -835,7 +860,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	}
 
 	public static class JSONAPIPlayerListener implements Listener {
-		JSONAPI	p;
+		JSONAPI p;
 
 		// This controls the accessibility of functions / variables from the
 		// main class.

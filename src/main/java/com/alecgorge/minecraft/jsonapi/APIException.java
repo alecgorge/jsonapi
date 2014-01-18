@@ -9,6 +9,6 @@ public class APIException extends Exception {
 	/**
 	 * 
 	 */
-	private static final long	serialVersionUID	= -7220918973049702670L;
+	private static final long serialVersionUID = -7220918973049702670L;
 
 }

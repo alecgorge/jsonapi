@@ -17,11 +17,11 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
  * @author alecgorge
  */
 public abstract class JSONAPIStream {
-	protected List<JSONAPIStreamListener>				listeners	= Collections.synchronizedList(new ArrayList<JSONAPIStreamListener>());
-	protected LinkedBlockingQueue<JSONAPIStreamMessage>	messages	= new LinkedBlockingQueue<JSONAPIStreamMessage>();
-	protected List<JSONAPIStreamMessage>				last50		= Collections.synchronizedList(new ArrayList<JSONAPIStreamMessage>(150));
+	protected List<JSONAPIStreamListener> listeners = Collections.synchronizedList(new ArrayList<JSONAPIStreamListener>());
+	protected LinkedBlockingQueue<JSONAPIStreamMessage> messages = new LinkedBlockingQueue<JSONAPIStreamMessage>();
+	protected List<JSONAPIStreamMessage> last50 = Collections.synchronizedList(new ArrayList<JSONAPIStreamMessage>(150));
 
-	protected String									name;
+	protected String name;
 
 	public JSONAPIStream(String name) {
 		this.name = name;
@@ -51,7 +51,7 @@ public abstract class JSONAPIStream {
 			synchronized (last50) {
 				for (JSONAPIStreamMessage m : last50) {
 					l.onMessage(m, this);
-				}
+				}				
 			}
 		}
 
@@ -84,8 +84,8 @@ public abstract class JSONAPIStream {
 	public void addMessage(JSONAPIStreamMessage m) {
 		pushMessage(m);
 	}
-
-	private int	drainTask	= -1;
+	
+	private int drainTask = -1;
 
 	/**
 	 * Push out a message to all subscribers.
@@ -101,11 +101,11 @@ public abstract class JSONAPIStream {
 		if (last50.size() > 150) {
 			last50.remove(0);
 		}
-
-		if (drainTask > 0) {
+		
+		if(drainTask > 0) {
 			JSONAPI.instance.getServer().getScheduler().cancelTask(drainTask);
 		}
-
+		
 		(new BukkitRunnable() {
 
 			@Override

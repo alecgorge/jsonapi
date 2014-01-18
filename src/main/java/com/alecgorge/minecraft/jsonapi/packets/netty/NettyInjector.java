@@ -24,32 +24,32 @@ public class NettyInjector {
 	public NettyInjector() {
 		injectNewChildHandler();
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	void injectNewChildHandler() {
-		// #if "a" == "b" && mc17OrNewer=="yes"
+		//#if "a" == "b" && mc17OrNewer=="yes"
 		try {
-			CraftServer craftServer = (CraftServer) Bukkit.getServer();
-			MinecraftServer mcServer = craftServer.getServer();
+			CraftServer craftServer = (CraftServer)Bukkit.getServer();
+			MinecraftServer mcServer = craftServer.getServer();			
 			ServerConnection sCon = mcServer.ag();
-
+			
 			Field field_channelPromiseList = sCon.getClass().getDeclaredField("e");
 			field_channelPromiseList.setAccessible(true);
-
+			
 			Field field_eventGroup = sCon.getClass().getDeclaredField("c");
 			field_eventGroup.setAccessible(true);
+			
+			List<ChannelPromise> channelPromiseList = (List<ChannelPromise>)field_channelPromiseList.get(sCon);
 
-			List<ChannelPromise> channelPromiseList = (List<ChannelPromise>) field_channelPromiseList.get(sCon);
-
-			for (ChannelPromise promise : channelPromiseList) {
+			for(ChannelPromise promise : channelPromiseList) {
 				NioEventLoopGroup eventGroup = (NioEventLoopGroup) field_eventGroup.get(sCon);
 
 				JSONAPI.dbug(promise.channel().pipeline().addFirst("jsonapi", new JSONAPIChannelReadHandler(eventGroup)));
 			}
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			e.printStackTrace();
 		}
-		// #endif
+		//#endif
 	}
 }

@@ -43,9 +43,9 @@ import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
 public class HttpSnoopServerHandler extends SimpleChannelInboundHandler<Object> {
 
-	private HttpRequest			request;
+	private HttpRequest request;
 	/** Buffer that stores the response content */
-	private final StringBuilder	buf	= new StringBuilder();
+	private final StringBuilder buf = new StringBuilder();
 
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
@@ -176,8 +176,7 @@ public class HttpSnoopServerHandler extends SimpleChannelInboundHandler<Object> 
 					response.headers().add(SET_COOKIE, ServerCookieEncoder.encode(cookie));
 				}
 			}
-		}
-		else {
+		} else {
 			// Browser sent no cookie. Add some.
 			response.headers().add(SET_COOKIE, ServerCookieEncoder.encode("key1", "value1"));
 			response.headers().add(SET_COOKIE, ServerCookieEncoder.encode("key2", "value2"));
@@ -212,4 +211,4 @@ public class HttpSnoopServerHandler extends SimpleChannelInboundHandler<Object> 
 		ctx.close();
 	}
 }
-// #endif
+//#endif

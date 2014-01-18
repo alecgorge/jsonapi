@@ -9,21 +9,22 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
 import com.alecgorge.minecraft.jsonapi.JSONServer;
 
 @Plugin(name = "ConsoleStub", category = "Core", elementType = "appender", printObject = true)
-// #endif
-public class ConsoleStubAppender
-// #if mc17OrNewer=="yes"
-extends AbstractAppender
-// #endif
-{
-	// #if mc17OrNewer=="yes"
-	JSONServer	server;
+//#endif
 
+public class ConsoleStubAppender
+//#if mc17OrNewer=="yes"
+extends AbstractAppender
+//#endif
+{
+	//#if mc17OrNewer=="yes"
+	JSONServer server;
+	
 	public ConsoleStubAppender(JSONServer server) {
 		super("JSONAPI", null, PatternLayout.createLayout("[%d{HH:mm:ss} %level]: %msg%n", null, null, null, null), false);
-
+		
 		this.server = server;
 	}
-
+	
 	@Override
 	public boolean isStarted() {
 		return true;
@@ -33,5 +34,5 @@ extends AbstractAppender
 	public void append(LogEvent e) {
 		server.logConsole(getLayout().toSerializable(e).toString());
 	}
-	// #endif
+	//#endif
 }

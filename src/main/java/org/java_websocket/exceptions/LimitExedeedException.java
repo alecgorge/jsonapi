@@ -7,14 +7,14 @@ public class LimitExedeedException extends InvalidDataException {
 	/**
 	 * Serializable
 	 */
-	private static final long	serialVersionUID	= 6908339749836826785L;
+	private static final long serialVersionUID = 6908339749836826785L;
 
 	public LimitExedeedException() {
-		super(CloseFrame.TOOBIG);
+		super( CloseFrame.TOOBIG );
 	}
 
-	public LimitExedeedException(String s) {
-		super(CloseFrame.TOOBIG, s);
+	public LimitExedeedException( String s ) {
+		super( CloseFrame.TOOBIG, s );
 	}
 
 }

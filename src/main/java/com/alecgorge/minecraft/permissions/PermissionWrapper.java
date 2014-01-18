@@ -21,19 +21,18 @@ import org.json.simpleForBukkit.JSONObject;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
 public class PermissionWrapper {
-	Server		server;
-	boolean		active	= false;
+	Server server;
+	boolean active = false;
 
-	Permission	perms;
+	Permission perms;
 
 	public PermissionWrapper(Server s) {
 		if (s.getPluginManager().getPlugin("Vault") == null) {
 			Logger.getLogger("Minecraft").info("[JSONAPI] You don't have Vault installed, you cannot use permission methods!");
-		}
-		else {
+		} else {
 			active = true;
 			server = s;
-			RegisteredServiceProvider<Permission> rsp = (RegisteredServiceProvider<Permission>) server.getServicesManager().getRegistration(Permission.class);
+			RegisteredServiceProvider<Permission> rsp = (RegisteredServiceProvider<Permission>)server.getServicesManager().getRegistration(Permission.class);
 			perms = rsp.getProvider();
 		}
 	}
@@ -51,26 +50,25 @@ public class PermissionWrapper {
 		if (active) {
 			try {
 				return Arrays.asList(perms.getPlayerGroups(getPlayerExact(playerName)));
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				return new ArrayList<String>();
 			}
 		}
 
 		return new ArrayList<String>();
 	}
-
+	
 	public List<String> getPlayersInGroup(String group) {
 		List<String> players = new ArrayList<String>();
-		if (active) {
+		if(active) {
 			for (Player p : server.getOnlinePlayers()) {
-				if (Arrays.asList(perms.getPlayerGroups(p)).indexOf(group) > -1) {
+				if(Arrays.asList(perms.getPlayerGroups(p)).indexOf(group) > -1) {
 					players.add(p.getName());
 				}
 			}
 			for (OfflinePlayer p : server.getOfflinePlayers()) {
 				Player pp = JSONAPI.loadOfflinePlayer(p.getName());
-				if (Arrays.asList(perms.getPlayerGroups(pp)).indexOf(group) > -1) {
+				if(Arrays.asList(perms.getPlayerGroups(pp)).indexOf(group) > -1) {
 					players.add(pp.getName());
 				}
 			}
@@ -106,8 +104,7 @@ public class PermissionWrapper {
 			p.addAttachment(JSONAPI.instance, key, value);
 			p.saveData();
 			return true;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -132,8 +129,7 @@ public class PermissionWrapper {
 			player.saveData();
 
 			return true;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -154,10 +150,8 @@ public class PermissionWrapper {
 			}
 
 			return perms;
-		}
-		catch (Exception e) {
-			if (JSONAPI.shouldDebug)
-				e.printStackTrace();
+		} catch (Exception e) {
+			if(JSONAPI.shouldDebug) e.printStackTrace();
 			return perms;
 		}
 	}
@@ -168,8 +162,7 @@ public class PermissionWrapper {
 			for (Player p : server.getOnlinePlayers()) {
 				l.put(p.getName(), getPermissions(p.getName()));
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 		}
 		return l;
 	}

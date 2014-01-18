@@ -7,14 +7,14 @@ import java.util.logging.LogRecord;
 import com.alecgorge.minecraft.jsonapi.JSONServer;
 
 public class ConsoleHandler extends Handler {
-	Formatter	formatter;
-	JSONServer	server;
-
-	public ConsoleHandler(JSONServer _server) {
+	Formatter formatter;
+	JSONServer server;
+	
+	public ConsoleHandler (JSONServer _server) {
 		super();
 		server = _server;
 	}
-
+	
 	public void close() throws SecurityException {
 
 	}
@@ -24,7 +24,7 @@ public class ConsoleHandler extends Handler {
 	}
 
 	public void publish(LogRecord record) {
-		if (formatter == null) {
+		if(formatter == null) {
 			formatter = new ConsoleLogFormatter();
 		}
 

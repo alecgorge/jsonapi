@@ -14,20 +14,20 @@ import java.util.List;
 import java.util.Map;
 
 public class MutableHttpRequest {
-	String				method			= "GET";
-	URL					url;
-	List<String>		postParamKeys	= new ArrayList<String>();
-	List<String>		postParamValues	= new ArrayList<String>();
+	String method = "GET";
+	URL url;
+	List<String> postParamKeys = new ArrayList<String>();
+	List<String> postParamValues = new ArrayList<String>();
 
-	List<String>		getParamKeys	= new ArrayList<String>();
-	List<String>		getParamValues	= new ArrayList<String>();
+	List<String> getParamKeys = new ArrayList<String>();
+	List<String> getParamValues = new ArrayList<String>();
 
-	Map<String, String>	headers			= new HashMap<String, String>();
+	Map<String, String> headers = new HashMap<String, String>();
 
-	HttpURLConnection	conn			= null;
-	InputStream			in				= null;
+	HttpURLConnection conn = null;
+	InputStream in = null;
 
-	public int			timeout			= 10000;
+	public int timeout = 10000;
 
 	public static MutableHttpRequest create(URL u) throws IOException {
 		return new MutableHttpRequest(u);
@@ -157,8 +157,7 @@ public class MutableHttpRequest {
 			String us = url.toString();
 			if (us.contains("?")) {
 				url = new URL(url.toString().concat(parms));
-			}
-			else {
+			} else {
 				url = new URL(url.toString().concat("?").concat(parms));
 			}
 		}
@@ -186,8 +185,7 @@ public class MutableHttpRequest {
 
 		if (conn.getResponseCode() >= 400) {
 			in = conn.getErrorStream();
-		}
-		else {
+		} else {
 			in = conn.getInputStream();
 		}
 
@@ -217,8 +215,7 @@ public class MutableHttpRequest {
 	private String encode(String s) {
 		try {
 			return URLEncoder.encode(s, "UTF-8");
-		}
-		catch (UnsupportedEncodingException e) {
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return s;
@@ -228,8 +225,7 @@ public class MutableHttpRequest {
 		if (in != null) {
 			try {
 				in.close();
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

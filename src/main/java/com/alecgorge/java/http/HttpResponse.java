@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpResponse {
-	protected InputStream				inputStream;
-	protected BufferedReader			bufferedReader;
-	protected InputStreamReader			inputStreamReader;
-	protected int						statuscode;
-	protected Map<String, List<String>>	headers;
+	protected InputStream inputStream;
+	protected BufferedReader bufferedReader;
+	protected InputStreamReader inputStreamReader;
+	protected int statuscode;
+	protected Map<String, List<String>> headers;
 
 	public HttpResponse(int statuscode, InputStream in, Map<String, List<String>> map) {
 		this.statuscode = statuscode;
@@ -59,7 +59,7 @@ public class HttpResponse {
 	public String getReponse() {
 		return toString();
 	}
-
+	
 	public String getBody() {
 		return toString();
 	}
@@ -80,8 +80,7 @@ public class HttpResponse {
 			inputStream.close();
 
 			return b.toString();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}

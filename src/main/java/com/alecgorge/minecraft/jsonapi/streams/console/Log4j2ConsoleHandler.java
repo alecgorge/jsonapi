@@ -9,9 +9,9 @@ import com.alecgorge.minecraft.jsonapi.JSONServer;
 
 public class Log4j2ConsoleHandler {
 	public Log4j2ConsoleHandler(JSONServer server) {
-		// #if mc17OrNewer=="yes"
-		Logger l = (Logger) LogManager.getRootLogger();
+		//#if mc17OrNewer=="yes"
+		Logger l = (Logger)LogManager.getRootLogger();
 		l.addAppender(new ConsoleStubAppender(server));
-		// #endif
+		//#endif
 	}
 }
