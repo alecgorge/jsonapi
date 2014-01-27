@@ -115,11 +115,8 @@ public class Adminium3 implements JSONAPIStreamListener {
 					// System.out.println(String.format("Sending %s to %d (%s) devices.",
 					// msg, devices.size(), devices.get(0)));
 				}
-				catch (SocketException e) {
-					mcLog.warning("The Adminium push notification server seems to be down...push notifications will not go through at this time.");
-				}
 				catch (Exception e) {
-					e.printStackTrace();
+					mcLog.warning("The Adminium push notification server seems to be down...push notifications will not go through at this time.");
 				}
 				finally {
 					if (r != null)
