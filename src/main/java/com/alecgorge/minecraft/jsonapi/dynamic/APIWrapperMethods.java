@@ -101,7 +101,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	public HashMap<Integer, ItemStack> removePlayerInventoryItem(String playerName, int itemID) {
 		try {
 			Player p = getPlayerExact(playerName);
-			HashMap<Integer, ItemStack> c = p.getInventory().removeItem(new ItemStack(itemID));
+			HashMap<Integer, ItemStack> c = p.getInventory().removeItem(new ItemStack(itemID, 64));
 			p.saveData();
 
 			return c;
