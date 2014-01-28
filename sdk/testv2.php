@@ -16,14 +16,13 @@ function gen_key($name) {
 }
 
 
-$methodName = "server";
-
+$methodName = "chat.with_name";
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => [],
+		'arguments' => ["OdiumDevonix","§8[§4§lAUTH§8] §fYou have §asuccessfully §fauthenticated!"],
 		'tag' => '1'
 	),
 	// array(
