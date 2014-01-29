@@ -3,11 +3,10 @@ package com.alecgorge.minecraft.jsonapi.streams;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.JSONServer;
@@ -114,17 +113,17 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 			return BukkitSerializer.getGson().toJson(ja.toJSONObject());
 		}
 		
-		JSONObject o = new JSONObject();
+		Map<String, Object> o = new HashMap<String, Object>();
 		o.put("result", "success");
 		o.put("source", ja.streamName());
 		o.put("success", ja);
 		
 		try {
 			o.put("tag", tag.get(streams.indexOf(ja.streamName())));
-			return o.toJSONString();
+			return BukkitSerializer.getGson().toJson(o);
 		}
 		catch (Exception e) {
-			return o.toJSONString(); // incase of a concurrence issue
+			return BukkitSerializer.getGson().toJson(o); // incase of a concurrence issue
 									 // very hacky but it works
 		}		
 	}

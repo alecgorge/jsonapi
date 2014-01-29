@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
@@ -25,6 +26,7 @@ import com.alecgorge.minecraft.jsonapi.api.v2.APIv2Handler;
 import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
+import com.alecgorge.minecraft.jsonapi.gson.BukkitSerializer;
 import com.alecgorge.minecraft.jsonapi.streams.ChatMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ChatStream;
 import com.alecgorge.minecraft.jsonapi.streams.ConnectionMessage;
@@ -33,6 +35,7 @@ import com.alecgorge.minecraft.jsonapi.streams.ConsoleMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleStream;
 import com.alecgorge.minecraft.jsonapi.streams.PerformanceStream;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
+import com.google.gson.JsonObject;
 
 public class JSONServer extends NanoHTTPD {
 	public UsersConfig logins;
@@ -404,8 +407,13 @@ public class JSONServer extends NanoHTTPD {
 		if (p != null && p.containsKey("tag")) {
 			o.put("tag", p.get("tag"));
 		}
+		
+		JsonObject oo = new JsonObject();
+		for(Object key : o.keySet()) {
+			oo.add(key.toString(), BukkitSerializer.getGson().toJsonTree(o.get(key)));
+		}
 
-		NanoHTTPD.Response r = new NanoHTTPD.Response(code, MIME_JSON, callback(callback, o.toJSONString()));
+		NanoHTTPD.Response r = new NanoHTTPD.Response(code, MIME_JSON, callback(callback, BukkitSerializer.toJSON(oo)));
 		r.addHeader("Access-Control-Allow-Origin", "*");
 		return r;
 	}
