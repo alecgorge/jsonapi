@@ -63,37 +63,37 @@
 		</resources>
 		<plugins>
 			<plugin>
-				 <groupId>com.igormaznitsa</groupId>
-				 <artifactId>jcp</artifactId>
-				 <version>5.3.2</version>
-				 <executions>
-					  <execution>
-							<phase>generate-sources</phase>
-							<goals>
-								 <goal>preprocess</goal>
-							</goals>
-					  </execution>
-				 </executions>
-				 <configuration>
-					  <globalVars>
-							<property>
-								<name>mcversion</name>
-								<value>${mcPackage}</value>
-							</property>
-							<property>
-								<name>mc16OrNewer</name>
-								<value>${mc16OrNewer}</value>
-							</property>
-							<property>
-								<name>mc17OrNewer</name>
-								<value>${mc17OrNewer}</value>
-							</property>
-							<property>
-								<name>jsonapiDebug</name>
-								<value>${jsonapiDebug}</value>
-							</property>
-					  </globalVars>
-				 </configuration>
+				<groupId>com.igormaznitsa</groupId>
+				<artifactId>jcp</artifactId>
+				<version>5.3.2</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>preprocess</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<globalVars>
+						<property>
+							<name>mcversion</name>
+							<value>${mcPackage}</value>
+						</property>
+						<property>
+							<name>mc16OrNewer</name>
+							<value>${mc16OrNewer}</value>
+						</property>
+						<property>
+							<name>mc17OrNewer</name>
+							<value>${mc17OrNewer}</value>
+						</property>
+						<property>
+							<name>jsonapiDebug</name>
+							<value>${jsonapiDebug}</value>
+						</property>
+					</globalVars>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -109,7 +109,7 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
- 				<artifactId>maven-dependency-plugin</artifactId>
+				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
 						<id>install-test-jar</id>
@@ -192,9 +192,35 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<minimizeJar>true</minimizeJar>
+							<artifactSet>
+								<includes>
+									<include>com.google.code.gson:gson</include>
+								</includes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>		
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>

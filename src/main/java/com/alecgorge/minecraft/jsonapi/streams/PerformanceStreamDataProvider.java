@@ -1,7 +1,8 @@
 package com.alecgorge.minecraft.jsonapi.streams;
 
+import java.util.Map;
+
 import org.bukkit.plugin.Plugin;
-import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
@@ -15,7 +16,7 @@ public class PerformanceStreamDataProvider implements Runnable {
 	
 	@Override
 	public void run() {
-		JSONObject t = JSONAPI.instance.getTickRateCounter().getJSONObject();
+		Map<String, Object> t = JSONAPI.instance.getTickRateCounter().getJSONObject();
 		double diskMax = APIWrapperMethods.getInstance().getDiskSize();
 		double diskUsage = APIWrapperMethods.getInstance().getDiskUsage();
 		double memoryMax = APIWrapperMethods.getInstance().getJavaMaxMemory();

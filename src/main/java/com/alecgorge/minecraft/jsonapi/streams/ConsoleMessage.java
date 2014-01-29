@@ -1,6 +1,7 @@
 package com.alecgorge.minecraft.jsonapi.streams;
 
-import org.json.simpleForBukkit.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 
@@ -16,8 +17,8 @@ public class ConsoleMessage extends JSONAPIStreamMessage {
 		return "console";
 	}
 	
-	public JSONObject toJSONObject () {
-		JSONObject o = new JSONObject();
+	public Map<String, Object> toJSONObject () {
+		Map<String, Object> o = new HashMap<String, Object>();
 		o.put("time", getTime());
 		o.put("line", line);
 		

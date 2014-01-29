@@ -7,8 +7,8 @@ $endpoint = "api/2/call";
 // $host = "dedicated.alecgorge.com";
 // $endpoint = "api/2/call";
 
-$username = "chatonly";
-$password = "example";
+$username = "admin";
+$password = "changeme2";
 
 function gen_key($name) {
 	global $username, $password, $salt;
@@ -16,13 +16,13 @@ function gen_key($name) {
 }
 
 
-$methodName = "chat.with_name";
+$methodName = "server";
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => ["OdiumDevonix","§8[§4§lAUTH§8] §fYou have §asuccessfully §fauthenticated!"],
+		'arguments' => [],
 		'tag' => '1'
 	),
 	// array(

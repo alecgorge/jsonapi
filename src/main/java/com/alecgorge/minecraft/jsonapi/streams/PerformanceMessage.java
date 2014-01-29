@@ -1,18 +1,18 @@
 package com.alecgorge.minecraft.jsonapi.streams;
 
-import org.json.simpleForBukkit.JSONObject;
+import java.util.Map;
 
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 
 public class PerformanceMessage extends JSONAPIStreamMessage {
-	JSONObject tickInformation;
+	Map<String, Object> tickInformation;
 	double maxDisk;
 	double diskUsage;
 	double maxMemory;
 	double memoryUsage;
 	int players;
 	
-	public PerformanceMessage(JSONObject t, double diskMax, double diskUsage, double memoryMax, double memoryUsage, int players) {
+	public PerformanceMessage(Map<String, Object> t, double diskMax, double diskUsage, double memoryMax, double memoryUsage, int players) {
 		tickInformation = t;
 		maxDisk = diskMax;
 		this.diskUsage = diskUsage;
@@ -27,8 +27,8 @@ public class PerformanceMessage extends JSONAPIStreamMessage {
 		return "performance";
 	}
 
-	public JSONObject toJSONObject() {
-		JSONObject o = tickInformation;
+	public Map<String, Object> toJSONObject() {
+		Map<String, Object> o = tickInformation;
 		o.put("time", getTime());
 		o.put("diskMax", maxDisk);
 		o.put("diskUsage", diskUsage);

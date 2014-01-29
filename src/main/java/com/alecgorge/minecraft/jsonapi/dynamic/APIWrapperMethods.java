@@ -935,17 +935,17 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		return (new File(".")).getFreeSpace() / 1024.0 / 1024.0;
 	}
 	
-	public JSONObject testClock() {
+	public Map<String, Object> testClock() {
 		return JSONAPI.instance.getTickRateCounter().getJSONObject();
 	}
 
 
-	public List<JSONObject> getStreamWithLimit(String streamName, int count) {
+	public List<Map<String, Object>> getStreamWithLimit(String streamName, int count) {
 		List<JSONAPIStreamMessage> stack = JSONAPI.instance.getStreamManager().getStream(streamName).getStack();
 
 		count = count == -1 ? stack.size() : (stack.size() < count ? stack.size() : count);
 
-		ArrayList<JSONObject> a = new ArrayList<JSONObject>();
+		ArrayList<Map<String, Object>> a = new ArrayList<Map<String, Object>>();
 
 		synchronized (stack) {
 			for (int i = stack.size() - count; i < stack.size(); i++) {
@@ -955,31 +955,31 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		return a;
 	}
 
-	public List<JSONObject> getStream(String streamName) {
+	public List<Map<String, Object>> getStream(String streamName) {
 		return getStreamWithLimit(streamName, -1);
 	}
 
-	public List<JSONObject> getConsoleLogs(int count) {
+	public List<Map<String, Object>> getConsoleLogs(int count) {
 		return getStreamWithLimit("console", count);
 	}
 
-	public List<JSONObject> getConsoleLogs() {
+	public List<Map<String, Object>> getConsoleLogs() {
 		return getConsoleLogs(-1);
 	}
 
-	public List<JSONObject> getChatLogs(int count) {
+	public List<Map<String, Object>> getChatLogs(int count) {
 		return getStreamWithLimit("chat", count);
 	}
 
-	public List<JSONObject> getChatLogs() {
+	public List<Map<String, Object>> getChatLogs() {
 		return getChatLogs(-1);
 	}
 
-	public List<JSONObject> getConnectionLogs(int count) {
+	public List<Map<String, Object>> getConnectionLogs(int count) {
 		return getStreamWithLimit("connections", count);
 	}
 
-	public List<JSONObject> getConnectionLogs() {
+	public List<Map<String, Object>> getConnectionLogs() {
 		return getConnectionLogs(-1);
 	}
 

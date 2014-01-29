@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.json.simpleForBukkit.JSONObject;
@@ -13,6 +14,7 @@ import com.alecgorge.minecraft.jsonapi.JSONServer;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStream;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamListener;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
+import com.alecgorge.minecraft.jsonapi.gson.BukkitSerializer;
 
 public class StreamingResponse extends InputStream implements JSONAPIStreamListener {
 	private List<JSONAPIStream> stacks = new ArrayList<JSONAPIStream>();
@@ -22,7 +24,7 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 	private List<String> tag;
 	private List<String> streams;
 	
-	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, List<Boolean> showOlder, List<String> tag, List<JSONObject> seed) {
+	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, List<Boolean> showOlder, List<String> tag, List<Map<String, Object>> seed) {
 		plugin = _plugin;
 		this.tag = tag;
 		
@@ -46,7 +48,7 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 		}
 		
 		if(seed != null) {
-			for(JSONObject o : seed) {
+			for(Map<String, Object> o : seed) {
 				onMessage(new JSONObjectMessage(o), null);
 			}
 		}
@@ -109,7 +111,7 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 	
 	private String makeResponseObj (JSONAPIStreamMessage ja) {
 		if(ja instanceof JSONObjectMessage) {
-			return ja.toJSONObject().toJSONString();
+			return BukkitSerializer.getGson().toJson(ja.toJSONObject());
 		}
 		
 		JSONObject o = new JSONObject();

@@ -1,12 +1,12 @@
 package com.alecgorge.minecraft.jsonapi.streams;
 
-import org.json.simpleForBukkit.JSONObject;
+import java.util.Map;
 
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 
 public class JSONObjectMessage extends JSONAPIStreamMessage {
-	JSONObject obj;
-	public JSONObjectMessage(JSONObject o) {
+	Map<String, Object> obj;
+	public JSONObjectMessage(Map<String, Object> o) {
 		obj = o;
 	}
 	
@@ -16,7 +16,7 @@ public class JSONObjectMessage extends JSONAPIStreamMessage {
 	}
 
 	@Override
-	public JSONObject toJSONObject() {
+	public Map<String, Object> toJSONObject() {
 		return obj;
 	}
 
