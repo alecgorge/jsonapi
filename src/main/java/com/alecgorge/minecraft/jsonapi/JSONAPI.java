@@ -79,6 +79,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public String logFile = "false";
 	public String salt = "";
 	public int port = 20059;
+	public boolean allowSendingOldStreamMessages = true;
 	private long startupDelay = 2000;
 	public List<String> whitelist = new ArrayList<String>();
 	public List<String> method_noauth_whitelist = new ArrayList<String>();
@@ -416,6 +417,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				port = yamlConfig.getInt("options.port", 20059);
 				startupDelay = yamlConfig.getInt("options.startup-delay", 2000);
 				anyoneCanUseCallAdmin = yamlConfig.getBoolean("options.anyone-can-use-calladmin", false);
+				allowSendingOldStreamMessages = yamlConfig.getBoolean("options.send-previous-stream-messages", true);
 				serverName = getServer().getServerName();
 				if(yamlConfig.contains("options.use-new-api")) {
 					useGroups = yamlConfig.getBoolean("options.use-new-api", false);
@@ -561,7 +563,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 			adminium = new PushNotificationDaemon(new File(getDataFolder(), "adminium.yml"), this);
 			adminium3 = new Adminium3(this);
-			
+						
 			tickRateCounter = new TickRateCounter(this);
 
 			// must load this after the tick counter exists!
