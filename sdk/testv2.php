@@ -8,7 +8,7 @@ $endpoint = "api/2/call";
 // $endpoint = "api/2/call";
 
 $username = "admin";
-$password = "changeme2";
+$password = "changeme";
 
 function gen_key($name) {
 	global $username, $password, $salt;
@@ -16,7 +16,7 @@ function gen_key($name) {
 }
 
 
-$methodName = "server";
+$methodName = "plugins";
 $payload = array(
 	array(
 		'name' => $methodName,

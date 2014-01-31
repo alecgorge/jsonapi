@@ -80,10 +80,10 @@ public class APIv2Handler {
 	}
 	
 	public NanoHTTPD.Response call() {
-		List<JSONResponse> a = new ArrayList<JSONResponse>();
+		List<Map<String, Object>> a = new ArrayList<Map<String, Object>>();
 		
 		for(JSONResponse resp : requests) {
-			a.add(resp);
+			a.add(resp.getJSONObject());
 		}
 		
 		String json = BukkitSerializer.toJSON(a);

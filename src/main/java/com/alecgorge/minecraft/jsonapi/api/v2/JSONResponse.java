@@ -133,6 +133,7 @@ public class JSONResponse {
 					args = new JSONArray();
 				}
 				Object result = caller.call(methodName, (Object[]) ((ArrayList<Object>) args).toArray(new Object[((ArrayList<Object>) args).size()]));
+				JSONAPI.dbug("object: " + result);
 				return APISuccess(result);
 			} else {
 				return APIError("The method '" + methodName + "' does not exist!", 7);

@@ -100,17 +100,17 @@ public class BukkitSerializer {
 			o.addProperty("foodLevel", p.getFoodLevel());
 			o.addProperty("exhaustion", p.getExhaustion());
 			o.addProperty("ip", p.getAddress() != null ? p.getAddress().toString() : "offline");
-			o.add("itemInHand", context.serialize(p.getItemInHand()));
-			o.add("location", context.serialize(p.getLocation()));
-			o.add("inventory", context.serialize(p.getInventory()));
+			o.add("itemInHand", getGson().toJsonTree(p.getItemInHand()));
+			o.add("location", getGson().toJsonTree(p.getLocation()));
+			o.add("inventory", getGson().toJsonTree(p.getInventory()));
 			// o.put("enderchest", p.getEnderChest());
 			o.addProperty("sneaking", p.isSneaking());
 			o.addProperty("sprinting", p.isSprinting());
 			o.addProperty("inVehicle", p.isInsideVehicle());
 			o.addProperty("sleeping", p.isSleeping());
 			o.addProperty("world", p.getServer().getWorlds().indexOf(p.getWorld()));
-			o.add("worldInfo", context.serialize(p.getWorld()));
-			o.add("gameMode", context.serialize(p.getGameMode()));
+			o.add("worldInfo", getGson().toJsonTree(p.getWorld()));
+			o.add("gameMode", getGson().toJsonTree(p.getGameMode()));
 			o.addProperty("banned", p.isBanned());
 			o.addProperty("whitelisted", p.isWhitelisted());
 
@@ -118,7 +118,7 @@ public class BukkitSerializer {
 			o.addProperty("experience", p.getTotalExperience());
 			o.addProperty("firstPlayed", Math.round(p.getFirstPlayed() / 1000.0));
 			o.addProperty("lastPlayed", Math.round(p.getLastPlayed() / 1000.0));
-			o.add("enderchest", context.serialize(p.getEnderChest()));
+			o.add("enderchest", getGson().toJsonTree(p.getEnderChest()));
 
 			return o;
 		}
@@ -131,7 +131,7 @@ public class BukkitSerializer {
 
 			Player target = JSONAPI.loadOfflinePlayer(op.getName());
 			if (target != null)
-				return context.serialize(target);
+				return getGson().toJsonTree(target);
 
 			o.addProperty("firstPlayed", Math.round(op.getFirstPlayed() / 1000.0));
 			o.addProperty("lastPlayed", Math.round(op.getLastPlayed() / 1000.0));
@@ -150,12 +150,12 @@ public class BukkitSerializer {
 			JsonObject o = new JsonObject();
 
 			o.addProperty("maxPlayers", s.getMaxPlayers());
-			o.add("players", context.serialize(Arrays.asList(s.getOnlinePlayers())));
+			o.add("players", getGson().toJsonTree(Arrays.asList(s.getOnlinePlayers())));
 			o.addProperty("port", s.getPort());
 			o.addProperty("name", s.getName());
 			o.addProperty("serverName", s.getServerName());
 			o.addProperty("version", s.getVersion());
-			o.add("worlds", context.serialize(s.getWorlds()));
+			o.add("worlds", getGson().toJsonTree(s.getWorlds()));
 
 			return o;
 
@@ -167,7 +167,7 @@ public class BukkitSerializer {
 		public JsonElement serialize(World w, Type type, JsonSerializationContext context) {
 			JsonObject o = new JsonObject();
 
-			o.add("environment", context.serialize(w.getEnvironment()));
+			o.add("environment", getGson().toJsonTree(w.getEnvironment()));
 			o.addProperty("fullTime", w.getFullTime());
 			o.addProperty("time", w.getTime());
 			o.addProperty("name", w.getName());
@@ -185,7 +185,7 @@ public class BukkitSerializer {
 				}
 			}
 			
-			o.add("players", context.serialize(playerNames));
+			o.add("players", getGson().toJsonTree(playerNames));
 			return o;
 
 		}
@@ -194,17 +194,19 @@ public class BukkitSerializer {
 	public static class PluginSerializer implements JsonSerializer<Plugin> {
 		@Override
 		public JsonElement serialize(Plugin p, Type type, JsonSerializationContext context) {
+			JSONAPI.dbug("using custom Plugin serializer");
+			
 			JsonObject o = new JsonObject();
 
 			PluginDescriptionFile d = p.getDescription();
 
 			o.addProperty("name", d.getName());
 			o.addProperty("description", d.getDescription() == null ? "" : d.getDescription());
-			o.add("authors", context.serialize(d.getAuthors()));
+			o.add("authors", getGson().toJsonTree(d.getAuthors()));
 			o.addProperty("version", d.getVersion());
 			o.addProperty("website", d.getWebsite() == null ? "" : d.getWebsite());
 			o.addProperty("enabled", JSONAPI.instance.getServer().getPluginManager().isPluginEnabled(p));
-			o.add("commands", context.serialize(d.getCommands()));
+			o.add("commands", getGson().toJsonTree(d.getCommands()));
 
 			return o;
 		}
@@ -213,14 +215,14 @@ public class BukkitSerializer {
 	public static class WorldEnvironmentSerializer implements JsonSerializer<World.Environment> {
 		@Override
 		public JsonElement serialize(World.Environment e, Type type, JsonSerializationContext context) {
-			return context.serialize(e.name().toLowerCase());
+			return getGson().toJsonTree(e.name().toLowerCase());
 		}
 	}
 
 	public static class FileSerializer implements JsonSerializer<File> {
 		@Override
 		public JsonElement serialize(File f, Type type, JsonSerializationContext context) {
-			return context.serialize(f.toString());
+			return getGson().toJsonTree(f.toString());
 		}
 	}
 
@@ -251,7 +253,7 @@ public class BukkitSerializer {
 				enchantments.addProperty(String.valueOf(enchantment.getKey().getId()), enchantment.getValue());
 			}
 
-			o.add("enchantments", context.serialize(enchantments));
+			o.add("enchantments", getGson().toJsonTree(enchantments));
 			
 			if (i.getType().equals(Material.BOOK_AND_QUILL) || i.getType().equals(Material.WRITTEN_BOOK)) {
 				JSONObject book = new JSONObject();
@@ -262,7 +264,7 @@ public class BukkitSerializer {
 				book.put("title", bookObj.getTitle());
 				book.put("author", bookObj.getAuthor());
 				
-				o.add("book", context.serialize(book));
+				o.add("book", getGson().toJsonTree(book));
 			}
 
 			return o;
@@ -275,14 +277,14 @@ public class BukkitSerializer {
 			JsonObject o = new JsonObject();
 
 			JsonObject armor = new JsonObject();
-			armor.add("boots", context.serialize(p.getBoots()));
-			armor.add("chestplate", context.serialize(p.getChestplate()));
-			armor.add("helmet", context.serialize(p.getHelmet()));
-			armor.add("leggings", context.serialize(p.getLeggings()));
+			armor.add("boots", getGson().toJsonTree(p.getBoots()));
+			armor.add("chestplate", getGson().toJsonTree(p.getChestplate()));
+			armor.add("helmet", getGson().toJsonTree(p.getHelmet()));
+			armor.add("leggings", getGson().toJsonTree(p.getLeggings()));
 
 			o.add("armor", armor);
-			o.add("hand", context.serialize(p.getItemInHand()));
-			o.add("inventory", context.serialize(Arrays.asList(p.getContents())));
+			o.add("hand", getGson().toJsonTree(p.getItemInHand()));
+			o.add("inventory", getGson().toJsonTree(Arrays.asList(p.getContents())));
 
 			return o;
 		}
@@ -291,7 +293,7 @@ public class BukkitSerializer {
 	public static class InventorySerializer implements JsonSerializer<Inventory> {
 		@Override
 		public JsonElement serialize(Inventory p, Type type, JsonSerializationContext context) {
-			return context.serialize(Arrays.asList(p.getContents()));
+			return getGson().toJsonTree(Arrays.asList(p.getContents()));
 		}
 	}
 
@@ -313,11 +315,12 @@ public class BukkitSerializer {
 	public static class PluginArraySerializer implements JsonSerializer<Plugin[]> {
 		@Override
 		public JsonElement serialize(Plugin[] obj, Type type, JsonSerializationContext context) {
+			JSONAPI.dbug("using custom Plugin[] serializer");
 			List<Plugin> l = Arrays.asList((Plugin[]) obj);
 
 			Collections.sort(l, new PluginSorter());
 
-			return context.serialize(l);
+			return getGson().toJsonTree(l);
 		}
 	}
 
@@ -328,7 +331,7 @@ public class BukkitSerializer {
 
 			o.addProperty("username", u.getUsername());
 			o.addProperty("password", u.getPassword());
-			o.add("groups", context.serialize(u.getGroups()));
+			o.add("groups", getGson().toJsonTree(u.getGroups()));
 
 			return o;
 		}
@@ -340,9 +343,9 @@ public class BukkitSerializer {
 			JsonObject o = new JsonObject();
 
 			o.addProperty("name", g.getName());
-			o.add("streams", context.serialize(g.getStreams()));
-			o.add("methods", context.serialize(g.getMethods()));
-			o.add("permissions", context.serialize(g.getPermissions()));
+			o.add("streams", getGson().toJsonTree(g.getStreams()));
+			o.add("methods", getGson().toJsonTree(g.getMethods()));
+			o.add("permissions", getGson().toJsonTree(g.getPermissions()));
 
 			return o;
 		}
@@ -351,21 +354,21 @@ public class BukkitSerializer {
 	public static class JSONAPIPermissionNodeSerializer implements JsonSerializer<JSONAPIPermissionNode> {
 		@Override
 		public JsonElement serialize(JSONAPIPermissionNode p, Type type, JsonSerializationContext context) {
-			return context.serialize(p.getName());
+			return getGson().toJsonTree(p.getName());
 		}
 	}
 
 	public static class GameModeSerializer implements JsonSerializer<GameMode> {
 		@Override
 		public JsonElement serialize(GameMode m, Type type, JsonSerializationContext context) {
-			return context.serialize(m.getValue());
+			return getGson().toJsonTree(m.getValue());
 		}
 	}
 
 	public static class EnchantmentSerializer implements JsonSerializer<Enchantment> {
 		@Override
 		public JsonElement serialize(Enchantment e, Type type, JsonSerializationContext context) {
-			return context.serialize(e.getId());
+			return getGson().toJsonTree(e.getId());
 		}
 	}
 
@@ -388,7 +391,7 @@ public class BukkitSerializer {
 		public JsonElement serialize(AdminiumPushNotification not, Type type, JsonSerializationContext context) {
 			JsonObject o = new JsonObject();
 
-			o.add("date", context.serialize(not.getDateSent()));
+			o.add("date", getGson().toJsonTree(not.getDateSent()));
 			o.addProperty("message", not.getMessage());
 
 			return o;
@@ -405,7 +408,7 @@ public class BukkitSerializer {
 
 		@Override
 		public JsonElement serialize(Date d, Type type, JsonSerializationContext context) {
-			return context.serialize(dateFormat.format(d));
+			return getGson().toJsonTree(dateFormat.format(d));
 		}
 	}
 
