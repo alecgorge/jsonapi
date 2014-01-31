@@ -61,19 +61,25 @@ public class Call {
 			oParams.add(i, defaults.get(i));
 		}
 
-		debug("oParams:" + oParams.toString());
-		debug("Stack:" + stack);
+		if (JSONAPI.shouldDebug) {
+			debug("oParams:" + oParams.toString());
+			debug("Stack:" + stack);
+		}
 
 		Object lastResult = null;
 		for (int i = 0; i < size; i++) {
 			Object v = stack.get(i);
-			debug("v:" + v.getClass().getCanonicalName());
+			if (JSONAPI.shouldDebug) {
+				debug("v:" + v.getClass().getCanonicalName());
+			}
 			if (v instanceof Server || v instanceof APIWrapperMethods || (i == 0 && v instanceof Plugin)) {
 				lastResult = v;
 			} else if (v instanceof SubField) {
 				SubField obj = (SubField) v;
 
-				debug("Requesting field: " + obj.getName());
+				if (JSONAPI.shouldDebug) {
+					debug("Requesting field: " + obj.getName());
+				}
 
 				if (obj.getName().equals("length") && lastResult.getClass().isArray()) {
 					lastResult = Array.getLength(lastResult);
@@ -95,9 +101,11 @@ public class Call {
 			} else if (v instanceof SubCall) {
 				SubCall obj = (SubCall) v;
 
-				debug("Calling method: '" + obj.getName() + "' with signature: '" + obj.requiresArgs() + "' '" + Arrays.asList(sigForIndices(obj.requiresArgs())) + "'.");
-				debug("Last result:" + (lastResult == null ? null : lastResult.toString()));
-				debug("Invoking method: '" + obj.getName() + "' with args: '" + Arrays.asList(indicies(oParams, obj.requiresArgs())) + "'.");
+				if (JSONAPI.shouldDebug) {
+					debug("Calling method: '" + obj.getName() + "' with signature: '" + obj.requiresArgs() + "' '" + Arrays.asList(sigForIndices(obj.requiresArgs())) + "'.");
+					debug("Last result:" + (lastResult == null ? null : lastResult.toString()));
+					debug("Invoking method: '" + obj.getName() + "' with args: '" + Arrays.asList(indicies(oParams, obj.requiresArgs())) + "'.");
+				}
 
 				Object[] args = indicies(oParams, obj.requiresArgs());
 				Class<?>[] sig = sigForIndices(obj.requiresArgs());
@@ -126,8 +134,11 @@ public class Call {
 					} else if (val instanceof List) {
 						sig[x] = List.class;
 					}
-					debug("Arg " + x + ": '" + val + "', type: " + val.getClass().getName());
-					debug("Sig type: " + sig[x].getName());
+					
+					if (JSONAPI.shouldDebug) {
+						debug("Arg " + x + ": '" + val + "', type: " + val.getClass().getName());
+						debug("Sig type: " + sig[x].getName());
+					}
 				}
 
 				if (flags.contains("NO_EXCEPTIONS") || flags.contains("FALSE_ON_EXCEPTION")) {
@@ -159,7 +170,9 @@ public class Call {
 					lastResult = thisMethod.invoke(lastResult, args);
 				}
 
-				debug("New value:" + lastResult);
+				if (JSONAPI.shouldDebug) {
+					debug("New value:" + lastResult);
+				}
 			}
 		}
 
