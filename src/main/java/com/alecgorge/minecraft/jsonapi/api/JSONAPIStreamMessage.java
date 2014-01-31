@@ -1,11 +1,9 @@
 package com.alecgorge.minecraft.jsonapi.api;
 
 import java.util.Calendar;
-import java.util.Map;
 
 import org.json.simpleForBukkit.JSONAware;
-
-import com.alecgorge.minecraft.jsonapi.gson.BukkitSerializer;
+import org.json.simpleForBukkit.JSONObject;
 
 /**
  * This class will need to be subcalled to provide meaningful data. By default, there are just some convenience methods.
@@ -64,7 +62,7 @@ abstract public class JSONAPIStreamMessage implements JSONAware {
 	 * </code>
 	 * @return
 	 */
-	public abstract Map<String, Object> toJSONObject ();
+	public abstract JSONObject toJSONObject ();
 	/*
 		Example:
 		
@@ -76,6 +74,6 @@ abstract public class JSONAPIStreamMessage implements JSONAware {
 	*/
 
 	public String toJSONString() {
-		return BukkitSerializer.getGson().toJson(toJSONObject());
+		return toJSONObject().toJSONString();
 	}	
 }

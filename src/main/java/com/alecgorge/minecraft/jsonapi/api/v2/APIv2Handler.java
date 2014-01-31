@@ -4,9 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -18,9 +16,9 @@ import org.json.simpleForBukkit.parser.ParseException;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD.Response;
+import com.alecgorge.minecraft.jsonapi.api.v2.JSONResponse;
 import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
-import com.alecgorge.minecraft.jsonapi.gson.BukkitSerializer;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
@@ -71,7 +69,7 @@ public class APIv2Handler {
 		catch (ParseException e) {
 			StringWriter errors = new StringWriter();
 			e.printStackTrace(new PrintWriter(errors));
-			return resp(NanoHTTPD.HTTP_BADREQUEST, NanoHTTPD.MIME_JSON, "["+BukkitSerializer.getGson().toJson(JSONResponse.APIError(errors.toString(), 4, "JSON_PARSE_ERROR", ""))+"]");
+			return resp(NanoHTTPD.HTTP_BADREQUEST, NanoHTTPD.MIME_JSON, "["+JSONResponse.APIError(errors.toString(), 4, "JSON_PARSE_ERROR", "").toJSONString()+"]");
 		}
 	}
 	
@@ -80,24 +78,24 @@ public class APIv2Handler {
 	}
 	
 	public NanoHTTPD.Response call() {
-		List<Map<String, Object>> a = new ArrayList<Map<String, Object>>();
+		JSONArray a = new JSONArray();
 		
 		for(JSONResponse resp : requests) {
 			a.add(resp.getJSONObject());
 		}
 		
-		String json = BukkitSerializer.toJSON(a);
+		String json = a.toJSONString();
 		
 		JSONAPI.dbug("returning: " + json);
 		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, json);
 	}
 	
 	public NanoHTTPD.Response version() {
-		Map<String, Object> versionObj = new HashMap<String, Object>();
+		JSONObject versionObj = new JSONObject();
 		versionObj.put("version", JSONAPI.instance.getDescription().getVersion());
 		versionObj.put("server_version", JSONAPI.instance.getServer().getVersion());
 		
-		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, BukkitSerializer.toJSON(versionObj));
+		return resp(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, versionObj.toJSONString());
 	}
 	
 	public NanoHTTPD.Response resp(String resp, String type, String body) {
@@ -117,7 +115,7 @@ public class APIv2Handler {
 		List<String> 	sourceLists = new ArrayList<String>();
 		List<Boolean> 	showOlder 	= new ArrayList<Boolean>();
 		List<String> 	tag 		= new ArrayList<String>();
-		List<Map<String, Object>>defaults	= new ArrayList<Map<String, Object>>();
+		List<JSONObject>defaults	= new ArrayList<JSONObject>();
 		
 		
 		for(JSONResponse resp : requests) {

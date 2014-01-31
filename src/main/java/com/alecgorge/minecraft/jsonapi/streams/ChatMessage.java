@@ -1,7 +1,6 @@
 package com.alecgorge.minecraft.jsonapi.streams;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 
@@ -19,8 +18,8 @@ public class ChatMessage extends JSONAPIStreamMessage {
 		return "chat";
 	}
 
-	public Map<String, Object> toJSONObject() {
-		Map<String, Object> o = new HashMap<String, Object>();
+	public JSONObject toJSONObject() {
+		JSONObject o = new JSONObject();
 		o.put("time", getTime());
 		o.put("player", player);
 		o.put("message", message);

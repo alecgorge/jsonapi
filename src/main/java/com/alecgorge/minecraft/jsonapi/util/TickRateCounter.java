@@ -1,10 +1,8 @@
 package com.alecgorge.minecraft.jsonapi.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.simpleForBukkit.JSONObject;
 
 public class TickRateCounter {
 	volatile int expectedTicks;
@@ -61,8 +59,8 @@ public class TickRateCounter {
         startTicks = world.getFullTime();
 	}
 	
-	public Map<String, Object> getJSONObject() {
-		Map<String, Object> o = new HashMap<String, Object>();
+	public JSONObject getJSONObject() {
+        JSONObject o = new JSONObject();
         o.put("expectedTicks", expectedTicks);
         o.put("elapsedTicks", elapsedTicks);
         o.put("clockRate", clockRate);

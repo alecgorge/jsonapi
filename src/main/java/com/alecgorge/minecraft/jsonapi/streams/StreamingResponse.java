@@ -3,17 +3,16 @@ package com.alecgorge.minecraft.jsonapi.streams;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.JSONServer;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStream;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamListener;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
-import com.alecgorge.minecraft.jsonapi.gson.BukkitSerializer;
 
 public class StreamingResponse extends InputStream implements JSONAPIStreamListener {
 	private List<JSONAPIStream> stacks = new ArrayList<JSONAPIStream>();
@@ -23,7 +22,7 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 	private List<String> tag;
 	private List<String> streams;
 	
-	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, List<Boolean> showOlder, List<String> tag, List<Map<String, Object>> seed) {
+	public StreamingResponse(JSONAPI _plugin, List<String> sourceLists, String callback, List<Boolean> showOlder, List<String> tag, List<JSONObject> seed) {
 		plugin = _plugin;
 		this.tag = tag;
 		
@@ -47,7 +46,7 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 		}
 		
 		if(seed != null) {
-			for(Map<String, Object> o : seed) {
+			for(JSONObject o : seed) {
 				onMessage(new JSONObjectMessage(o), null);
 			}
 		}
@@ -110,20 +109,20 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 	
 	private String makeResponseObj (JSONAPIStreamMessage ja) {
 		if(ja instanceof JSONObjectMessage) {
-			return BukkitSerializer.getGson().toJson(ja.toJSONObject());
+			return ja.toJSONObject().toJSONString();
 		}
 		
-		Map<String, Object> o = new HashMap<String, Object>();
+		JSONObject o = new JSONObject();
 		o.put("result", "success");
 		o.put("source", ja.streamName());
 		o.put("success", ja);
 		
 		try {
 			o.put("tag", tag.get(streams.indexOf(ja.streamName())));
-			return BukkitSerializer.getGson().toJson(o);
+			return o.toJSONString();
 		}
 		catch (Exception e) {
-			return BukkitSerializer.getGson().toJson(o); // incase of a concurrence issue
+			return o.toJSONString(); // incase of a concurrence issue
 									 // very hacky but it works
 		}		
 	}

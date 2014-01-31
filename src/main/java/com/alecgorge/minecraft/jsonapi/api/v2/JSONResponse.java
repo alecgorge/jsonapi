@@ -4,8 +4,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.json.simpleForBukkit.JSONArray;
@@ -33,7 +31,7 @@ public class JSONResponse {
 	NanoHTTPD httpd;
 	Caller caller = JSONAPI.instance.jsonServer.getCaller();
 	
-	Map<String, Object> error = null;
+	JSONObject error = null;
 	
 	public JSONResponse(JSONObject req, NanoHTTPD httpd, boolean stream) {
 		this.httpd = httpd;
@@ -62,7 +60,7 @@ public class JSONResponse {
 		}
 	}
 	
-	public Map<String, Object> getJSONObject() {
+	public JSONObject getJSONObject() {
 		if(error != null) {
 			return error;
 		}
@@ -119,7 +117,7 @@ public class JSONResponse {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> serveAPICall(Object args) {
+	public JSONObject serveAPICall(Object args) {
 		try {
 			if(methodName.equals("chat.with_name")) {
 				JSONAPIUser u = UsersConfig.config().getUser(username);
@@ -133,7 +131,6 @@ public class JSONResponse {
 					args = new JSONArray();
 				}
 				Object result = caller.call(methodName, (Object[]) ((ArrayList<Object>) args).toArray(new Object[((ArrayList<Object>) args).size()]));
-				JSONAPI.dbug("object: " + result);
 				return APISuccess(result);
 			} else {
 				return APIError("The method '" + methodName + "' does not exist!", 7);
@@ -152,8 +149,8 @@ public class JSONResponse {
 		}
 	}
 	
-	public Map<String, Object> APIException(Throwable e, int errorCode) {
-		Map<String, Object> r = new HashMap<String, Object>();
+	public JSONObject APIException(Throwable e, int errorCode) {
+		JSONObject r = new JSONObject();
 		r.put("result", "error");
 		r.put("is_success", false);
 		StringWriter pw = new StringWriter();
@@ -174,12 +171,12 @@ public class JSONResponse {
 		return r;
 	}
 	
-	public Map<String, Object> APIError(String error, int errorCode) {
+	public JSONObject APIError(String error, int errorCode) {
 		return APIError(error, errorCode, methodName, tag);
 	}
 
-	public static Map<String, Object> APIError(String error, int errorCode, String methodName, String tag) {
-		Map<String, Object> r = new HashMap<String, Object>();
+	public static JSONObject APIError(String error, int errorCode, String methodName, String tag) {
+		JSONObject r = new JSONObject();
 		r.put("result", "error");
 		r.put("source", methodName);
 		r.put("is_success", false);
@@ -197,8 +194,8 @@ public class JSONResponse {
 		return r;
 	}
 
-	public Map<String, Object> APISuccess(Object result) {
-		Map<String, Object> r = new HashMap<String, Object>();
+	public JSONObject APISuccess(Object result) {
+		JSONObject r = new JSONObject();
 		r.put("result", "success");
 		r.put("is_success", true);
 		if(methodName != null) r.put("source", methodName);
