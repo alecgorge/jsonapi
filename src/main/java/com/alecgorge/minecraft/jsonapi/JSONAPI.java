@@ -51,6 +51,7 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
+import com.alecgorge.minecraft.jsonapi.packets.ProtocolLibHTTPInjector;
 import com.alecgorge.minecraft.jsonapi.packets.netty.NettyInjector;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.PerformanceStreamDataProvider;
@@ -565,7 +566,10 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			adminium3 = new Adminium3(this);
 						
 			tickRateCounter = new TickRateCounter(this);
-
+			
+			ProtocolLibHTTPInjector j = new ProtocolLibHTTPInjector(this);
+			j.inject();
+			
 			// must load this after the tick counter exists!
 			registerStreamManager("performance", getJSONServer().performance);
 			PerformanceStreamDataProvider.enqueue(this);
