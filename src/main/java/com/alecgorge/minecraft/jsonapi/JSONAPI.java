@@ -567,8 +567,10 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 						
 			tickRateCounter = new TickRateCounter(this);
 			
+			//#if mc17OrNewer=="yes"
 			ProtocolLibHTTPInjector j = new ProtocolLibHTTPInjector(this);
 			j.inject();
+			//#endif
 			
 			// must load this after the tick counter exists!
 			registerStreamManager("performance", getJSONServer().performance);
