@@ -1,5 +1,5 @@
-//#if mc17OrNewer=="yes"
 package com.alecgorge.minecraft.jsonapi.packets;
+//#if mc17OrNewer=="yes"
 
 import java.io.IOException;
 
@@ -13,7 +13,13 @@ import net.minecraft.server.v1_7_R1.PacketDataSerializer;
 import net.minecraft.server.v1_7_R1.PacketListener;
 //#endif
 
-public class Packet0x47HttpGetPacket extends Packet {
+//#endif
+public class Packet0x47HttpGetPacket
+//#if mc17OrNewer=="yes"
+extends Packet
+//#endif
+{
+	//#if mc17OrNewer=="yes"
 	@Override
 	public void a(PacketDataSerializer ser) throws IOException {
 		System.out.println("Sending/receiving packet. a");
@@ -28,5 +34,5 @@ public class Packet0x47HttpGetPacket extends Packet {
 	public void handle(PacketListener listener) {
 		System.out.println("Handling custom packet.");
 	}
+	//#endif
 }
-//#endif

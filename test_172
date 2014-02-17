@@ -4,5 +4,5 @@
 jarVersion=${1:-BLEEDING}
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
-mvn clean install $@ -Dversion=$jarVersion -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.3-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes && cd test/ && java -Xmx256M -jar craftbukkit-1.7.2-R0.3-SNAPSHOT.jar
+mvn clean install $@ -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.3-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes && cd test/ && java -Xmx256M -jar craftbukkit-1.7.2-R0.3-SNAPSHOT.jar
 cd $DIR

@@ -1,5 +1,5 @@
-//#if mc17OrNewer=="yes"
 package com.alecgorge.minecraft.jsonapi.packets;
+//#if mc17OrNewer=="yes"
 
 import java.util.Map;
 
@@ -15,7 +15,10 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.accessors.Accessors;
 
+//#endif
 public class ProtocolLibHTTPInjector {
+	//#if mc17OrNewer=="yes"
+
 	ProtocolManager	lib	= ProtocolLibrary.getProtocolManager();
 	PacketType		getPacket;
 	JSONAPI			api;
@@ -63,5 +66,6 @@ public class ProtocolLibHTTPInjector {
 		    }
 		});
 	}
+	
+	//#endif
 }
-//#endif

@@ -40,7 +40,7 @@ available_versions = Object.keys(versions)
 build_cmd = (ver, cmd = "clean install") ->
 	mc16OrNewer = if parseFloat(ver.cb_version.substr(0, 3)) >= 1.6 then "yes" else "no"
 	mc17OrNewer = if parseFloat(ver.cb_version.substr(0, 3)) >= 1.7 then "yes" else "no"
-	return "mvn #{cmd} $@ -Dversion=$jarVersion -DmcPackage=#{ver.package} -DcbVersion=#{ver.cb_version} -Dmc16OrNewer=#{mc16OrNewer} -Dmc17OrNewer=#{mc17OrNewer}"
+	return "mvn #{cmd} $@ -DmcPackage=#{ver.package} -DcbVersion=#{ver.cb_version} -Dmc16OrNewer=#{mc16OrNewer} -Dmc17OrNewer=#{mc17OrNewer}"
 eclipse_cmd = (ver) ->
 	return build_cmd ver, "eclipse:eclipse"
 build = (to_build) ->
@@ -72,7 +72,6 @@ if command is "build"
 #!/usr/bin/env bash
 # Generated with the command ./jsonapi build #{version}
 
-jarVersion=${1:-BLEEDING}
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 """
@@ -90,7 +89,6 @@ else if command is "test"
 #!/usr/bin/env bash
 # Generated with the command ./jsonapi test #{version}
 
-jarVersion=${1:-BLEEDING}
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 #{build_cmd(ver)} && cd test/ && java -Xmx256M -jar craftbukkit-#{ver.cb_version}.jar
@@ -107,7 +105,6 @@ else if command is "eclipse"
 #!/usr/bin/env bash
 # Generated with the command ./jsonapi eclipse #{version}
 
-jarVersion=${1:-BLEEDING}
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 #{eclipse_cmd(ver)}
