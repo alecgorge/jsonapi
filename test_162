@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Generated with the command ./jsonapi test 1.6.2
 
+jarVersion=${1:-BLEEDING}
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
-mvn clean install $@ -DmcPackage=v1_6_R2 -DcbVersion=1.6.2-R1.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no && cd test/ && java -Xmx256M -jar craftbukkit-1.6.2-R1.0.jar
+mvn clean install $@ -Dversion=$jarVersion -DmcPackage=v1_6_R2 -DcbVersion=1.6.2-R1.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no && cd test/ && java -Xmx256M -jar craftbukkit-1.6.2-R1.0.jar
 cd $DIR

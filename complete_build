@@ -1,43 +1,39 @@
 #!/usr/bin/env bash
 # Generated with the command ./jsonapi build all
 
+jarVersion=${1:-BLEEDING}
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
-
 echo "Building 1.4.7-R1.0"
-mvn clean install $@ -DmcPackage=v1_4_R1 -DcbVersion=1.4.7-R1.0 -Dmc16OrNewer=no -Dmc17OrNewer=no
+mvn clean install $@ -Dversion=$jarVersion -DmcPackage=v1_4_R1 -DcbVersion=1.4.7-R1.0 -Dmc16OrNewer=no -Dmc17OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
-
 echo "Building 1.5.2-R1.0"
-mvn clean install $@ -DmcPackage=v1_5_R3 -DcbVersion=1.5.2-R1.0 -Dmc16OrNewer=no -Dmc17OrNewer=no
+mvn clean install $@ -Dversion=$jarVersion -DmcPackage=v1_5_R3 -DcbVersion=1.5.2-R1.0 -Dmc16OrNewer=no -Dmc17OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
-
 echo "Building 1.6.2-R1.0"
-mvn clean install $@ -DmcPackage=v1_6_R2 -DcbVersion=1.6.2-R1.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no
+mvn clean install $@ -Dversion=$jarVersion -DmcPackage=v1_6_R2 -DcbVersion=1.6.2-R1.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
-
 echo "Building 1.6.4-R2.0"
-mvn clean install $@ -DmcPackage=v1_6_R3 -DcbVersion=1.6.4-R2.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no
+mvn clean install $@ -Dversion=$jarVersion -DmcPackage=v1_6_R3 -DcbVersion=1.6.4-R2.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
-
 echo "Building 1.7.2-R0.3-SNAPSHOT"
-mvn clean install $@ -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.3-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes
+mvn clean install $@ -Dversion=$jarVersion -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.3-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes
 
 rc=$?
 if [[ $rc != 0 ]] ; then
