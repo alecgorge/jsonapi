@@ -16,7 +16,7 @@
                     "limit",
                     "int",
                     "The maximum number of items to return",
-                    50
+                    150
                 ]
             ],
             "name": "streams.console.latest"
@@ -33,10 +33,27 @@
                     "limit",
                     "int",
                     "The maximum number of items to return",
-                    50
+                    150
                 ]
             ],
             "name": "streams.chat.latest"
+        },
+        {
+            "desc": "Gets up to the last n lines in formatted_chat where n is the limit passed. Returned as an array of JSON stream objects",
+            "returns": [
+                "Object[]",
+                "The array of objects"
+            ],
+            "call": "this.getFormattedChatLogs(0)",
+            "args": [
+                [
+                    "limit",
+                    "int",
+                    "The maximum number of items to return",
+                    150
+                ]
+            ],
+            "name": "streams.formatted_chat.latest"
         },
         {
             "desc": "Returns all the messages in a stream with the given name",
@@ -55,7 +72,7 @@
                     "limit",
                     "int",
                     "The maximum number of items to return",
-                    50
+                    150
                 ]
             ],
             "name": "streams.name.limit"
@@ -72,7 +89,7 @@
                     "limit",
                     "int",
                     "The maximum number of items to return",
-                    50
+                    150
                 ]
             ],
             "name": "streams.connections.limit"

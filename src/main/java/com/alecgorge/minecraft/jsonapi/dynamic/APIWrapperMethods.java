@@ -384,8 +384,14 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public void setPlayerGameMode(String playerName, int gameMode) throws Exception {
 		Player p = getPlayerExact(playerName);
-		p.setGameMode(GameMode.getByValue(gameMode));
-		p.saveData();
+		
+		for(GameMode g : GameMode.values()) {
+			if(g.ordinal() == gameMode) {
+				p.setGameMode(g);
+				p.saveData();
+				return;
+			}
+		}
 	}
 
 	public boolean clearPlayerInventorySlot(String playerName, int slot) {
@@ -969,6 +975,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public List<JSONObject> getChatLogs(int count) {
 		return getStreamWithLimit("chat", count);
+	}
+
+	public List<JSONObject> getFormattedChatLogs(int count) {
+		return getStreamWithLimit("formatted_chat", count);
 	}
 
 	public List<JSONObject> getChatLogs() {

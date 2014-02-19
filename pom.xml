@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<profiles>
+		<profile>
+			<id>default</id>
+			<properties>
+				<jsonapiVersion>BLEEDING</jsonapiVersion>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+	</profiles>
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.alecgorge.minecraft.jsonapi</groupId>
 	<artifactId>JSONAPI</artifactId>
 	<packaging>jar</packaging>
-	<version>${version}-mc${cbVersion}</version>
+	<version>${jsonapiVersion}-mc${cbVersion}</version>
 	<name>JSONAPI</name>
 	<url>http://github.com/alecgorge/jsonapi</url>
 	<scm>
@@ -127,7 +139,7 @@
 								<artifactItem>
 									<groupId>com.alecgorge.minecraft.jsonapi</groupId>
 									<artifactId>JSONAPI</artifactId>
-									<version>${version}-mc${cbVersion}</version>
+									<version>${version}</version>
 								</artifactItem>
 							</artifactItems>
 							<outputDirectory>test/plugins</outputDirectory>
@@ -145,8 +157,8 @@
 								<artifactItem>
 									<groupId>com.alecgorge.minecraft.jsonapi</groupId>
 									<artifactId>JSONAPI</artifactId>
-									<version>${version}-mc${cbVersion}</version>
-									<destFileName>JSONAPI-${version}-mc${cbVersion}.jar</destFileName>
+									<version>${version}</version>
+									<destFileName>JSONAPI-${version}.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 							<outputDirectory>builds/Minecraft-${cbVersion}</outputDirectory>
@@ -164,8 +176,8 @@
 								<artifactItem>
 									<groupId>com.alecgorge.minecraft.jsonapi</groupId>
 									<artifactId>JSONAPI</artifactId>
-									<version>${version}-mc${cbVersion}</version>
-									<destFileName>JSONAPI-${version}-mc${cbVersion}.jar</destFileName>
+									<version>${version}</version>
+									<destFileName>JSONAPI-${version}.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 							<outputDirectory>builds/Minecraft-all</outputDirectory>

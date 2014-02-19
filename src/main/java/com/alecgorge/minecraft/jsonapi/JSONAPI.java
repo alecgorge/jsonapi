@@ -554,6 +554,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			// new PortMapper(this); // map dem ports
 
 			registerStreamManager("chat", getJSONServer().chat);
+			registerStreamManager("formatted_chat", getJSONServer().formattedChat);
 			registerStreamManager("console", getJSONServer().console);
 			registerStreamManager("connections", getJSONServer().connections);
 
@@ -879,6 +880,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		@EventHandler
 		public void onPlayerChat(AsyncPlayerChatEvent event) {
 			p.jsonServer.logChat(event.getPlayer().getName(), event.getMessage());
+			p.jsonServer.logFormattedChat(event.getPlayer().getName(), String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
 		}
 
 		@EventHandler

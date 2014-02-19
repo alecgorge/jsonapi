@@ -132,7 +132,11 @@
     view_chat: 
       streams: 
         - "chat"
+        - "formatted_chat"
         - "connections"
+      methods:
+        - "streams.chat.latest"
+        - "streams.formatted_chat.latest"
     whitelisted_player_actions: 
       methods: 
         - "players.name.unwhitelist"

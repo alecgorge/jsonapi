@@ -31,6 +31,8 @@ import com.alecgorge.minecraft.jsonapi.streams.ConnectionMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ConnectionStream;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleStream;
+import com.alecgorge.minecraft.jsonapi.streams.FormattedChatMessage;
+import com.alecgorge.minecraft.jsonapi.streams.FormattedChatStream;
 import com.alecgorge.minecraft.jsonapi.streams.PerformanceStream;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
 
@@ -41,6 +43,7 @@ public class JSONServer extends NanoHTTPD {
 	private Caller caller;
 
 	public ChatStream chat = new ChatStream("chat");
+	public FormattedChatStream formattedChat = new FormattedChatStream("formatted_chat");
 	public ConsoleStream console = new ConsoleStream("console");
 	public ConnectionStream connections = new ConnectionStream("connections");
 	public PerformanceStream performance = new PerformanceStream("performance");
@@ -159,6 +162,12 @@ public class JSONServer extends NanoHTTPD {
 	public void logChat(String player, String message) {
 		if(inst.isEnabled()) {
 			chat.addMessage(new ChatMessage(player, message));
+		}
+	}
+
+	public void logFormattedChat(String player, String line) {
+		if(inst.isEnabled()) {
+			formattedChat.addMessage(new FormattedChatMessage(player, line));
 		}
 	}
 
