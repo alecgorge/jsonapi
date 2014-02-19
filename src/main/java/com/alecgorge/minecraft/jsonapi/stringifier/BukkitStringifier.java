@@ -301,6 +301,17 @@ public class BukkitStringifier {
 			
 			return n.getName();			
 		} else if (obj instanceof GameMode) {
+			GameMode g = ((GameMode) obj);
+			if(g.equals(GameMode.ADVENTURE)) {
+				return 0;
+			}
+			else if(g.equals(GameMode.CREATIVE)) {
+				return 1;
+			}
+			else if(g.equals(GameMode.SURVIVAL)) {
+				return 2;
+			}
+			
 			return ((GameMode) obj).getValue();
 		} else if (obj instanceof Enchantment) {
 			return ((Enchantment) obj).getId();
