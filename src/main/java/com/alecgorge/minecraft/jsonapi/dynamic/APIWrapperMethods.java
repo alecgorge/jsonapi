@@ -385,13 +385,17 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	public void setPlayerGameMode(String playerName, int gameMode) throws Exception {
 		Player p = getPlayerExact(playerName);
 		
-		for(GameMode g : GameMode.values()) {
-			if(g.ordinal() == gameMode) {
-				p.setGameMode(g);
-				p.saveData();
-				return;
-			}
+		if(gameMode == 0) {
+			p.setGameMode(GameMode.CREATIVE);
 		}
+		else if(gameMode == 1) {
+			p.setGameMode(GameMode.SURVIVAL);
+		}
+		else if(gameMode == 2) {
+			p.setGameMode(GameMode.ADVENTURE);
+		}
+		
+		p.saveData();
 	}
 
 	public boolean clearPlayerInventorySlot(String playerName, int slot) {
