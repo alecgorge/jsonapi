@@ -386,13 +386,13 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		Player p = getPlayerExact(playerName);
 		
 		if(gameMode == 0) {
-			p.setGameMode(GameMode.CREATIVE);
+			p.setGameMode(GameMode.ADVENTURE);
 		}
 		else if(gameMode == 1) {
-			p.setGameMode(GameMode.SURVIVAL);
+			p.setGameMode(GameMode.CREATIVE);
 		}
 		else if(gameMode == 2) {
-			p.setGameMode(GameMode.ADVENTURE);
+			p.setGameMode(GameMode.SURVIVAL);
 		}
 		
 		p.saveData();
