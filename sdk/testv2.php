@@ -65,7 +65,7 @@ $payload = array(
 	// )
 );
 
-if(false) {
+if(true) {
 	$payload = [];
 
 	$names = ['alecgorge', 'test', 'kevin', 'littlejohnny', 'noads'];
