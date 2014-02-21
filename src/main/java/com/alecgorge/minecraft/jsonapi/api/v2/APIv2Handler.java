@@ -16,7 +16,6 @@ import org.json.simpleForBukkit.parser.ParseException;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD;
 import com.alecgorge.minecraft.jsonapi.NanoHTTPD.Response;
-import com.alecgorge.minecraft.jsonapi.api.v2.JSONResponse;
 import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIAuthResponse;
@@ -146,12 +145,12 @@ public class APIv2Handler {
 			JSONAPI.dbug("json obj: "+ o);
 			
 			if(o instanceof JSONObject) {
-				requests.add(new JSONResponse((JSONObject)o, httpd, stream));
+				requests.add(new JSONResponse((JSONObject)o, stream));
 			}
 			else if(o instanceof JSONArray) {
 				for(Object obj : (JSONArray) o) {
 					if(obj instanceof JSONObject) {
-						requests.add(new JSONResponse((JSONObject)obj, httpd, stream));
+						requests.add(new JSONResponse((JSONObject)obj, stream));
 					}
 				}
 			}

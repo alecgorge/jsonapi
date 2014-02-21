@@ -11,7 +11,6 @@ import org.json.simpleForBukkit.JSONObject;
 
 import com.alecgorge.minecraft.jsonapi.APIException;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
-import com.alecgorge.minecraft.jsonapi.NanoHTTPD;
 import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.event.JSONAPIAuthEvent;
@@ -28,13 +27,11 @@ public class JSONResponse {
 	boolean stream = false;
 	boolean showOlder = false;
 	
-	NanoHTTPD httpd;
 	Caller caller = JSONAPI.instance.jsonServer.getCaller();
 	
 	JSONObject error = null;
 	
-	public JSONResponse(JSONObject req, NanoHTTPD httpd, boolean stream) {
-		this.httpd = httpd;
+	public JSONResponse(JSONObject req, boolean stream) {
 		this.stream = stream;
 		if(req.containsKey("tag")) {
 			tag = req.get("tag").toString();

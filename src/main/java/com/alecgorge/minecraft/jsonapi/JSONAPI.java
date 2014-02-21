@@ -21,6 +21,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
+import net.minecraft.util.io.netty.channel.Channel;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -51,8 +53,10 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
-import com.alecgorge.minecraft.jsonapi.packets.ProtocolLibHTTPInjector;
+import com.alecgorge.minecraft.jsonapi.packets.netty.JSONAPIChannelDecoder;
 import com.alecgorge.minecraft.jsonapi.packets.netty.NettyInjector;
+import com.alecgorge.minecraft.jsonapi.packets.netty.router.JSONAPIDefaultRoutes;
+import com.alecgorge.minecraft.jsonapi.packets.netty.router.RouteMatcher;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.PerformanceStreamDataProvider;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
@@ -90,6 +94,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public StreamPusher streamPusher;
 	public boolean useGroups = false;
 	TickRateCounter tickRateCounter;
+	
+	RouteMatcher router = new RouteMatcher();
 
 	private Logger log = Bukkit.getLogger();
 	public Logger outLog = Logger.getLogger("JSONAPI");
@@ -105,6 +111,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	Adminium3 adminium3;
 	
 	GroupManager groupManager;
+	
+	NettyInjector injector = null;
 
 //#if jsonapiDebug=="yes"
 //$	public static boolean shouldDebug = true;
@@ -528,9 +536,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			// add console stream support
 			handler = new ConsoleHandler(jsonServer);
 			
-			new NettyInjector();
-			// this is quite hacky but it hides the mess from HTTP requests on the join port
-
 			//#if mc17OrNewer=="yes"
 			new Log4j2ConsoleHandler(jsonServer);
 			//#else
@@ -569,8 +574,15 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			tickRateCounter = new TickRateCounter(this);
 			
 			//#if mc17OrNewer=="yes"
-//			ProtocolLibHTTPInjector j = new ProtocolLibHTTPInjector(this);
-//			j.inject();
+			injector = new NettyInjector() {
+		        @Override
+		        protected void injectChannel(Channel channel) {
+		            channel.pipeline().addFirst(new JSONAPIChannelDecoder(instance));
+		        }
+		    };
+		    injector.inject();
+		    
+		    new JSONAPIDefaultRoutes(this);
 			//#endif
 			
 			// must load this after the tick counter exists!
@@ -795,10 +807,16 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		}
 		return sb.toString();
 	}
+	
+	public RouteMatcher getRouter() {
+		return router;
+	}
 
 	@Override
 	public void onDisable() {
 		if (jsonServer != null) {
+			injector.close();
+			
 			try {
 				log.info("[JSONAPI] Stopping JSON server");
 				jsonServer.stop();
@@ -818,6 +836,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				e.printStackTrace();
 			}
 			log.removeHandler(handler);
+			
+			
 		}
 	}
 

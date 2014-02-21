@@ -2,13 +2,13 @@
 <?php
 
 $host = "localhost";
-$port = 20059;
+$port = 25565;
 $endpoint = "api/2/call";
 // $host = "dedicated.alecgorge.com";
 // $endpoint = "api/2/call";
 
-$username = "chatonly";
-$password = "example";
+$username = "admin";
+$password = "changeme";
 
 function gen_key($name) {
 	global $username, $password, $salt;
@@ -16,13 +16,13 @@ function gen_key($name) {
 }
 
 
-$methodName = "chat.with_name";
+$methodName = "server";
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => ["OdiumDevonix","§8[§4§lAUTH§8] §fYou have §asuccessfully §fauthenticated!"],
+		'arguments' => [],
 		'tag' => '1'
 	),
 	// array(
@@ -65,7 +65,7 @@ $payload = array(
 	// )
 );
 
-if(true) {
+if(false) {
 	$payload = [];
 
 	$names = ['alecgorge', 'test', 'kevin', 'littlejohnny', 'noads'];
@@ -109,7 +109,7 @@ if(!(php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR']))) {
 	echo "<pre>";
 }
 
-$stream = false;
+$stream = true;
 if($stream) {
 	$url = sprintf("http://%s:%d/api/2/subscribe?json=%s", $host, $port, rawurlencode(json_encode($streamPayload)));
 	echo $url ."\n";
@@ -118,7 +118,7 @@ if($stream) {
 
 $url = sprintf("http://%s:%d/%s?json=%s", $host, $port, $endpoint, rawurlencode(json_encode($payload)));
 echo $url . "\n"; // "\n\n\n";
-// exit();
+exit();
 
 $c = curl_init($url);
 curl_setopt($c, CURLOPT_PORT, $port);

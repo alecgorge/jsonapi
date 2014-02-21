@@ -1,6 +1,5 @@
 package com.alecgorge.minecraft.jsonapi.adminium;
 
-import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
