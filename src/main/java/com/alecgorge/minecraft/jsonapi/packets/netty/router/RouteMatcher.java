@@ -89,12 +89,13 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 	private final List<PatternBinding>						connectBindings	= new ArrayList<PatternBinding>();
 	private final List<PatternBinding>						patchBindings	= new ArrayList<PatternBinding>();
 	private Handler<FullHttpResponse, RoutedHttpRequest>	noMatchHandler;
+	private Handler<Void, RoutedHttpResponse>				everyMatchHandler;
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
 		serveRequest(ctx, request);
 	}
-	
+
 	List<PatternBinding> getBindingsForRequest(FullHttpRequest request) {
 		HttpMethod m = request.getMethod();
 		if (m.equals(HttpMethod.GET)) {
@@ -124,17 +125,17 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 		else if (m.equals(HttpMethod.CONNECT)) {
 			return connectBindings;
 		}
-		
+
 		return null;
 	}
-	
+
 	public boolean serveRequest(ChannelHandlerContext ctx, FullHttpRequest request) {
 		// Handle a bad request.
 		if (!request.getDecoderResult().isSuccess()) {
 			sendHttpResponse(ctx, request, new DefaultFullHttpResponse(HTTP_1_1, BAD_REQUEST));
 			return false;
 		}
-		
+
 		return route(ctx, request, getBindingsForRequest(request));
 	}
 
@@ -423,6 +424,14 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 		return this;
 	}
 
+	/**
+	 * Specify a handler that will be called when any other handler matchs.
+	 */
+	public RouteMatcher everyMatch(Handler<Void, RoutedHttpResponse> handler) {
+		everyMatchHandler = handler;
+		return this;
+	}
+
 	private static void addPattern(String input, Handler<FullHttpResponse, RoutedHttpRequest> handler, List<PatternBinding> bindings) {
 		// We need to search for any :<token name> tokens in the String and
 		// replace them with named capture groups
@@ -447,7 +456,7 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 		PatternBinding binding = new PatternBinding(NamedPattern.compile(input), null, handler);
 		bindings.add(binding);
 	}
-	
+
 	public FullHttpResponse getResponse(ChannelHandlerContext ctx, FullHttpRequest request) {
 		// Handle a bad request.
 		FullHttpResponse resp = null;
@@ -458,13 +467,13 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 		else {
 			resp = getResponseForRoute(ctx, request, getBindingsForRequest(request));
 		}
-		
+
 		return resp;
 	}
-	
+
 	FullHttpResponse getResponseForRoute(ChannelHandlerContext ctx, FullHttpRequest request, List<PatternBinding> bindings) {
 		RoutedHttpRequest rreq = new RoutedHttpRequest(ctx, request);
-		
+
 		for (PatternBinding binding : bindings) {
 			QueryStringDecoder uri = new QueryStringDecoder(request.getUri());
 			NamedMatcher m = binding.pattern.matcher(uri.path());
@@ -487,10 +496,12 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 					}
 				}
 				uri.parameters().putAll(params);
-				return binding.handler.handle(rreq);
+				FullHttpResponse res = binding.handler.handle(rreq);
+
+				return res;
 			}
 		}
-		
+
 		if (noMatchHandler != null) {
 			return noMatchHandler.handle(rreq);
 		}
@@ -499,17 +510,22 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 	}
 
 	private boolean route(ChannelHandlerContext ctx, FullHttpRequest request, List<PatternBinding> bindings) {
-		sendHttpResponse(ctx, request, getResponseForRoute(ctx, request, bindings));
+		FullHttpResponse res = getResponseForRoute(ctx, request, bindings);
+		sendHttpResponse(ctx, request, res);
+		
+		if (everyMatchHandler != null) {
+			everyMatchHandler.handle(new RoutedHttpResponse(request, res));
+		}
 
 		return noMatchHandler != null;
 	}
 
 	void sendHttpResponse(ChannelHandlerContext ctx, FullHttpRequest req, FullHttpResponse res) {
-		if(res == null) {
+		if (res == null) {
 			// no http response, probably upgrading to websocket or something
 			return;
 		}
-		
+
 		// Send the response and close the connection if necessary.
 		ChannelFuture f = ctx.channel().writeAndFlush(res);
 		if (!isKeepAlive(req) || res.getStatus().code() != 200) {

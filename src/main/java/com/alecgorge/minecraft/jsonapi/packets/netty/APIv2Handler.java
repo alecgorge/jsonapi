@@ -111,6 +111,7 @@ public class APIv2Handler {
 		FullHttpResponse r = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, resp, buf);
 		r.headers().set("Access-Control-Allow-Origin", "*");
 		r.headers().set("Content-Length", buf.readableBytes());
+		r.headers().set("Content-Type", type);
 
 		return r;
 	}
