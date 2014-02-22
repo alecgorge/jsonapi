@@ -1,9 +1,8 @@
 {
 	"contents"	: "./contents",
 	"templates"	: "./templates",
-	"views"		: "./views",
 	"output"	: "./build",
-	
+
 	"plugins"	: [
 		"wintersmith-stylus",
 		"wintersmith-coffee"
