@@ -44,7 +44,7 @@ public class OfflinePlayerLoader {
 
 				// Create an entity to load the player data
 				//#if mc17OrNewer=="yes"
-				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile("fake_for_jsonapi_offline_player_loading", exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));				
+				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile(null, exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));				
 				//#else
 				//$EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), exactPlayerName, new PlayerInteractManager(server.getWorldServer(index)));
 				//#endif
