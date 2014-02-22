@@ -1,0 +1,119 @@
+#sidebar {
+}
+
+#footer {
+  margin:30px 0;
+  color:gray;
+  text-align:center;
+}
+
+.blocks, .blocks > li {
+  background: #E9E9EB;
+  margin:0;
+  padding: 0;
+  list-style:none;
+}
+
+ul.blocks
+  position fixed
+  width auto
+  max-width 10000px
+
+  & > li:first-child
+    height 32px
+
+.blocks .download-link {
+  background:#459339;
+  color:white;
+  padding:20px 0;
+  text-align:center;
+  font-size:28px;
+  line-height:36px;
+}
+
+.blocks .download-link:hover {
+  background: #348228;
+}
+
+.blocks .download-link span {
+  display:block;
+  font-size:18px;
+  line-height:1;
+  font-weight:normal;
+}
+
+.blocks ul
+  margin 0
+  padding 0
+  list-style none
+
+  li
+    a
+      font-size 15px
+      padding-left 40px
+
+.blocks li a
+  display:block;
+  font-size:16px;
+  padding:5px 0 5px 10px;
+  color:#333;
+  font-weight:bold;
+
+  em
+    font-size 70%
+    display block
+    opacity 0.8
+    padding-right 20px
+
+.blocks li a:hover {
+  text-decoration:none;
+  background:#436AB4;
+  color:white;
+}
+
+h1#title
+  font-size:72px;
+  line-height:1;
+  font-weight:bold;
+  padding:50px 0;
+  margin 0
+
+  small
+    font-size 20px
+
+pre
+  word-wrap normal
+
+  code
+    white-space pre
+    overflow auto
+
+@media (max-width: 768px)
+  .blocks 
+    margin-top 0 !important
+    position static
+
+    & > li:first-child
+      height auto
+
+  .blocks li a {
+    padding:5px 0 5px 10px;
+  }
+
+  .blocks  .download-link {
+    padding:10px;
+    text-align:left;
+  }
+
+  .blocks .download-link span {
+    display:inline;
+    padding-left:20px;
+  }
+
+  .blocks li.sep {
+    height:10px;
+    background:#d8d8da;
+  }
+
+  h1
+    padding 35px 0 25px

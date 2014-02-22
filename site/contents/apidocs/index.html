@@ -1,0 +1,2774 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>JSONAPI API Docs</title>
+		<link type="text/css" rel="stylesheet" name="stylesheet" href="bootstrap.min.css" />
+		<link type="text/css" rel="stylesheet" name="stylesheet" href="styles.css" />
+	</head>
+	<body>
+	<div class="container">
+		<div class="jumbotron subhead">
+			<h3>← <a href="/">Back to the complete JSONAPI docs</a></h3>
+			<br/>
+			<h1>APIv4 Documentation for JSONAPI</h1>
+			<p class="lead">This page documents all the methods that ship with JSONAPI. This includes the base method that work as long as JSONAPI is installed and enabled, along with the methods that require another plugin to be installed and enabled for them to work.
+			</p>
+			<p class="lead well"><em>The methods that require another plugin to be installed simply do not work if that plugin is not installed and enabled.</em></p>
+			<h2>Available method packages</h2>
+		</div>
+		<ul>
+	<li>Chat (vault required) methods</li>
+<li>Dynmap</li>
+<li>Economy (vault required) methods</li>
+<li>File System methods</li>
+<li>JSONAPI specific methods</li>
+<li>Permission methods</li>
+<li>Player methods</li>
+<li>Plugin methods</li>
+<li>Remote Toolkit methods</li>
+<li>Server methods</li>
+<li>Plugin methods</li>
+<li>System Usage method</li>
+<li>World methods</li>
+		</ul>
+
+		<h2>Methods (168)</h2>
+		<ul>
+		<li><a href="#chat.broadcast" style="font-family:monospace;">chat.broadcast</a><li><a href="#chat.enabled" style="font-family:monospace;">chat.enabled</a><li><a href="#chat.groups" style="font-family:monospace;">chat.groups</a><li><a href="#chat.with_name" style="font-family:monospace;">chat.with_name</a><li><a href="#dynmap.host" style="font-family:monospace;">dynmap.host</a><li><a href="#dynmap.port" style="font-family:monospace;">dynmap.port</a><li><a href="#economy.bank.has_support" style="font-family:monospace;">economy.bank.has_support</a><li><a href="#economy.banks.name.balance" style="font-family:monospace;">economy.banks.name.balance</a><li><a href="#economy.banks.name.delete" style="font-family:monospace;">economy.banks.name.delete</a><li><a href="#economy.banks.name.deposit" style="font-family:monospace;">economy.banks.name.deposit</a><li><a href="#economy.banks.name.has" style="font-family:monospace;">economy.banks.name.has</a><li><a href="#economy.banks.name.is_member" style="font-family:monospace;">economy.banks.name.is_member</a><li><a href="#economy.banks.name.is_owner" style="font-family:monospace;">economy.banks.name.is_owner</a><li><a href="#economy.banks.name.withdraw" style="font-family:monospace;">economy.banks.name.withdraw</a><li><a href="#economy.banks.names" style="font-family:monospace;">economy.banks.names</a><li><a href="#economy.currency.format" style="font-family:monospace;">economy.currency.format</a><li><a href="#economy.currency.name" style="font-family:monospace;">economy.currency.name</a><li><a href="#economy.currency.name_plural" style="font-family:monospace;">economy.currency.name_plural</a><li><a href="#economy.is_enabled" style="font-family:monospace;">economy.is_enabled</a><li><a href="#economy.name" style="font-family:monospace;">economy.name</a><li><a href="#files.append" style="font-family:monospace;">files.append</a><li><a href="#files.copy" style="font-family:monospace;">files.copy</a><li><a href="#files.create" style="font-family:monospace;">files.create</a><li><a href="#files.create_folder" style="font-family:monospace;">files.create_folder</a><li><a href="#files.delete" style="font-family:monospace;">files.delete</a><li><a href="#files.list_directory" style="font-family:monospace;">files.list_directory</a><li><a href="#files.move" style="font-family:monospace;">files.move</a><li><a href="#files.read" style="font-family:monospace;">files.read</a><li><a href="#files.read_binary" style="font-family:monospace;">files.read_binary</a><li><a href="#files.write" style="font-family:monospace;">files.write</a><li><a href="#files.write_binary" style="font-family:monospace;">files.write_binary</a><li><a href="#groups.all" style="font-family:monospace;">groups.all</a><li><a href="#groups.group.players" style="font-family:monospace;">groups.group.players</a><li><a href="#jsonapi.groups" style="font-family:monospace;">jsonapi.groups</a><li><a href="#jsonapi.groups.add" style="font-family:monospace;">jsonapi.groups.add</a><li><a href="#jsonapi.groups.group.methods.add" style="font-family:monospace;">jsonapi.groups.group.methods.add</a><li><a href="#jsonapi.groups.group.methods.remove" style="font-family:monospace;">jsonapi.groups.group.methods.remove</a><li><a href="#jsonapi.groups.group.permissions.add" style="font-family:monospace;">jsonapi.groups.group.permissions.add</a><li><a href="#jsonapi.groups.group.permissions.remove" style="font-family:monospace;">jsonapi.groups.group.permissions.remove</a><li><a href="#jsonapi.groups.group.streams.add" style="font-family:monospace;">jsonapi.groups.group.streams.add</a><li><a href="#jsonapi.groups.group.streams.remove" style="font-family:monospace;">jsonapi.groups.group.streams.remove</a><li><a href="#jsonapi.groups.name" style="font-family:monospace;">jsonapi.groups.name</a><li><a href="#jsonapi.groups.name.set" style="font-family:monospace;">jsonapi.groups.name.set</a><li><a href="#jsonapi.groups.names" style="font-family:monospace;">jsonapi.groups.names</a><li><a href="#jsonapi.groups.remove" style="font-family:monospace;">jsonapi.groups.remove</a><li><a href="#jsonapi.methods" style="font-family:monospace;">jsonapi.methods</a><li><a href="#jsonapi.permissions" style="font-family:monospace;">jsonapi.permissions</a><li><a href="#jsonapi.streams" style="font-family:monospace;">jsonapi.streams</a><li><a href="#jsonapi.users" style="font-family:monospace;">jsonapi.users</a><li><a href="#jsonapi.users.add" style="font-family:monospace;">jsonapi.users.add</a><li><a href="#jsonapi.users.remove" style="font-family:monospace;">jsonapi.users.remove</a><li><a href="#jsonapi.users.user.groups.add" style="font-family:monospace;">jsonapi.users.user.groups.add</a><li><a href="#jsonapi.users.user.groups.remove" style="font-family:monospace;">jsonapi.users.user.groups.remove</a><li><a href="#jsonapi.users.user.methods" style="font-family:monospace;">jsonapi.users.user.methods</a><li><a href="#jsonapi.users.user.password.set" style="font-family:monospace;">jsonapi.users.user.password.set</a><li><a href="#jsonapi.users.user.permissions" style="font-family:monospace;">jsonapi.users.user.permissions</a><li><a href="#jsonapi.users.user.streams" style="font-family:monospace;">jsonapi.users.user.streams</a><li><a href="#jsonapi.users.username" style="font-family:monospace;">jsonapi.users.username</a><li><a href="#jsonapi.users.usernames" style="font-family:monospace;">jsonapi.users.usernames</a><li><a href="#permissions.all" style="font-family:monospace;">permissions.all</a><li><a href="#players.ban_ip" style="font-family:monospace;">players.ban_ip</a><li><a href="#players.banned.names" style="font-family:monospace;">players.banned.names</a><li><a href="#players.banned_ips" style="font-family:monospace;">players.banned_ips</a><li><a href="#players.name" style="font-family:monospace;">players.name</a><li><a href="#players.name.ban" style="font-family:monospace;">players.name.ban</a><li><a href="#players.name.bank.balance" style="font-family:monospace;">players.name.bank.balance</a><li><a href="#players.name.bank.create" style="font-family:monospace;">players.name.bank.create</a><li><a href="#players.name.bank.create_account" style="font-family:monospace;">players.name.bank.create_account</a><li><a href="#players.name.bank.deposit" style="font-family:monospace;">players.name.bank.deposit</a><li><a href="#players.name.bank.has" style="font-family:monospace;">players.name.bank.has</a><li><a href="#players.name.bank.has_account" style="font-family:monospace;">players.name.bank.has_account</a><li><a href="#players.name.bank.withdraw" style="font-family:monospace;">players.name.bank.withdraw</a><li><a href="#players.name.deop" style="font-family:monospace;">players.name.deop</a><li><a href="#players.name.drop_item" style="font-family:monospace;">players.name.drop_item</a><li><a href="#players.name.groups" style="font-family:monospace;">players.name.groups</a><li><a href="#players.name.groups.add" style="font-family:monospace;">players.name.groups.add</a><li><a href="#players.name.groups.remove" style="font-family:monospace;">players.name.groups.remove</a><li><a href="#players.name.inventory.give_item" style="font-family:monospace;">players.name.inventory.give_item</a><li><a href="#players.name.inventory.remove_item" style="font-family:monospace;">players.name.inventory.remove_item</a><li><a href="#players.name.inventory.slots.slot.clear" style="font-family:monospace;">players.name.inventory.slots.slot.clear</a><li><a href="#players.name.inventory.slots.slot.enchant" style="font-family:monospace;">players.name.inventory.slots.slot.enchant</a><li><a href="#players.name.inventory.slots.slot.enchantments.enchantment_id.remove" style="font-family:monospace;">players.name.inventory.slots.slot.enchantments.enchantment_id.remove</a><li><a href="#players.name.inventory.slots.slot.set" style="font-family:monospace;">players.name.inventory.slots.slot.set</a><li><a href="#players.name.kick" style="font-family:monospace;">players.name.kick</a><li><a href="#players.name.op" style="font-family:monospace;">players.name.op</a><li><a href="#players.name.pardon" style="font-family:monospace;">players.name.pardon</a><li><a href="#players.name.permissions" style="font-family:monospace;">players.name.permissions</a><li><a href="#players.name.permissions.add" style="font-family:monospace;">players.name.permissions.add</a><li><a href="#players.name.permissions.remove" style="font-family:monospace;">players.name.permissions.remove</a><li><a href="#players.name.send_message" style="font-family:monospace;">players.name.send_message</a><li><a href="#players.name.set_experience" style="font-family:monospace;">players.name.set_experience</a><li><a href="#players.name.set_food_level" style="font-family:monospace;">players.name.set_food_level</a><li><a href="#players.name.set_game_mode" style="font-family:monospace;">players.name.set_game_mode</a><li><a href="#players.name.set_health" style="font-family:monospace;">players.name.set_health</a><li><a href="#players.name.set_level" style="font-family:monospace;">players.name.set_level</a><li><a href="#players.name.teleport" style="font-family:monospace;">players.name.teleport</a><li><a href="#players.name.teleport_to.to_name" style="font-family:monospace;">players.name.teleport_to.to_name</a><li><a href="#players.name.teleport_world" style="font-family:monospace;">players.name.teleport_world</a><li><a href="#players.name.unwhitelist" style="font-family:monospace;">players.name.unwhitelist</a><li><a href="#players.name.whitelist" style="font-family:monospace;">players.name.whitelist</a><li><a href="#players.offline" style="font-family:monospace;">players.offline</a><li><a href="#players.offline.name" style="font-family:monospace;">players.offline.name</a><li><a href="#players.offline.names" style="font-family:monospace;">players.offline.names</a><li><a href="#players.online" style="font-family:monospace;">players.online</a><li><a href="#players.online.count" style="font-family:monospace;">players.online.count</a><li><a href="#players.online.limit" style="font-family:monospace;">players.online.limit</a><li><a href="#players.online.names" style="font-family:monospace;">players.online.names</a><li><a href="#players.ops.names" style="font-family:monospace;">players.ops.names</a><li><a href="#players.pardon_ip" style="font-family:monospace;">players.pardon_ip</a><li><a href="#players.whitelisted.names" style="font-family:monospace;">players.whitelisted.names</a><li><a href="#plugins" style="font-family:monospace;">plugins</a><li><a href="#plugins.disable_all" style="font-family:monospace;">plugins.disable_all</a><li><a href="#plugins.install" style="font-family:monospace;">plugins.install</a><li><a href="#plugins.name" style="font-family:monospace;">plugins.name</a><li><a href="#plugins.name.commands" style="font-family:monospace;">plugins.name.commands</a><li><a href="#plugins.name.disable" style="font-family:monospace;">plugins.name.disable</a><li><a href="#plugins.name.enable" style="font-family:monospace;">plugins.name.enable</a><li><a href="#plugins.name.files" style="font-family:monospace;">plugins.name.files</a><li><a href="#plugins.name.version" style="font-family:monospace;">plugins.name.version</a><li><a href="#server" style="font-family:monospace;">server</a><li><a href="#server.bukkit.version" style="font-family:monospace;">server.bukkit.version</a><li><a href="#server.commands.list" style="font-family:monospace;">server.commands.list</a><li><a href="#server.commands.list_with_details" style="font-family:monospace;">server.commands.list_with_details</a><li><a href="#server.commands.name" style="font-family:monospace;">server.commands.name</a><li><a href="#server.map.save" style="font-family:monospace;">server.map.save</a><li><a href="#server.map.save_off" style="font-family:monospace;">server.map.save_off</a><li><a href="#server.map.save_on" style="font-family:monospace;">server.map.save_on</a><li><a href="#server.performance.disk.free" style="font-family:monospace;">server.performance.disk.free</a><li><a href="#server.performance.disk.size" style="font-family:monospace;">server.performance.disk.size</a><li><a href="#server.performance.disk.used" style="font-family:monospace;">server.performance.disk.used</a><li><a href="#server.performance.memory.total" style="font-family:monospace;">server.performance.memory.total</a><li><a href="#server.performance.memory.used" style="font-family:monospace;">server.performance.memory.used</a><li><a href="#server.performance.tick_health" style="font-family:monospace;">server.performance.tick_health</a><li><a href="#server.power.reschedule_restart" style="font-family:monospace;">server.power.reschedule_restart</a><li><a href="#server.power.restart" style="font-family:monospace;">server.power.restart</a><li><a href="#server.power.start" style="font-family:monospace;">server.power.start</a><li><a href="#server.power.stop" style="font-family:monospace;">server.power.stop</a><li><a href="#server.reload" style="font-family:monospace;">server.reload</a><li><a href="#server.run_command" style="font-family:monospace;">server.run_command</a><li><a href="#server.settings.ip" style="font-family:monospace;">server.settings.ip</a><li><a href="#server.settings.max_players" style="font-family:monospace;">server.settings.max_players</a><li><a href="#server.settings.motd" style="font-family:monospace;">server.settings.motd</a><li><a href="#server.settings.port" style="font-family:monospace;">server.settings.port</a><li><a href="#server.version" style="font-family:monospace;">server.version</a><li><a href="#streams.chat.latest" style="font-family:monospace;">streams.chat.latest</a><li><a href="#streams.connections.limit" style="font-family:monospace;">streams.connections.limit</a><li><a href="#streams.console.latest" style="font-family:monospace;">streams.console.latest</a><li><a href="#streams.formatted_chat.latest" style="font-family:monospace;">streams.formatted_chat.latest</a><li><a href="#streams.name.limit" style="font-family:monospace;">streams.name.limit</a><li><a href="#worlds.all" style="font-family:monospace;">worlds.all</a><li><a href="#worlds.names" style="font-family:monospace;">worlds.names</a><li><a href="#worlds.world" style="font-family:monospace;">worlds.world</a><li><a href="#worlds.world.chat.groups.group.has_player" style="font-family:monospace;">worlds.world.chat.groups.group.has_player</a><li><a href="#worlds.world.get_block" style="font-family:monospace;">worlds.world.get_block</a><li><a href="#worlds.world.groups.group.prefix" style="font-family:monospace;">worlds.world.groups.group.prefix</a><li><a href="#worlds.world.groups.group.set_prefix" style="font-family:monospace;">worlds.world.groups.group.set_prefix</a><li><a href="#worlds.world.groups.group.set_suffix" style="font-family:monospace;">worlds.world.groups.group.set_suffix</a><li><a href="#worlds.world.groups.group.suffix" style="font-family:monospace;">worlds.world.groups.group.suffix</a><li><a href="#worlds.world.players.names" style="font-family:monospace;">worlds.world.players.names</a><li><a href="#worlds.world.players.player.chat.groups" style="font-family:monospace;">worlds.world.players.player.chat.groups</a><li><a href="#worlds.world.players.player.chat.groups.primary" style="font-family:monospace;">worlds.world.players.player.chat.groups.primary</a><li><a href="#worlds.world.players.player.chat.prefix" style="font-family:monospace;">worlds.world.players.player.chat.prefix</a><li><a href="#worlds.world.players.player.chat.set_prefix" style="font-family:monospace;">worlds.world.players.player.chat.set_prefix</a><li><a href="#worlds.world.players.player.chat.set_suffix" style="font-family:monospace;">worlds.world.players.player.chat.set_suffix</a><li><a href="#worlds.world.players.player.chat.suffix" style="font-family:monospace;">worlds.world.players.player.chat.suffix</a><li><a href="#worlds.world.set_block" style="font-family:monospace;">worlds.world.set_block</a><li><a href="#worlds.world.set_difficulty" style="font-family:monospace;">worlds.world.set_difficulty</a><li><a href="#worlds.world.set_time" style="font-family:monospace;">worlds.world.set_time</a>
+			<div class="method-wrapper" id="chat.broadcast">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>chat.broadcast</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Send a message to every player on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>message</dt><dd>String &mdash; The message to broadcast</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> The number of players the message was broadcast to</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="chat.enabled">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>chat.enabled</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Checks if chat methods are enabled</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Success or Failure</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="chat.groups">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>chat.groups</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns a list of all known groups</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> A list of all known groups</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="chat.with_name">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>chat.with_name</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Similar to broadcast, but lets you specify a name to chat as and displays the message with the proper format. Looks just like the person specified is on the esrver</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>message</dt><dd>String &mdash; The message</dd>
+<dt>route</dt><dd>String &mdash; The name to send as</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on success, false on failure</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="dynmap.host">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>dynmap.host</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the IP.hostname that the dynmap webserver is running on</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The dynmap port as a string</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="dynmap.port">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>dynmap.port</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the port that the dynmap webserver is running on</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The dynmap port as an integer</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.bank.has_support">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.bank.has_support</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns true if the given implementation supports banks</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> true if the implementation supports banks</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.banks.name.balance">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.banks.name.balance</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the amount the bank has</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.banks.name.delete">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.banks.name.delete</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Deletes a bank account with the specified name</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> if the operation completed successfully</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.banks.name.deposit">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.banks.name.deposit</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Deposit an amount into a bank account</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>money</dt><dd>double &mdash; amount -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.banks.name.has">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.banks.name.has</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns true or false whether the bank has the amount specified</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>money</dt><dd>double &mdash; amount -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.banks.name.is_member">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.banks.name.is_member</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Check if the player is a member of the bank account</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>member_name</dt><dd>String &mdash; playerName -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.banks.name.is_owner">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.banks.name.is_owner</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Check if a player is the owner of a bank account</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>owner_name</dt><dd>String &mdash; playerName -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.banks.name.withdraw">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.banks.name.withdraw</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Withdraw an amount from a bank account</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>money</dt><dd>double &mdash; amount -</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.banks.names">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.banks.names</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the list of banks</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> the List of Banks</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.currency.format">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.currency.format</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Format amount into a human readable String This provides translation into economy specific formatting to improve consistency between plugins</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>money</dt><dd>double &mdash; amount</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Human readable string describing amount</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.currency.name">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.currency.name</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the name of the currency in singular form. If the economy being used does not support currency names then an empty string will be returned</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> name of the currency (singular)</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.currency.name_plural">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.currency.name_plural</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the name of the currency in plural form. If the economy being used does not support currency names then an empty string will be returned</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> name of the currency (plural)</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.is_enabled">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.is_enabled</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Checks if economy method is enabled</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Success or Failure</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="economy.name">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>economy.name</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets name of permission method</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Name of Permission Method</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.append">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.append</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Appends to the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>path</dt><dd>String &mdash; The name of the file to read</dd>
+<dt>content</dt><dd>String &mdash; The content to append to the file</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.copy">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.copy</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Copies the specified file or folder</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>from_path</dt><dd>String &mdash; The old path to the file or folder relative to the server root</dd>
+<dt>to_path</dt><dd>String &mdash; The new path to the file or folder relative to the server root</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if successful, false otherwise</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.create">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.create</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Creates a empty file at the given path</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>path</dt><dd>String &mdash; Path to file</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Path to file</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.create_folder">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.create_folder</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Makes a new folder</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>path</dt><dd>String &mdash; Path to file</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Path to folder</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.delete">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.delete</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Deletes the specified file or folder</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>path</dt><dd>String &mdash; The path to the file or folder relative to the server root</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if successful, false otherwise</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.list_directory">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.list_directory</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves an array of files and directories that are direct children of the specified directory</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>path</dt><dd>String &mdash; The directory that will have its files listed, relative to the folder that contains the the plugins folder</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The files in string format</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.move">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.move</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Renames the specified file or folder</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>from_path</dt><dd>String &mdash; The old path to the file or folder relative to the server root</dd>
+<dt>to_path</dt><dd>String &mdash; The new path to the file or folder relative to the server root</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if successful, false otherwise</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.read">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.read</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>path</dt><dd>String &mdash; The name of the file to read</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The file's contents</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.read_binary">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.read_binary</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the binary contents of the specified file encoded in base64. The file path is relative to the folder that the craftbukkit jar is in</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>path</dt><dd>String &mdash; The name of the file to read</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The file's contents</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.write">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.write</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets (not appends to) the contents of the specified file. The file path is relative to the folder that the craftbukkit jar is in</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>path</dt><dd>String &mdash; The name of the file to read</dd>
+<dt>content</dt><dd>String &mdash; The content to put in the file</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="files.write_binary">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>files.write_binary</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets (not appends to) the contents of the specified binary file. The file path is relative to the folder that the craftbukkit jar is in. The second argument is base64 decoded and then set as the file's contents</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>path</dt><dd>String &mdash; The name of the file to read</dd>
+<dt>content</dt><dd>String &mdash; The base64 encoded content to put in the file</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if call succeeded. False will never be returned, instead an exception will be thrown and the call will not return as successful. This will occur if the specified file does not exist</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="groups.all">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>groups.all</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves all groups</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> All the groups in use on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="groups.group.players">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>groups.group.players</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets all the players in a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The name of the group to retrieve players for</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> Gets all the players in a specific group</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Lists all the JSONAPI groups on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The JSONAPI group objects</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.add">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.add</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Creates a new group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The group name.</dd>
+<dt>methods</dt><dd>String[] &mdash; An array of methods to add to the group.</dd>
+<dt>streams</dt><dd>String[] &mdash; An array of streams to add to the group.</dd>
+<dt>nodes</dt><dd>String[] &mdash; An array of permissions to add to the group.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.group.methods.add">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.group.methods.add</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Add a JSONAPI method to a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The group name.</dd>
+<dt>method</dt><dd>String &mdash; The method name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.group.methods.remove">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.group.methods.remove</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes a JSONAPI method from a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The group name.</dd>
+<dt>method</dt><dd>String &mdash; The method name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.group.permissions.add">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.group.permissions.add</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Add a JSONAPI permission node to a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The group name.</dd>
+<dt>node</dt><dd>String &mdash; The permission node name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.group.permissions.remove">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.group.permissions.remove</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes a JSONAPI permission node from a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The group name.</dd>
+<dt>node</dt><dd>String &mdash; The permission node name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.group.streams.add">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.group.streams.add</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Add a JSONAPI stream to a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The group name.</dd>
+<dt>stream</dt><dd>String &mdash; The stream name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.group.streams.remove">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.group.streams.remove</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes a JSONAPI stream from a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The group name.</dd>
+<dt>stream</dt><dd>String &mdash; The stream name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.name">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.name</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets all information for a JSONAPI group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The group to fetch</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> The JSONAPI group</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.name.set">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.name.set</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets all the settings an existing group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The group name.</dd>
+<dt>methods</dt><dd>String[] &mdash; An array of methods to add to the group.</dd>
+<dt>streams</dt><dd>String[] &mdash; An array of streams to add to the group.</dd>
+<dt>nodes</dt><dd>String[] &mdash; An array of permissions to add to the group.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.names">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.names</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Lists all the JSONAPI group anmess on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The JSONAPI group names</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.groups.remove">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.groups.remove</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; The group name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.methods">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.methods</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Lists all the JSONAPI methods on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The JSONAPI methods</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.permissions">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.permissions</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Lists all the JSONAPI permissions on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The JSONAPI permissions</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.streams">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.streams</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Lists all the JSONAPI streams on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The JSONAPI streams</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Lists all the JSONAPI users on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The JSONAPI user objects</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users.add">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users.add</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Adds a new JSONAPI user</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>username</dt><dd>String &mdash; The JSONAPI username.</dd>
+<dt>password</dt><dd>String &mdash; The JSONAPI password.</dd>
+<dt>groups</dt><dd>String[] &mdash; The groups this new user should belong to.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users.remove">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users.remove</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes a JSONAPI user from the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>username</dt><dd>String &mdash; The JSONAPI username.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users.user.groups.add">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users.user.groups.add</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Adds a user to a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>username</dt><dd>String &mdash; The JSONAPI username.</dd>
+<dt>group</dt><dd>String &mdash; The group name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users.user.groups.remove">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users.user.groups.remove</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes a user from a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>username</dt><dd>String &mdash; The JSONAPI username.</dd>
+<dt>group</dt><dd>String &mdash; The group name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users.user.methods">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users.user.methods</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Lists all the API methods a user is allowed to access. Methods prefixed with jsonapi. will be able to be accessed by any user, regardless of groups.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>username</dt><dd>String &mdash; The JSONAPI user's name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The permission node names</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users.user.password.set">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users.user.password.set</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Changes the password for a JSONAPI user</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>username</dt><dd>String &mdash; The JSONAPI username.</dd>
+<dt>password</dt><dd>String &mdash; The JSONAPI user's new password.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the execution was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users.user.permissions">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users.user.permissions</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Lists all the permission nodes a user is allowed to access. Methods prefixed with jsonapi. will be able to be accessed by any user, regardless of groups.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>username</dt><dd>String &mdash; The JSONAPI user's name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The permission node names</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users.user.streams">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users.user.streams</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Lists all the streams a user is allowed to access. Methods prefixed with jsonapi. will be able to be accessed by any user, regardless of groups.</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>username</dt><dd>String &mdash; The JSONAPI user's name.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The permission node names</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users.username">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users.username</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets all information for a JSONAPI user</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>username</dt><dd>String &mdash; The username to fetch</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> The JSONAPI user</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="jsonapi.users.usernames">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>jsonapi.users.usernames</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Lists all the JSONAPI usernamess on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The JSONAPI usernames</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="permissions.all">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>permissions.all</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves all permissions for all players</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> A map from player to a list of permission settings</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.ban_ip">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.ban_ip</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Bans the specified IP</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>ip</dt><dd>String &mdash; The IP to be banned</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.banned.names">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.banned.names</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the players on the ban list</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains a player's name</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.banned_ips">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.banned_ips</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the IPs on the ban list</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains an IP address</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets a |player| object representing the specified person. Works for online and offline players</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Player</strong> A player object respresenting the specified person</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.ban">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.ban</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Bans the specified player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>reason</dt><dd>String &mdash; The reason this player is being banned (<em>default is Banned by admin</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.bank.balance">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.bank.balance</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets balance of a player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>double</strong> Amount currently held in players account</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.bank.create">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.bank.create</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Creates a bank account with the specified name and the player as the owner</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>Bank name</dt><dd>String &mdash; route</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> </dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.bank.create_account">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.bank.create_account</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Attempts to create a player account for the given player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>String</dt><dd> &mdash; </dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> if the account creation was successful</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.bank.deposit">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.bank.deposit</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Deposit an amount to a player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>money</dt><dd>double &mdash; amount - Amount to deposit</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> Detailed response of transaction</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.bank.has">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.bank.has</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Checks if the player account has the amount</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>money</dt><dd>double &mdash; amount</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> </dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.bank.has_account">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.bank.has_account</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Checks if this player has an account on the server yet This will always return true if the player has joined the server at least once as all major economy plugins auto-generate a player account when the player joins the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> if the player has an account</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.bank.withdraw">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.bank.withdraw</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Withdraw an amount from a player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>money</dt><dd>double &mdash; amount - Amount to withdraw</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>EconomyResponse</strong> Detailed response of transaction</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.deop">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.deop</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Deops the specified player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.drop_item">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.drop_item</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gives the specified player the specified quanity of the item id by dropping it in front of them</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>id</dt><dd>int &mdash; Id of item to drop</dd>
+<dt>quantity</dt><dd>int &mdash; Quantity of item to drop (<em>default is 1</em>)</dd>
+<dt>data</dt><dd>int &mdash; Decimal representation of the data value (<em>default is 0</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.groups">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.groups</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the groups for a specific player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> Gets all the groups for a player</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.groups.add">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.groups.add</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Add a group for a player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>group_name</dt><dd>String &mdash; The group name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Success?</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.groups.remove">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.groups.remove</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Remove a group from a player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>group_name</dt><dd>String &mdash; The group name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Success?</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.inventory.give_item">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.inventory.give_item</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gives the specified player the specified quanity of the item id by placing it in the first empty slot</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>id</dt><dd>int &mdash; Id of item to give</dd>
+<dt>quantity</dt><dd>int &mdash; Quantity of item to give (<em>default is 1</em>)</dd>
+<dt>data</dt><dd>int &mdash; Decimal representation of the data value (<em>default is 0</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.inventory.remove_item">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.inventory.remove_item</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes all items of the given type from the given player's inventory</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>id</dt><dd>int &mdash; Id of block type to remove</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> An object of all the things that couldn't be removed. This shouldn't happen though. Null will be returned if the player is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.inventory.slots.slot.clear">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.inventory.slots.slot.clear</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes everything from the specified slot in the player's inventory</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>slot</dt><dd>int &mdash; slot</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the slot was cleared. False will be returned if the player is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.inventory.slots.slot.enchant">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.inventory.slots.slot.enchant</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Adds an enchantment to the specified slot in the specified player's inventory with the specified level</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>slot</dt><dd>int &mdash; slot</dd>
+<dt>enchantment_id</dt><dd>int &mdash; The enchantment ID (EID): http:..www.minecraftwiki.net.wiki.Enchanting#Enchantment_Types</dd>
+<dt>level</dt><dd>int &mdash; The enchantment level (<em>default is 1</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the enchanting process was successful. False is usually the restult will be returned if the player is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.inventory.slots.slot.enchantments.enchantment_id.remove">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.inventory.slots.slot.enchantments.enchantment_id.remove</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes an enchantment to the specified slot in the specified player's inventory with the specified enchantment id</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>slot</dt><dd>int &mdash; slot</dd>
+<dt>enchantment_id</dt><dd>String &mdash; enchantment_id</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the de-enchanting process was successful. False is usually the restult will be returned if the player is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.inventory.slots.slot.set">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.inventory.slots.slot.set</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the specified slot in the specified player's inventory to the specified type with the specified quantity, data and damage</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>slot</dt><dd>int &mdash; slot</dd>
+<dt>id</dt><dd>int &mdash; Id of block type to set</dd>
+<dt>data</dt><dd>int &mdash; The data value of the item (<em>default is 0</em>)</dd>
+<dt>damage</dt><dd>int &mdash; The damage of the item (<em>default is 0</em>)</dd>
+<dt>quantity</dt><dd>int &mdash; Quantity to set (<em>default is 1</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the item was given. False will be returned if the player is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.kick">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.kick</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Kick a player with the specified name and the optional message</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>reason</dt><dd>String &mdash; Custom message to display to the player after they are kicked (<em>default is Kicked by admin</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.op">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.op</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Ops the specified player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.pardon">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.pardon</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Unbans the specified player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.permissions">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.permissions</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the permissions for a specific player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> Gets all the permissions and their values for a player</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.permissions.add">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.permissions.add</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Add a permission node for a player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>permission_node</dt><dd>String &mdash; The permission node</dd>
+<dt>value</dt><dd>Boolean &mdash; The value to assign to the node</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Success?</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.permissions.remove">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.permissions.remove</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes a permission node for a player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>permission_node</dt><dd>String &mdash; The permission node</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Success?</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.send_message">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.send_message</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Send a private message to the specified player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>message</dt><dd>String &mdash; The message to send</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.set_experience">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.set_experience</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets a player's experience on a scale of 0-4625 (level 50)</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>experience</dt><dd>int &mdash; The amount of experience to set</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the player is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.set_food_level">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.set_food_level</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets a player's food level on a scale of 0-20</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>food_level</dt><dd>int &mdash; The amount of food to set</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if something went wrong.</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.set_game_mode">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.set_game_mode</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the game mode for a player. 0 is creative. 1 is survivial</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>game_mode</dt><dd>int &mdash; The game mode</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the player is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.set_health">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.set_health</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets a player's health on a scale of 0-20</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>health</dt><dd>int &mdash; The amount of health to set</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the player is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.set_level">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.set_level</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets a player's level on a scale of 0-50</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>level</dt><dd>int &mdash; The level to set</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if something went wrong.</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.teleport">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.teleport</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Teleports the specified player to the specified x, y and z co-ordinates</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>x</dt><dd>int &mdash; The x-coord of the block</dd>
+<dt>y</dt><dd>int &mdash; The y-coord of the block</dd>
+<dt>z</dt><dd>int &mdash; The z-coord of the block</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if successful, false otherwise</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.teleport_to.to_name">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.teleport_to.to_name</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Teleports the first specified player to the second specified player</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>to_name</dt><dd>String &mdash; to_name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>R</strong> e</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.teleport_world">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.teleport_world</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Teleports the specified player to the specified world and xyz co-ordinates</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>world</dt><dd>String &mdash; The world name</dd>
+<dt>x</dt><dd>int &mdash; The x-coord of the block</dd>
+<dt>y</dt><dd>int &mdash; The y-coord of the block</dd>
+<dt>z</dt><dd>int &mdash; The z-coord of the block</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if successful, false otherwise</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.unwhitelist">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.unwhitelist</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Removes the specified player from the whitelist</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.name.whitelist">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.name.whitelist</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Adds the specified player to the whitelist</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.offline">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.offline</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves an array of all the players who have ever played on the server but are not currently on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>OfflinePlayer[]</strong> An array of offlinePlayers</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.offline.name">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.offline.name</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets an offlinePlayer object representing the specified person</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>OfflinePlayer</strong> A offlinePlayer object respresenting the specified person</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.offline.names">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.offline.names</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves an array of the names of all the players who have ever played on the server but are not currently on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The offline players' names</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.online">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.online</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets an array of |player| objects that represent all of the players on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Player[]</strong> An array of |Player| objects</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.online.count">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.online.count</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the amount of players currently on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> The number of players on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.online.limit">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.online.limit</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the maximum amount of players allowed on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> The player limit</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.online.names">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.online.names</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves an array of the names of all the players currently on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The players' names</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.ops.names">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.ops.names</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the players who are opped</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains a player's name</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.pardon_ip">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.pardon_ip</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Bans the specified IP</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>ip</dt><dd>String &mdash; The IP to be pardoned</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="players.whitelisted.names">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>players.whitelisted.names</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the players on the whitelist</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> Returns an array of strings; where each item in the array is a string that contains a player's name</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="plugins">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>plugins</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets an array of all loaded plugins</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Plugin[]</strong> An array of |plugin| objects</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="plugins.disable_all">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>plugins.disable_all</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Disables all plugins on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="plugins.install">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>plugins.install</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Installs a plugin from a URL</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>url</dt><dd>String &mdash; A URL that points to a .jar file that should be installed/</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> If the plugin was successfully downloaded, installed and loaded.</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="plugins.name">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>plugins.name</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the |plugin| object for the plugin with the given name</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Plugin</strong> The specified plugin</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="plugins.name.commands">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>plugins.name.commands</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets all the commands for a plugin with details</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>plugin_name</dt><dd>String &mdash; The plugin name to fetch commands for</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> The commands with details</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="plugins.name.disable">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>plugins.name.disable</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Disables the specified plugin. Attempting to disable a plugin that is not enabled will have no effect</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the plugin was disabled. False will be returned if the plugin is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="plugins.name.enable">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>plugins.name.enable</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Enables the specified plugin. Attempting to enable a plugin that is already enabled will have no effect</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if the plugin was enabled. False will be returned if the plugin is not on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="plugins.name.files">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>plugins.name.files</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrives an array of files and directories that exist in the plugins data folder. Recursive</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The files in string format</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="plugins.name.version">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>plugins.name.version</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets version of a plugin</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> A string representing the version</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets server information: maxPlayers, players, port, name, serverName, version, worlds</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> Key value object with information about the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.bukkit.version">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.bukkit.version</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the Bukkit version that this server is running</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> A string representing the version</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.commands.list">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.commands.list</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the name of all the commands on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The command names</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.commands.list_with_details">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.commands.list_with_details</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the all the commands on the server with details, organized by plugins</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> The commands</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.commands.name">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.commands.name</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the details of a command based on its name</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>command_name</dt><dd>String &mdash; The command name to fetch details for</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> The command names</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.map.save">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.map.save</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Saves the map to the filesystem</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.map.save_off">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.map.save_off</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Disables automatic terrian saving</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.map.save_on">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.map.save_on</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Enables automatic terrian saving</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.performance.disk.free">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.performance.disk.free</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the number of free byte on the disk that Minecraft is located on</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> Disk free space in megabytes</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.performance.disk.size">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.performance.disk.size</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the total size of the disk that Minecraft is located on</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> Disk size in megabytes</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.performance.disk.used">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.performance.disk.used</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns the number of bytes that have been used on the disk that Minecraft is located on</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> Disk usage in megabytes</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.performance.memory.total">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.performance.memory.total</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the amount of memory available to Java.Bukkit.Minecraft. Note that is not a measurement of all the memory in the machine. To find system wide information look at getSystemMemoryTotal</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> Java memory size in megabytes</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.performance.memory.used">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.performance.memory.used</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the amount of memory used by Java.Bukkit.Minecraft. Note that is not a measurement of all the memory used in the machine. To find system wide information look at getSystemMemoryUsage</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> Java memory usage in megabytes</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.performance.tick_health">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.performance.tick_health</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns expectedTicks, elapsedTicks, C, expectedClockRate, expectedTime, elapsedTime and % error</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object</strong> key value pairs with all the values in the descriptions</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.power.reschedule_restart">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.power.reschedule_restart</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Reschedules the next server restart. The time parameter can either be in either the #h #m #s format, or the HH:MM format</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>next_restart</dt><dd>String &mdash; Time in either the #h #m #s format, or the HH:MM format</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> False on error. Null otherwise</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.power.restart">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.power.restart</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Restarts the Minecraft server. THIS WILL TAKE DOWN JSONAPI FOR A SHORT TIME</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> False on error. Null otherwise</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.power.start">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.power.start</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Starts the Minecraft server. DO NOT CALL IF remotetookit.stopServer HAS NOT BEEN CALLED!</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True if successful, false otherwise</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.power.stop">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.power.stop</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Stops the Minecraft server. THIS WILL SHUT THE SERVER DOWN AND WILL NOT RESTART IT</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> False on error. Null otherwise</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.reload">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.reload</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Reloads the server, refreshing settings and plugin information</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.run_command">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.run_command</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Runs a command in the console</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>command</dt><dd>String &mdash; Command to send</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.settings.ip">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.settings.ip</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Get the IP that this server is bound to or empty string if not specified</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The IP</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.settings.max_players">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.settings.max_players</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the maximum amount of players allowed on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> The player limit</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.settings.motd">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.settings.motd</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets server's MOTD</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> The MOTD</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.settings.port">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.settings.port</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Get the game port that the server runs on</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>int</strong> The port</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="server.version">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>server.version</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the version string of this server implementation</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> A string representing the version</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="streams.chat.latest">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>streams.chat.latest</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets up to the last n lines in chat where n is the limit passed. Returned as an array of JSON stream objects</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>limit</dt><dd>int &mdash; The maximum number of items to return (<em>default is 150</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The array of objects</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="streams.connections.limit">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>streams.connections.limit</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets up to the last n connections.disconnections where n is the limit passed. Returned as an array of JSON stream objects</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>limit</dt><dd>int &mdash; The maximum number of items to return (<em>default is 150</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The array of objects</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="streams.console.latest">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>streams.console.latest</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets up to the last n lines in the console where n is the limit passed. Returned as an array of JSON stream objects</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>limit</dt><dd>int &mdash; The maximum number of items to return (<em>default is 150</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The array of objects</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="streams.formatted_chat.latest">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>streams.formatted_chat.latest</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets up to the last n lines in formatted_chat where n is the limit passed. Returned as an array of JSON stream objects</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>limit</dt><dd>int &mdash; The maximum number of items to return (<em>default is 150</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> The array of objects</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="streams.name.limit">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>streams.name.limit</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Returns all the messages in a stream with the given name</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>name</dt><dd>String &mdash; name</dd>
+<dt>limit</dt><dd>int &mdash; The maximum number of items to return (<em>default is 150</em>)</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>Object[]</strong> An array of message objects which are different for each kind of stream</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.all">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.all</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets an array of all the |world| objects on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>World[]</strong> All of the worlds on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.names">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.names</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets an array of all the world names on the server</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix">None</dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> All of the names of the worlds on the server</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the |world| object with the given name</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>World</strong> The world with the given name</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.chat.groups.group.has_player">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.chat.groups.group.has_player</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Check if player is member of a group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>group</dt><dd>String &mdash; group</dd>
+<dt>player</dt><dd>String &mdash; Player name</dd>
+<dt>group</dt><dd>String &mdash; Group name</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> Success or Failure</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.get_block">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.get_block</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Set the type of the block in the specified world at the specified coordinate</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>x</dt><dd>int &mdash; The x-coord of the block</dd>
+<dt>y</dt><dd>int &mdash; The y-coord of the block</dd>
+<dt>z</dt><dd>int &mdash; The z-coord of the block</dd>
+<dt>int</dt><dd>The type ID to change the block to &mdash; </dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.groups.group.prefix">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.groups.group.prefix</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Get group prefix</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>group</dt><dd>String &mdash; group</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Prefix</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.groups.group.set_prefix">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.groups.group.set_prefix</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Set group prefix</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>group</dt><dd>String &mdash; group</dd>
+<dt>prefix</dt><dd>String &mdash; Prefix</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Prefix</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.groups.group.set_suffix">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.groups.group.set_suffix</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Set group suffix</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>group</dt><dd>String &mdash; group</dd>
+<dt>suffix</dt><dd>String &mdash; Suffix</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Suffix</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.groups.group.suffix">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.groups.group.suffix</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Get group suffix</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>group</dt><dd>String &mdash; group</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Suffix</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.players.names">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.players.names</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Retrieves an array of the names of all the players currently in the given world</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> The players' names</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.players.player.chat.groups">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.players.player.chat.groups</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Gets the list of groups that this player has</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>player</dt><dd>String &mdash; player</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String[]</strong> A list of all known groups for a user</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.players.player.chat.groups.primary">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.players.player.chat.groups.primary</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Get player primary group</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>player</dt><dd>String &mdash; player</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Group name</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.players.player.chat.prefix">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.players.player.chat.prefix</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Get player prefix</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>player</dt><dd>String &mdash; player</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Prefix</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.players.player.chat.set_prefix">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.players.player.chat.set_prefix</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Set player prefix</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>player</dt><dd>String &mdash; player</dd>
+<dt>prefix</dt><dd>String &mdash; Prefix</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Prefix</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.players.player.chat.set_suffix">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.players.player.chat.set_suffix</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Set player suffix</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>player</dt><dd>String &mdash; player</dd>
+<dt>suffix</dt><dd>String &mdash; Suffix</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Suffix</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.players.player.chat.suffix">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.players.player.chat.suffix</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Get player suffix</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>player</dt><dd>String &mdash; player</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>String</strong> Suffix</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.set_block">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.set_block</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Set the data value of the block in the specified world at the specified coordinate</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>x</dt><dd>int &mdash; The x-coord of the block</dd>
+<dt>y</dt><dd>int &mdash; The y-coord of the block</dd>
+<dt>z</dt><dd>int &mdash; The z-coord of the block</dd>
+<dt>id</dt><dd>int &mdash; The decimal representation of the data value to set on the block</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return">void</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.set_difficulty">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.set_difficulty</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the difficulty for a given world</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>time</dt><dd>int &mdash; Difficulty. 0 is easy, 1 is hard, 2 is normal, 3 is peaceful.</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the world does not exist</dd>
+		</dl>
+	</div>
+	<div class="method-wrapper" id="worlds.world.set_time">
+		<dl class="dl-horizontal method-info">
+			<dt>Name</dt>
+			<dd class="method-info-name"><code>worlds.world.set_time</code></dd>
+
+			<dt>Description</dt>
+			<dd class="method-info-desc">Sets the time for a given world</dd>
+
+			<dt>Arguments</dt>
+			<dd class="method-info-args clearfix"><dl class='dl-horizontal clearfix method-info-args-ul'>
+<dt>world</dt><dd>String &mdash; world</dd>
+<dt>time</dt><dd>int &mdash; Time (from 0-24000), 6000 is dawn, 24000 is midnight</dd></dl></dd>
+
+			<dt>Returns</dt>
+			<dd class="method-info-return"><strong>boolean</strong> True on succes, false if the world does not exist</dd>
+		</dl>
+	</div>
+	</ul>
+		</div>
+	</body>
+</html>

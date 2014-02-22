@@ -1,0 +1,80 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+
+    title= page.title
+      | &mdash; JSONAPI &mdash; a Bukkit Plugin
+
+    meta(name='description', value='JSONAPI is an HTTP, Socket and WebSocket API for control and data extraction on a Bukkit server.')
+    meta(name='author', value='Alec Gorge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
+    //- link(rel='stylesheet', href='/css/content.css')
+    link(rel='stylesheet', href='/css/style.css')
+
+  body
+    .container
+      .row
+        #sidebar.col-md-4
+          ul.blocks
+            li.space &nbsp;
+            li.download
+              a.download-link(href='https://github.com/alecgorge/jsonapi/releases')
+                | Download
+                span JSONAPI.jar
+                  span
+            li.sep  
+            li
+              a(href='/apidocs/') JSONAPI Method Docs
+                em Docs for the callable API methods
+            li
+              a(href='/#jsonapi-api-v2-usage') JSONAPI API v2 usage
+                em How to use JSONAPI without an SDK
+              ul
+                li
+                  a(href='/#connection-options') Connection Options
+                    em HTTP JSON(P), Socket, HTTP Push, WebSocket
+                  a(href='/#json-request-structure') JSON Request Structure
+                    em API request format
+                  a(href='/#json-response-structure') JSON Response Structure
+                  a(href='/#granular-permissions-background') Granuar Permissions
+                    em Restrict JSONAPI user access to API methods
+            li.sep &nbsp;
+            li
+              a(href='https://github.com/alecgorge/jsonapi/wiki') Wiki on GitHub
+                em Guides, config options, plugin integration
+            li
+              a(href='https://github.com/alecgorge/jsonapi/issues') Issues/Tickets on GitHub
+                em Report a bug or request a new feature
+            li.sep  
+            li
+              a(href='http://forums.bukkit.org/threads/admn-info-jsonapi-v3-6-0-json-http-and-socket-api-for-controlling-a-server-1-2-5.14270/page-15') Bukkit Thread
+            li.sep  
+            li
+              a(href='https://github.com/alecgorge/jsonapi/tree/master/sdk') SDKs
+                em To use JSONAPI in PHP, JS, node.js, .NET, Python and Ruby
+            li
+              a(href='http://ci.alecgorge.com/job/JSONAPI/') Jenkins (CI)
+                em Fresh builds with new features and maybe a few bugs
+            li
+              a(href='http://ci.alecgorge.com/job/JSONAPI-Debug/') Debug Build Jenkins (CI)
+                em JSONAPI with debug logging enabled to find issues
+            li.sep  
+            li
+              a(href='http://adminiumapp.com/') Adminium for iOS
+                em Uses JSONAPI for complete Minecraft server control
+        #content.col-md-8
+          h1#title= page.title
+            | 
+            small by 
+              a(href='http://alecgorge.com') Alec Gorge
+          != page.html
+      .row
+        .span8.offset4
+          p#footer
+            | By 
+            a(href='http://alecgorge.com/') Alec Gorge
+            | . Copyright &copy; 2014 Alec Gorge.
+

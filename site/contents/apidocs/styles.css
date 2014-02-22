@@ -1,0 +1,90 @@
+/*body {
+	font:85%/180% "Helvetica Neue",Helvetica,Arial,sans-serif;
+	background:#e7e7e7;
+	padding:25px;
+	margin:0;
+}
+
+h2 {
+	font-family:Arial, sans-serif;
+	font-size:2.5em;
+	margin-bottom:10px;
+	font-weight:normal;
+	letter-spacing:-1px;
+}
+
+h3 {
+	font-size:1.2em;
+}*/
+
+.nav-right {
+	position:fixed;
+	left:15px;
+	top:15px;
+	padding:8px 0 !important;
+}
+
+section {
+	padding-top:40px;
+}
+
+.jumbotron {
+	margin-top:65px;
+}
+
+.jumbotron h1 {
+	font-size:40px;
+	margin-bottom:13px;
+}
+
+.method-wrapper {
+	background:white;
+	border:1px #ddd solid;
+	margin:15px 0 0 0;
+}
+
+.method-wrapper > dl > dt, .method-wrapper > dl > dd {
+	margin-bottom:6px;
+}
+
+.method-info, .method-info li {
+	list-style:none;
+	margin:4px 0;
+	padding:0;
+	clear:both;
+}
+
+.method-info li strong:first-child {
+	padding-right:10px;
+	width:100px;
+	display:block;
+	float:left;
+	clear:left;
+	text-align:right;
+}
+.method-info li strong {
+	padding-right:10px;
+}
+
+.method-info-args-ul {
+	margin:0;
+	float:left;
+}
+
+.method-info-args-ul dt {
+	clear:left;
+	text-align:left;
+	width:auto;
+}
+
+.method-info-args-ul dd {
+	clear:none;
+	margin-left:0;
+	float:left;
+	padding-left:5px;
+}
+
+.clear {
+	clear:both;
+	height:1px;
+}

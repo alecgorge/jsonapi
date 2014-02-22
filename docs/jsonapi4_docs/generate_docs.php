@@ -29,6 +29,8 @@ foreach($router as $route => $method) {
 	<body>
 	<div class="container">
 		<div class="jumbotron subhead">
+			<h3>← <a href="/">Back to the complete JSONAPI docs</a></h3>
+			<br/>
 			<h1>APIv4 Documentation for JSONAPI</h1>
 			<p class="lead">This page documents all the methods that ship with JSONAPI. This includes the base method that work as long as JSONAPI is installed and enabled, along with the methods that require another plugin to be installed and enabled for them to work.
 			</p>
