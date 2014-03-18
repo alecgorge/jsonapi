@@ -1,7 +1,7 @@
-//#if mc17OrNewer!="yes"
-//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty.router;
 
+//#if mc17OrNewer!="yes"
+//#else
 import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
 import net.minecraft.util.io.netty.handler.codec.http.FullHttpRequest;
 

@@ -1,7 +1,7 @@
-//#if mc17OrNewer!="yes"
-//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty.router;
 
+//#if mc17OrNewer!="yes"
+//#else
 /*
  * Copyright (c) 2011-2013 The original author or authors
  * ------------------------------------------------------
