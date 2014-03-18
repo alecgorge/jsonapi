@@ -1,3 +1,5 @@
+//#if mc17OrNewer!="yes"
+//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
 import static net.minecraft.util.io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
@@ -160,3 +162,4 @@ class JSONAPIHandler extends SimpleChannelInboundHandler<Object> {
 		return "ws://" + req.headers().get(HOST) + WEBSOCKET_PATH;
 	}
 }
+//#endif

@@ -1,3 +1,5 @@
+//#if mc17OrNewer!="yes"
+//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty.router;
 
 import net.minecraft.util.io.netty.handler.codec.http.FullHttpRequest;
@@ -20,3 +22,4 @@ public class RoutedHttpResponse {
 		return request;
 	}
 }
+//#endif

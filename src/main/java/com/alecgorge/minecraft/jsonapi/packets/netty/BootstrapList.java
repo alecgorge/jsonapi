@@ -1,3 +1,5 @@
+//#if mc17OrNewer!="yes"
+//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
 import java.util.Collection;
@@ -198,3 +200,4 @@ class BootstrapList implements List<Object> {
     }
     // End boiler plate
 }
+//#endif

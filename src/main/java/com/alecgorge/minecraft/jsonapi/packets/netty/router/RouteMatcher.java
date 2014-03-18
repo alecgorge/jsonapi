@@ -1,3 +1,5 @@
+//#if mc17OrNewer!="yes"
+//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty.router;
 
 /*
@@ -546,3 +548,4 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 	}
 
 }
+//#endif

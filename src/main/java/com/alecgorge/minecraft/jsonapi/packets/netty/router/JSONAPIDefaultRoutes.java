@@ -1,3 +1,5 @@
+//#if mc17OrNewer!="yes"
+//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty.router;
 
 import net.minecraft.util.io.netty.buffer.ByteBuf;
@@ -73,3 +75,4 @@ public class JSONAPIDefaultRoutes {
 		return r;
 	}
 }
+//#endif

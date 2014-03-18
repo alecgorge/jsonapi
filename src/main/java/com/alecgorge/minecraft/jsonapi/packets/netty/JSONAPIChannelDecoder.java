@@ -1,3 +1,5 @@
+//#if mc17OrNewer!="yes"
+//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
 import java.util.List;
@@ -76,3 +78,4 @@ public class JSONAPIChannelDecoder extends ByteToMessageDecoder {
                 magic1 == 'C' && magic2 == 'O' && magic3 == 'N' && magic4 == 'N'; // CONNECT
     }
 }
+//#endif

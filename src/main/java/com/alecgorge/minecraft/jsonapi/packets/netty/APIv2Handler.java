@@ -1,3 +1,5 @@
+//#if mc17OrNewer!="yes"
+//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
 import java.io.PrintWriter;
@@ -194,3 +196,4 @@ public class APIv2Handler {
 	}	
 
 }
+//#endif

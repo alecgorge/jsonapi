@@ -21,8 +21,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-import net.minecraft.util.io.netty.channel.Channel;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -53,10 +51,7 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
-import com.alecgorge.minecraft.jsonapi.packets.netty.JSONAPIChannelDecoder;
-import com.alecgorge.minecraft.jsonapi.packets.netty.NettyInjector;
-import com.alecgorge.minecraft.jsonapi.packets.netty.router.JSONAPIDefaultRoutes;
-import com.alecgorge.minecraft.jsonapi.packets.netty.router.RouteMatcher;
+import com.alecgorge.minecraft.jsonapi.packets.netty.JSONAPINettyInjector;
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.PerformanceStreamDataProvider;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
@@ -65,6 +60,10 @@ import com.alecgorge.minecraft.jsonapi.streams.console.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.console.Log4j2ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.util.OfflinePlayerLoader;
 import com.alecgorge.minecraft.jsonapi.util.TickRateCounter;
+
+//#if mc17OrNewer=="yes"
+import com.alecgorge.minecraft.jsonapi.packets.netty.router.RouteMatcher;
+//#endif
 
 /**
  * 
@@ -95,7 +94,9 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public boolean useGroups = false;
 	TickRateCounter tickRateCounter;
 	
+	//#if mc17OrNewer=="yes"
 	RouteMatcher router = new RouteMatcher();
+	//#endif
 
 	private Logger log = Bukkit.getLogger();
 	public Logger outLog = Logger.getLogger("JSONAPI");
@@ -112,7 +113,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	
 	GroupManager groupManager;
 	
-	NettyInjector injector = null;
+	JSONAPINettyInjector injector = null;
 
 //#if jsonapiDebug=="yes"
 //$	public static boolean shouldDebug = true;
@@ -574,15 +575,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			tickRateCounter = new TickRateCounter(this);
 			
 			//#if mc17OrNewer=="yes"
-			injector = new NettyInjector() {
-		        @Override
-		        protected void injectChannel(Channel channel) {
-		            channel.pipeline().addFirst(new JSONAPIChannelDecoder(instance));
-		        }
-		    };
-		    injector.inject();
-		    
-		    new JSONAPIDefaultRoutes(this);
+			injector = new JSONAPINettyInjector(this);
 			//#endif
 			
 			// must load this after the tick counter exists!
@@ -808,9 +801,11 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		return sb.toString();
 	}
 	
+	//#if mc17OrNewer=="yes"
 	public RouteMatcher getRouter() {
 		return router;
 	}
+	//#endif
 
 	@Override
 	public void onDisable() {

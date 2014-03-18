@@ -1,3 +1,5 @@
+//#if mc17OrNewer!="yes"
+//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
 import java.lang.reflect.Field;
@@ -150,3 +152,4 @@ public abstract class NettyInjector {
         }
     }
 }
+//#endif
