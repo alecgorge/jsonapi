@@ -1,7 +1,7 @@
-//#if mc17OrNewer!="yes"
-//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty.router;
 
+//#if mc17OrNewer!="yes"
+//#else
 import net.minecraft.util.io.netty.buffer.ByteBuf;
 import net.minecraft.util.io.netty.buffer.Unpooled;
 import net.minecraft.util.io.netty.handler.codec.http.DefaultFullHttpResponse;

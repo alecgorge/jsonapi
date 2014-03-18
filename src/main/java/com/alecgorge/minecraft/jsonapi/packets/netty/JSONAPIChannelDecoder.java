@@ -1,7 +1,7 @@
-//#if mc17OrNewer!="yes"
-//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
+//#if mc17OrNewer!="yes"
+//#else
 import java.util.List;
 import java.util.NoSuchElementException;
 

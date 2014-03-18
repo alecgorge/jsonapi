@@ -1,6 +1,6 @@
-//#if mc17OrNewer=="yes"
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
+//#if mc17OrNewer=="yes"
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
