@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Generated with the command ./jsonapi test 1.7.5
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+mvn clean install $@ -DmcPackage=v1_7_R2 -DcbVersion=1.7.5-R0.1 -Dmc16OrNewer=yes -Dmc17OrNewer=yes && cd test/ && java -Xmx256M -jar craftbukkit-1.7.5-R0.1.jar
+cd $DIR
