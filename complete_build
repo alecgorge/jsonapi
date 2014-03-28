@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Generated with the command ./jsonapi build all
 
-jarVersion=${1:-BLEEDING}
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 echo "Building 1.4.7-R1.0"
@@ -32,8 +31,15 @@ rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
-echo "Building 1.7.2-R0.3-SNAPSHOT"
-mvn clean install $@ -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.3-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes
+echo "Building 1.7.2-R0.3"
+mvn clean install $@ -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.3 -Dmc16OrNewer=yes -Dmc17OrNewer=yes
+
+rc=$?
+if [[ $rc != 0 ]] ; then
+    exit $rc
+fi
+echo "Building 1.7.5-R0.1"
+mvn clean install $@ -DmcPackage=v1_7_R2 -DcbVersion=1.7.5-R0.1 -Dmc16OrNewer=yes -Dmc17OrNewer=yes
 
 rc=$?
 if [[ $rc != 0 ]] ; then
