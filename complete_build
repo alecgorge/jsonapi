@@ -38,8 +38,8 @@ rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
-echo "Building 1.7.5-R0.1"
-mvn clean install $@ -DmcPackage=v1_7_R2 -DcbVersion=1.7.5-R0.1 -Dmc16OrNewer=yes -Dmc17OrNewer=yes
+echo "Building 1.7.5-R0.1-SNAPSHOT"
+mvn clean install $@ -DmcPackage=v1_7_R2 -DcbVersion=1.7.5-R0.1-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes
 
 rc=$?
 if [[ $rc != 0 ]] ; then
