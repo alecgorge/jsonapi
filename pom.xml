@@ -43,7 +43,7 @@
 		</repository>
 		<repository>
 			<id>vault-repo</id>
-			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
+			<url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
 		</repository>
 		<repository>
 			<id>comphenix-rep</id>
@@ -250,7 +250,7 @@
 					</execution>
 				</executions>
 			</plugin>
- -->		</plugins>
+		-->		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
