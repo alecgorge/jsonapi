@@ -271,7 +271,7 @@
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
 			<artifactId>ProtocolLib</artifactId>
-			<version>3.2.0</version>
+			<version>3.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
