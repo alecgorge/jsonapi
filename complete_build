@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 echo "Building 1.4.7-R1.0"
-mvn clean install $@ -DmcPackage=v1_4_R1 -DcbVersion=1.4.7-R1.0 -Dmc16OrNewer=no -Dmc17OrNewer=no
+mvn clean install $@ -DmcPackage=v1_4_R1 -DcbVersion=1.4.7-R1.0 -Dmc16OrNewer=no -Dmc17OrNewer=no -Dmc179OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
@@ -13,7 +13,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Building 1.5.2-R1.0"
-mvn clean install $@ -DmcPackage=v1_5_R3 -DcbVersion=1.5.2-R1.0 -Dmc16OrNewer=no -Dmc17OrNewer=no
+mvn clean install $@ -DmcPackage=v1_5_R3 -DcbVersion=1.5.2-R1.0 -Dmc16OrNewer=no -Dmc17OrNewer=no -Dmc179OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
@@ -21,7 +21,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Building 1.6.2-R1.0"
-mvn clean install $@ -DmcPackage=v1_6_R2 -DcbVersion=1.6.2-R1.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no
+mvn clean install $@ -DmcPackage=v1_6_R2 -DcbVersion=1.6.2-R1.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no -Dmc179OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
@@ -29,7 +29,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Building 1.6.4-R2.0"
-mvn clean install $@ -DmcPackage=v1_6_R3 -DcbVersion=1.6.4-R2.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no
+mvn clean install $@ -DmcPackage=v1_6_R3 -DcbVersion=1.6.4-R2.0 -Dmc16OrNewer=yes -Dmc17OrNewer=no -Dmc179OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
@@ -37,7 +37,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Building 1.7.2-R0.3"
-mvn clean install $@ -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.3 -Dmc16OrNewer=yes -Dmc17OrNewer=yes
+mvn clean install $@ -DmcPackage=v1_7_R1 -DcbVersion=1.7.2-R0.3 -Dmc16OrNewer=yes -Dmc17OrNewer=yes -Dmc179OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
@@ -45,7 +45,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Building 1.7.5-R0.1-SNAPSHOT"
-mvn clean install $@ -DmcPackage=v1_7_R2 -DcbVersion=1.7.5-R0.1-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes
+mvn clean install $@ -DmcPackage=v1_7_R2 -DcbVersion=1.7.5-R0.1-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes -Dmc179OrNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
@@ -53,7 +53,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Building 1.7.9-R0.2-SNAPSHOT"
-mvn clean install $@ -DmcPackage=v1_7_R3 -DcbVersion=1.7.9-R0.2-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes
+mvn clean install $@ -DmcPackage=v1_7_R3 -DcbVersion=1.7.9-R0.2-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes -Dmc179OrNewer=yes
 
 rc=$?
 if [[ $rc != 0 ]] ; then
