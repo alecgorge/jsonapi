@@ -64,12 +64,6 @@ public class OfflinePlayerLoader {
 				//$	id = player.getUniqueId();
 				//$}
 				//$
-				//$try {
-				//$	Method m = OfflinePlayer.class.getMethod("getUniqueId", new Class<?>[]{});
-				//$	id = (UUID)m.invoke(player, new Object[]{});
-				//$}
-				//$catch(Exception e) {}
-				//$
 				//$EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile(id, exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));
 				//#else
 					//#if mc17OrNewer=="yes"				
