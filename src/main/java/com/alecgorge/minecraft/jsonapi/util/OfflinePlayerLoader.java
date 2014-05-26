@@ -1,6 +1,8 @@
 package com.alecgorge.minecraft.jsonapi.util;
 
 import java.io.File;
+import java.util.UUID;
+import java.lang.reflect.Method;
 
 //#ifdefined mcversion
 //$import net.minecraft.server./*$mcversion$*/.*;
@@ -16,12 +18,17 @@ import org.bukkit.craftbukkit.v1_7_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
+
+import com.alecgorge.minecraft.jsonapi.JSONAPI;
 
 public class OfflinePlayerLoader {
 	public static Player load(String exactPlayerName) {
 		// big thanks to
 		// https://github.com/lishd/OpenInv/blob/master/src/com/lishid/openinv/internal/craftbukkit/PlayerDataManager.java
 		// Offline inv here...
+		
+		OfflinePlayer player = Bukkit.getOfflinePlayer(exactPlayerName);
 		
 		int index = 0;
 		for (World w : Bukkit.getWorlds()) {
@@ -31,9 +38,13 @@ public class OfflinePlayerLoader {
 				// Find the player folder
 				File playerfolder = new File(w.getWorldFolder(), "players");
 				if (!playerfolder.exists()) {
-					return null;
+					playerfolder = new File(w.getWorldFolder(), "playerdata");
 				}
-
+				
+				if(!playerfolder.exists()) {
+					continue;
+				}
+				
 				Player target = null;
 				MinecraftServer server = null;
 				try {
@@ -43,10 +54,29 @@ public class OfflinePlayerLoader {
 				}
 
 				// Create an entity to load the player data
-				//#if mc17OrNewer=="yes"
-				EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile(null, exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));				
+				//#if mc179OrNewer=="yes"
+				//$UUID id = null;
+				//$
+				//$if(player == null) {
+				//$	id = UUID.randomUUID();
+				//$}
+				//$else {
+				//$	id = player.getUniqueId();
+				//$}
+				//$
+				//$try {
+				//$	Method m = OfflinePlayer.class.getMethod("getUniqueId", new Class<?>[]{});
+				//$	id = (UUID)m.invoke(player, new Object[]{});
+				//$}
+				//$catch(Exception e) {}
+				//$
+				//$EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile(id, exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));
 				//#else
-				//$EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), exactPlayerName, new PlayerInteractManager(server.getWorldServer(index)));
+					//#if mc17OrNewer=="yes"				
+					EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), new GameProfile(null, exactPlayerName), new PlayerInteractManager(server.getWorldServer(index)));				
+					//#else
+					//$EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(index), exactPlayerName, new PlayerInteractManager(server.getWorldServer(index)));
+					//#endif
 				//#endif
 
 				// Get the bukkit entity

@@ -16,13 +16,13 @@ function gen_key($name) {
 }
 
 
-$methodName = "server";
+$methodName = "chat.with_name";
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => [],
+		'arguments' => ['text', 'alecgorgd'],
 		'tag' => '1'
 	),
 	// array(
@@ -109,7 +109,7 @@ if(!(php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR']))) {
 	echo "<pre>";
 }
 
-$stream = true;
+$stream = false;
 if($stream) {
 	$url = sprintf("http://%s:%d/api/2/subscribe?json=%s", $host, $port, rawurlencode(json_encode($streamPayload)));
 	echo $url ."\n";
