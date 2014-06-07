@@ -40,6 +40,12 @@ options:
     # that supports granular permissions
     use-new-api: true
 
+    # you can explictly disable adminium push notifications here
+    # nothing will be sent to any server if you have no Adminium
+    # installations tied to this server anyways but this will give
+    # you a manual override
+    adminium-push-enabled: true
+
     # configuration for the feature that gathers up data from
     # streams and POSTs it to a URL every once and a while
     # once one of the following conditions is exceeded, data is posted

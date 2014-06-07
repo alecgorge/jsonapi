@@ -64,6 +64,10 @@ public class Adminium3 implements JSONAPIStreamListener {
 		AdminiumPushNotification not = new AdminiumPushNotification(new Date(), message);
 		sendNotification(devices, not);
 	}
+	
+	public boolean shouldSendNotifications() {
+		return JSONAPI.instance.adminiumEnabled && config.devices.keySet().size() > 0;
+	}
 
 	@Override
 	public void onMessage(JSONAPIStreamMessage message, JSONAPIStream sender) {
@@ -94,6 +98,10 @@ public class Adminium3 implements JSONAPIStreamListener {
 
 	protected void sendNotification(final List<String> devices, final AdminiumPushNotification not) {
 		notifications.add(not);
+		
+		if(!shouldSendNotifications()) {
+			return;
+		}
 
 		api.getServer().getScheduler().runTaskAsynchronously(api, new Runnable() {
 			@Override

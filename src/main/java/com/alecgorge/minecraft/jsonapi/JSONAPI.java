@@ -93,6 +93,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public StreamPusher streamPusher;
 	public boolean useGroups = false;
 	TickRateCounter tickRateCounter;
+	public boolean adminiumEnabled = true;
 	
 	//#if mc17OrNewer=="yes"
 	RouteMatcher router = new RouteMatcher();
@@ -429,6 +430,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				anyoneCanUseCallAdmin = yamlConfig.getBoolean("options.anyone-can-use-calladmin", false);
 				allowSendingOldStreamMessages = yamlConfig.getBoolean("options.send-previous-stream-messages", true);
 				serverName = getServer().getServerName();
+				adminiumEnabled = yamlConfig.getBoolean("options.adminium-push-enabled", true);
 				if(yamlConfig.contains("options.use-new-api")) {
 					useGroups = yamlConfig.getBoolean("options.use-new-api", false);
 				}
