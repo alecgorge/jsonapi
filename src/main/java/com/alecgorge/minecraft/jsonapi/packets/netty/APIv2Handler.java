@@ -4,6 +4,7 @@ package com.alecgorge.minecraft.jsonapi.packets.netty;
 //#else
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -150,9 +151,18 @@ public class APIv2Handler {
 	}
 	
 	public void readPayload(boolean stream) throws ParseException {
-		JSONAPI.dbug("params.json: "+uri.parameters().get("json").get(0));
-		if(uri.parameters().containsKey("json")) {
-			Object o = parser.parse(uri.parameters().get("json").get(0));
+        String json = null;
+        if (uri.parameters().containsKey("json")) {
+            json = uri.parameters().get("json").get(0);
+        } else {
+            ByteBuf byteBuf = request.content();
+            if (byteBuf.isReadable()) {
+                json = byteBuf.toString(Charset.forName("UTF-8"));
+            }
+        }
+
+        if (json != null) {
+            Object o = parser.parse(json);
 			
 			JSONAPI.dbug("json obj: "+ o);
 			
