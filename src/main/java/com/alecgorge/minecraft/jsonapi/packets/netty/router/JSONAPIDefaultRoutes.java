@@ -39,32 +39,30 @@ public class JSONAPIDefaultRoutes {
 				return null;
 			}
 		});
-		
-		r.get("/api/2/call", new Handler<FullHttpResponse, RoutedHttpRequest>() {
-			@Override
-			public FullHttpResponse handle(RoutedHttpRequest event) {
-				APIv2Handler h = new APIv2Handler(event.request);
 
-				return h.serve();
-			}
-		});
+        Handler<FullHttpResponse, RoutedHttpRequest> apiHandler = new Handler<FullHttpResponse, RoutedHttpRequest>() {
+            @Override
+            public FullHttpResponse handle(RoutedHttpRequest event) {
+                APIv2Handler h = new APIv2Handler(event.request);
+                api.outLog.info("Request was matched");
 
-		r.get("/api/2/version", new Handler<FullHttpResponse, RoutedHttpRequest>() {
-			@Override
-			public FullHttpResponse handle(RoutedHttpRequest event) {
-				APIv2Handler h = new APIv2Handler(event.request);
+                return h.serve();
+            }
+        };
 
-				return h.serve();
-			}
-		});
+        r.get("/api/2/call", apiHandler);
+        r.post("/api/2/call", apiHandler);
 
-		r.get("/", new Handler<FullHttpResponse, RoutedHttpRequest>() {
-			@Override
-			public FullHttpResponse handle(RoutedHttpRequest event) {
-				return buildResponse(HttpResponseStatus.OK, "text/plain", "This is a Minecraft server. HTTP on this port by JSONAPI. JSONAPI by Alec Gorge.\n");
-			}
-		});
-	}
+        r.get("/api/2/version", apiHandler);
+        r.post("/api/2/version", apiHandler);
+
+        r.get("/", new Handler<FullHttpResponse, RoutedHttpRequest>() {
+            @Override
+            public FullHttpResponse handle(RoutedHttpRequest event) {
+                return buildResponse(HttpResponseStatus.OK, "text/plain", "This is a Minecraft server. HTTP on this port by JSONAPI. JSONAPI by Alec Gorge.\n");
+            }
+        });
+    }
 	
 	public static FullHttpResponse buildResponse(HttpResponseStatus resp, String type, String body) {
 		ByteBuf buf = Unpooled.copiedBuffer(body, CharsetUtil.UTF_8);
