@@ -441,7 +441,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(namespace = "", name="polyfill_getPluginVersion")
+	@API_Method(namespace = "", name="polyfill_getPluginVersion", isProvidedByV2API=false)
 	public String get345version(String name) {
 		return "3.6.7"; // needed because of faulty Adminium 2.2.1 version checking
 	}

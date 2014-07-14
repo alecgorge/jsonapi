@@ -19,7 +19,7 @@ public class Adminium3Methods implements JSONAPIMethodProvider {
 		config = Adminium3Config.config();
 	}
 	
-	@API_Method(namespace="",name="adminium.devices.register")
+	@API_Method(namespace="",name="adminium.devices.register", isProvidedByV2API=false)
 	public boolean registerDevice(String pushID) {
 		if(pushID.length() != 64) return false;
 		
@@ -34,7 +34,7 @@ public class Adminium3Methods implements JSONAPIMethodProvider {
 		return true;
 	}
 	
-	@API_Method(namespace="",name="adminium.devices.remove")
+	@API_Method(namespace="",name="adminium.devices.remove", isProvidedByV2API=false)
 	public boolean removeDevice(String pushID) {
 		if(config.devices.containsKey(pushID)) {
 			config.devices.remove(pushID);
@@ -47,7 +47,7 @@ public class Adminium3Methods implements JSONAPIMethodProvider {
 		return true;
 	}
 	
-	@API_Method(namespace="",name="adminium.devices.device.taboo.all")
+	@API_Method(namespace="",name="adminium.devices.device.taboo.all", isProvidedByV2API=false)
 	public List<String> tabooList(String pushID) {
 		try {
 			List<String> taboo = config.taboo.get(pushID);
@@ -62,7 +62,7 @@ public class Adminium3Methods implements JSONAPIMethodProvider {
 		}
 	}
 	
-	@API_Method(namespace="",name="adminium.devices.device.taboo.add")
+	@API_Method(namespace="",name="adminium.devices.device.taboo.add", isProvidedByV2API=false)
 	public boolean tabooAdd(String pushID, String phrase) {
 		if(!config.taboo.containsKey(pushID)) {
 			config.taboo.put(pushID, new ArrayList<String>());
@@ -79,7 +79,7 @@ public class Adminium3Methods implements JSONAPIMethodProvider {
 		return true;
 	}
 	
-	@API_Method(namespace="",name="adminium.devices.device.taboo.remove")
+	@API_Method(namespace="",name="adminium.devices.device.taboo.remove", isProvidedByV2API=false)
 	public boolean tabooRemove(String pushID, String phrase) {
 		if(config.taboo.containsKey(pushID) && config.taboo.get(pushID).contains(phrase)) {
 			config.taboo.get(pushID).remove(phrase);
@@ -92,7 +92,7 @@ public class Adminium3Methods implements JSONAPIMethodProvider {
 		return true;
 	}
 	
-	@API_Method(namespace="",name="adminium.devices.device.push_notifications")
+	@API_Method(namespace="",name="adminium.devices.device.push_notifications", isProvidedByV2API=false)
 	public JSONObject pushNotifications(String pushID) {
 		if(config.devices.containsKey(pushID)) {
 			Map<String, Boolean> dev = config.devices.get(pushID);
@@ -109,7 +109,7 @@ public class Adminium3Methods implements JSONAPIMethodProvider {
 		return new JSONObject();
 	}
 	
-	@API_Method(namespace="",name="adminium.devices.device.set_push_notification")
+	@API_Method(namespace="",name="adminium.devices.device.set_push_notification", isProvidedByV2API=false)
 	public JSONObject setPushNotifications(String pushID, String pushType, Boolean on) {
 		if(config.devices.containsKey(pushID)) {
 			Map<String, Boolean> dev = config.devices.get(pushID);
@@ -123,7 +123,7 @@ public class Adminium3Methods implements JSONAPIMethodProvider {
 		return new JSONObject();
 	}
 	
-	@API_Method(namespace="",name="adminium.notifications.all")
+	@API_Method(namespace="",name="adminium.notifications.all", isProvidedByV2API=false)
 	public List<AdminiumPushNotification> getAllPushNotifications() {
 		return adminium.notifications;
 	}

@@ -39,6 +39,8 @@ import com.alecgorge.minecraft.jsonapi.adminium.PushNotificationDaemon.AdminiumP
 import com.alecgorge.minecraft.jsonapi.config.JSONAPIPermissionNode;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIGroup;
 import com.alecgorge.minecraft.jsonapi.permissions.JSONAPIUser;
+import com.alecgorge.minecraft.jsonapi.dynamic.Argument;
+import com.alecgorge.minecraft.jsonapi.dynamic.Method;
 
 public class BukkitStringifier {
 	public static HashMap<String, Class<?>> handle = new HashMap<String, Class<?>>();
@@ -74,6 +76,7 @@ public class BukkitStringifier {
 		handle.put("AdminiumPushNotification", AdminiumPushNotification.class);
 		handle.put("Adminium3.AdminiumPushNotification", Adminium3.AdminiumPushNotification.class);
 		handle.put("Date", Date.class);
+		handle.put("Method", Method.class);
 
 		if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null) {
 			handle.put("EconomyResponse", net.milkbowl.vault.economy.EconomyResponse.class);
@@ -332,6 +335,30 @@ public class BukkitStringifier {
 			return o;
 		} else if (obj instanceof Date) {
 			return dateFormat.format((Date)obj);
+		} else if (obj instanceof Method) {
+			JSONObject o = new JSONObject();
+			Method m = (Method)obj;
+			
+			o.put("name", m.getName());			
+			o.put("description", m.getDesc());			
+			
+			JSONObject ret = new JSONObject();
+			ret.put("type", m.getReturnValue().getCanonicalName());
+			ret.put("description", m.getReturnDesc());
+			
+			JSONArray args = new JSONArray();
+			for(Argument a : m.getArgs()) {
+				JSONObject arg = new JSONObject();
+				arg.put("description", a.getDesc());
+				arg.put("type", a.getType().getCanonicalName());
+				
+				args.add(arg);
+			}
+			
+			o.put("arguments", args);
+			o.put("return", ret);
+			
+			return o;
 		} else if (obj instanceof Object[]) {
 			int l = ((Object[]) obj).length;
 			JSONArray a = new JSONArray();

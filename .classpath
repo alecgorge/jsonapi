@@ -29,7 +29,8 @@
 	<classpathentry kind="var" path="M2_REPO/org/sonatype/aether/aether-impl/1.11/aether-impl-1.11.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/ant/ant/1.8.2/ant-1.8.2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/ant/ant-launcher/1.8.2/ant-launcher-1.8.2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/net/milkbowl/vault/Vault/1.2.27/Vault-1.2.27.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/comphenix/protocol/ProtocolLib/3.1.0/ProtocolLib-3.1.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/milkbowl/vault/Vault/1.4.1/Vault-1.4.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/comphenix/protocol/ProtocolLib/3.4.0/ProtocolLib-3.4.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/net/ess3/Essentials/2.13.1/Essentials-2.13.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -6,5 +6,7 @@
 	"plugins"	: [
 		"wintersmith-stylus",
 		"wintersmith-coffee"
-	]
+	],
+
+	"locals"    : "locals.json"
 }
