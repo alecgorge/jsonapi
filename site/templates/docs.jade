@@ -1,0 +1,47 @@
+doctype html
+html
+  head
+    title JSONAPI API Docs
+    link(type='text/css', rel='stylesheet', name='stylesheet', href='bootstrap.min.css')
+    link(type='text/css', rel='stylesheet', name='stylesheet', href='styles.css')
+  body
+    .container
+      .jumbotron.subhead
+        h3
+          | ←
+          a(href='/') Back to the complete JSONAPI docs
+        br
+        h1 API Documentation for JSONAPI
+        p.lead
+          | This page documents all the methods that ship with JSONAPI. This includes the base method that work as long as JSONAPI is installed and enabled, along with the methods that require another plugin to be installed and enabled for them to work.
+        p.lead.well
+          em
+            | The methods that require another plugin to be installed simply do not work if that plugin is not installed and enabled.
+      
+      h2 Methods (#{methods.length})
+      ul
+        - each method in methods
+          li
+            a(href="##{encodeURIComponent(method.name)}", style="font-family:monospace") #{method.name}
+
+      div
+        - each method in methods
+          .method-wrapper(id="#{encodeURIComponent(method.name)}")
+            dl.dl-horizontal.method-info
+              dt Name
+              dd.method-info-name
+                code= method.name
+              dt Description
+              dd.method-info-desc= method.description
+              - if(method.arguments.length > 0)
+                dt Arguments
+                dd.method-info-args.clearfix
+                  dl.dl-horizontal.clearfix.method-info-args-ul
+                    - each arg in method.arguments
+                      dt= arg.type.replace("java.lang.", "")
+                      dd= arg.description
+              dt Returns
+              dd.method-info-return
+                strong= method.return.type.replace("java.lang.", "")
+                |  #{method.return.description}
+
