@@ -9,6 +9,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +97,19 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 			names.add(world.getName());
 		}
 		return names;
+	}
+	
+	public int onlinePlayerCount() {
+		Object o = Server.getOnlinePlayers();
+		
+		if(o instanceof Player[]) {
+			return ((Player[]) o).length;
+		}
+		else if(o instanceof Collection<?>) {
+			return ((Collection<?>) o).size();
+		}
+		
+		return 0;
 	}
 
 	public HashMap<Integer, ItemStack> removePlayerInventoryItem(String playerName, int itemID) {

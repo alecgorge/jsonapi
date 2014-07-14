@@ -745,7 +745,7 @@
 			"name": "getPlayerCount",
 			"desc": "Gets the amount of players currently on the server.",
 			"returns": ["int", "The number of players on the server."],
-			"call": "Server.getOnlinePlayers().length"
+			"call": "this.onlinePlayerCount()"
 		},
 		{
 			"name":"getDirectory",
