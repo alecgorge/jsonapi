@@ -587,7 +587,7 @@
                 "int",
                 "The number of players on the server"
             ],
-            "call": "Server.getOnlinePlayers().length",
+            "call": "this.onlinePlayerCount()",
             "name": "players.online.count"
         },
         {
