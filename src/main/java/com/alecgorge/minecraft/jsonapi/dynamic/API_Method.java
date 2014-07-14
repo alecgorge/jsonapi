@@ -14,4 +14,6 @@ public @interface API_Method {
 	String returnDescription() default "";
 	
 	String[] argumentDescriptions() default {};
+	
+	boolean isProvidedByV2API() default true;
 }

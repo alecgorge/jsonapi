@@ -7,8 +7,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -22,6 +24,7 @@ import org.json.simpleForBukkit.parser.JSONParser;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.api.APIMethodName;
 import com.alecgorge.minecraft.jsonapi.api.JSONAPICallHandler;
+import com.alecgorge.minecraft.jsonapi.dynamic.Method;
 
 public class Caller implements JSONAPIMethodProvider {
 	public HashMap<String, HashMap<String, Method>> methods = new HashMap<String, HashMap<String, Method>>();
@@ -101,7 +104,7 @@ public class Caller implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(namespace = "jsonapi", argumentDescriptions = { "The name of the method to test. Should be a FQN. Ex: dynmap.getHost or getPlayers" })
+	@API_Method(namespace = "jsonapi", argumentDescriptions = { "The name of the method to test. Should be a FQN. Ex: dynmap.getHost or getPlayers" }, isProvidedByV2API=false)
 	public boolean methodExists(String name) {
 		if(methods.get("").containsKey(name)) {
 			return true;
@@ -127,7 +130,7 @@ public class Caller implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(namespace = "jsonapi")
+	@API_Method(namespace = "jsonapi", isProvidedByV2API=false)
 	public HashMap<String, List<String>> getMethods() {
 		HashMap<String, List<String>> r = new HashMap<String, List<String>>();
 
@@ -136,6 +139,64 @@ public class Caller implements JSONAPIMethodProvider {
 		}
 
 		return r;
+	}
+	
+	@API_Method(
+			namespace = "",
+			name = "jsonapi.methods.all.for_namespace",
+			returnDescription = "Returns details about all the API methods currently available for a given namespace. You should use `jsonapi.methods` unless you want to work with custom methods or ones loaded in a specific namespace."
+	)
+	public List<Method> getMethodsForNamespace(String namespace) {
+		return new ArrayList<Method>(methods.get(namespace).values());
+	}
+	
+	@API_Method(
+			namespace = "",
+			name = "jsonapi.methods.all.namespaces",
+			returnDescription = "Returns a list of all the namespaces currently loaded on the server."
+	)
+	public List<String> getMethodNamespaces() {
+		return new ArrayList<String>(methods.keySet());
+	}
+	
+	@API_Method(
+			namespace = "",
+			name = "jsonapi.methods.all",
+			returnDescription = "Returns details about all API methods in all namespaces. You should use `jsonapi.methods` unless you want to work with custom methods or ones loaded in a specific namespace."
+	)
+	public Map<String, List<Method>> getAllMethodInfo() {
+		Map<String, List<Method>> m = new HashMap<String, List<Method>>();
+		
+		for (String key : methods.keySet()) {
+			m.put(key, getMethodsForNamespace(key));
+		}
+		
+		return m;
+	}
+
+	@API_Method(
+			namespace = "",
+			name = "jsonapi.methods",
+			returnDescription = "Returns details about API methods provided by default with JSONAPI."
+	)
+	public List<Method> getAllV2APIMethods() {
+		List<Method> m = new ArrayList<Method>();
+		for (String key : methods.keySet()) {
+			for (Method meth : methods.get(key).values()) {
+				if (meth.isProvidedByV2API()) {
+					m.add(meth);
+				}
+			}
+		}
+		
+		Collections.sort(m, new Comparator<Method>() {
+			@Override
+			public int compare(Method o1, Method o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+
+		return m;
 	}
 	
 	public List<String> getAllMethods() {
@@ -150,17 +211,17 @@ public class Caller implements JSONAPIMethodProvider {
 		return r;
 	}
 
-	public void loadFile(File methodsFile) {
+	public void loadFile(File methodsFile, boolean jsonapi4) {
 		try {
-			magicWithMethods(p.parse(new FileReader(methodsFile)));
+			magicWithMethods(p.parse(new FileReader(methodsFile)), jsonapi4);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void loadInputStream(InputStream methodsFile) {
+	public void loadInputStream(InputStream methodsFile, boolean jsonapi4) {
 		try {
-			magicWithMethods(p.parse(new InputStreamReader(methodsFile)));
+			magicWithMethods(p.parse(new InputStreamReader(methodsFile)), jsonapi4);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -178,7 +239,7 @@ public class Caller implements JSONAPIMethodProvider {
 		handlers.remove(handler);
 	}
 
-	private void magicWithMethods(Object raw) throws Exception {
+	private void magicWithMethods(Object raw, boolean jsonapi4) throws Exception {
 		if (raw instanceof JSONObject) {
 			JSONObject methods = (JSONObject) raw;
 			String name = "";
@@ -209,7 +270,7 @@ public class Caller implements JSONAPIMethodProvider {
 						outLog.info("[JSONAPI] " + name + " cannot be loaded because it depends on a plugin that is not installed: '" + plugin + "'");
 					} else if (plugin.equals("JSONAPI") || p.isEnabled()) {
 						if (methods.containsKey("methods")) {
-							proccessMethodsWithNamespace((JSONArray) methods.get("methods"), methods.containsKey("namespace") ? methods.get("namespace").toString() : "");
+							proccessMethodsWithNamespace((JSONArray) methods.get("methods"), methods.containsKey("namespace") ? methods.get("namespace").toString() : "", jsonapi4);
 						} else {
 							throw new Exception("A JSON file is not well formed: missing the key 'methods' for the root object.");
 						}
@@ -219,13 +280,13 @@ public class Caller implements JSONAPIMethodProvider {
 				}
 			}
 		} else if (raw instanceof JSONArray) {
-			proccessMethodsWithNamespace((JSONArray) raw, "");
+			proccessMethodsWithNamespace((JSONArray) raw, "", jsonapi4);
 		} else {
 			throw new Exception("JSON file is not a valid methods file.");
 		}
 	}
 
-	public void proccessMethodsWithNamespace(JSONArray methods, String namespace) {
+	public void proccessMethodsWithNamespace(JSONArray methods, String namespace, boolean jsonapi4) {
 		for (Object o : methods) {
 			if (o instanceof JSONObject) {
 				String name = ((JSONObject) o).get("name").toString();
@@ -239,14 +300,14 @@ public class Caller implements JSONAPIMethodProvider {
 				}
 
 				methodCount++;
-				this.methods.get(namespace).put(name, new Method((JSONObject) o));
+				this.methods.get(namespace).put(name, new Method((JSONObject) o, jsonapi4));
 			}
 		}
 	}
 
-	public void loadString(String methodsString) {
+	public void loadString(String methodsString, boolean jsonapi4) {
 		try {
-			magicWithMethods(p.parse(methodsString));
+			magicWithMethods(p.parse(methodsString), jsonapi4);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

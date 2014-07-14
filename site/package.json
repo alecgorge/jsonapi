@@ -5,7 +5,8 @@
   "main": "generate.coffee",
   "scripts": {
     "build": "node_modules/.bin/coffee generate.coffee build",
-    "preview": "node_modules/.bin/coffee generate.coffee preview"
+    "preview": "node_modules/.bin/coffee generate.coffee preview",
+    "build-locals": "node_modules/.bin/coffee generate.coffee build_locals"
   },
   "author": "Alec Gorge",
   "license": "MIT",
@@ -14,6 +15,6 @@
     "wintersmith-stylus": "~0.4.0",
     "wintersmith": "~2.0.10",
     "coffee-script": "~1.7.1",
-    "procstreams": "~0.3.0"
+    "request": "~2.37.0"
   }
 }

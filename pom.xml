@@ -50,6 +50,10 @@
 			<name>Comphenix Repository</name>
 			<url>http://repo.comphenix.net/content/groups/public</url>
 		</repository>
+		<repository>
+			<id>ess-repo</id>
+			<url>http://repo.ess3.net/content/groups/essentials</url>
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -275,12 +279,17 @@
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
 			<artifactId>ProtocolLib</artifactId>
-			<version>3.3.1</version>
+			<version>3.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
 			<version>4.0.15.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>net.ess3</groupId>
+			<artifactId>Essentials</artifactId>
+			<version>2.13.1</version>
 		</dependency>
 	</dependencies>	
 </project>

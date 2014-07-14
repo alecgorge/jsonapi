@@ -163,18 +163,18 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	}
 
 	public void registerMethod(String method) {
-		getJSONServer().getCaller().loadString("[" + method + "]");
+		getJSONServer().getCaller().loadString("[" + method + "]", false);
 	}
 
 	public void registerMethods(String method) {
-		getJSONServer().getCaller().loadString(method);
+		getJSONServer().getCaller().loadString(method, false);
 	}
 
 	public synchronized Caller getCaller() {
 		return getJSONServer().getCaller();
 	}
 
-	@API_Method(namespace = "jsonapi")
+	@API_Method(namespace = "jsonapi", isProvidedByV2API=false)
 	public List<String> getStreamSources() {
 		return new ArrayList<String>(getStreamManager().getStreams().keySet());
 	}

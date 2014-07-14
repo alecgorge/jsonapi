@@ -22,6 +22,7 @@ import org.json.simpleForBukkit.parser.ParseException;
 
 import com.alecgorge.java.http.MutableHttpRequest;
 import com.alecgorge.minecraft.jsonapi.api.v2.APIv2Handler;
+import com.alecgorge.minecraft.jsonapi.api.v2.EssentialsAPIMethods;
 import com.alecgorge.minecraft.jsonapi.config.UsersConfig;
 import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
@@ -55,7 +56,7 @@ public class JSONServer extends NanoHTTPD {
 		inst = plugin;
 
 		caller = new Caller(inst);
-		caller.loadFile(new File(inst.getDataFolder() + File.separator + "methods.json"));
+		caller.loadFile(new File(inst.getDataFolder() + File.separator + "methods.json"), false);
 		
 		outLog.info("[JSONAPI] Loaded methods.json.");
 
@@ -85,7 +86,7 @@ public class JSONServer extends NanoHTTPD {
 
 				if (files != null && files.length > 0) {
 					for (File f : files) {
-						caller.loadFile(f);
+						caller.loadFile(f, false);
 					}
 				}
 				
@@ -94,10 +95,11 @@ public class JSONServer extends NanoHTTPD {
 													   "streams.json", "system.json", "worlds.json", "jsonapi.json" };
 				
 				for(String m : methodsFiles) {
-					caller.loadInputStream(inst.getResource("jsonapi4/methods/" + m));
+					caller.loadInputStream(inst.getResource("jsonapi4/methods/" + m), true);
 				}
 				
 				caller.registerMethods(APIWrapperMethods.getInstance());
+				new EssentialsAPIMethods(inst);
 				
 				outLog.info("[JSONAPI] " + caller.methodCount + " methods loaded in " + caller.methods.size() + " namespaces.");
 				

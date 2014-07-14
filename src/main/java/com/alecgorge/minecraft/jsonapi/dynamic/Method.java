@@ -12,11 +12,14 @@ public class Method {
 	private String returnDesc = "Method return desc";
 	private ArgumentList args = new ArgumentList();
 	private ArrayList<String> flags = new ArrayList<String>();
+	private boolean jsonapi4 = false;
 	public Call call;
 	
-	public Method (JSONObject o) {
+	public Method (JSONObject o, boolean jsonapi4) {
 		setName((String)o.get("name"));
 		setDesc((String)o.get("desc"));
+		
+		this.jsonapi4 = jsonapi4;
 		
 		if(o.get("returns") != null && o.get("returns") instanceof JSONArray) {
 			Class<?> c = Argument.getClassFromName((String)((JSONArray)o.get("returns")).get(0));
@@ -54,6 +57,8 @@ public class Method {
 		else {
 			setName(a.name());
 		}
+		
+		jsonapi4 = a.isProvidedByV2API();
 		
 		setDesc(a.description());
 		
@@ -108,6 +113,14 @@ public class Method {
 
 	public Call getCall() {
 		return call;
+	}
+	
+	public ArgumentList getArgs() {
+		return args;
+	}
+	
+	public boolean isProvidedByV2API() {
+		return jsonapi4;
 	}
 }
 
