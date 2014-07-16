@@ -61,7 +61,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Building 1.7.10-R0.1-SNAPSHOT"
-mvn clean install $@ -DmcPackage=v1_7_R4 -DcbVersion=1.7.10-R0.1-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes -Dmc179OrNewer=no
+mvn clean install $@ -DmcPackage=v1_7_R4 -DcbVersion=1.7.10-R0.1-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes -Dmc179OrNewer=yes
 
 rc=$?
 if [[ $rc != 0 ]] ; then

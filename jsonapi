@@ -42,9 +42,11 @@ versions['1.7']   = versions['1.7.10']
 
 available_versions = Object.keys(versions)
 build_cmd = (ver, cmd = "clean install") ->
-	mc16OrNewer = if parseFloat(ver.cb_version.substr(0, 3)) >= 1.6 then "yes" else "no"
-	mc17OrNewer = if parseFloat(ver.cb_version.substr(0, 3)) >= 1.7 then "yes" else "no"
-	mc179OrNewer = if parseFloat(ver.cb_version.substr(2, 3)) >= 7.9 then "yes" else "no"
+	v = ver.cb_version.split('-')[0].split('.').map (v) -> parseInt v
+
+	mc16OrNewer  = if v[0] >= 1 and v[1] >= 6 then "yes" else "no"
+	mc17OrNewer  = if v[0] >= 1 and v[1] >= 7 then "yes" else "no"
+	mc179OrNewer = if v[0] >= 1 and v[1] >= 7 and v[2] >= 9 then "yes" else "no"
 	return "mvn #{cmd} $@ -DmcPackage=#{ver.package} -DcbVersion=#{ver.cb_version} -Dmc16OrNewer=#{mc16OrNewer} -Dmc17OrNewer=#{mc17OrNewer} -Dmc179OrNewer=#{mc179OrNewer}"
 eclipse_cmd = (ver) ->
 	return build_cmd ver, "eclipse:eclipse"
