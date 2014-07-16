@@ -16,13 +16,13 @@ function gen_key($name) {
 }
 
 
-$methodName = "jsonapi.methods";
+$methodName = "players.name";
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => [], //['text', 'alecgorgd'],
+		'arguments' => ['alecgorge'], //['text', 'alecgorgd'],
 		'tag' => '1'
 	),
 	// array(

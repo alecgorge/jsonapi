@@ -3,5 +3,5 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
-mvn clean install $@ -DmcPackage=v1_7_R4 -DcbVersion=1.7.10-R0.1-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes -Dmc179OrNewer=no && cd test/ && java -Xmx256M -jar craftbukkit-1.7.10-R0.1-SNAPSHOT.jar
+mvn clean install $@ -DmcPackage=v1_7_R4 -DcbVersion=1.7.10-R0.1-SNAPSHOT -Dmc16OrNewer=yes -Dmc17OrNewer=yes -Dmc179OrNewer=yes && cd test/ && java -Xmx256M -jar craftbukkit-1.7.10-R0.1-SNAPSHOT.jar
 cd $DIR
