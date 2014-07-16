@@ -43,13 +43,14 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		return x.saveToString();
 	}
 
-	@API_Method(name = "essentials.config.get_value", argumentDescriptions = { "String path - path to the key" }, returnDescription = "Returns Object, path as key.key.key...")
+	@API_Method(name = "essentials.config.get_value", argumentDescriptions = { "Path to the key" }, returnDescription = "path as key.key.key...")
 	public Object get_configuration_value(String path) {
 		FileConfiguration x = ess.getConfig();
 		return x.get(path);
 	}
 
-	@API_Method(name = "essentials.config.set_value", argumentDescriptions = { "String path - path to config key, Object value - the value to set, Boolean should_reload - should the plugin be reloaded after changing the value" }, returnDescription = "Returns Object, path as key.key.key...")
+
+	@API_Method(name = "essentials.config.set_value", argumentDescriptions = { "Path to config key", "The value to set", "Should the plugin be reloaded after changing the value" }, returnDescription = "path as key.key.key...")
 	public boolean set_configuration_value(String path, Object value, boolean should_reload) throws IOException {
 		FileConfiguration x = ess.getConfig();
 		x.set(path, value);
@@ -61,7 +62,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		return true;
 	}
 
-	@API_Method(name = "essentials.config.restore_default", description = "Resets the configuration file to it's default", argumentDescriptions = { "Boolean should_reload - should the plugin be reloaded after the operation" }, returnDescription = "Boolean if success")
+
+	@API_Method(name = "essentials.config.restore_default", description = "Resets the configuration file to it's default", argumentDescriptions = { "Should the plugin be reloaded after the operation" }, returnDescription = "true on success")
 	public boolean restore_default(boolean should_reload) {
 		Configuration conf = ess.getConfig().getDefaults();
 		ess.getConfig().setDefaults(conf);
@@ -71,7 +73,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		return true;
 	}
 
-	@API_Method(name = "essentials.users.get_uuid", description = "Returns the UUID of a player(has to be online)", argumentDescriptions = { "String name - user name" }, returnDescription = "returns Object")
+
+	@API_Method(name = "essentials.users.get_uuid", description = "Returns the UUID of a player(has to be online)", argumentDescriptions = { "Username" }, returnDescription = "on success")
 	public Object get_uuid(String name) throws APIException {
 		if (ess.getUser(name).isOnline()) {
 			Object x = ess.getUser(name).getUniqueId();
@@ -82,13 +85,15 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.add_mail", description = "Adds a mail to users' mailbox", argumentDescriptions = { "String name - user name, String message - message" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.add_mail", description = "Adds a mail to users' mailbox", argumentDescriptions = { "Username", "Contents of the message" }, returnDescription = "true on success")
 	public boolean send_mail(String name, String message) {
 		ess.getUser(name).addMail(message);
 		return true;
 	}
 
-	@API_Method(name = "essentials.users.add_mail_all", description = "Adds a mail to all users", argumentDescriptions = { "String message - message" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.add_mail_all", description = "Adds a mail to all users", argumentDescriptions = { "Contents of the message" }, returnDescription = "true on success")
 	public boolean send_mail_all(String message) {
 		for (String username : ess.getUserMap().getAllUniqueUsers()) {
 			User user = ess.getUserMap().getUser(username);
@@ -99,7 +104,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		return true;
 	}
 
-	@API_Method(name = "essentials.users.set_afk", description = "Change status of AFK of user", argumentDescriptions = { "Boolean - status to set" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.set_afk", description = "Change status of AFK of user", argumentDescriptions = { "Status to set (true - AFK)" }, returnDescription = "true on success")
 	public boolean set_afk(String name, Boolean status) throws APIException {
 		if (ess.getUser(name).isOnline()) {
 			ess.getUser(name).setAfk(status);
@@ -110,12 +116,14 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.get_base", description = "Change status of AFK of user", argumentDescriptions = { "Boolean - status to set" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.get_base", description = "Change status of AFK of user", argumentDescriptions = { "Status to set" }, returnDescription = "true on success")
 	public Object get_base(String name) throws APIException {
 		return ess.getUser(name).getBase().getPlayer();
 	}
 
-	@API_Method(name = "essentials.users.tp_back", description = "Teleport player to last location", argumentDescriptions = { "String name - user name" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.tp_back", description = "Teleport player to last location", argumentDescriptions = { "Username" }, returnDescription = "true on success")
 	public boolean tp_back(String name) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -137,7 +145,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.clear_inventory", description = "Clear inventory and armor of player", argumentDescriptions = { "String name - user name, Boolean - clear armor?" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.clear_inventory", description = "Clear inventory and armor of player", argumentDescriptions = { "Username", "Clear armor?" }, returnDescription = "true on success")
 	public boolean clear_inventory(String name, Boolean armor) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -152,7 +161,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.burn", description = "Set the player on fire.", argumentDescriptions = { "String name - user name, Integer - time" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.burn", description = "Set the player on fire.", argumentDescriptions = { "Username", "Time" }, returnDescription = "true on success")
 	public boolean burn(String name, Integer time) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -164,7 +174,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.fly", description = "Change fly mode of player.", argumentDescriptions = { "String name - user name, Boolean - mode" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.fly", description = "Change fly mode of player.", argumentDescriptions = { "Username", "Mode (true - flying)" }, returnDescription = "true on success")
 	public boolean fly(String name, Boolean mode) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -176,7 +187,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.get_pos", description = "Return location of player", argumentDescriptions = { "String name - user name" }, returnDescription = "Location of player on success")
+
+	@API_Method(name = "essentials.users.get_pos", description = "Return location of player", argumentDescriptions = { "Username" }, returnDescription = "Location of player on success")
 	public Object get_pos(String name) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -187,7 +199,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.toggle_god", description = "Change god mode of player", argumentDescriptions = { "String name - user name, Boolean mode" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.toggle_god", description = "Change god mode of player", argumentDescriptions = { "Username", "Mode" }, returnDescription = "true on success")
 	public Boolean toggle_god(String name, Boolean mode) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -199,7 +212,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.heal", description = "Heal the player", argumentDescriptions = { "String name - user name" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.heal", description = "Heal the player", argumentDescriptions = { "Username" }, returnDescription = "true on success")
 	public Boolean heal(String name) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -213,7 +227,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.set_nick", description = "Change the nickanme of player", argumentDescriptions = { "String name - user name, String nickname" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.set_nick", description = "Change the nickanme of player", argumentDescriptions = { "Username", "Nickname to set" }, returnDescription = "true on success")
 	public Boolean set_nick(String name, String nickname) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -231,7 +246,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.clear_nick", description = "Clear the nickanme of player", argumentDescriptions = { "String name - user name" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.clear_nick", description = "Clear the nickanme of player", argumentDescriptions = { "Username" }, returnDescription = "true on success")
 	public Boolean clear_nick(String name) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -244,7 +260,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.clear_all_powertools", description = "Clear all powertools of player", argumentDescriptions = { "String name - user name" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.clear_all_powertools", description = "Clear all powertools of player", argumentDescriptions = { "Username" }, returnDescription = "true on success")
 	public Boolean clear_all_powertools(String name) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -256,7 +273,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.seen", description = "Return the last logout time of player.", argumentDescriptions = { "String name - user name" }, returnDescription = "Timestamp if offline, -1 if online")
+
+	@API_Method(name = "essentials.users.seen", description = "Return the last logout time of player.", argumentDescriptions = { "Username" }, returnDescription = "Timestamp if offline, -1 if online")
 	public Object seen(String name) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -267,7 +285,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.vanish", description = "Change visible of player", argumentDescriptions = { "String name - user name, Boolean mode" }, returnDescription = "Boolean true on success")
+
+	@API_Method(name = "essentials.users.vanish", description = "Change visible of player", argumentDescriptions = { "Username", "Mode to set" }, returnDescription = "true on success")
 	public Boolean vanish(String name, Boolean mode) throws APIException {
 		User user = ess.getUser(name);
 		if (user.isOnline()) {
@@ -279,7 +298,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 		}
 	}
 
-	@API_Method(name = "essentials.users.player_get_all", description = "Return all informations about player", argumentDescriptions = { "String name - user login" }, returnDescription = "HashMap on success")
+
+	@API_Method(name = "essentials.users.player_get_all", description = "Return all informations about player", argumentDescriptions = { "Username" }, returnDescription = "on success")
 	public HashMap<String, Object> player_get_all(String name) throws APIException {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		User user1 = ess.getUser(name);
