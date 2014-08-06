@@ -118,6 +118,11 @@ public class JSONServer extends NanoHTTPD {
 		outLog.info("[JSONAPI] JSON Server listening on " + inst.port);
 		outLog.info("[JSONAPI] JSON Stream Server listening on " + (inst.port + 1));
 		outLog.info("[JSONAPI] JSON WebSocket Stream Server listening on " + (inst.port + 2));
+		
+		if(inst.sslJsonWebSocketServer != null){
+			outLog.info("[JSONAPI] JSON WebSocket Secure Stream Server listening on " + (inst.port + 3));			
+		}
+		
 		outLog.info("[JSONAPI] Active and listening for requests.");
 
 		try {

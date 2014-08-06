@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -20,6 +21,10 @@ import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,6 +44,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.java_websocket.server.DefaultSSLWebSocketServerFactory;
 
 import com.alecgorge.minecraft.jsonapi.McRKit.api.RTKInterface;
 import com.alecgorge.minecraft.jsonapi.adminium.Adminium3;
@@ -52,6 +58,9 @@ import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
 import com.alecgorge.minecraft.jsonapi.packets.netty.JSONAPINettyInjector;
+//#if mc17OrNewer=="yes"
+import com.alecgorge.minecraft.jsonapi.packets.netty.router.RouteMatcher;
+//#endif
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.PerformanceStreamDataProvider;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
@@ -60,10 +69,6 @@ import com.alecgorge.minecraft.jsonapi.streams.console.ConsoleLogFormatter;
 import com.alecgorge.minecraft.jsonapi.streams.console.Log4j2ConsoleHandler;
 import com.alecgorge.minecraft.jsonapi.util.OfflinePlayerLoader;
 import com.alecgorge.minecraft.jsonapi.util.TickRateCounter;
-
-//#if mc17OrNewer=="yes"
-import com.alecgorge.minecraft.jsonapi.packets.netty.router.RouteMatcher;
-//#endif
 
 /**
  * 
@@ -75,6 +80,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public JSONServer jsonServer;
 	public JSONSocketServer jsonSocketServer;
 	public JSONWebSocketServer jsonWebSocketServer;
+	public JSONWebSocketServer sslJsonWebSocketServer;
 	public JSONAPIMessageListener jsonMessageListener = new JSONAPIMessageListener(this);
 
 	private StreamManager streamManager = new StreamManager();
@@ -559,6 +565,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			jsonWebSocketServer = new JSONWebSocketServer(port + 2, jsonServer);
 			jsonWebSocketServer.start();
 			
+			setupSSLWebsockets();
+			
 			// new PortMapper(this); // map dem ports
 
 			registerStreamManager("chat", getJSONServer().chat);
@@ -808,6 +816,39 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		return router;
 	}
 	//#endif
+	
+	void setupSSLWebsockets() {
+		// load up the key store
+		String STORETYPE = "JKS";
+		String KEYSTORE = "ssl.jks";
+		String STOREPASSWORD = "jsonapi_store";
+		String KEYPASSWORD = "jsonapi_key";
+
+		File kf = new File(getDataFolder(), KEYSTORE );
+
+		if (kf.exists()) {
+			try {
+				KeyStore ks = KeyStore.getInstance(STORETYPE);
+				ks.load(new FileInputStream(kf), STOREPASSWORD.toCharArray());
+	
+				KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+				kmf.init(ks, KEYPASSWORD.toCharArray());
+				TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+				tmf.init(ks);
+	
+				SSLContext sslContext = null;
+				sslContext = SSLContext.getInstance("TLS");
+				sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+	
+				sslJsonWebSocketServer = new JSONWebSocketServer(port + 3, jsonServer);
+				sslJsonWebSocketServer.setWebSocketFactory(new DefaultSSLWebSocketServerFactory(sslContext));
+				sslJsonWebSocketServer.start();
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	@Override
 	public void onDisable() {
