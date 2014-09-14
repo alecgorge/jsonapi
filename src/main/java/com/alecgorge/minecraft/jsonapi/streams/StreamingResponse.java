@@ -78,7 +78,7 @@ public class StreamingResponse extends InputStream implements JSONAPIStreamListe
 	}
 		
 	public void onMessage(JSONAPIStreamMessage message, JSONAPIStream sender) {
-		JSONAPI.dbug("recieveing message for " + String.valueOf(sender.getName()));
+		JSONAPI.dbug("recieveing message for " + (sender == null ? null : String.valueOf(sender.getName())));
 		try {
 			queue.put(message);
 		} catch (InterruptedException e) {
