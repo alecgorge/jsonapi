@@ -2,8 +2,8 @@ package com.alecgorge.minecraft.jsonapi.packets.netty.router;
 
 //#if mc17OrNewer!="yes"
 //#else
-import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.FullHttpRequest;
 
 public class RoutedHttpRequest {
 	ChannelHandlerContext	ctx;

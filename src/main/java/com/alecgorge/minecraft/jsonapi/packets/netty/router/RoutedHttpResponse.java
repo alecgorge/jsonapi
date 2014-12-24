@@ -2,8 +2,8 @@ package com.alecgorge.minecraft.jsonapi.packets.netty.router;
 
 //#if mc17OrNewer!="yes"
 //#else
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpRequest;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.FullHttpResponse;
 
 public class RoutedHttpResponse {
 	FullHttpResponse	res;

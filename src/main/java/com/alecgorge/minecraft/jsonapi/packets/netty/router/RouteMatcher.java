@@ -18,9 +18,9 @@ package com.alecgorge.minecraft.jsonapi.packets.netty.router;
  * You may elect to redistribute this code under either of these licenses.
  */
 
-import static net.minecraft.util.io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
-import static net.minecraft.util.io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
-import static net.minecraft.util.io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+import static io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
+import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
+import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,17 +31,17 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.minecraft.util.io.netty.channel.ChannelFuture;
-import net.minecraft.util.io.netty.channel.ChannelFutureListener;
-import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
-import net.minecraft.util.io.netty.channel.SimpleChannelInboundHandler;
-import net.minecraft.util.io.netty.handler.codec.http.DefaultFullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpRequest;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.HttpMethod;
-import net.minecraft.util.io.netty.handler.codec.http.HttpResponseStatus;
-import net.minecraft.util.io.netty.handler.codec.http.HttpVersion;
-import net.minecraft.util.io.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.QueryStringDecoder;
 
 import com.google.code.regexp.NamedMatcher;
 import com.google.code.regexp.NamedPattern;

@@ -2,31 +2,31 @@
 //#else
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
-import static net.minecraft.util.io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
-import static net.minecraft.util.io.netty.handler.codec.http.HttpHeaders.Names.HOST;
-import static net.minecraft.util.io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
-import static net.minecraft.util.io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+import static io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
+import static io.netty.handler.codec.http.HttpHeaders.Names.HOST;
+import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
+import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 import java.io.IOException;
 
-import net.minecraft.util.io.netty.channel.ChannelFuture;
-import net.minecraft.util.io.netty.channel.ChannelFutureListener;
-import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
-import net.minecraft.util.io.netty.channel.SimpleChannelInboundHandler;
-import net.minecraft.util.io.netty.handler.codec.http.DefaultFullHttpRequest;
-import net.minecraft.util.io.netty.handler.codec.http.DefaultFullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpRequest;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.HttpMethod;
-import net.minecraft.util.io.netty.handler.codec.http.QueryStringDecoder;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.WebSocketFrame;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
-import net.minecraft.util.io.netty.util.CharsetUtil;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.DefaultFullHttpRequest;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
+import io.netty.util.CharsetUtil;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;

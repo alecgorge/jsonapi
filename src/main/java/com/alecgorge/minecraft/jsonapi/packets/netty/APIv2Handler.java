@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.minecraft.util.io.netty.buffer.ByteBuf;
-import net.minecraft.util.io.netty.buffer.Unpooled;
-import net.minecraft.util.io.netty.handler.codec.http.DefaultFullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpRequest;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.HttpResponseStatus;
-import net.minecraft.util.io.netty.handler.codec.http.HttpVersion;
-import net.minecraft.util.io.netty.handler.codec.http.QueryStringDecoder;
-import net.minecraft.util.io.netty.util.CharsetUtil;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.util.CharsetUtil;
 
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;

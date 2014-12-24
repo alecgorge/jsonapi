@@ -34,6 +34,7 @@ versions['1.7.2'] = package: 'v1_7_R1', cb_version: '1.7.2-R0.3'
 versions['1.7.5'] = package: 'v1_7_R2', cb_version: '1.7.5-R0.1-SNAPSHOT'
 versions['1.7.9'] = package: 'v1_7_R3', cb_version: '1.7.9-R0.2'
 versions['1.7.10'] = package: 'v1_7_R4', cb_version: '1.7.10-R0.1-SNAPSHOT'
+versions['1.8'] = package: 'v1_8_R1', cb_version: '1.8-R0.1-SNAPSHOT'
 
 versions['1.4']   = versions['1.4.7']
 versions['1.5']   = versions['1.5.2']
@@ -46,7 +47,7 @@ build_cmd = (ver, cmd = "clean install") ->
 
 	mc16OrNewer  = if v[0] >= 1 and v[1] >= 6 then "yes" else "no"
 	mc17OrNewer  = if v[0] >= 1 and v[1] >= 7 then "yes" else "no"
-	mc179OrNewer = if v[0] >= 1 and v[1] >= 7 and v[2] >= 9 then "yes" else "no"
+	mc179OrNewer = if v[0] >= 1 and v[1] >= 7 and (v.length == 2 or v[2] >= 9) then "yes" else "no"
 	return "mvn #{cmd} $@ -DmcPackage=#{ver.package} -DcbVersion=#{ver.cb_version} -Dmc16OrNewer=#{mc16OrNewer} -Dmc17OrNewer=#{mc17OrNewer} -Dmc179OrNewer=#{mc179OrNewer}"
 eclipse_cmd = (ver) ->
 	return build_cmd ver, "eclipse:eclipse"

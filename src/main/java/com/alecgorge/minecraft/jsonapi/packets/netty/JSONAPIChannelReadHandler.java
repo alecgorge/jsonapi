@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.minecraft.util.io.netty.buffer.ByteBuf;
-import net.minecraft.util.io.netty.buffer.ByteBufInputStream;
-import net.minecraft.util.io.netty.buffer.ByteBufOutputStream;
-import net.minecraft.util.io.netty.channel.Channel;
-import net.minecraft.util.io.netty.channel.ChannelHandler;
-import net.minecraft.util.io.netty.channel.ChannelHandler.Sharable;
-import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
-import net.minecraft.util.io.netty.channel.ChannelInboundHandlerAdapter;
-import net.minecraft.util.io.netty.channel.nio.NioEventLoopGroup;
-import net.minecraft.util.io.netty.handler.codec.MessageToByteEncoder;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandler.Sharable;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.handler.codec.MessageToByteEncoder;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.JSONServer;

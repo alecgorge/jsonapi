@@ -1,7 +1,7 @@
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
 //#if mc17OrNewer=="yes"
-import net.minecraft.util.io.netty.channel.Channel;
+import io.netty.channel.Channel;
 
 import com.alecgorge.minecraft.jsonapi.packets.netty.router.JSONAPIDefaultRoutes;
 //#endif

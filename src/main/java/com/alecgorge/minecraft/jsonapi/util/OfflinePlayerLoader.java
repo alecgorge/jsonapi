@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 //$import net.minecraft.server./*$mcversion$*/.*;
 //$import org.bukkit.craftbukkit./*$mcversion$*/.*;
 //#if mc17OrNewer=="yes"
-import net.minecraft.util.com.mojang.authlib.GameProfile;
+import com.mojang.authlib.GameProfile;
 //#endif
 //#else
 import net.minecraft.server.v1_7_R1.*;
