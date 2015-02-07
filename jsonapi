@@ -83,6 +83,10 @@ if command is "build"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
+
+echo "Removing old builds"
+rm -rf builds/*
+
 """
 		console.log build(to_build).join("\n")
 	else
