@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 
+import org.bukkit.BanList;
+import org.bukkit.BanList.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
@@ -49,6 +51,7 @@ import com.alecgorge.minecraft.jsonapi.api.JSONAPIStreamMessage;
 import com.alecgorge.minecraft.jsonapi.chat.BukkitForgeRealisticChat;
 import com.alecgorge.minecraft.jsonapi.chat.BukkitRealisticChat;
 import com.alecgorge.minecraft.jsonapi.chat.IRealisticChat;
+import com.alecgorge.minecraft.jsonapi.util.OfflinePlayerLoader;
 import com.alecgorge.minecraft.jsonapi.util.PropertiesFile;
 import com.alecgorge.minecraft.jsonapi.util.RecursiveDirLister;
 import com.alecgorge.minecraft.permissions.PermissionWrapper;
@@ -138,11 +141,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	
 	public boolean setPlayerHealth(String playerName, int health) {
 		Player p = getPlayerExact(playerName);
-//#if mc16OrNewer=="yes"
 		p.setHealth((double)health);
-//#else
-//$		p.setHealth((int)health);
-//#endif
 		p.saveData();
 		return true;
 	}
@@ -534,7 +533,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public boolean banWithReason(String name, String reason) {
 		try {
-			Bukkit.getOfflinePlayer(name).setBanned(true);
+			getServer().getBanList(Type.NAME).addBan(name, reason, null, "JSONAPI API call");
 			Bukkit.getPlayerExact(name).kickPlayer(reason);
 			return true;
 		} catch (Exception e) {
@@ -1117,7 +1116,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public boolean unban(String playerName) {
 		try {
-			Bukkit.getOfflinePlayer(playerName).setBanned(false);
+			getServer().getBanList(Type.NAME).pardon(playerName);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1126,7 +1125,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public boolean whitelist(String playerName) {
 		try {
-			Bukkit.getOfflinePlayer(playerName).setWhitelisted(true);
+			Bukkit.getOfflinePlayer(OfflinePlayerLoader.matchUser(playerName)).setWhitelisted(true);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1135,7 +1134,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public boolean unwhitelist(String playerName) {
 		try {
-			Bukkit.getOfflinePlayer(playerName).setWhitelisted(false);
+			Bukkit.getOfflinePlayer(OfflinePlayerLoader.matchUser(playerName)).setWhitelisted(false);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1144,7 +1143,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public boolean op(String playerName) {
 		try {
-			OfflinePlayer p = Bukkit.getOfflinePlayer(playerName);
+			OfflinePlayer p = Bukkit.getOfflinePlayer(OfflinePlayerLoader.matchUser(playerName));
 
 			if (p.isOnline()) {
 				p.getPlayer().sendMessage("You are now OP");
@@ -1159,7 +1158,7 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 
 	public boolean deop(String playerName) {
 		try {
-			OfflinePlayer p = Bukkit.getOfflinePlayer(playerName);
+			OfflinePlayer p = Bukkit.getOfflinePlayer(OfflinePlayerLoader.matchUser(playerName));
 
 			if (p.isOnline()) {
 				p.getPlayer().sendMessage("You are no longer OP");

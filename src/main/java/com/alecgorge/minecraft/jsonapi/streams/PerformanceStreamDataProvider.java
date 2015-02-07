@@ -20,7 +20,7 @@ public class PerformanceStreamDataProvider implements Runnable {
 		double diskUsage = APIWrapperMethods.getInstance().getDiskUsage();
 		double memoryMax = APIWrapperMethods.getInstance().getJavaMaxMemory();
 		double memoryUsage = APIWrapperMethods.getInstance().getJavaMemoryUsage();
-		int players = JSONAPI.instance.getServer().getOnlinePlayers().length;
+		int players = JSONAPI.instance.getServer().getOnlinePlayers().size();
 		JSONAPI.instance.getJSONServer().performance.addMessage(new PerformanceMessage(t, diskMax, diskUsage, memoryMax, memoryUsage, players));
 	}
 

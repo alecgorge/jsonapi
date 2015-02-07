@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Generated with the command ./jsonapi eclipse 1.8
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+mvn eclipse:eclipse $@ -DmcPackage=v1_8_R1 -DspigotVersion=1.8-R0.1-SNAPSHOT

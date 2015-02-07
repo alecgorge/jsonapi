@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
@@ -168,15 +169,16 @@ public class JSONServer extends NanoHTTPD {
 		return inst;
 	}
 
-	public void logChat(String player, String message) {
+	public void logChat(AsyncPlayerChatEvent e) {
 		if(inst.isEnabled()) {
-			chat.addMessage(new ChatMessage(player, message));
+			chat.addMessage(new ChatMessage(e));
+			formattedChat.addMessage(new FormattedChatMessage(e));
 		}
 	}
 
-	public void logFormattedChat(String player, String line) {
+	public void logChat(String player, String message) {
 		if(inst.isEnabled()) {
-			formattedChat.addMessage(new FormattedChatMessage(player, line));
+			chat.addMessage(new ChatMessage(player, message));
 		}
 	}
 

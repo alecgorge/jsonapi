@@ -1,32 +1,28 @@
-//#if mc17OrNewer!="yes"
-//#else
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
-import static net.minecraft.util.io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
-import static net.minecraft.util.io.netty.handler.codec.http.HttpHeaders.Names.HOST;
-import static net.minecraft.util.io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
-import static net.minecraft.util.io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.DefaultFullHttpRequest;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
+import io.netty.util.CharsetUtil;
 
 import java.io.IOException;
-
-import net.minecraft.util.io.netty.channel.ChannelFuture;
-import net.minecraft.util.io.netty.channel.ChannelFutureListener;
-import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
-import net.minecraft.util.io.netty.channel.SimpleChannelInboundHandler;
-import net.minecraft.util.io.netty.handler.codec.http.DefaultFullHttpRequest;
-import net.minecraft.util.io.netty.handler.codec.http.DefaultFullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpRequest;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.HttpMethod;
-import net.minecraft.util.io.netty.handler.codec.http.QueryStringDecoder;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.WebSocketFrame;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
-import net.minecraft.util.io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
-import net.minecraft.util.io.netty.util.CharsetUtil;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.streams.StreamingResponse;
@@ -61,7 +57,7 @@ class JSONAPIHandler extends SimpleChannelInboundHandler<Object> {
 	private void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
 		// Handle a bad request.
 		if (!req.getDecoderResult().isSuccess()) {
-			sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HTTP_1_1, BAD_REQUEST));
+			sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST));
 			return;
 		}
 
@@ -71,7 +67,7 @@ class JSONAPIHandler extends SimpleChannelInboundHandler<Object> {
 			WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(getWebSocketLocation(req), null, false);
 			handshaker = wsFactory.newHandshaker(req);
 			if (handshaker == null) {
-				WebSocketServerHandshakerFactory.sendUnsupportedWebSocketVersionResponse(ctx.channel());
+				WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
 			}
 			else {
 				handshaker.handshake(ctx.channel(), req);
@@ -99,7 +95,7 @@ class JSONAPIHandler extends SimpleChannelInboundHandler<Object> {
 
 		TextWebSocketFrame txt = ((TextWebSocketFrame) frame);
 
-		FullHttpRequest req = new DefaultFullHttpRequest(HTTP_1_1, HttpMethod.GET, txt.text());
+		FullHttpRequest req = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, txt.text());
 		if (APIv2Handler.canServe(new QueryStringDecoder(req.getUri()))) {
 			APIv2Handler h = new APIv2Handler(req);
 
@@ -138,7 +134,7 @@ class JSONAPIHandler extends SimpleChannelInboundHandler<Object> {
 	private static void sendHttpResponse(ChannelHandlerContext ctx, FullHttpRequest req, FullHttpResponse res) {
 		// Send the response and close the connection if necessary.
 		ChannelFuture f = ctx.channel().writeAndFlush(res);
-		if (!isKeepAlive(req) || res.getStatus().code() != 200) {
+		if (!HttpHeaders.isKeepAlive(req) || res.getStatus().code() != 200) {
 			f.addListener(ChannelFutureListener.CLOSE);
 		}
 	}
@@ -159,7 +155,6 @@ class JSONAPIHandler extends SimpleChannelInboundHandler<Object> {
 	}
 
 	private static String getWebSocketLocation(FullHttpRequest req) {
-		return "ws://" + req.headers().get(HOST) + WEBSOCKET_PATH;
+		return "ws://" + req.headers().get(HttpHeaders.Names.HOST) + WEBSOCKET_PATH;
 	}
 }
-//#endif

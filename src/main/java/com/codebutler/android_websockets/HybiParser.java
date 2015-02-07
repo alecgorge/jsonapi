@@ -385,7 +385,9 @@ public class HybiParser {
     }
 
     public static class ProtocolError extends IOException {
-        public ProtocolError(String detailMessage) {
+		private static final long	serialVersionUID	= 3235810088403426201L;
+
+		public ProtocolError(String detailMessage) {
             super(detailMessage);
         }
     }

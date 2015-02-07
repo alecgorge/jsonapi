@@ -1,14 +1,12 @@
 package com.alecgorge.minecraft.jsonapi.packets.netty.router;
 
-//#if mc17OrNewer!="yes"
-//#else
-import net.minecraft.util.io.netty.buffer.ByteBuf;
-import net.minecraft.util.io.netty.buffer.Unpooled;
-import net.minecraft.util.io.netty.handler.codec.http.DefaultFullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.HttpResponseStatus;
-import net.minecraft.util.io.netty.handler.codec.http.HttpVersion;
-import net.minecraft.util.io.netty.util.CharsetUtil;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
+import io.netty.util.CharsetUtil;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.packets.netty.APIv2Handler;
@@ -73,4 +71,3 @@ public class JSONAPIDefaultRoutes {
 		return r;
 	}
 }
-//#endif

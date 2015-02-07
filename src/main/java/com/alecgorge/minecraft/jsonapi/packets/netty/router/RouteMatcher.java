@@ -1,26 +1,17 @@
 package com.alecgorge.minecraft.jsonapi.packets.netty.router;
 
-//#if mc17OrNewer!="yes"
-//#else
-/*
- * Copyright (c) 2011-2013 The original author or authors
- * ------------------------------------------------------
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * and Apache License v2.0 which accompanies this distribution.
- *
- *     The Eclipse Public License is available at
- *     http://www.eclipse.org/legal/epl-v10.html
- *
- *     The Apache License v2.0 is available at
- *     http://www.opensource.org/licenses/apache2.0.php
- *
- * You may elect to redistribute this code under either of these licenses.
- */
-
-import static net.minecraft.util.io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
-import static net.minecraft.util.io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
-import static net.minecraft.util.io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.QueryStringDecoder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,18 +21,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.minecraft.util.io.netty.channel.ChannelFuture;
-import net.minecraft.util.io.netty.channel.ChannelFutureListener;
-import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
-import net.minecraft.util.io.netty.channel.SimpleChannelInboundHandler;
-import net.minecraft.util.io.netty.handler.codec.http.DefaultFullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpRequest;
-import net.minecraft.util.io.netty.handler.codec.http.FullHttpResponse;
-import net.minecraft.util.io.netty.handler.codec.http.HttpMethod;
-import net.minecraft.util.io.netty.handler.codec.http.HttpResponseStatus;
-import net.minecraft.util.io.netty.handler.codec.http.HttpVersion;
-import net.minecraft.util.io.netty.handler.codec.http.QueryStringDecoder;
 
 import com.google.code.regexp.NamedMatcher;
 import com.google.code.regexp.NamedPattern;
@@ -134,7 +113,7 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 	public boolean serveRequest(ChannelHandlerContext ctx, FullHttpRequest request) {
 		// Handle a bad request.
 		if (!request.getDecoderResult().isSuccess()) {
-			sendHttpResponse(ctx, request, new DefaultFullHttpResponse(HTTP_1_1, BAD_REQUEST));
+			sendHttpResponse(ctx, request, new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST));
 			return false;
 		}
 
@@ -463,7 +442,7 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 		// Handle a bad request.
 		FullHttpResponse resp = null;
 		if (!request.getDecoderResult().isSuccess()) {
-			resp = new DefaultFullHttpResponse(HTTP_1_1, BAD_REQUEST);
+			resp = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST);
 			sendHttpResponse(ctx, request, resp);
 		}
 		else {
@@ -530,7 +509,7 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 
 		// Send the response and close the connection if necessary.
 		ChannelFuture f = ctx.channel().writeAndFlush(res);
-		if (!isKeepAlive(req) || res.getStatus().code() != 200) {
+		if (!HttpHeaders.isKeepAlive(req) || res.getStatus().code() != 200) {
 			f.addListener(ChannelFutureListener.CLOSE);
 		}
 	}
@@ -548,4 +527,3 @@ public class RouteMatcher extends SimpleChannelInboundHandler<FullHttpRequest> {
 	}
 
 }
-//#endif

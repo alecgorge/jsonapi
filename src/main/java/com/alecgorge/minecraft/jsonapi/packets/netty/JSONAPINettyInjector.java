@@ -1,20 +1,14 @@
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
-//#if mc17OrNewer=="yes"
-import net.minecraft.util.io.netty.channel.Channel;
-
-import com.alecgorge.minecraft.jsonapi.packets.netty.router.JSONAPIDefaultRoutes;
-//#endif
+import io.netty.channel.Channel;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
+import com.alecgorge.minecraft.jsonapi.packets.netty.router.JSONAPIDefaultRoutes;
 
 public class JSONAPINettyInjector {
-	//#if mc17OrNewer=="yes"
 	NettyInjector injector = null;
-	//#endif
 	
 	public JSONAPINettyInjector(final JSONAPI api) {
-		//#if mc17OrNewer=="yes"
 		injector = new NettyInjector() {
 	        @Override
 	        protected void injectChannel(Channel channel) {
@@ -24,12 +18,9 @@ public class JSONAPINettyInjector {
 	    injector.inject();
 	    
 	    new JSONAPIDefaultRoutes(api);
-	    //#endif
 	}
 	
 	public void close() {
-		//#if mc17OrNewer=="yes"
 		injector.close();
-		//#endif
 	}
 }

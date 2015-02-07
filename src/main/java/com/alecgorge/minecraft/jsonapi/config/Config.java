@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Writer;
 
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -47,7 +48,7 @@ public abstract class Config extends ConfigObject {
 		if(CONFIG_STREAM == null && !CONFIG_FILE.exists()) throw new InvalidConfigurationException(new IOException("File doesn't exist"));
 		YamlConfiguration yamlConfig;
 		if(CONFIG_STREAM != null) {
-			yamlConfig = YamlConfiguration.loadConfiguration(CONFIG_STREAM);
+			yamlConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(CONFIG_STREAM));
 		}
 		else {
 			yamlConfig = YamlConfiguration.loadConfiguration(CONFIG_FILE);

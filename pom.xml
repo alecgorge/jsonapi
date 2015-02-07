@@ -16,7 +16,7 @@
 	<groupId>com.alecgorge.minecraft.jsonapi</groupId>
 	<artifactId>JSONAPI</artifactId>
 	<packaging>jar</packaging>
-	<version>${jsonapiVersion}-mc${cbVersion}</version>
+	<version>${jsonapiVersion}-mc${spigotVersion}</version>
 	<name>JSONAPI</name>
 	<url>http://github.com/alecgorge/jsonapi</url>
 	<scm>
@@ -32,14 +32,8 @@
 
 	<repositories>
 		<repository>
-			<id>bukkit-repo</id>
-			<url>http://repo.bukkit.org/content/groups/public</url>
-			<releases>
-				<updatePolicy>always</updatePolicy>
-			</releases>
-			<snapshots>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
 		</repository>
 		<repository>
 			<id>vault-repo</id>
@@ -54,13 +48,11 @@
 			<id>ess-repo</id>
 			<url>http://repo.ess3.net/content/groups/essentials</url>
 		</repository>
+		<repository>
+			<id>shadowvolt-repo</id>
+			<url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
+		</repository>
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>bukkit-plugins</id>
-			<url>http://repo.bukkit.org/content/groups/public</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<build>
 		<finalName>JSONAPI</finalName>
@@ -169,7 +161,7 @@
 									<destFileName>JSONAPI-${version}.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
-							<outputDirectory>builds/Minecraft-${cbVersion}</outputDirectory>
+							<outputDirectory>builds/Spigot-${spigotVersion}</outputDirectory>
 							<stripVersion>true</stripVersion>
 						</configuration>
 					</execution>
@@ -188,7 +180,7 @@
 									<destFileName>JSONAPI-${version}.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
-							<outputDirectory>builds/Minecraft-all</outputDirectory>
+							<outputDirectory>builds/Spigot-all</outputDirectory>
 							<stripVersion>true</stripVersion>
 						</configuration>
 					</execution>
@@ -237,34 +229,20 @@
 					</execution>
 				</executions>
 			</plugin>
-<!-- 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.2</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<relocations>
-								<relocation>
-									<pattern>io.netty</pattern>
-									<shadedPattern>net.minecraft.util.io.netty</shadedPattern>
-								</relocation>
-							</relocations>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		-->		</plugins>
+		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
-			<version>${cbVersion}</version>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>${spigotVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<version>${spigotVersion}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/test/spigot-latest.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.igormaznitsa</groupId>
@@ -279,12 +257,7 @@
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
 			<artifactId>ProtocolLib</artifactId>
-			<version>3.4.0</version>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
-			<version>4.0.15.Final</version>
+			<version>3.6.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>net.ess3</groupId>

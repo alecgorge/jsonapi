@@ -16,22 +16,22 @@ function gen_key($name) {
 }
 
 
-$methodName = "players.name";
+$methodName = "streams.formatted_chat.latest";
 $payload = array(
 	array(
 		'name' => $methodName,
 		'key' => gen_key($methodName),
 		'username' => $username,
-		'arguments' => ['alecgorge'], //['text', 'alecgorgd'],
+		'arguments' => [50], //['text', 'alecgorgd'],
 		'tag' => '1'
 	),
-	// array(
-	// 	'name' => 'players.name',
-	// 	'key' => gen_key('players.name'),
-	// 	'username' => $username,
-	// 	'arguments' => ['alecgorge'],
-	// 	'tag' => '2'
-	// ),
+	array(
+		'name' => 'chat.with_name',
+		'key' => gen_key('chat.with_name'),
+		'username' => $username,
+		'arguments' => ['asdfasd', 'zimple'],
+		'tag' => '2'
+	),
 	// array(
 	// 	'name' => 'players.name',
 	// 	'key' => gen_key('players.name'),

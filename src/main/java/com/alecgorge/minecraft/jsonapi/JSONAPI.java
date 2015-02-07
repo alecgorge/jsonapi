@@ -58,9 +58,7 @@ import com.alecgorge.minecraft.jsonapi.dynamic.API_Method;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.dynamic.JSONAPIMethodProvider;
 import com.alecgorge.minecraft.jsonapi.packets.netty.JSONAPINettyInjector;
-//#if mc17OrNewer=="yes"
 import com.alecgorge.minecraft.jsonapi.packets.netty.router.RouteMatcher;
-//#endif
 import com.alecgorge.minecraft.jsonapi.permissions.GroupManager;
 import com.alecgorge.minecraft.jsonapi.streams.PerformanceStreamDataProvider;
 import com.alecgorge.minecraft.jsonapi.streams.StreamManager;
@@ -101,9 +99,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	TickRateCounter tickRateCounter;
 	public boolean adminiumEnabled = true;
 	
-	//#if mc17OrNewer=="yes"
 	RouteMatcher router = new RouteMatcher();
-	//#endif
 
 	private Logger log = Bukkit.getLogger();
 	public Logger outLog = Logger.getLogger("JSONAPI");
@@ -545,19 +541,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			// add console stream support
 			handler = new ConsoleHandler(jsonServer);
 			
-			//#if mc17OrNewer=="yes"
 			new Log4j2ConsoleHandler(jsonServer);
-			//#else
-			for(Logger olog : new Logger[] {
-					log,
-					Logger.getLogger(""),
-					Logger.getLogger("Minecraft"),
-					Logger.getLogger("ForgeModLoader"),
-					Logger.getLogger("org.bukkit.craftbukkit.Main")				
-			}) {
-				olog.addHandler(handler);
-			}
-			//#endif
 
 			log.info("[JSONAPI] Attempting to use port " + port);
 
@@ -584,9 +568,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 						
 			tickRateCounter = new TickRateCounter(this);
 			
-			//#if mc17OrNewer=="yes"
 			injector = new JSONAPINettyInjector(this);
-			//#endif
 			
 			// must load this after the tick counter exists!
 			registerStreamManager("performance", getJSONServer().performance);
@@ -811,11 +793,9 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		return sb.toString();
 	}
 	
-	//#if mc17OrNewer=="yes"
 	public RouteMatcher getRouter() {
 		return router;
 	}
-	//#endif
 	
 	void setupSSLWebsockets() {
 		// load up the key store
@@ -937,8 +917,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 		@EventHandler
 		public void onPlayerChat(AsyncPlayerChatEvent event) {
-			p.jsonServer.logChat(event.getPlayer().getName(), event.getMessage());
-			p.jsonServer.logFormattedChat(event.getPlayer().getName(), String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
+			p.jsonServer.logChat(event);
 		}
 
 		@EventHandler

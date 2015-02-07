@@ -156,9 +156,9 @@ public class BukkitStringifier {
 			Server s = (Server) obj;
 
 			JSONObject o = new JSONObject();
-
+			
 			o.put("maxPlayers", s.getMaxPlayers());
-			o.put("players", Arrays.asList(s.getOnlinePlayers()));
+			o.put("players", s.getOnlinePlayers());
 			o.put("port", s.getPort());
 			o.put("name", s.getName());
 			o.put("serverName", s.getServerName());
@@ -184,7 +184,7 @@ public class BukkitStringifier {
 			
 			List<String> playerNames = new ArrayList<String>();
 			for(Player p : w.getPlayers()) {
-				if(!p.getName().equals("¤fHerobrine")) {
+				if(!p.getName().equals("ï¿½fHerobrine")) {
 					playerNames.add(p.getName());
 				}
 			}

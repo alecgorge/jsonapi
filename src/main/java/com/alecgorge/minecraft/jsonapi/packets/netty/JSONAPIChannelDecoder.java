@@ -1,19 +1,17 @@
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
-//#if mc17OrNewer!="yes"
-//#else
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
+import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpServerCodec;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
-
-import net.minecraft.util.io.netty.buffer.ByteBuf;
-import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
-import net.minecraft.util.io.netty.channel.ChannelOption;
-import net.minecraft.util.io.netty.channel.ChannelPipeline;
-import net.minecraft.util.io.netty.handler.codec.ByteToMessageDecoder;
-import net.minecraft.util.io.netty.handler.codec.http.HttpObjectAggregator;
-import net.minecraft.util.io.netty.handler.codec.http.HttpServerCodec;
 
 public class JSONAPIChannelDecoder extends ByteToMessageDecoder {
 	private JSONAPI						api;
@@ -78,4 +76,3 @@ public class JSONAPIChannelDecoder extends ByteToMessageDecoder {
                 magic1 == 'C' && magic2 == 'O' && magic3 == 'N' && magic4 == 'N'; // CONNECT
     }
 }
-//#endif

@@ -1,7 +1,9 @@
 package com.alecgorge.minecraft.jsonapi.packets.netty;
 
-//#if mc17OrNewer!="yes"
-//#else
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelHandler;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -9,12 +11,6 @@ import java.util.ListIterator;
 import java.util.concurrent.Callable;
 
 import com.google.common.collect.Lists;
-
-import net.minecraft.util.io.netty.channel.Channel;
-
-// Hopefully, CB won't version these as well
-import net.minecraft.util.io.netty.channel.ChannelFuture;
-import net.minecraft.util.io.netty.channel.ChannelHandler;
 
 class BootstrapList implements List<Object> {
     private List<Object> delegate;
@@ -200,4 +196,3 @@ class BootstrapList implements List<Object> {
     }
     // End boiler plate
 }
-//#endif

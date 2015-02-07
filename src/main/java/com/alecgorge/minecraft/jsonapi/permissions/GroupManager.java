@@ -33,6 +33,10 @@ public class GroupManager {
 
 	boolean effectivePermission(JSONAPIUser username, String method, boolean stream) {
 		JSONAPI.dbug("Testing " + method + " (" + stream + ")" + " on " + username);
+		if (username == null) {
+			return false;
+		}
+		
 		if (stream) {
 			return username.canUseStream(method);
 		}
