@@ -111,7 +111,7 @@ public class BukkitStringifier {
 			JSONObject o = new JSONObject();
 
 			o.put("name", p.getName());
-			o.put("uuid", p.getUniqueId());
+			o.put("uuid", p.getUniqueId().toString());
 			o.put("op", p.isOp());
 			o.put("health", p.getHealth());
 			o.put("foodLevel", p.getFoodLevel());
@@ -151,7 +151,7 @@ public class BukkitStringifier {
 			o.put("banned", op.isBanned());
 			o.put("whitelisted", op.isWhitelisted());
 			o.put("name", op.getName());
-			o.put("uuid", op.getUniqueId());
+			o.put("uuid", op.getUniqueId().toString());
 
 			return o;
 		} else if (obj instanceof Server) {
