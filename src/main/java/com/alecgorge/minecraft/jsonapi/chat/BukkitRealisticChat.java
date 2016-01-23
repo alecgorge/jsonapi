@@ -6,7 +6,8 @@ import java.util.concurrent.ExecutionException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 
@@ -26,11 +27,11 @@ import com.alecgorge.minecraft.jsonapi.util.OfflinePlayerLoader;
 //$import org.bukkit.craftbukkit./*$mcversion$*/.entity.*;
 //$import org.bukkit.craftbukkit./*$mcversion$*/.util.*;
 //#else
-import net.minecraft.server.v1_8_R1.*;
+import net.minecraft.server.v1_8_R3.*;
 
-import org.bukkit.craftbukkit.v1_8_R1.*;
-import org.bukkit.craftbukkit.v1_8_R1.entity.*;
-import org.bukkit.craftbukkit.v1_8_R1.util.*;
+import org.bukkit.craftbukkit.v1_8_R3.*;
+import org.bukkit.craftbukkit.v1_8_R3.entity.*;
+import org.bukkit.craftbukkit.v1_8_R3.util.*;
 //#endif
 
 @SuppressWarnings("deprecation")
@@ -73,6 +74,105 @@ public class BukkitRealisticChat implements IRealisticChat {
 				return super.getUniqueId();
 			}
 			return super.getUniqueId();
+		}
+
+		/**
+		 * This method exists for legacy reasons to provide backwards
+		 * compatibility. It will not exist at runtime and should not be used
+		 * under any circumstances.
+		 *
+		 * @return damage taken since the last no damage ticks time period
+		 */
+		@Override
+		public int _INVALID_getLastDamage() {
+			return 0;
+		}
+
+		/**
+		 * This method exists for legacy reasons to provide backwards
+		 * compatibility. It will not exist at runtime and should not be used
+		 * under any circumstances.
+		 *
+		 * @param damage amount of damage
+		 */
+		@Override
+		public void _INVALID_setLastDamage(int damage) {
+
+		}
+
+		/**
+		 * This method exists for legacy reasons to provide backwards
+		 * compatibility. It will not exist at runtime and should not be used
+		 * under any circumstances.
+		 *
+		 * @param amount Amount of damage to deal
+		 */
+		@Override
+		public void _INVALID_damage(int amount) {
+
+		}
+
+		/**
+		 * This method exists for legacy reasons to provide backwards
+		 * compatibility. It will not exist at runtime and should not be used
+		 * under any circumstances.
+		 *
+		 * @param amount Amount of damage to deal
+		 * @param source Entity which to attribute this damage from
+		 */
+		@Override
+		public void _INVALID_damage(int amount, Entity source) {
+
+		}
+
+		/**
+		 * This method exists for legacy reasons to provide backwards
+		 * compatibility. It will not exist at runtime and should not be used
+		 * under any circumstances.
+		 *
+		 * @return Health represented from 0 to max
+		 */
+		@Override
+		public int _INVALID_getHealth() {
+			return 0;
+		}
+
+		/**
+		 * This method exists for legacy reasons to provide backwards
+		 * compatibility. It will not exist at runtime and should not be used
+		 * under any circumstances.
+		 *
+		 * @param health New health represented from 0 to max
+		 * @throws IllegalArgumentException Thrown if the health is {@literal < 0 or >}
+		 *                                  {@link #getMaxHealth()}
+		 */
+		@Override
+		public void _INVALID_setHealth(int health) {
+
+		}
+
+		/**
+		 * This method exists for legacy reasons to provide backwards
+		 * compatibility. It will not exist at runtime and should not be used
+		 * under any circumstances.
+		 *
+		 * @return Maximum health
+		 */
+		@Override
+		public int _INVALID_getMaxHealth() {
+			return 0;
+		}
+
+		/**
+		 * This method exists for legacy reasons to provide backwards
+		 * compatibility. It will not exist at runtime and should not be used
+		 * under any circumstances.
+		 *
+		 * @param health amount of health to set the maximum to
+		 */
+		@Override
+		public void _INVALID_setMaxHealth(int health) {
+
 		}
 	}
 	
@@ -128,7 +228,7 @@ public class BukkitRealisticChat implements IRealisticChat {
 			boolean async = false;
 
 			// based on
-			// net/minecraft/server/v1_8_R1/PlayerConnection.java#chat(2)
+			// net/minecraft/server/v1_8_R3/PlayerConnection.java#chat(2)
 			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(async, player, s, new LazyPlayerSet());
 			getServer().getPluginManager().callEvent(event);
 

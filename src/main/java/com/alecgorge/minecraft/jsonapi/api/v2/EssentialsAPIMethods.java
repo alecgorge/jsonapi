@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.UUID;
 
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -76,8 +78,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 
 	@API_Method(name = "essentials.users.get_uuid", description = "Returns the UUID of a player(has to be online)", argumentDescriptions = { "Username" }, returnDescription = "on success")
 	public Object get_uuid(String name) throws APIException {
-		if (ess.getUser(name).isOnline()) {
-			Object x = ess.getUser(name).getUniqueId();
+		if (ess.getUser(name).getBase().isOnline()) {
+			Object x = ess.getUser(name).getBase().getUniqueId();
 			return x;
 		}
 		else {
@@ -95,8 +97,8 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 
 	@API_Method(name = "essentials.users.add_mail_all", description = "Adds a mail to all users", argumentDescriptions = { "Contents of the message" }, returnDescription = "true on success")
 	public boolean send_mail_all(String message) {
-		for (String username : ess.getUserMap().getAllUniqueUsers()) {
-			User user = ess.getUserMap().getUser(username);
+		for (UUID userUuid : ess.getUserMap().getAllUniqueUsers()) {
+			User user = ess.getUserMap().getUser(userUuid);
 			if (user != null) {
 				user.addMail(message);
 			}
@@ -107,7 +109,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 
 	@API_Method(name = "essentials.users.set_afk", description = "Change status of AFK of user", argumentDescriptions = { "Status to set (true - AFK)" }, returnDescription = "true on success")
 	public boolean set_afk(String name, Boolean status) throws APIException {
-		if (ess.getUser(name).isOnline()) {
+		if (ess.getUser(name).getBase().isOnline()) {
 			ess.getUser(name).setAfk(status);
 			return true;
 		}
@@ -126,7 +128,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.tp_back", description = "Teleport player to last location", argumentDescriptions = { "Username" }, returnDescription = "true on success")
 	public boolean tp_back(String name) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
+		if (user.getBase().isOnline()) {
 			if (user.getLastLocation() == null) {
 				throw new APIException("noLocationFound");
 			}
@@ -149,10 +151,10 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.clear_inventory", description = "Clear inventory and armor of player", argumentDescriptions = { "Username", "Clear armor?" }, returnDescription = "true on success")
 	public boolean clear_inventory(String name, Boolean armor) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
-			user.getInventory().clear();
+		if (user.getBase().isOnline()) {
+			user.getBase().getInventory().clear();
 			if (armor) {
-				user.getInventory().setArmorContents(null);
+				user.getBase().getInventory().setArmorContents(null);
 			}
 			return true;
 		}
@@ -165,7 +167,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.burn", description = "Set the player on fire.", argumentDescriptions = { "Username", "Time" }, returnDescription = "true on success")
 	public boolean burn(String name, Integer time) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
+		if (user.getBase().isOnline()) {
 			user.getBase().setFireTicks(time);
 			return true;
 		}
@@ -178,7 +180,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.fly", description = "Change fly mode of player.", argumentDescriptions = { "Username", "Mode (true - flying)" }, returnDescription = "true on success")
 	public boolean fly(String name, Boolean mode) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
+		if (user.getBase().isOnline()) {
 			user.getBase().setFlying(mode);
 			return true;
 		}
@@ -191,7 +193,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.get_pos", description = "Return location of player", argumentDescriptions = { "Username" }, returnDescription = "Location of player on success")
 	public Object get_pos(String name) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
+		if (user.getBase().isOnline()) {
 			return user.getLocation();
 		}
 		else {
@@ -203,7 +205,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.toggle_god", description = "Change god mode of player", argumentDescriptions = { "Username", "Mode" }, returnDescription = "true on success")
 	public Boolean toggle_god(String name, Boolean mode) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
+		if (user.getBase().isOnline()) {
 			user.setGodModeEnabled(mode);
 			return true;
 		}
@@ -216,10 +218,10 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.heal", description = "Heal the player", argumentDescriptions = { "Username" }, returnDescription = "true on success")
 	public Boolean heal(String name) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
-			user.setHealth(20);
-			user.setFoodLevel(20);
-			user.setFireTicks(0);
+		if (user.getBase().isOnline()) {
+			user.getBase().setHealth(20);
+			user.getBase().setFoodLevel(20);
+			user.getBase().setFireTicks(0);
 			return true;
 		}
 		else {
@@ -231,7 +233,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.set_nick", description = "Change the nickanme of player", argumentDescriptions = { "Username", "Nickname to set" }, returnDescription = "true on success")
 	public Boolean set_nick(String name, String nickname) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
+		if (user.getBase().isOnline()) {
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				if (p.getDisplayName().toLowerCase().equals(nickname.toLowerCase())) {
 					throw new APIException("Nickname is used");
@@ -250,7 +252,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.clear_nick", description = "Clear the nickanme of player", argumentDescriptions = { "Username" }, returnDescription = "true on success")
 	public Boolean clear_nick(String name) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
+		if (user.getBase().isOnline()) {
 			user.setNickname(null);
 			user.setDisplayNick();
 			return true;
@@ -264,7 +266,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.clear_all_powertools", description = "Clear all powertools of player", argumentDescriptions = { "Username" }, returnDescription = "true on success")
 	public Boolean clear_all_powertools(String name) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
+		if (user.getBase().isOnline()) {
 			user.clearAllPowertools();
 			return true;
 		}
@@ -277,7 +279,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.seen", description = "Return the last logout time of player.", argumentDescriptions = { "Username" }, returnDescription = "Timestamp if offline, -1 if online")
 	public Object seen(String name) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
+		if (user.getBase().isOnline()) {
 			return -1;
 		}
 		else {
@@ -289,7 +291,7 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	@API_Method(name = "essentials.users.vanish", description = "Change visible of player", argumentDescriptions = { "Username", "Mode to set" }, returnDescription = "true on success")
 	public Boolean vanish(String name, Boolean mode) throws APIException {
 		User user = ess.getUser(name);
-		if (user.isOnline()) {
+		if (user.getBase().isOnline()) {
 			user.setVanished(mode);
 			return true;
 		}
@@ -303,13 +305,13 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 	public HashMap<String, Object> player_get_all(String name) throws APIException {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		User user1 = ess.getUser(name);
-		if (user1.hasPlayedBefore()) {
-			if (user1.isOnline()) {
+		if (user1.getBase().hasPlayedBefore()) {
+			if (user1.getBase().isOnline()) {
 				User user = ess.getUser(name);
 				result.put("name", user.getName());
 				result.put("nick", user.getNickname());
 				result.put("money", user.getMoney());
-				result.put("gamemode", user.getGameMode());
+				result.put("gamemode", user.getBase().getGameMode());
 				result.put("godmode", user.isGodModeEnabled());
 				result.put("fly", user.isGodModeEnabled());
 				result.put("afk", user.isAfk());
@@ -329,21 +331,21 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 				}
 				result.put("can_build", user.canBuild());
 				result.put("vanish", user.isVanished());
-				result.put("bed_spawn_location", user.getBedSpawnLocation());
-				result.put("ban", user.isBanned());
-				if (user.isBanned()) {
-					result.put("ban_reason", user.getBanReason());
-					result.put("ban_timeout", user.getBanTimeout());
+				result.put("bed_spawn_location", user.getBase().getBedSpawnLocation());
+				result.put("ban", user.getBase().isBanned());
+				if (user.getBase().isBanned()) {
+					result.put("ban_reason", Bukkit.getBanList(BanList.Type.NAME).getBanEntry(user.getName()).getReason().replaceAll("ï¿½", ""));
+					result.put("ban_timeout", Bukkit.getBanList(BanList.Type.NAME).getBanEntry(user.getName()).getExpiration());
 				}
 				else {
 					result.put("ban_reason", null);
 					result.put("ban_timeout", null);
 				}
-				result.put("can_pickup_items", user.getCanPickupItems());
-				result.put("fire_ticks", user.getFireTicks());
+				result.put("can_pickup_items", user.getBase().getCanPickupItems());
+				result.put("fire_ticks", user.getBase().getFireTicks());
 				result.put("homes", user.getHomes());
 				result.put("mails", user.getMails());
-				result.put("walk_speed", user.getWalkSpeed());
+				result.put("walk_speed", user.getBase().getWalkSpeed());
 			}
 			else {
 				User user = ess.getOfflineUser(name);
@@ -351,11 +353,11 @@ public class EssentialsAPIMethods implements JSONAPIMethodProvider {
 				result.put("last_ip", user.getLastLoginAddress());
 				result.put("nick", user.getNickname());
 				result.put("money", user.getMoney());
-				result.put("bed_spawn_location", user.getBedSpawnLocation());
-				result.put("ban", user.isBanned());
-				if (user.isBanned()) {
-					result.put("ban_reason", user.getBanReason().replaceAll("Â", ""));
-					result.put("ban_timeout", user.getBanTimeout());
+				result.put("bed_spawn_location", user.getBase().getBedSpawnLocation());
+				result.put("ban", user.getBase().isBanned());
+				if (user.getBase().isBanned()) {
+					result.put("ban_reason", Bukkit.getBanList(BanList.Type.NAME).getBanEntry(user.getName()).getReason().replaceAll("ï¿½", ""));
+					result.put("ban_timeout", Bukkit.getBanList(BanList.Type.NAME).getBanEntry(user.getName()).getExpiration());
 				}
 				else {
 					result.put("ban_reason", null);

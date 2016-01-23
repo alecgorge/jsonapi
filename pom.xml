@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.alecgorge.minecraft.jsonapi</groupId>
+	<artifactId>JSONAPI</artifactId>
+	<packaging>jar</packaging>
+	<version>${jsonapiVersion}-mc${spigotVersion}</version>
+	<name>JSONAPI</name>
+	<url>http://github.com/alecgorge/jsonapi</url>
+
+	<organization>
+		<name>Alec Gorge</name>
+		<url>http://alecgorge.com</url>
+	</organization>
+
+	<scm>
+		<developerConnection>scm:git:git@github.com:alecgorge/jsonapi.git</developerConnection>
+		<connection>scm:git:git://github.com/alecgorge/jsonapi.git</connection>
+		<url>https://github.com/alecgorge/jsonapi/tree/master/</url>
+	</scm>
+
 	<profiles>
 		<profile>
 			<id>default</id>
@@ -12,23 +31,11 @@
 		</profile>
 	</profiles>
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.alecgorge.minecraft.jsonapi</groupId>
-	<artifactId>JSONAPI</artifactId>
-	<packaging>jar</packaging>
-	<version>${jsonapiVersion}-mc${spigotVersion}</version>
-	<name>JSONAPI</name>
-	<url>http://github.com/alecgorge/jsonapi</url>
-	<scm>
-		<developerConnection>scm:git:git@github.com:alecgorge/jsonapi.git</developerConnection>
-		<connection>scm:git:git://github.com/alecgorge/jsonapi.git</connection>
-		<url>https://github.com/alecgorge/jsonapi/tree/master/</url>
-	</scm>
-
-	<organization>
-		<name>Alec Gorge</name>
-		<url>http://alecgorge.com</url>
-	</organization>
+	<properties>
+		<spigotVersion>1.8.8-R0.1-SNAPSHOT</spigotVersion>
+        <mcPackage>v1_8_R3</mcPackage>
+        <jsonapiDebug>no</jsonapiDebug>
+	</properties>
 
 	<repositories>
 		<repository>
@@ -40,20 +47,61 @@
 			<url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
 		</repository>
 		<repository>
-			<id>comphenix-rep</id>
+			<id>dmulloy2-repo</id>
 			<name>Comphenix Repository</name>
-			<url>http://repo.comphenix.net/content/groups/public</url>
+			<url>http://repo.dmulloy2.net/content/groups/public/</url>
 		</repository>
-		<repository>
-			<id>ess-repo</id>
-			<url>http://repo.ess3.net/content/groups/essentials</url>
-		</repository>
-		<repository>
-			<id>shadowvolt-repo</id>
-			<url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
-		</repository>
-	</repositories>
+        <!-- <repository>
+            <id>ess-repo</id>
+            <url>http://repo.ess3.net/content/groups/essentials</url>
+        </repository> -->
+        <repository>
+            <id>shadowvolt-repo</id>
+            <url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
+        </repository>
+    </repositories>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigotVersion}</version>
+        </dependency>
+        <!-- You should have it in your local .m2 repository -->
+		<!-- This can be done using BuildTools from spigotmc.org -->
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<version>${spigotVersion}</version>
+			<!-- <scope>system</scope>
+			<systemPath>${project.basedir}/test/spigot-latest.jar</systemPath> -->
+		</dependency>
+		<dependency>
+			<groupId>com.igormaznitsa</groupId>
+			<artifactId>jcp</artifactId>
+			<version>5.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.milkbowl.vault</groupId>
+			<artifactId>Vault</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.comphenix.protocol</groupId>
+			<artifactId>ProtocolLib</artifactId>
+			<version>3.6.4</version>
+		</dependency>
+		<dependency>
+            <!-- <groupId>net.ess3</groupId>
+            <artifactId>Essentials</artifactId>
+            <version>2.13.1</version> -->
+            <groupId>com.earth2me.essentials</groupId>
+            <artifactId>Essentials</artifactId>
+            <version>2.0.1-b264</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/test/plugins/Essentials-2.0.1-b264.jar</systemPath>
+		</dependency>
+	</dependencies>
 	<build>
 		<finalName>JSONAPI</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -78,7 +126,7 @@
 			<plugin>
 				<groupId>com.igormaznitsa</groupId>
 				<artifactId>jcp</artifactId>
-				<version>5.3.2</version>
+				<version>6.0.1</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
@@ -93,176 +141,155 @@
 							<name>mcversion</name>
 							<value>${mcPackage}</value>
 						</property>
-						<property>
-							<name>mc16OrNewer</name>
-							<value>${mc16OrNewer}</value>
-						</property>
-						<property>
-							<name>mc17OrNewer</name>
-							<value>${mc17OrNewer}</value>
-						</property>
-						<property>
-							<name>mc179OrNewer</name>
-							<value>${mc179OrNewer}</value>
-						</property>
-						<property>
-							<name>jsonapiDebug</name>
-							<value>${jsonapiDebug}</value>
-						</property>
-					</globalVars>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<encoding>UTF-8</encoding>
-					<debug>true</debug>
-					<debuglevel>lines,vars,source</debuglevel>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>install-test-jar</id>
-						<phase>install</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.alecgorge.minecraft.jsonapi</groupId>
-									<artifactId>JSONAPI</artifactId>
-									<version>${version}</version>
-								</artifactItem>
-							</artifactItems>
-							<outputDirectory>test/plugins</outputDirectory>
-							<stripVersion>true</stripVersion>
-						</configuration>
-					</execution>
-					<execution>
-						<id>install-jar</id>
-						<phase>install</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.alecgorge.minecraft.jsonapi</groupId>
-									<artifactId>JSONAPI</artifactId>
-									<version>${version}</version>
-									<destFileName>JSONAPI-${version}.jar</destFileName>
-								</artifactItem>
-							</artifactItems>
-							<outputDirectory>builds/Spigot-${spigotVersion}</outputDirectory>
-							<stripVersion>true</stripVersion>
-						</configuration>
-					</execution>
-					<execution>
-						<id>install-jar-combo</id>
-						<phase>install</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.alecgorge.minecraft.jsonapi</groupId>
-									<artifactId>JSONAPI</artifactId>
-									<version>${version}</version>
-									<destFileName>JSONAPI-${version}.jar</destFileName>
-								</artifactItem>
-							</artifactItems>
-							<outputDirectory>builds/Spigot-all</outputDirectory>
-							<stripVersion>true</stripVersion>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/test</outputDirectory>
-							<includeArtifactIds>craftbukkit</includeArtifactIds>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.3</version>
-				<executions>
-					<execution>
-						<id>copy-prod-resources</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<overwrite>false</overwrite>
-							<outputDirectory>${basedir}/test/plugins/JSONAPI</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/resources</directory>
-									<includes>
-										<include>config.yml</include>
-										<include>users.yml</include>
-										<include>groups.yml</include>
-										<include>groups.json</include>
-										<include>methods.json</include>
-										<include>methods/*</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-	<dependencies>
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
-			<version>${spigotVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot</artifactId>
-			<version>${spigotVersion}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/test/spigot-latest.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.igormaznitsa</groupId>
-			<artifactId>jcp</artifactId>
-			<version>5.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>net.milkbowl.vault</groupId>
-			<artifactId>Vault</artifactId>
-			<version>1.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.comphenix.protocol</groupId>
-			<artifactId>ProtocolLib</artifactId>
-			<version>3.6.3-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>net.ess3</groupId>
-			<artifactId>Essentials</artifactId>
-			<version>2.13.1</version>
-		</dependency>
-	</dependencies>	
+                        <!-- <property>
+                            <name>mc16OrNewer</name>
+                            <value>${mc16OrNewer}</value>
+                        </property>
+                        <property>
+                            <name>mc17OrNewer</name>
+                            <value>${mc17OrNewer}</value>
+                        </property>
+                        <property>
+                            <name>mc179OrNewer</name>
+                            <value>${mc179OrNewer}</value>
+                        </property> -->
+                        <property>
+                            <name>jsonapiDebug</name>
+                            <value>${jsonapiDebug}</value>
+                        </property>
+                    </globalVars>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>UTF-8</encoding>
+                    <debug>true</debug>
+                    <debuglevel>lines,vars,source</debuglevel>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <id>install-test-jar</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.alecgorge.minecraft.jsonapi</groupId>
+                                    <artifactId>JSONAPI</artifactId>
+                                    <version>${version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${basedir}/test/plugins</outputDirectory>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-test-jar-dependency</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/test/plugins</outputDirectory>
+                            <includeArtifactIds>Vault,ProtocolLib,Essentials</includeArtifactIds>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-jar</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.alecgorge.minecraft.jsonapi</groupId>
+                                    <artifactId>JSONAPI</artifactId>
+                                    <version>${version}</version>
+                                    <destFileName>JSONAPI-${version}.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>builds/Spigot-${spigotVersion}</outputDirectory>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-jar-combo</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.alecgorge.minecraft.jsonapi</groupId>
+                                    <artifactId>JSONAPI</artifactId>
+                                    <version>${version}</version>
+                                    <destFileName>JSONAPI-${version}.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>builds/Spigot-all</outputDirectory>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/test</outputDirectory>
+                            <includeArtifactIds>spigot</includeArtifactIds>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>copy-prod-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <overwrite>false</overwrite>
+                            <outputDirectory>${basedir}/test/plugins/JSONAPI</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/resources</directory>
+                                    <includes>
+                                        <include>config.yml</include>
+                                        <include>users.yml</include>
+                                        <include>groups.yml</include>
+                                        <include>groups.json</include>
+                                        <include>methods.json</include>
+                                        <include>methods/*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
