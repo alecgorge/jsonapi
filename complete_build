@@ -7,8 +7,8 @@ cd $DIR
 echo "Removing old builds"
 rm -rf builds/*
 
-echo "Building 1.8-R0.1-SNAPSHOT"
-mvn clean install $@ -DmcPackage=v1_8_R1 -DspigotVersion=1.8-R0.1-SNAPSHOT
+echo "Building 1.8.8-R0.1-SNAPSHOT"
+mvn clean install $@ -DmcPackage=v1_8_R3 -DspigotVersion=1.8.8-R0.1-SNAPSHOT
 
 rc=$?
 if [[ $rc != 0 ]] ; then

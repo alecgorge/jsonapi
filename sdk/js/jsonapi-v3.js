@@ -17,7 +17,7 @@ opts = {
     function JSONAPI(opts) {
       opts = opts || {};
       this.host = opts.hostname || 'localhost';
-      this.port = opts.port || 25565;
+      this.port = opts.port || 20059;
       this.username = opts.username || 'admin';
       this.password = opts.password || 'changeme';
       this.queue = [];
