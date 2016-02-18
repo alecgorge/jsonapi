@@ -48,17 +48,12 @@
 		</repository>
 		<repository>
 			<id>dmulloy2-repo</id>
-			<name>Comphenix Repository</name>
 			<url>http://repo.dmulloy2.net/content/groups/public/</url>
 		</repository>
         <!-- <repository>
             <id>ess-repo</id>
             <url>http://repo.ess3.net/content/groups/essentials</url>
         </repository> -->
-        <repository>
-            <id>shadowvolt-repo</id>
-            <url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
-        </repository>
     </repositories>
 
     <dependencies>
