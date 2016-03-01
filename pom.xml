@@ -183,7 +183,7 @@
                                 <artifactItem>
                                     <groupId>com.alecgorge.minecraft.jsonapi</groupId>
                                     <artifactId>JSONAPI</artifactId>
-                                    <version>${version}</version>
+                                    <version>${project.version}</version>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${basedir}/test/plugins</outputDirectory>
@@ -213,8 +213,8 @@
                                 <artifactItem>
                                     <groupId>com.alecgorge.minecraft.jsonapi</groupId>
                                     <artifactId>JSONAPI</artifactId>
-                                    <version>${version}</version>
-                                    <destFileName>JSONAPI-${version}.jar</destFileName>
+                                    <version>${project.version}</version>
+                                    <destFileName>JSONAPI-${project.version}.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>builds/Spigot-${spigotVersion}</outputDirectory>
@@ -232,8 +232,8 @@
                                 <artifactItem>
                                     <groupId>com.alecgorge.minecraft.jsonapi</groupId>
                                     <artifactId>JSONAPI</artifactId>
-                                    <version>${version}</version>
-                                    <destFileName>JSONAPI-${version}.jar</destFileName>
+                                    <version>${project.version}</version>
+                                    <destFileName>JSONAPI-${project.version}.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>builds/Spigot-all</outputDirectory>

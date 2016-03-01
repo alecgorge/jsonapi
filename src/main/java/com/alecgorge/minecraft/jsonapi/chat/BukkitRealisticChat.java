@@ -229,7 +229,7 @@ public class BukkitRealisticChat implements IRealisticChat {
 
 			// based on
 			// net/minecraft/server/v1_8_R3/PlayerConnection.java#chat(2)
-			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(async, player, s, new LazyPlayerSet());
+			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(async, player, s, new LazyPlayerSet(((CraftServer)Bukkit.getServer()).getServer()));
 			getServer().getPluginManager().callEvent(event);
 
 			final MinecraftServer minecraftServer;
