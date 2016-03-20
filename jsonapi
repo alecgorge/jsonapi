@@ -35,14 +35,16 @@ versions = {}
 # versions['1.7.9'] = package: 'v1_7_R3', cb_version: '1.7.9-R0.2'
 # versions['1.7.10'] = package: 'v1_7_R4', cb_version: '1.7.10-R0.1-SNAPSHOT'
 # versions['1.8.0'] = package: 'v1_8_R1', cb_version: '1.8-R0.1-SNAPSHOT'
-versions['1.8.8'] = package: 'v1_8_R3', cb_version: '1.8.8-R0.1-SNAPSHOT'
+# versions['1.8.8'] = package: 'v1_8_R3', cb_version: '1.8.8-R0.1-SNAPSHOT'
+versions['1.9'] = package: 'v1_9_R1', cb_version: '1.9-R0.1-SNAPSHOT'
 
 # versions['1.4']   = versions['1.4.7']
 # versions['1.5']   = versions['1.5.2']
 # versions['1.6']   = versions['1.6.4']
 # versions['1.7']   = versions['1.7.10']
 # versions['1.8']   = versions['1.8.0']
-versions['1.8.8']   = versions['1.8.8']
+# versions['1.8.8']   = versions['1.8.8']
+versions['1.9'] = versions['1.9']
 
 available_versions = Object.keys(versions)
 build_cmd = (ver, cmd = "clean install") ->

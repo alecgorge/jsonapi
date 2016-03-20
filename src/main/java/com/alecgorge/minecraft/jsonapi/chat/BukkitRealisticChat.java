@@ -14,24 +14,17 @@ import org.bukkit.event.player.PlayerChatEvent;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.util.OfflinePlayerLoader;
 
-
-
-
-
-
-
-
 //#ifdefined mcversion
 //$import net.minecraft.server./*$mcversion$*/.*;
 //$import org.bukkit.craftbukkit./*$mcversion$*/.*;
 //$import org.bukkit.craftbukkit./*$mcversion$*/.entity.*;
 //$import org.bukkit.craftbukkit./*$mcversion$*/.util.*;
 //#else
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_9_R1.*;
 
-import org.bukkit.craftbukkit.v1_8_R3.*;
-import org.bukkit.craftbukkit.v1_8_R3.entity.*;
-import org.bukkit.craftbukkit.v1_8_R3.util.*;
+import org.bukkit.craftbukkit.v1_9_R1.*;
+import org.bukkit.craftbukkit.v1_9_R1.entity.*;
+import org.bukkit.craftbukkit.v1_9_R1.util.*;
 //#endif
 
 @SuppressWarnings("deprecation")
@@ -221,26 +214,24 @@ public class BukkitRealisticChat implements IRealisticChat {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean chatWithPlayer(String message, Player player) {
 		try {
 			String s = message;
 			boolean async = false;
 
 			// based on
-			// net/minecraft/server/v1_8_R3/PlayerConnection.java#chat(2)
-			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(async, player, s, new LazyPlayerSet());
-			getServer().getPluginManager().callEvent(event);
-
+			// net/minecraft/server/v1_9_R1/PlayerConnection.java#chat(String, boolean)
 			final MinecraftServer minecraftServer;
 
 			if (getServer() instanceof CraftServer) {
 				minecraftServer = ((CraftServer) getServer()).getServer();
-			}
-			else {
+			} else {
 				System.err.println("Whoa, getServer() isn't a CraftServer?! I can't send a chat message now! It is a " + getServer().getClass().getCanonicalName());
 				return false;
 			}
+
+			AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(async, player, s, new LazyPlayerSet(minecraftServer));
+			getServer().getPluginManager().callEvent(event);
 
 			Waitable<Void> waitable;
 			if (PlayerChatEvent.getHandlerList().getRegisteredListeners().length != 0) {
