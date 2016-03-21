@@ -32,8 +32,8 @@
 	</profiles>
 
 	<properties>
-		<spigotVersion>1.8.8-R0.1-SNAPSHOT</spigotVersion>
-        <mcPackage>v1_8_R3</mcPackage>
+		<spigotVersion>1.9-R0.1-SNAPSHOT</spigotVersion>
+        <mcPackage>v1_9_R1</mcPackage>
         <jsonapiDebug>no</jsonapiDebug>
 	</properties>
 
@@ -50,10 +50,10 @@
 			<id>dmulloy2-repo</id>
 			<url>http://repo.dmulloy2.net/content/groups/public/</url>
 		</repository>
-        <!-- <repository>
+        <repository>
             <id>ess-repo</id>
             <url>http://repo.ess3.net/content/groups/essentials</url>
-        </repository> -->
+        </repository>
     </repositories>
 
     <dependencies>
@@ -72,6 +72,11 @@
 			<systemPath>${project.basedir}/test/spigot-latest.jar</systemPath> -->
 		</dependency>
 		<dependency>
+			<groupId>net.ess3</groupId>
+			<artifactId>Essentials</artifactId>
+			<version>2.14-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.igormaznitsa</groupId>
 			<artifactId>jcp</artifactId>
 			<version>5.3.2</version>
@@ -83,20 +88,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
-			<artifactId>ProtocolLib</artifactId>
-			<version>3.6.4</version>
-		</dependency>
-		<dependency>
-            <!-- <groupId>net.ess3</groupId>
-            <artifactId>Essentials</artifactId>
-            <version>2.13.1</version> -->
-            <groupId>com.earth2me.essentials</groupId>
-            <artifactId>Essentials</artifactId>
-            <version>2.0.1-b264</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/test/plugins/Essentials-2.0.1-b264.jar</systemPath>
+			<artifactId>ProtocolLib-API</artifactId>
+			<version>4.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<finalName>JSONAPI</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
