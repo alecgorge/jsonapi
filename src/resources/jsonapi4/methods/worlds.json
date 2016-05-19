@@ -146,7 +146,7 @@
                     "The type ID to change the block to"
                 ]
             ],
-            "name": "worlds.world.get_block"
+            "name": "worlds.world.set_block_type"
         },
         {
             "desc": "Set the data value of the block in the specified world at the specified coordinate",
