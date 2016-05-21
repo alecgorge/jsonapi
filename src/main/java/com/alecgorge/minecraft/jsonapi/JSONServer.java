@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.json.simpleForBukkit.JSONArray;
 import org.json.simpleForBukkit.JSONObject;
 import org.json.simpleForBukkit.parser.JSONParser;
@@ -30,6 +31,8 @@ import com.alecgorge.minecraft.jsonapi.dynamic.APIWrapperMethods;
 import com.alecgorge.minecraft.jsonapi.dynamic.Caller;
 import com.alecgorge.minecraft.jsonapi.streams.ChatMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ChatStream;
+import com.alecgorge.minecraft.jsonapi.streams.EggMessage;
+import com.alecgorge.minecraft.jsonapi.streams.EggStream;
 import com.alecgorge.minecraft.jsonapi.streams.ConnectionMessage;
 import com.alecgorge.minecraft.jsonapi.streams.ConnectionStream;
 import com.alecgorge.minecraft.jsonapi.streams.ConsoleMessage;
@@ -46,6 +49,7 @@ public class JSONServer extends NanoHTTPD {
 	private Caller caller;
 
 	public ChatStream chat = new ChatStream("chat");
+	public EggStream eggStream = new EggStream("egg");
 	public FormattedChatStream formattedChat = new FormattedChatStream("formatted_chat");
 	public ConsoleStream console = new ConsoleStream("console");
 	public ConnectionStream connections = new ConnectionStream("connections");
@@ -199,6 +203,12 @@ public class JSONServer extends NanoHTTPD {
 			connections.addMessage(new ConnectionMessage(player, false));
 		}
 	}
+
+        public void logEggThrow(PlayerEggThrowEvent e) {
+		if(inst.isEnabled()) {
+			eggStream.addMessage(new EggMessage(e));
+		}
+        }
 
 	public boolean testLogin(String method, String hash) {
 		try {

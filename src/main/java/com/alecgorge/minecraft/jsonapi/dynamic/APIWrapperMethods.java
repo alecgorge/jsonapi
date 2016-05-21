@@ -985,6 +985,10 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		return getStreamWithLimit("chat", count);
 	}
 
+	public List<JSONObject> getEggLogs(int count) {
+		return getStreamWithLimit("egg", count);
+	}
+
 	public List<JSONObject> getFormattedChatLogs(int count) {
 		return getStreamWithLimit("formatted_chat", count);
 	}

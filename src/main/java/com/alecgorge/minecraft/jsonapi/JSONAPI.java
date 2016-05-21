@@ -41,6 +41,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -554,6 +555,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			// new PortMapper(this); // map dem ports
 
 			registerStreamManager("chat", getJSONServer().chat);
+			registerStreamManager("egg", getJSONServer().eggStream);
 			registerStreamManager("formatted_chat", getJSONServer().formattedChat);
 			registerStreamManager("console", getJSONServer().console);
 			registerStreamManager("connections", getJSONServer().connections);
@@ -929,5 +931,11 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		public void onPlayerQuit(PlayerQuitEvent event) {
 			p.jsonServer.logDisconnected(event.getPlayer().getName());
 		}
+
+                @EventHandler
+                public void onPlayerThrowEgg (PlayerEggThrowEvent event)
+                {
+                        p.jsonServer.logEggThrow(event);
+                }
 	}
 }
