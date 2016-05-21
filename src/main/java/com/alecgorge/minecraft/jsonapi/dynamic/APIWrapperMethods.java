@@ -1053,6 +1053,17 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 		Server.getWorld(w).getBlockAt(x, y, z).setData((byte) data);
 	}
 
+        public void explodeAtLocation(
+                String w,
+                double x,
+                double y,
+                double z,
+                double power,
+                boolean setFire,
+                boolean breakBlocks) {
+		Server.getWorld(w).createExplosion(x, y, z, (float)power, setFire, breakBlocks);
+        }
+
 	public boolean teleport(String player1, String player2) {
 		Player p = getPlayerExact(player1);
 		p.teleport(getPlayerExact(player2));

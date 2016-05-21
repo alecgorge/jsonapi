@@ -195,6 +195,49 @@
                     "world"
                 ]
             ]
+        },
+        {
+            "desc": "Creates an explosion at a location",
+            "call": "this.explodeAtLocation(0, 1, 2, 3, 4, 5, 6)",
+            "args": [
+                [
+                    "world",
+                    "String",
+                    "world"
+                ],
+                [
+                    "x",
+                    "double",
+                    "The x-coord of the block"
+                ],
+                [
+                    "y",
+                    "double",
+                    "The y-coord of the block"
+                ],
+                [
+                    "z",
+                    "double",
+                    "The z-coord of the block"
+                ],
+                [
+                    "power",
+                    "double",
+                    "The destructive power of the explosion"
+                ],
+                [
+                    "set_fire",
+                    "boolean",
+                    "Whether the explosion should set things on fire"
+                ],
+                [
+                    "destructive",
+                    "boolean",
+                    "Whether the explosion should destroy blocks"
+                ]
+
+            ],
+            "name": "worlds.world.explode"
         }
     ]
 }
