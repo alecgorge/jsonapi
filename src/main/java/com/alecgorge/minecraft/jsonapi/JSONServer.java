@@ -131,12 +131,12 @@ public class JSONServer extends NanoHTTPD {
 		outLog.info("[JSONAPI] Active and listening for requests.");
 
 		try {
-			URL whatismyip = new URL("https://tools.alecgorge.com/ip.php");
+			URL whatismyip = new URL("http://tools.alecgorge.com/ip.php");
             BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
 
             String ip = in.readLine();
             
-            URL checkURL = new URL("https://tools.alecgorge.com/port_check.php");
+            URL checkURL = new URL("http://tools.alecgorge.com/port_check.php");
             
             outLog.info("[JSONAPI] External IP: " + ip);
 
