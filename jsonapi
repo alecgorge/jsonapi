@@ -40,6 +40,7 @@ versions['1.9'] = package: 'v1_9_R1', cb_version: '1.9-R0.1-SNAPSHOT'
 versions['1.9.2'] = package: 'v1_9_R1', cb_version: '1.9.2-R0.1-SNAPSHOT'
 versions['1.9.4'] = package: 'v1_9_R2', cb_version: '1.9.4-R0.1-SNAPSHOT'
 versions['1.10.2'] = package: 'v1_10_R1', cb_version: '1.10.2-R0.1-SNAPSHOT'
+versions['1.11.2'] = package: 'v1_11_R1', cb_version: '1.11.2-R0.1-SNAPSHOT'
 
 # versions['1.4']   = versions['1.4.7']
 # versions['1.5']   = versions['1.5.2']

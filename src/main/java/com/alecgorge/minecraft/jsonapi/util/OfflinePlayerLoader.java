@@ -13,9 +13,9 @@ import com.mojang.authlib.GameProfile;
 //$import net.minecraft.server./*$mcversion$*/.*;
 //$import org.bukkit.craftbukkit./*$mcversion$*/.*;
 //#else
-import net.minecraft.server.v1_9_R1.EntityPlayer;
-import net.minecraft.server.v1_9_R1.*;
-import org.bukkit.craftbukkit.v1_9_R1.*;
+import net.minecraft.server.v1_11_R1.EntityPlayer;
+import net.minecraft.server.v1_11_R1.*;
+import org.bukkit.craftbukkit.v1_11_R1.*;
 //#endif
 
 public class OfflinePlayerLoader {
