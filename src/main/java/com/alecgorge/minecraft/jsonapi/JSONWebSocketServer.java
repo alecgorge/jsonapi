@@ -18,7 +18,7 @@ public class JSONWebSocketServer extends WebSocketServer {
 	JSONServer jsonServer;
 	
 	public JSONWebSocketServer (int port, JSONServer jsonServer) {
-		super(new InetSocketAddress(port));
+		super(JSONAPI.instance.bindAddress != null ? new InetSocketAddress(JSONAPI.instance.bindAddress, port) : new InetSocketAddress(port));
 		this.jsonServer = jsonServer;
 	}
 
