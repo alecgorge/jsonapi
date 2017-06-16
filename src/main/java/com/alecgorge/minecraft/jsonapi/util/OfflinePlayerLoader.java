@@ -8,15 +8,9 @@ import org.bukkit.entity.Player;
 
 import com.mojang.authlib.GameProfile;
 
-//#ifdefined mcversion
-//$import net.minecraft.server./*$mcversion$*/.EntityPlayer;
-//$import net.minecraft.server./*$mcversion$*/.*;
-//$import org.bukkit.craftbukkit./*$mcversion$*/.*;
-//#else
-import net.minecraft.server.v1_11_R1.EntityPlayer;
-import net.minecraft.server.v1_11_R1.*;
-import org.bukkit.craftbukkit.v1_11_R1.*;
-//#endif
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.craftbukkit.v1_12_R1.*;
 
 public class OfflinePlayerLoader {
 	public static Player load(String exactPlayerName) {
