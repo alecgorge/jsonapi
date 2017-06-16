@@ -32,8 +32,8 @@
 	</profiles>
 
 	<properties>
-		<spigotVersion>1.11-R0.1-SNAPSHOT</spigotVersion>
-        <mcPackage>v1_11_R1</mcPackage>
+		<spigotVersion>1.12-R0.1-SNAPSHOT</spigotVersion>
+        <mcPackage>v1_12_R1</mcPackage>
         <jsonapiDebug>no</jsonapiDebug>
 	</properties>
 
