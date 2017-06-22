@@ -7,8 +7,9 @@ cd $DIR
 echo "Removing old builds"
 rm -rf builds/*
 
+
 echo "Building 1.11.2-R0.1-SNAPSHOT"
-mvn clean install $@ -DmcPackage=v1_11_R1 -DspigotVersion=1.11.2-R0.1-SNAPSHOT
+mvn clean install $@ -DmcPackage=v1_11_R1 -DspigotVersion=1.11.2-R0.1-SNAPSHOT -Dmc1120rNewer=no
 
 rc=$?
 if [[ $rc != 0 ]] ; then
@@ -16,7 +17,7 @@ if [[ $rc != 0 ]] ; then
 fi
 
 echo "Building 1.12-R0.1-SNAPSHOT"
-mvn clean install $@ -DmcPackage=v1_12_R1 -DspigotVersion=1.12-R0.1-SNAPSHOT
+mvn clean install $@ -DmcPackage=v1_12_R1 -DspigotVersion=1.12-R0.1-SNAPSHOT -Dmc1120rNewer=yes
 
 rc=$?
 if [[ $rc != 0 ]] ; then

@@ -2,6 +2,27 @@ JSONAPI is a plugin for Bukkit that allows you to access data and other informat
 
 However, this plugin won't do all of that by itself. It is simply an API that allows you to assemble the features in a way that makes sense for your needs.
 
+## Contributing/dev setup
+
+This project relies on Java Comment Preprocessing to handle multiple versions of Minecraft.
+
+The files in src/ will only compile for one version but anything that has a dependency on a specific version of Minecraft with have specialized
+imports like this:
+
+```
+//#ifdefined mcversion
+//$import net.minecraft.server./*$mcversion$*/.EntityPlayer;
+//$import net.minecraft.server./*$mcversion$*/.*;
+//$import org.bukkit.craftbukkit./*$mcversion$*/.*;		
+//#else		
+import net.minecraft.server.v1_11_R1.EntityPlayer;		
+import net.minecraft.server.v1_11_R1.*;		
+import org.bukkit.craftbukkit.v1_11_R1.*;		
+//#endif
+```
+
+The only proper way to build JSONAPI is with `./complete_build`. You can edit `./jsonapi` to add new versions.
+
 ## Download
 
 [Download JSONAPI](https://github.com/alecgorge/jsonapi/releases)

@@ -15,7 +15,11 @@ extends AbstractAppender
 	JSONServer server;
 	
 	public ConsoleStubAppender(JSONServer server) {
+//#if mc1120rNewer=="yes"
+//$		super("JSONAPI", null, PatternLayout.newBuilder().withPattern("[%d{HH:mm:ss} %level]: %msg%n").build(), false);
+//#else		
 		super("JSONAPI", null, PatternLayout.createLayout("[%d{HH:mm:ss} %level]: %msg%n", null, null, null, null), false);
+//#endif
 		
 		this.server = server;
 	}

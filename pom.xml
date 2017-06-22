@@ -84,12 +84,12 @@
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>Vault</artifactId>
-			<version>1.5.6</version>
+			<version>1.6.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
-			<artifactId>ProtocolLib-API</artifactId>
-			<version>4.0-SNAPSHOT</version>
+			<artifactId>ProtocolLib</artifactId>
+			<version>4.3.0</version>
 		</dependency>
 	</dependencies>
 
@@ -128,9 +128,13 @@
 				</executions>
 				<configuration>
 					<globalVars>
+                        <property>
+                            <name>mcversion</name>
+                            <value>${mcPackage}</value>
+                        </property>
 						<property>
-							<name>mcversion</name>
-							<value>${mcPackage}</value>
+							<name>mc1120rNewer</name>
+							<value>${mc1120rNewer}</value>
 						</property>
                         <!-- <property>
                             <name>mc16OrNewer</name>
@@ -179,7 +183,7 @@
                                 <artifactItem>
                                     <groupId>com.alecgorge.minecraft.jsonapi</groupId>
                                     <artifactId>JSONAPI</artifactId>
-                                    <version>${version}</version>
+                                    <version>${project.version}</version>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${basedir}/test/plugins</outputDirectory>
@@ -209,8 +213,8 @@
                                 <artifactItem>
                                     <groupId>com.alecgorge.minecraft.jsonapi</groupId>
                                     <artifactId>JSONAPI</artifactId>
-                                    <version>${version}</version>
-                                    <destFileName>JSONAPI-${version}.jar</destFileName>
+                                    <version>${project.version}</version>
+                                    <destFileName>JSONAPI-${project.version}.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>builds/Spigot-${spigotVersion}</outputDirectory>
@@ -228,8 +232,8 @@
                                 <artifactItem>
                                     <groupId>com.alecgorge.minecraft.jsonapi</groupId>
                                     <artifactId>JSONAPI</artifactId>
-                                    <version>${version}</version>
-                                    <destFileName>JSONAPI-${version}.jar</destFileName>
+                                    <version>${project.version}</version>
+                                    <destFileName>JSONAPI-${project.version}.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>builds/Spigot-all</outputDirectory>

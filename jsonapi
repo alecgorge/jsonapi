@@ -36,10 +36,10 @@ versions = {}
 # versions['1.7.10'] = package: 'v1_7_R4', cb_version: '1.7.10-R0.1-SNAPSHOT'
 # versions['1.8.0'] = package: 'v1_8_R1', cb_version: '1.8-R0.1-SNAPSHOT'
 # versions['1.8.8'] = package: 'v1_8_R3', cb_version: '1.8.8-R0.1-SNAPSHOT'
-versions['1.9'] = package: 'v1_9_R1', cb_version: '1.9-R0.1-SNAPSHOT'
-versions['1.9.2'] = package: 'v1_9_R1', cb_version: '1.9.2-R0.1-SNAPSHOT'
-versions['1.9.4'] = package: 'v1_9_R2', cb_version: '1.9.4-R0.1-SNAPSHOT'
-versions['1.10.2'] = package: 'v1_10_R1', cb_version: '1.10.2-R0.1-SNAPSHOT'
+# versions['1.9'] = package: 'v1_9_R1', cb_version: '1.9-SNAPSHOT'
+# versions['1.9.2'] = package: 'v1_9_R1', cb_version: '1.9.2-R0.1-SNAPSHOT'
+# versions['1.9.4'] = package: 'v1_9_R2', cb_version: '1.9.4-R0.1-SNAPSHOT'
+# versions['1.10.2'] = package: 'v1_10_R1', cb_version: '1.10.2-R0.1-SNAPSHOT'
 versions['1.11.2'] = package: 'v1_11_R1', cb_version: '1.11.2-R0.1-SNAPSHOT'
 versions['1.12'] = package: 'v1_12_R1', cb_version: '1.12-R0.1-SNAPSHOT'
 
@@ -59,7 +59,8 @@ build_cmd = (ver, cmd = "clean install") ->
 	mc16OrNewer  = if v[0] >= 1 and v[1] >= 6 then "yes" else "no"
 	mc17OrNewer  = if v[0] >= 1 and v[1] >= 7 then "yes" else "no"
 	mc179OrNewer = if v[0] >= 1 and v[1] >= 7 and v[2] >= 9 then "yes" else "no"
-	return "mvn #{cmd} $@ -DmcPackage=#{ver.package} -DspigotVersion=#{ver.cb_version}"
+	mc1120rNewer = if v[0] >= 1 and v[1] >= 12 then "yes" else "no"
+	return "mvn #{cmd} $@ -DmcPackage=#{ver.package} -DspigotVersion=#{ver.cb_version} -Dmc1120rNewer=#{mc1120rNewer}"
 eclipse_cmd = (ver) ->
 	return build_cmd ver, "eclipse:eclipse"
 build = (to_build) ->
