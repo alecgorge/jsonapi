@@ -1,0 +1,11 @@
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\bin\Debug\netcoreapp1.1\JsonApiTest.deps.json
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\bin\Debug\netcoreapp1.1\JsonApiTest.runtimeconfig.json
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\bin\Debug\netcoreapp1.1\JsonApiTest.runtimeconfig.dev.json
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\bin\Debug\netcoreapp1.1\JsonApiTest.dll
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\bin\Debug\netcoreapp1.1\JsonApiTest.pdb
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\bin\Debug\netcoreapp1.1\JsonApi.dll
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\bin\Debug\netcoreapp1.1\JsonApi.pdb
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\obj\Debug\netcoreapp1.1\JsonApiTest.csprojResolveAssemblyReference.cache
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\obj\Debug\netcoreapp1.1\JsonApiTest.AssemblyInfo.cs
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\obj\Debug\netcoreapp1.1\JsonApiTest.dll
+F:\jsonapi\sdk\DotNet Core\JsonApiTest\obj\Debug\netcoreapp1.1\JsonApiTest.pdb
