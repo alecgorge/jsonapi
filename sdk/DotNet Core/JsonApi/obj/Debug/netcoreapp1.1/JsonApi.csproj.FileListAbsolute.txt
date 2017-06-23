@@ -1,6 +1,0 @@
-F:\jsonapi\sdk\DotNet Core\JsonApi\bin\Debug\netcoreapp1.1\JsonApi.deps.json
-F:\jsonapi\sdk\DotNet Core\JsonApi\bin\Debug\netcoreapp1.1\JsonApi.dll
-F:\jsonapi\sdk\DotNet Core\JsonApi\bin\Debug\netcoreapp1.1\JsonApi.pdb
-F:\jsonapi\sdk\DotNet Core\JsonApi\obj\Debug\netcoreapp1.1\JsonApi.AssemblyInfo.cs
-F:\jsonapi\sdk\DotNet Core\JsonApi\obj\Debug\netcoreapp1.1\JsonApi.dll
-F:\jsonapi\sdk\DotNet Core\JsonApi\obj\Debug\netcoreapp1.1\JsonApi.pdb
