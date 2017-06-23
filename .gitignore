@@ -11,3 +11,4 @@ deps/craftbukkit.jar
 *.swp
 *.out
 !*.dll
+.vs/*
