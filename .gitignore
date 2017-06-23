@@ -4,10 +4,11 @@ builds/
 target/
 release/
 bin/
+.vs/
 deps/craftbukkit.jar
 *~
 *.lock
 *.DS_Store
 *.swp
 *.out
-!*.dll
+!*.elt
