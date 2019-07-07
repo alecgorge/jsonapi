@@ -432,7 +432,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				startupDelay = yamlConfig.getInt("options.startup-delay", 2000);
 				anyoneCanUseCallAdmin = yamlConfig.getBoolean("options.anyone-can-use-calladmin", false);
 				allowSendingOldStreamMessages = yamlConfig.getBoolean("options.send-previous-stream-messages", true);
-				serverName = getServer().getServerName();
+				serverName = getServer().getName();
 				adminiumEnabled = yamlConfig.getBoolean("options.adminium-push-enabled", true);
 				if(yamlConfig.contains("options.use-new-api")) {
 					useGroups = yamlConfig.getBoolean("options.use-new-api", false);

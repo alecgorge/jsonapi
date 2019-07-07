@@ -28,6 +28,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.json.simpleForBukkit.JSONArray;
@@ -102,7 +103,7 @@ public class BukkitStringifier {
 			Block b = (Block) obj;
 			JSONObject o = new JSONObject();
 
-			o.put("type", b.getTypeId());
+			o.put("type", b.getType().name());
 			o.put("data", b.getData());
 
 			return o;
@@ -117,7 +118,8 @@ public class BukkitStringifier {
 			o.put("foodLevel", p.getFoodLevel());
 			o.put("exhaustion", p.getExhaustion());
 			o.put("ip", p.getAddress() != null ? p.getAddress().toString() : "offline");
-			o.put("itemInHand", p.getItemInHand());
+			o.put("itemInMainHand", p.getInventory().getItemInMainHand());
+			o.put("itemInOffHand", p.getInventory().getItemInOffHand());
 			o.put("location", p.getLocation());
 			o.put("inventory", p.getInventory());
 			// o.put("enderchest", p.getEnderChest());
@@ -163,7 +165,7 @@ public class BukkitStringifier {
 			o.put("players", s.getOnlinePlayers());
 			o.put("port", s.getPort());
 			o.put("name", s.getName());
-			o.put("serverName", s.getServerName());
+			o.put("serverName", s.getName());
 			o.put("version", s.getVersion());
 			o.put("worlds", s.getWorlds());
 
@@ -186,7 +188,7 @@ public class BukkitStringifier {
 			
 			List<String> playerNames = new ArrayList<String>();
 			for(Player p : w.getPlayers()) {
-				if(!p.getName().equals("�fHerobrine")) {
+				if(!p.getName().equals("§fHerobrine")) {
 					playerNames.add(p.getName());
 				}
 			}
@@ -207,6 +209,9 @@ public class BukkitStringifier {
 			o.put("website", d.getWebsite() == null ? "" : d.getWebsite());
 			o.put("enabled", JSONAPI.instance.getServer().getPluginManager().isPluginEnabled(p));
 			o.put("commands", d.getCommands());
+			o.put("api-version", d.getAPIVersion());
+			o.put("depend", d.getDepend());
+			o.put("softdepend", d.getSoftDepend());
 
 			return o;
 		} else if (obj instanceof ItemStack) {
@@ -214,19 +219,31 @@ public class BukkitStringifier {
 
 			JSONObject o = new JSONObject();
 
-			o.put("type", i.getTypeId());
+			o.put("type", i.getType().name());
 			o.put("durability", i.getDurability());
 			o.put("dataValue", (int) i.getData().getData());
 			o.put("amount", i.getAmount());
+			o.put("maxStackSize", i.getMaxStackSize());
+			if (i.hasItemMeta()) {
+				JSONObject itemMeta = new JSONObject();
+				ItemMeta im = i.getItemMeta();
+
+				itemMeta.put("displayName", im.getDisplayName());
+				itemMeta.put("itemFlags", im.getItemFlags().toArray());
+				itemMeta.put("lores", im.getLore());
+				itemMeta.put("isUnbreakable", im.isUnbreakable());
+
+				o.put("itemMeta", itemMeta);
+			}
 
 			JSONObject enchantments = new JSONObject();
 			for (Map.Entry<Enchantment, Integer> enchantment : i.getEnchantments().entrySet()) {
-				enchantments.put(enchantment.getKey().getId(), enchantment.getValue());
+				enchantments.put(enchantment.getKey().getName(), enchantment.getValue());
 			}
 
 			o.put("enchantments", enchantments);
 			
-			if (((ItemStack) obj).getType().equals(Material.BOOK_AND_QUILL) || ((ItemStack) obj).getType().equals(Material.WRITTEN_BOOK)) {
+			if (((ItemStack) obj).getType().equals(Material.WRITABLE_BOOK) || ((ItemStack) obj).getType().equals(Material.WRITTEN_BOOK)) {
 				JSONObject book = new JSONObject();
 				
 				BookMeta bookObj = (BookMeta)((ItemStack)obj).getItemMeta();
@@ -251,7 +268,7 @@ public class BukkitStringifier {
 			armor.put("leggings", p.getLeggings());
 
 			o.put("armor", armor);
-			o.put("hand", p.getItemInHand());
+			o.put("hand", p.getItemInMainHand());
 			o.put("inventory", Arrays.asList(p.getContents()));
 
 			return o;
@@ -306,9 +323,9 @@ public class BukkitStringifier {
 			
 			return n.getName();			
 		} else if (obj instanceof GameMode) {
-			return ((GameMode) obj).getValue();
+			return ((GameMode) obj).name();
 		} else if (obj instanceof Enchantment) {
-			return ((Enchantment) obj).getId();
+			return ((Enchantment) obj).getKey().toString();
 		} else if (JSONAPI.instance.getServer().getPluginManager().getPlugin("Vault") != null && obj instanceof EconomyResponse) {
 			JSONObject o = new JSONObject();
 			EconomyResponse r = (EconomyResponse) obj;
