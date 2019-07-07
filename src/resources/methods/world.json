@@ -17,7 +17,7 @@
 				["int", "The z-pos of the sign."]
 			]
 		},
-        	{
+		{
 			"name": "getChestContents",
 			"desc": "Gets all the items in a chest.",
 			"returns": ["Object[]", "The chest's inventory."],
@@ -67,7 +67,7 @@
 				["int", "The y-pos of the chest."],
 				["int", "The z-pos of the chest."],
 				["int","Slot number"],
-				["int","Id of item to give"],
+				["String","Name of item to give"],
 				["int","Quantity of item to give"]
 			]
 		},
@@ -82,7 +82,7 @@
 				["int", "The y-pos of the chest."],
 				["int", "The z-pos of the chest."],
 				["int","Slot number"],
-				["int","Id of item to give"],
+				["String","Name of item to give"],
 				["int","Quantity of item to give"],
 				["int","Decimal representation of the data value."]
 			]

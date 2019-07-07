@@ -21,6 +21,7 @@ public class JSONAPIAuthEvent extends Event {
 	boolean stream;
 
 	public JSONAPIAuthEvent(JSONAPIAuthResponse valid, String method, String hash, HashMap<String, String> logins, String username, boolean stream) {
+		super(true);
 		this.valid = valid;
 		this.method = method;
 		this.hash = hash;
@@ -30,6 +31,7 @@ public class JSONAPIAuthEvent extends Event {
 	}
 
 	public JSONAPIAuthEvent(JSONAPIAuthResponse valid, String method, String username, boolean stream) {
+		super(true);
 		this.valid = valid;
 		this.method = method;
 		this.username = username;

@@ -134,7 +134,7 @@ public class StreamPusher implements JSONAPIStreamListener {
 
 						r.addPostValue("source", streamName);
 						r.addPostValue("count", messages.size());
-						r.addPostValue("server-name", JSONAPI.instance.getServer().getServerName());
+						r.addPostValue("server-name", JSONAPI.instance.getServer().getName());
 						
 						if(getPushTag() != null) {
 							r.addPostValue("tag", getPushTag());

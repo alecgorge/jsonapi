@@ -60,7 +60,7 @@
 			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
 			"args": [
 				["String","Player's name"],
-				["int","Id of item to give"],
+				["String","Name of item to give"],
 				["int","Quantity of item to give"]
 			]
 		},
@@ -71,7 +71,7 @@
 			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server. An exception could be throw for invalid data (data < 0 or data > 15)."],
 			"args": [
 				["String","Player's name"],
-				["int","Id of item to give"],
+				["String","Name of item to give"],
 				["int","Quantity of item to give"],
 				["int","Decimal representation of the data value."]
 			]
@@ -83,7 +83,7 @@
 			"call": "this.giveItemDrop(0, 1, 2)",
 			"args": [
 				["String", "Players' name"],
-				["int", "Id of item to drop"],
+				["String", "Name of item to drop"],
 				["int", "Quantity of item to drop"]
 			]
 		},
@@ -94,7 +94,7 @@
 			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server. An exception could be throw for invalid data (data < 0 or data > 15)."],
 			"args": [
 				["String","Player's name"],
-				["int","Id of item to give"],
+				["String","Name of item to give"],
 				["int","Quantity of item to give"],
 				["int","Decimal representation of the data value."]
 			]
@@ -108,27 +108,26 @@
 		{
 			"name": "setPlayerInventorySlotWithDamage",
 			"desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified quantity and damage.",
-			"call": "this.setPlayerInventorySlot(0, 1, 2, 3, 4)",
+			"call": "this.setPlayerInventorySlotWithDamage(0, 1, 2, 3, 4)",
 			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
 			"args": [
 				["String", "Player's name"],
 				["int", "Slot number"],
-				["int", "Id of block type to set"],
+				["String", "Name of block type to set"],
 				["int", "The damage of the item."],
 				["int", "Quantity to set"]
 			]
 		},
 		{
-			"name": "setPlayerInventorySlotWithDataAndDamage",
-			"desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified data, quantity and damage.",
-			"call": "this.setPlayerInventorySlotWithDataAndDamage(0, 1, 2, 3, 4, 5)",
+			"name": "setPlayerInventorySlotWithData",
+			"desc": "Sets the specified slot in the specified player's inventory to the specified type with the specified data, quantity.",
+			"call": "this.setPlayerInventorySlotWithData(0, 1, 2, 3, 4)",
 			"returns": ["boolean", "True if the item was given. False will be returned if the player is not on the server."],
 			"args": [
 				["String", "Player's name"],
 				["int", "Slot number"],
-				["int", "Id of block type to set"],
+				["String", "Name of block type to set"],
 				["int", "The data of the item."],
-				["int", "The damage of the item."],
 				["int", "Quantity to set"]
 			]
 		},
@@ -140,7 +139,7 @@
 			"args": [
 				["String", "Player's name"],
 				["int", "Slot number"],
-				["int", "The enchantment ID (EID): http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types"],
+				["String", "The enchantment Name: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html"],
 				["int", "The enchantment level"]
 			]
 		},
@@ -152,7 +151,7 @@
 			"args": [
 				["String", "Player's name"],
 				["int", "Slot number"],
-				["Object[]", "Array of {enchantment: 0, level: 1}-esque objects where enchantment is the EID-value from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types"]
+				["Object[]", "Array of {enchantment: LUCK, level: 1}-esque objects where enchantment is the Name from here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html"]
 			]
 		},
 		{
@@ -163,7 +162,7 @@
 			"args": [
 				["String", "Player's name"],
 				["int", "Slot number"],
-				["Object[]", "Array of EID-values from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types"]
+				["Object[]", "Array of names from here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html"]
 			]
 		},
 		{
@@ -174,11 +173,11 @@
 			"args": [
 				["String", "Player's name"],
 				["int", "Slot number"],
-				["int", "Id of block type to set"],
+				["String", "Name of block type to set"],
 				["int", "The data of the item."],
 				["int", "The damage of the item."],
 				["int", "Quantity to set"],
-				["Object[]", "Array of {enchantment: 0, level: 1}-esque objects where enchantment is the EID-value from here: http://www.minecraftwiki.net/wiki/Enchanting#Enchantment_Types"]
+				["Object[]", "Array of {enchantment: LUCK, level: 1}-esque objects where enchantment is name from here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html"]
 			]
 		},
 		{
@@ -189,7 +188,7 @@
 			"args": [
 				["String", "Player's name"],
 				["int", "Slot number"],
-				["int", "Id of block type to set"],
+				["String", "Name of block type to set"],
 				["int", "The data of the item."],
 				["int", "Quantity to set"]
 			]
@@ -223,7 +222,7 @@
 			"args": [
 				["String", "Player's name"],
 				["int", "Slot number"],
-				["int", "Id of block type to set"],
+				["String", "Name of block type to set"],
 				["int", "Quantity to set"]
 			]
 		},
@@ -234,7 +233,7 @@
 			"call": "this.removePlayerInventoryItem(0, 1)",
 			"args": [
 				["String", "Player's name"],
-				["int", "Id of block type to remove"]
+				["String", "Name of block type to remove"]
 			]
 		},
 		{
@@ -711,15 +710,28 @@
 		},
 		{
 			"name": "setPlayerGameMode",
-			"desc": "Sets the game mode for a player. 0 is creative. 1 is survivial.",
+			"desc": "Sets the game mode by id for a player. 1 is creative. 0 is survivial. 2 os adventure. 3 is spectator",
 			"returns": ["boolean", "True on succes, false if the player is not on the server."],
-			"call": "this.setPlayerGameMode(0, 1)",
+			"call": "this.setPlayerGameModeById(0, 1)",
 			"flags": [
 				"FALSE_ON_EXCEPTION"
 			],
 			"args": [
 				["String", "The player's name."],
 				["int", "The game mode."]
+			]
+		},
+		{
+			"name": "setPlayerGameModeByName",
+			"desc": "Sets the game mode for a player. Options: [CREATIVE, SURVIVAL, ADVENTURE, SPECTATOR]",
+			"returns": ["boolean", "True on succes, false if the player is not on the server."],
+			"call": "this.setPlayerGameModeByName(0, 1)",
+			"flags": [
+				"FALSE_ON_EXCEPTION"
+			],
+			"args": [
+				["String", "The player's name."],
+				["String", "The name of game mode."]
 			]
 		},
 		{
@@ -771,25 +783,13 @@
 		{
 			"name":"setBlockType",
 			"desc":"Set the type of the block in the specified world at the specified coordinate.",
-			"call":"Server.getWorld(0).getBlockAt(1, 2, 3).setTypeId(4)",
+			"call":"this.setBlockType(0, 1, 2, 3, 4)",
 			"args": [
 				["String", "The world name."],
 				["int", "The x-coord of the block."],
 				["int", "The y-coord of the block."],
 				["int", "The z-coord of the block."],
-				["int", "The type ID to change the block to."]
-			]
-		},
-		{
-			"name":"setBlockData",
-			"desc":"Set the data value of the block in the specified world at the specified coordinate.",
-			"call":"this.setBlockData(0,1,2,3,4)",
-			"args": [
-				["String", "The world name."],
-				["int", "The x-coord of the block."],
-				["int", "The y-coord of the block."],
-				["int", "The z-coord of the block."],
-				["int", "The decimal representation of the data value to set on the block."]
+				["String", "Change the block to a block named."]
 			]
 		},
 		{
@@ -811,10 +811,10 @@
 			"name":"getOnlinePlayerNamesInWorld",
 			"desc":"Retrieves an array of the names of all the players currently in the given world.",
 			"returns":["String[]", "The players' names."],
+			"call":"Server.getWorld(0).getPlayers()",
 			"args": [
 				["String", "The world name"]
-			],
-			"call":"Server.getWorld(0).getPlayers()"
+			]
 		},
 		{
 			"name":"getOfflinePlayers",

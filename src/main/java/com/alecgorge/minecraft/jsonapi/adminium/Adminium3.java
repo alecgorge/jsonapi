@@ -226,7 +226,7 @@ public class Adminium3 implements JSONAPIStreamListener {
 
 			String messager = getMessage();
 			if (api.serverName != null && !api.serverName.isEmpty()) {
-				messager = (api.serverName.equals("default") ? api.getServer().getServerName() : api.serverName) + ": " + messager;
+				messager = (api.serverName.equals("default") ? api.getServer().getName() : api.serverName) + ": " + messager;
 			}
 
 			return messager.length() > 210 ? messager.substring(0, 208) + "\u2026" : messager;

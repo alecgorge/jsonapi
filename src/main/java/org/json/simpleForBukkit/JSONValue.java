@@ -92,7 +92,7 @@ public class JSONValue {
      * @see org.json.simpleForBukkit.JSONArray#writeJSONString(List, Writer)
      * 
      * @param value
-     * @param writer
+     * @param out
      */
 	@SuppressWarnings("unchecked")
 	public static void writeJSONString(Object value, Writer out) throws IOException {

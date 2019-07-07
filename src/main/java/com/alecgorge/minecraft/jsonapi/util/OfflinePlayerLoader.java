@@ -13,9 +13,9 @@ import com.mojang.authlib.GameProfile;
 //$import net.minecraft.server./*$mcversion$*/.*;
 //$import org.bukkit.craftbukkit./*$mcversion$*/.*;		
 //#else		
-import net.minecraft.server.v1_11_R1.EntityPlayer;		
-import net.minecraft.server.v1_11_R1.*;		
-import org.bukkit.craftbukkit.v1_11_R1.*;		
+import net.minecraft.server.v1_14_R1.EntityPlayer;
+import net.minecraft.server.v1_14_R1.*;
+import org.bukkit.craftbukkit.v1_14_R1.*;
 //#endif
 
 public class OfflinePlayerLoader {
@@ -51,7 +51,7 @@ public class OfflinePlayerLoader {
 		GameProfile profile = new GameProfile(player.getUniqueId(), player.getName());
 		MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
 		// Create an entity to load the player data
-		EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), profile, new PlayerInteractManager(server.getWorldServer(0)));
+		EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(DimensionManager.OVERWORLD), profile, new PlayerInteractManager(server.getWorldServer(DimensionManager.OVERWORLD)));
 
 		// Get the bukkit entity
 		Player target = entity.getBukkitEntity();
