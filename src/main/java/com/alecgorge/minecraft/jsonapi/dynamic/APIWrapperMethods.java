@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.alecgorge.minecraft.jsonapi.util.SearchType;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 
@@ -1370,5 +1371,134 @@ public class APIWrapperMethods implements JSONAPIMethodProvider {
 	
 	public boolean spawn(String world, double x, double y, double z, String mobName) {
 		return getServer().getWorld(world).spawnEntity(new Location(getServer().getWorld(world), x, y, z), EntityType.valueOf(mobName.toUpperCase())) != null;
-	}	
+	}
+
+	/**
+	 * Statistic​ section
+	 */
+
+	/**
+	 * Gets all player statistics
+	 * @param playerName - player name
+	 * @return 
+	 */
+	public JSONObject getAllPlayerStatistic(String playerName) {
+		JSONObject objectReturn = new JSONObject();
+
+		try {
+			Player p = getPlayerExact(playerName);
+
+			objectReturn = getPlayerStatisticUntyped(p);
+			objectReturn.put("Items", getPlayerStatisticItem(p));
+			objectReturn.put("Blocks", getPlayerStatisticBlock(p));
+			objectReturn.put("Entities", getPlayerStatisticEntity(p));
+			return objectReturn;
+
+		} catch (NullPointerException ex) {
+			return null;
+		}
+	}
+
+	/**
+	 * Gets all plaer statistics by Type
+	 * @param playerName - Player Name
+	 * @param type - one from: UNTYPED, ENTITY, BLOCK, ITEM
+	 * @return
+	 */
+	public JSONObject getPlayerStatisticByType(String playerName, String type) {
+		JSONObject o;
+
+		try {
+			Player p = getPlayerExact(playerName);
+
+			Statistic.Type t = Statistic.Type.valueOf(type.toUpperCase());
+
+			switch (t) {
+				case UNTYPED:
+					o = getPlayerStatisticUntyped(p);
+					break;
+				case ENTITY:
+					o = getPlayerStatisticEntity(p);
+					break;
+				case BLOCK:
+					o = getPlayerStatisticBlock(p);
+					break;
+				case ITEM:
+					o = getPlayerStatisticItem(p);
+					break;
+				default:
+					return null;
+			}
+
+			return o;
+
+		} catch (NullPointerException ex) {
+			return null;
+		}
+	}
+
+	private JSONObject getPlayerStatisticItem(Player player) {
+		JSONObject object = new JSONObject();
+
+		for (Material material : Material.values()) {
+			if (material.isItem()) {
+				JSONObject stats = new JSONObject();
+
+				for (Statistic s : Statistic.values()) {
+					if (s.getType() == Statistic.Type.ITEM) {
+						stats.put(s.name(), player.getStatistic(s, material));
+					}
+				}
+				object.put(material.name(), stats);
+			}
+		}
+
+		return object;
+	}
+
+	private JSONObject getPlayerStatisticBlock(Player player) {
+		JSONObject object = new JSONObject();
+
+		for (Material material : Material.values()) {
+			if (material.isBlock()) {
+				object.put(material.name(),
+						player.getStatistic(Statistic.MINE_BLOCK, material));
+			}
+		}
+
+		return object;
+	}
+
+	private JSONObject getPlayerStatisticEntity(Player player) {
+		JSONObject object = new JSONObject();
+		SearchType mobs = SearchType.MOBS;
+
+		for (EntityType et : EntityType.values()) {
+			if (mobs.isContainsInEntitiesList(et)) {
+				JSONObject stats = new JSONObject();
+
+				for (Statistic s : Statistic.values()) {
+					if (s.getType() == Statistic.Type.ENTITY) {
+						stats.put(s.name(), player.getStatistic(s, et));
+					}
+				}
+
+				object.put(et.name(), stats);
+			}
+		}
+
+		return object;
+	}
+
+	private JSONObject getPlayerStatisticUntyped(Player player) {
+		JSONObject object = new JSONObject();
+
+		for (Statistic s : Statistic.values()) {
+			if (s.getType() == Statistic.Type.UNTYPED) {
+				object.put(s.name(), player.getStatistic(s));
+			}
+		}
+
+		return object;
+	}
 }

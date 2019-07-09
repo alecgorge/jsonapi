@@ -6,6 +6,25 @@
 	],
 	"methods" : [
 		{
+			"name": "getAllPlayerStatistic",
+			"desc": "Gets all statistics of player.",
+			"returns": ["Object", "The object of Statistic"],
+			"call": "this.getAllPlayerStatistic(0)",
+			"args": [
+				["String","Player name"]
+			]
+		},
+		{
+			"name": "getPlayerStatisticByType",
+			"desc": "",
+			"returns" : ["Object", "Return Player Statistic by type."],
+			"call": "this.getPlayerStatisticByType(0, 1)",
+			"args": [
+				["String", "Player name"],
+				["String", "Name of Type Stats: ITEM, BLOCK, ENTITY, UNTYPED"]
+			]
+		},
+		{
 			"name": "getPlayerLimit",
 			"desc": "Gets the maximum amount of players allowed on the server.",
 			"returns": ["int", "The player limit."],
@@ -371,6 +390,24 @@
 			"desc": "Gets an array of all the world names on the server.",
 			"returns": ["String[]", "All of the names of the worlds on the server."],
 			"call": "this.getWorldNames()"
+		},
+		{
+			"name": "getWorldFullTime",
+			"desc": "Gets FullTime the |world| object with the given name.",
+			"returns": ["int", "The world with the given name."],
+			"call": "Server.getWorld(0).getFullTime()",
+			"args": [
+				["String", "Name of the world to get"]
+			]
+		},
+		{
+			"name": "getWorldTime",
+			"desc": "Gets Time the |world| object with the given name.",
+			"returns": ["int", "The world with the given name."],
+			"call": "Server.getWorld(0).getTime()",
+			"args": [
+				["String", "Name of the world to get"]
+			]
 		},
 		{
 			"name": "kickPlayer",
