@@ -32,8 +32,8 @@
     </profiles>
 
     <properties>
-        <spigotVersion>1.14.3-R0.1-SNAPSHOT</spigotVersion>
-        <mcPackage>v1_14_R1</mcPackage>
+        <spigotVersion>1.15.2-R0.1-SNAPSHOT</spigotVersion>
+        <mcPackage>v1_15_R1</mcPackage>
         <jsonapiDebug>no</jsonapiDebug>
     </properties>
 
@@ -69,7 +69,7 @@
             <artifactId>spigot</artifactId>
             <version>${spigotVersion}</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/test/spigot-1.14.3-R0.1-SNAPSHOT.jar</systemPath>
+            <systemPath>${project.basedir}/spigot/Spigot/Spigot-Server/target/spigot-${spigotVersion}.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.ess3</groupId>
@@ -159,7 +159,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -171,7 +171,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.10</version>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <id>install-test-jar</id>
@@ -258,7 +258,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>copy-prod-resources</id>

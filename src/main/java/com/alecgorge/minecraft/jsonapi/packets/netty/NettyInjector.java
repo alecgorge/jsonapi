@@ -11,6 +11,7 @@ import io.netty.channel.ChannelInitializer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Set;
 
 import com.comphenix.protocol.reflect.FuzzyReflection;
 import com.comphenix.protocol.reflect.VolatileField;
@@ -79,9 +80,10 @@ public abstract class NettyInjector {
             };
             
             // Get the current NetworkMananger list
-            networkManagers = (List<Object>) FuzzyReflection.fromObject(serverConnection, true).
-                invokeMethod(null, "getNetworkManagers", List.class, serverConnection);
-            
+            //networkManagers = (List<Object>) FuzzyReflection.fromObject(serverConnection, true).
+            //    invokeMethod(null, "getNetworkManagers", List.class, serverConnection);
+
+
             // Insert ProtocolLib's connection interceptor
             bootstrapFields = getBootstrapFields(serverConnection);
             

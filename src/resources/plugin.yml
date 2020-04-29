@@ -1,12 +1,12 @@
 name: JSONAPI
 main: com.alecgorge.minecraft.jsonapi.JSONAPI
-version: 5.8.0
+version: 5.9.0
 description: Control your server and fetch information from your server.
 website: http://mcjsonapi.com/
 author: Alec Gorge
 depend: [Vault, ProtocolLib]
 softdepend: [RemoteToolkitPlugin, dynmap]
-api-version: 1.14
+api-version: 1.15
 commands:
   reloadjsonapi:
     description: Reloads the API methods for JSONAPI.

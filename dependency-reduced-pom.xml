@@ -223,7 +223,7 @@
     <dependency>
       <groupId>net.milkbowl.vault</groupId>
       <artifactId>Vault</artifactId>
-      <version>1.2.27</version>
+      <version>1.7.3</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

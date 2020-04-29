@@ -43,6 +43,7 @@ versions = {}
 versions['1.11.2'] = package: 'v1_11_R1', cb_version: '1.11.2-R0.1-SNAPSHOT'
 versions['1.12'] = package: 'v1_12_R1', cb_version: '1.12-R0.1-SNAPSHOT'
 versions['1.14.3'] = package: 'v1_14_R1', cb_version: '1.14.3-R0.1-SNAPSHOT'
+versions['1.15.2'] = package: 'v1_15_R1', cb_version: '1.15.2-R0.1-SNAPSHOT'
 
 # versions['1.4']   = versions['1.4.7']
 # versions['1.5']   = versions['1.5.2']
@@ -98,6 +99,10 @@ cd $DIR
 
 echo "Removing old builds"
 rm -rf builds/*
+
+BUILDTOOLSURL="https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar"
+mkdir -p spigot
+( cd spigot ; rm -f BuildTools.jar ; wget $BUILDTOOLSURL ; java -jar BuildTools.jar --rev #{version} )
 
 """
 		console.log build(to_build).join("\n")
