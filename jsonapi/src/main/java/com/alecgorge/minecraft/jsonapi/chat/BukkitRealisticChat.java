@@ -13,18 +13,11 @@ import org.bukkit.event.player.PlayerChatEvent;
 import com.alecgorge.minecraft.jsonapi.JSONAPI;
 import com.alecgorge.minecraft.jsonapi.util.OfflinePlayerLoader;
 
-//#ifdefined mcversion
-//$import net.minecraft.server./*$mcversion$*/.*;
-//$import org.bukkit.craftbukkit./*$mcversion$*/.*;
-//$import org.bukkit.craftbukkit./*$mcversion$*/.entity.*;
-//$import org.bukkit.craftbukkit./*$mcversion$*/.util.*;
-//#else
 import net.minecraft.server.v1_15_R1.*;
-
 import org.bukkit.craftbukkit.v1_15_R1.*;
 import org.bukkit.craftbukkit.v1_15_R1.entity.*;
 import org.bukkit.craftbukkit.v1_15_R1.util.*;
-//#endif
+
 
 @SuppressWarnings("deprecation")
 public class BukkitRealisticChat implements IRealisticChat {
