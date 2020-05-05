@@ -57,3 +57,11 @@ options:
 
         # duh
         max_queue_length: 500
+
+    # Enable or disable debug logging
+    debug: false
+
+    # At startup JSONAPI can query and log the external ip and verify
+    # if the jsonapi ports are being forwarded properly by checking if
+    # accessible from the exterior
+    check-ports-forwarding: false

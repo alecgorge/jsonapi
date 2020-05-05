@@ -130,21 +130,30 @@ public class JSONServer extends NanoHTTPD {
 		
 		outLog.info("[JSONAPI] Active and listening for requests.");
 
+		checkPortsForwarding();
+
+		outLog.info("[JSONAPI] -------------------------------------");
+	}
+
+	private void checkPortsForwarding() {
+		if( !inst.checkPortsForwading ) {
+			return;
+		}
 		try {
 			URL whatismyip = new URL("http://tools.alecgorge.com/ip.php");
             BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
 
             String ip = in.readLine();
-            
+
             URL checkURL = new URL("http://tools.alecgorge.com/port_check.php");
-            
+
             outLog.info("[JSONAPI] External IP: " + ip);
 
             for(int i : new int[] { inst.port, inst.port + 1, inst.port + 2 }) {
             	MutableHttpRequest reqReg = new MutableHttpRequest(checkURL);
 	            reqReg.addGetValue("host", ip);
 	            reqReg.addGetValue("port", String.valueOf(i));
-	            
+
 	            if(reqReg.get().getStatusCode() == 200) {
 	            	outLog.info("[JSONAPI] Port " + i + " is properly forwarded and is externally accessible.");
 	            }
@@ -152,15 +161,13 @@ public class JSONServer extends NanoHTTPD {
 	            	outLog.info("[JSONAPI] Port " + i + " is not properly forwarded.");
 	            }
             }
-            
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-        outLog.info("[JSONAPI] -------------------------------------");
 	}
-	
-	
+
+
 	public UsersConfig getLogins() {
 		return logins;
 	}

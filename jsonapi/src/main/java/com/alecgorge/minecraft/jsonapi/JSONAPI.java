@@ -81,6 +81,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	public JSONWebSocketServer jsonWebSocketServer;
 	public JSONWebSocketServer sslJsonWebSocketServer;
 	public JSONAPIMessageListener jsonMessageListener = new JSONAPIMessageListener(this);
+	public boolean checkPortsForwading = false;
 
 	private StreamManager streamManager = new StreamManager();
 
@@ -119,11 +120,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	
 	JSONAPINettyInjector injector = null;
 
-//#if jsonapiDebug=="yes"
-//$	public static boolean shouldDebug = true;
-//#else
 	public static boolean shouldDebug = false;
-//#endif
+
 	public static void dbug(Object objects) {
 		if(JSONAPI.shouldDebug) {
 			System.out.println(objects);
@@ -207,81 +205,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 	}
 
 	public void onEnable() {
-		/*
-		try {
-			int countI = 0, countB = 0;
-			JSONObject o = new JSONObject();
-			for(Item i : Item.byId) {
-				if(i == null) continue;
-				countI++;
-				if(i.id < 256) continue;
-				
-				System.out.println(String.format("name: %25s id: %4s class: %s", i.getName(), i.id, i.getClass()));
-				
-				String[] names = null;
-				for(Field f : i.getClass().getDeclaredFields()) {
-					if(f.getType().isAssignableFrom(String[].class)) {
-						f.setAccessible(true);
-						names = (String[]) f.get(i);
-						if(names[0].contains("_")) {
-							names = null;
-							continue;
-						}
-						break;
-					}
-				}
-				if(i instanceof ItemCloth) {
-					names = ItemDye.a;
-				}
-				if(names == null) {
-					continue;
-				}
-				
-				//LocaleI18n.get(arg0)
-				
-				for(int j = 0; j < names.length; j++) {
-					System.out.println(String.format("\t%d: %s", j, names[j]));
-				}
-				
-				JSONObject obj = new JSONObject();
-				obj.put(", value)
-				
-				o.put(String.valueOf(i.id), obj);				
-			}
-			for(Block b : Block.byId) {
-				if(b == null) continue;
-				countB++;
-				System.out.println(String.format("name: %25s id: %4s materal: %s class: %s", b.getName(), b.id, b.material.getClass(), b.getClass()));
 
-				String[] names = null;
-				for(Field f : b.getClass().getDeclaredFields()) {
-					if(f.getType().isAssignableFrom(String[].class)) {
-						f.setAccessible(true);
-						names = (String[]) f.get(b);
-						if(names[0].contains("_")) {
-							names = null;
-							continue;
-						}
-						break;
-					}
-				}
-				if(b instanceof BlockCloth) {
-					names = ItemDye.a;
-				}
-				if(names == null) {
-					continue;
-				}
-				
-				for(int j = 0; j < names.length; j++) {
-					System.out.println(String.format("\t%d: %s", j, names[j]));
-				}
-			}
-			System.out.println("items: " + countI + " blocks: " + countB);
-		} catch(Exception e) {
-			
-		}
-		*/
-		
 		// for minecraft forge, Logger.getLogger("JSONAPI"); doesn't output anything...
 		try {
 			Class.forName("net.minecraftforge.common.MinecraftForge");
@@ -450,6 +374,8 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				}
 
 				method_noauth_whitelist = yamlConfig.getStringList("method-whitelist");
+				shouldDebug = yamlConfig.getBoolean("debug");
+				checkPortsForwading = yamlConfig.getBoolean( "check-ports-forwarding");
 
 				File usersFile = new File(getDataFolder(), "users.yml");
 				if(usersFile.exists()) {
@@ -580,7 +506,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 		} catch (Exception ioe) {
 			log.severe("[JSONAPI] Couldn't start server!\n");
 			ioe.printStackTrace();
-			// System.exit( -1 );
 		}
 	}
 	
@@ -601,12 +526,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 				jsonServer.connectionInfo();
 				return true;
 			}
-			/*
-			 * else if(!adminium.init && args.length > 1 &&
-			 * cmd.getName().equals("calladmin")) {
-			 * System.out.println(sender.getName() + ": " +
-			 * join(Arrays.asList(args), " ")); return true; }
-			 */
 		}
 		if (args.length >= 1 && cmd.getName().equals("calladmin")) {
 			adminium3.calladmin(sender, join(Arrays.asList(args), " "));
@@ -658,13 +577,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 			} else if (subCommand.equals("users")) {
 				if (args.length == 1 || args[1].equals("list")) {
 					List<String> usernames = new ArrayList<String>();
-					try {
-//					for(JSONAPIUser u : getJSONServer().getLogins().getUsers()) {
-//						usernames.add(u.getUsername());
-//					}
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
 					sender.sendMessage("Usernames: " + join(usernames, ", "));
 					return true;
 				} else if (args.length == 3 && args[2].equals("password")) {
@@ -684,7 +596,6 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 
 						List<String> g = new ArrayList<String>();
 						g.add("full_control");
-//						getJSONServer().getLogins().getUsers().add(new JSONAPIUser(username, password, g));
 
 						yamlConfig.set("logins", getJSONServer().getLogins());
 						yamlConfig.save(yamlFile);
@@ -697,70 +608,7 @@ public class JSONAPI extends JavaPlugin implements JSONAPIMethodProvider {
 					return true;
 				}
 			}
-		} /*else if (cmd.getName().equals("adminium")) {
-			if (!adminium.init) {
-				sender.sendMessage(ChatColor.RED + "You need Adminium for that.");
-				return true;
-			}
-
-			if (args.length == 0) {
-				sender.sendMessage(ChatColor.RED + "/adminium [user (username)|create-user (username) (group name)|set-group (username) (group name)|list-groups]");
-				return true;
-			}
-
-			String sub = args[0];
-			if (args.length == 2 && sub.equals("user")) {
-				String username = args[1];
-
-				if (!adminium.groupAssignments.containsKey(username)) {
-					sender.sendMessage(ChatColor.GREEN + username + " has access to everything and is not in a group.");
-					return true;
-				}
-
-				sender.sendMessage(ChatColor.GREEN + username + " is in the group " + adminium.groupAssignments.get(username));
-				return true;
-			} else if (args.length == 3 && (sub.equals("create-user") || sub.equals("set-group"))) {
-				try {
-					String username = args[1];
-					String groupName = args[2];
-
-					if (!adminium.groupPerms.containsKey(groupName)) {
-						sender.sendMessage(ChatColor.RED + groupName + " is a non-existant group!");
-						return true;
-					}
-
-					String pass = "";
-					if (!getJSONServer().getLogins().containsKey(username)) {
-						pass = genPassword();
-						getJSONServer().getLogins().put(username, pass);
-
-						yamlConfig.set("logins", getJSONServer().getLogins());
-						yamlConfig.save(yamlFile);
-					} else {
-						pass = getJSONServer().getLogins().get(username);
-					}
-
-					adminium.groupAssignments.put(username, groupName);
-					adminium.saveConfig();
-
-					sender.sendMessage(ChatColor.GREEN + "This user has the following information");
-					sender.sendMessage(ChatColor.GREEN + "Username: " + username);
-					sender.sendMessage(ChatColor.GREEN + "Password: " + pass);
-					sender.sendMessage(ChatColor.GREEN + "Group name: " + groupName);
-					sender.sendMessage(ChatColor.GREEN + "Salt: " + salt);
-				} catch (IOException e) {
-					sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
-					e.printStackTrace();
-				}
-				return true;
-			} else if (args.length == 1 && sub.equals("list-groups")) {
-				sender.sendMessage(ChatColor.GREEN + join(new ArrayList<String>(adminium.groupPerms.keySet()), ", "));
-				return true;
-			}
-
-			return true;
-		}*/
-
+		}
 		return false;
 	}
 

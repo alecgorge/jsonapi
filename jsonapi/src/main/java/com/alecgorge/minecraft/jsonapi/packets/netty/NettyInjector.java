@@ -10,8 +10,10 @@ import io.netty.channel.ChannelInitializer;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.comphenix.protocol.reflect.FuzzyReflection;
 import com.comphenix.protocol.reflect.VolatileField;
@@ -78,20 +80,18 @@ public abstract class NettyInjector {
                     ctx.fireChannelRead(msg);
                 }
             };
-            
-            // Get the current NetworkMananger list
-            //networkManagers = (List<Object>) FuzzyReflection.fromObject(serverConnection, true).
-            //    invokeMethod(null, "getNetworkManagers", List.class, serverConnection);
 
+            // Get the current NetworkMananger list
+            this.networkManagers = getNetworkManagers(serverConnection);;
 
             // Insert ProtocolLib's connection interceptor
-            bootstrapFields = getBootstrapFields(serverConnection);
+            this.bootstrapFields = getBootstrapFields(serverConnection);
             
             for (VolatileField field : bootstrapFields) {
                 final List<Object> list = (List<Object>) field.getValue();
      
                 // We don't have to override this list
-                if (list == networkManagers) {
+                if (list == this.networkManagers) {
                     continue;
                 }
                 
@@ -105,7 +105,41 @@ public abstract class NettyInjector {
             throw new RuntimeException("Unable to inject channel futures.", e);
         }
     }
-    
+
+    private List<Object> getNetworkManagers(Object serverConnection) throws IllegalAccessException {
+        Field networkManagersField = getFirstFieldWithListOfNetworkManagers(serverConnection);
+        List networkManagers =  new ArrayList();
+
+        if ( networkManagersField != null ){
+            networkManagers = (List<Object>) networkManagersField.get(serverConnection);
+        }
+        return networkManagers;
+    }
+
+
+    private Field getFirstFieldWithListOfNetworkManagers(Object serverConnection) {
+        Field networkManagersField = null;
+        Class<?> networkManagerClass;
+        try {
+            networkManagerClass = Class.forName(MinecraftReflection.getNetworkManagerClass().getCanonicalName());
+            for( Field declaredField: serverConnection.getClass().getDeclaredFields() ){
+                boolean fieldIsAList = declaredField.getType() == List.class;
+                if( fieldIsAList ){
+                    Type typeOfFirstListElement = ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];
+                    if( typeOfFirstListElement == networkManagerClass ) {
+                        networkManagersField = declaredField;
+                        networkManagersField.setAccessible(true);
+                        break;
+                    }
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return networkManagersField;
+
+    }
+
     /**
      * Invoked when a channel is ready to be injected.
      * @param channel - the channel to inject.
