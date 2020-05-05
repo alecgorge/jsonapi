@@ -5,6 +5,7 @@ target/
 release/
 bin/
 .vs/
+.idea/
 deps/craftbukkit.jar
 *~
 *.lock
@@ -12,3 +13,6 @@ deps/craftbukkit.jar
 *.swp
 *.out
 !*.elt
+*.iml
+*.classpath
+*.project
