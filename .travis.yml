@@ -3,3 +3,6 @@ jdk:
   - oraclejdk7
 install: true
 script: ./complete_build
+cache:
+  directories:
+  - $HOME/.m2
